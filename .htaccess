@@ -1,0 +1,255 @@
+# Set timezone for your server. A list of supported timezone can be found at
+# http://www.php.net/manual/en/timezones.php
+SetEnv TZ America/Vancouver
+
+Options +FollowSymLinks
+
+# Prevent people from being able to see the directory of folders that do not contain and index file.
+#------------------------------
+Options -Indexes
+
+# Prevent viewing of .htaccess file.
+#------------------------------
+<Files .htaccess>
+	order allow,deny
+	deny from all
+</Files>
+
+# Disable your Apache version number from showing up in HTTP headers for added security.
+#------------------------------
+ServerSignature Off
+
+# Disable your PHP version number from showing up in HTTP headers for added security.
+#------------------------------
+Header unset X-Powered-By
+
+# Don't allow any pages to be framed - Defends against CSRF
+#------------------------------
+Header set X-Frame-Options DENY
+
+# Turn on IE8-IE9 XSS prevention tools
+#------------------------------
+Header set X-XSS-Protection "1; mode=block"
+
+# Prevent mime based attacks
+#------------------------------
+Header set X-Content-Type-Options "nosniff"
+
+# Bad Request
+#------------------------------
+ErrorDocument 400 /index.php?ccms_tpl=error400
+
+# Forbidden
+#------------------------------
+ErrorDocument 403 /index.php?ccms_tpl=error403
+
+# Not Found
+#------------------------------
+ErrorDocument 404 /index.php?ccms_tpl=error404
+
+# Internal Server Error
+#------------------------------
+ErrorDocument 500 /index.php?ccms_tpl=error500
+
+
+RewriteEngine on
+
+# Block empty user agents and empty HTTP referrers.
+#------------------------------
+RewriteCond %{HTTP_REFERER} ^$ [NC]
+RewriteCond %{HTTP_USER_AGENT} ^$ [NC]
+RewriteRule .* - [F]
+
+# BOT block
+#------------------------------
+# URL encoded HTML, see http://www.w3schools.com/tags/ref_urlencode.asp
+RewriteCond %{HTTP_USER_AGENT} (<|>|’|%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
+# Address harvesters
+RewriteCond %{HTTP_USER_AGENT} ^(autoemailspider¦ExtractorPro) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^E?Mail.?(Collect¦Harvest¦Magnet¦Reaper¦Siphon¦Sweeper¦Wolf) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} (DTS.?Agent¦Email.?Extrac) [NC,OR]
+RewriteCond %{HTTP_REFERER} iaea\.org [NC,OR]
+# Download managers
+RewriteCond %{HTTP_USER_AGENT} ^(Alligator¦DA.?[0-9]¦DC\-Sakura¦Download.?(Demon¦Express¦Master¦Wonder)¦FileHound) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(Flash¦Leech)Get [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(Fresh¦Lightning¦Mass¦Real¦Smart¦Speed¦Star).?Download(er)? [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(Gamespy¦Go!Zilla¦iGetter¦JetCar¦Net(Ants¦Pumper)¦SiteSnagger¦Teleport.?Pro¦WebReaper) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(My)?GetRight [NC,OR]
+# Image-grabbers
+RewriteCond %{HTTP_USER_AGENT} ^(AcoiRobot¦FlickBot¦webcollage) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(Express¦Mister¦Web).?(Web¦Pix¦Image).?(Pictures¦Collector)? [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^Image.?(fetch¦Stripper¦Sucker) [NC,OR]
+# "Gray-hats"
+RewriteCond %{HTTP_USER_AGENT} ^(Atomz¦BlackWidow¦BlogBot¦EasyDL¦Marketwave¦Sqworm¦SurveyBot¦Webclipping\.com) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} (girafa\.com¦gossamer\-threads\.com¦grub\-client¦Netcraft¦Nutch) [NC,OR]
+# Site-grabbers
+RewriteCond %{HTTP_USER_AGENT} ^(eCatch¦(Get¦Super)Bot¦Kapere¦HTTrack¦JOC¦Offline¦UtilMind¦Xaldon) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^Web.?(Auto¦Cop¦dup¦Fetch¦Filter¦Gather¦Go¦Leach¦Mine¦Mirror¦Pix¦QL¦RACE¦Sauger) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^Web.?(site.?(eXtractor¦Quester)¦Snake¦ster¦Strip¦Suck¦vac¦walk¦Whacker¦ZIP) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} WebCapture [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^DISCo\ Pump [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^EirGrabber [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^Net\ Vampire [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^NetZIP [NC,OR]
+# Tools
+RewriteCond %{HTTP_USER_AGENT} ^(curl¦Dart.?Communications¦Enfish¦htdig¦Java¦larbin) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} (FrontPage¦Indy.?Library¦RPT\-HTTPClient) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(libwww¦lwp¦PHP¦Python¦www\.thatrobotsite\.com¦webbandit¦Wget¦Zeus) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(Microsoft¦MFC).(Data¦Internet¦URL¦WebDAV¦Foundation).(Access¦Explorer¦Control¦MiniRedir¦Class) [NC,OR]
+# Unknown
+RewriteCond %{HTTP_USER_AGENT} ^(Crawl_Application¦Lachesis¦Nutscrape) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^[CDEFPRS](Browse¦Eval¦Surf) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(Demo¦Full.?Web¦Lite¦Production¦Franklin¦Missauga¦Missigua).?(Bot¦Locat) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} (efp@gmx\.net¦hhjhj@yahoo\.com¦lerly\.net¦mapfeatures\.net¦metacarta\.com) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(Industry¦Internet¦IUFW¦Lincoln¦Missouri¦Program).?(Program¦Explore¦Web¦State¦College¦Shareware) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(Mac¦Ram¦Educate¦WEP).?(Finder¦Search) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(Moz+illa¦MSIE).?[0-9]?.?[0-9]?[0-9]?$ [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^Mozilla/[0-9]\.[0-9][0-9]?.\(compatible[\)\ ] [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} NaverRobot [NC]
+RewriteRule .* - [F]
+
+# Stop hotlinking.
+#------------------------------
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} ^https?://([^/]+)/ [NC]
+# Note the # is just used as a boundry. It could be any character that isn't used in domain-names.
+RewriteCond %1#%{HTTP_HOST} !^(.+)#\1$
+RewriteRule \.(bmp|gif|jpe?g|png|swf)$ - [F,L,NC]
+
+# Stop file and mysql injection attacks.
+#------------------------------
+RewriteCond %{REQUEST_METHOD} GET
+RewriteCond %{QUERY_STRING} (;|<|>|’|”|\)|%0A|%0D|%22|%27|%3C|%3E|%00).*(/\*|union|select|insert|cast|set|declare|drop|update|md5|benchmark) [NC,OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http:// [OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http%3A%2F%2F [OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [NC,OR]
+RewriteCond %{QUERY_STRING} (localhost|loopback|127\.0\.0\.1) [NC,OR]
+RewriteCond %{QUERY_STRING} (<|>|’|%0A|%0D|%27|%3C|%3E|%00) [NC]
+RewriteRule .* - [F]
+
+# Protect against Apache HTTP Server Denial Of Service Vulnerability.  CVE-2011-3192
+#------------------------------
+SetEnvIf Range (,.*?){5,} bad-range=1
+RequestHeader unset Range env=bad-range
+
+# Protect against PHP-CGI Remote Code Execution Bug. CVE-2012-1823
+#------------------------------
+RewriteCond %{QUERY_STRING} ^(%2d|\-)[^=]+$ [NC]
+RewriteRule .* - [F,L]
+
+# Denies any POST Request using a Proxy Server. Can still access site, but not comment.  Just to be clear,
+# this doesn't really work with any proxy service that really wants to hide who they are but what the hell.
+#------------------------------
+RewriteCond %{REQUEST_METHOD} =POST
+RewriteCond %{HTTP:VIA}%{HTTP:FORWARDED}%{HTTP:USERAGENT_VIA}%{HTTP:X_FORWARDED_FOR}%{HTTP:PROXY_CONNECTION} !^$ [OR]
+RewriteCond %{HTTP:XPROXY_CONNECTION}%{HTTP:HTTP_PC_REMOTE_ADDR}%{HTTP:HTTP_CLIENT_IP} !^$
+RewriteRule .* - [F,L,NS]
+
+# Stop 'PHP Easter Eggs' from working, http://perishablepress.com/expose-php/
+RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC,OR]
+# Stop proc/self/environ?
+RewriteCond %{QUERY_STRING} proc/self/environ [OR]
+# Block out any script trying to set a mosConfig value through the URL
+RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+# Block out any script trying to base64_encode/decode content via URL
+RewriteCond %{QUERY_STRING} base64_(en|de)code[^(]*\([^)]*\) [OR]
+## IMPORTANT: If the above line throws an HTTP 500 error, replace it with these 2 lines:
+# RewriteCond %{QUERY_STRING} base64_encode\(.*\) [OR]
+# RewriteCond %{QUERY_STRING} base64_decode\(.*\) [OR]
+# Block out any script that includes a <script> tag in URL
+RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+# Block out any script trying to set a PHP GLOBALS variable via URL
+RewriteCond %{QUERY_STRING} GLOBALS(=|[|\%[0-9A-Z]{0,2}) [OR]
+# Block out any script trying to modify a _REQUEST variable via URL
+RewriteCond %{QUERY_STRING} _REQUEST(=|[|\%[0-9A-Z]{0,2})
+RewriteRule .* - [F]
+
+# If we managed to get passed all those rules then the next step is to call the correct template on the server and
+# start producing output, but first lets make sure the php environment is setup the way we like it first.
+#------------------------------
+php_flag register_globals off
+php_flag magic_quotes_gpc on
+
+# The following two lines of code build an environment variable that either contains nothing or an 's' to indicate the server port
+# is http or https.
+#------------------------------
+RewriteCond %{SERVER_PORT}s ^(443(s)|[0-9]+s)$
+RewriteRule ^(.*)$ - [env=variable:%2]
+
+# The following two lines look to see if www. is found in your URI and removes it.
+#------------------------------
+RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
+RewriteRule ^ http%{ENV:variable}://%1%{REQUEST_URI} [R=301,L]
+
+RewriteRule ^(([a-z]{2})(-[a-z]{2})?)(/([a-z0-9-\./]*))?$ /index.php?ccms_vlng=$1&ccms_tpl=$4 [QSA,L,NC]
+
+# The following examples will FAIL and result in /ccmstpl/error.php page being called.
+#------------------------------
+# http://abc.com/1
+# http://abc.com/a
+# http://abc.com/12
+# http://abc.com/ab_
+# http://abc.com/ab-s
+
+# The following examples will SUCCEED and result in /index.php successfully being called.
+#------------------------------
+# http://abc.com/ab
+# http://abc.com/ab-cd
+# http://abc.com/ab-cd/somepage
+# http://abc.com/ab-cd/somepage.html
+# http://abc.com/ab-cd/somedir/somepage.html
+
+# Optimize default expiration time
+#------------------------------
+<IfModule mod_expires.c>
+        # Enable expiration control
+        ExpiresActive On
+
+        # Default expiration: 1 hour after request
+        ExpiresDefault "now plus 1 hour"
+
+        # CSS and JS expiration: 1 week after request
+        ExpiresByType text/css "now plus 1 week"
+        ExpiresByType application/javascript "now plus 1 week"
+        ExpiresByType application/x-javascript "now plus 1 week"
+
+        # Image files expiration: 1 month after request
+        ExpiresByType image/bmp "now plus 1 month"
+        ExpiresByType image/gif "now plus 1 month"
+        ExpiresByType image/jpeg "now plus 1 month"
+        ExpiresByType image/jp2 "now plus 1 month"
+        ExpiresByType image/pipeg "now plus 1 month"
+        ExpiresByType image/png "now plus 1 month"
+        ExpiresByType image/svg+xml "now plus 1 month"
+        ExpiresByType image/tiff "now plus 1 month"
+        ExpiresByType image/vnd.microsoft.icon "now plus 1 month"
+        ExpiresByType image/x-icon "now plus 1 month"
+        ExpiresByType image/ico "now plus 1 month"
+        ExpiresByType image/icon "now plus 1 month"
+        ExpiresByType text/ico "now plus 1 month"
+        ExpiresByType application/ico "now plus 1 month"
+        ExpiresByType image/vnd.wap.wbmp "now plus 1 month"
+        ExpiresByType application/vnd.wap.wbxml "now plus 1 month"
+        ExpiresByType application/smil "now plus 1 month"
+
+        # Audio files expiration: 1 month after request
+        ExpiresByType audio/basic "now plus 1 month"
+        ExpiresByType audio/mid "now plus 1 month"
+        ExpiresByType audio/midi "now plus 1 month"
+        ExpiresByType audio/mpeg "now plus 1 month"
+        ExpiresByType audio/x-aiff "now plus 1 month"
+        ExpiresByType audio/x-mpegurl "now plus 1 month"
+        ExpiresByType audio/x-pn-realaudio "now plus 1 month"
+        ExpiresByType audio/x-wav "now plus 1 month"
+
+        # Movie files expiration: 1 month after request
+        ExpiresByType application/x-shockwave-flash "now plus 1 month"
+        ExpiresByType x-world/x-vrml "now plus 1 month"
+        ExpiresByType video/x-msvideo "now plus 1 month"
+        ExpiresByType video/mpeg "now plus 1 month"
+        ExpiresByType video/mp4 "now plus 1 month"
+        ExpiresByType video/quicktime "now plus 1 month"
+        ExpiresByType video/x-la-asf "now plus 1 month"
+        ExpiresByType video/x-ms-asf "now plus 1 month"
+</IfModule>

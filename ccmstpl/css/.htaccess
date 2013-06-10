@@ -1,0 +1,4 @@
+<Files style.css.php>
+    Order Allow,Deny
+    Allow from all
+</Files>
