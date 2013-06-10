@@ -2,7 +2,7 @@
 Custodian CMS v0.1
 ======================
 
-This is the first public release of Custodian CMS (CCMS) and though it works perfectly it does not come with a setup script or admin system currently.  Fortunately CCMS is so simple neither one is really needed to take advantage of its features, for now use a tool like phpMyAdmin to add, remove or update your database inserts.
+This is the first public release of Custodian CMS (CCMS) and though it works perfectly it does not come with a setup script or admin system currently.  (Admin system will be ready in v0.2)  Fortunately CCMS is so simple neither one is really needed to take advantage of its features, for now use a tool like phpMyAdmin to add, remove or update your database inserts.
 
 About
 -----
