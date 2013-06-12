@@ -49,5 +49,5 @@ Installation
 
 * Download a CCMS package from the project website or https://github.com/modusinternet/custodian-cms-v0.1.
 * Unpack and place the archive on your server.
-* Visit http://modusinternet.com/en/products/custodian-cms/v0.1-download-setup-install-instructions.html.
-* Open the installation directory in your web browser.
+* Visit http://modusinternet.com/en/products/custodian-cms/download/v0.1-setup-install-instructions.html.
+* Call the /index.php from your web browser and start building your site.
