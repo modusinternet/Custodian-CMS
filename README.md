@@ -32,7 +32,6 @@ CCMS will not attempt to take the jobs or responsibility of actually building we
 
 Visit the project website at http://modusinternet.com/en/products/custodian-cms.html.
 
-
 System requirements
 -------------------
 
@@ -43,11 +42,11 @@ LAMP
 * PHP (version 5.3.2 or greater)
 
 CCMS will probably run on IIS under Windows but it has not been tested yet.
- 
+
 Installation
 ------------
 
 * Download a CCMS package from http://modusinternet.com/en/products/custodian-cms/download.html or https://github.com/modusinternet/custodian-cms/releases.
 * Unpack and place the archive on your server.
-* Visit http://modusinternet.com/en/products/custodian-cms/download/v0.1-setup-install-instructions.html.
+* Links to install instructions can be found at http://modusinternet.com/en/products/custodian-cms/download.html.
 * Call the /index.php from your web browser and start building your site.
