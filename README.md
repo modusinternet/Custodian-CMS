@@ -48,5 +48,9 @@ Installation
 
 * Download a CCMS package from http://modusinternet.com/en/products/custodian-cms/download.html or https://github.com/modusinternet/custodian-cms/releases.
 * Unpack and place the archive on your server.
-* Links to install instructions can be found at http://modusinternet.com/en/products/custodian-cms/download.html.
-* Call the /index.php from your web browser and start building your site.
+* Copy and paste the SQL text found inside /ccmspre/config_original.php into your MySQL editor after setting up a new database.
+* Update the settings found inside of /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php as required.
+* Copy and or Rename /ccmspre/config_original.php to /ccmspre/config.php and /ccmspre/user_whiteList_original.php to /ccmspre/user_whiteList.php.
+* Call your domain name or domainname.com/index.php in your web browser and read the supplimental information there.
+* Read the source code on the /ccmstpl/index.tpl template to help you get started and start building your own site.
+* More links to information regarding installation and configuration can be found at http://modusinternet.com/en/products/custodian-cms/download.html.
