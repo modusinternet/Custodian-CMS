@@ -26,14 +26,14 @@
 		<ul class="oj">
 			<li>@version
 				<ul>
-					<li>0.3 (Released: June 10, 2014)</li>
+					<li>0.2 (Released: June 10, 2014)</li>
 				</ul>
 			</li>
 		</ul>
 		<ul class="oj" style="max-width: 830px;">
 			<li>@Copyright
 				<ul>
-					<li>Custodian CMS v0.3 - Content Management System (CMS)<br />
+					<li>Custodian CMS v0.2 - Content Management System (CMS)<br />
 					Copyright (C) {CCMS_LIB:_default.php;FUNC:ccms_dateYear} - Vincent A Hallberg of modusinternet.com</li>
 					<li>This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.</li>
 					<li>This library is distributed in the hope that it will be useful, but	WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.</li>
