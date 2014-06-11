@@ -40,8 +40,8 @@ function ccms_tpl() {
 	echo $CLEAN["ccms_tpl"];
 }
 
-function ccms_vlng() {
+function ccms_lng() {
 	global $CLEAN;
-	echo $CLEAN["ccms_vlng"];
+	echo $CLEAN["ccms_lng"];
 }
 ?>
