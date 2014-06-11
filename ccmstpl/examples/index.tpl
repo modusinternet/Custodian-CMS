@@ -26,7 +26,7 @@
 		<ul class="oj">
 			<li>@version
 				<ul>
-					<li>0.3 (Released: June 1, 2014)</li>
+					<li>0.3 (Released: June 10, 2014)</li>
 				</ul>
 			</li>
 		</ul>
