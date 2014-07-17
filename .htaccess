@@ -79,7 +79,7 @@ RewriteRule .* - [F]
 # BOT block
 #------------------------------
 # URL encoded HTML, see http://www.w3schools.com/tags/ref_urlencode.asp
-RewriteCond %{HTTP_USER_AGENT} (<|>|’|%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
 # Address harvesters
 RewriteCond %{HTTP_USER_AGENT} ^(autoemailspider|ExtractorPro) [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} ^E?Mail.?(Collect|Harvest|Magnet|Reaper|Siphon|Sweeper|Wolf) [NC,OR]
@@ -137,13 +137,13 @@ RewriteRule \.(bmp|gif|jpe?g|png|swf)$ - [F,L,NC]
 # Stop file and mysql injection attacks.
 #------------------------------
 RewriteCond %{REQUEST_METHOD} GET
-RewriteCond %{QUERY_STRING} (;|<|>|’|”|\)|%0A|%0D|%22|%27|%3C|%3E|%00).*(/\*|union|select|insert|cast|set|declare|drop|update|md5|benchmark) [NC,OR]
+RewriteCond %{QUERY_STRING} (;|<|>|'|"|\)|%0A|%0D|%22|%27|%3C|%3E|%00).*(/\*|union|select|insert|cast|set|declare|drop|update|md5|benchmark) [NC,OR]
 RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http:// [OR]
 RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http%3A%2F%2F [OR]
 RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [OR]
 RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [NC,OR]
 RewriteCond %{QUERY_STRING} (localhost|loopback|127\.0\.0\.1) [NC,OR]
-RewriteCond %{QUERY_STRING} (<|>|’|%0A|%0D|%27|%3C|%3E|%00) [NC]
+RewriteCond %{QUERY_STRING} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC]
 RewriteRule .* - [F]
 
 # Protect against Apache HTTP Server Denial Of Service Vulnerability.  CVE-2011-3192
