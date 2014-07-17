@@ -21,6 +21,7 @@ Options -Indexes
 #------------------------------
 ServerSignature Off
 
+<ifModule mod_headers.c>
 # Disable your PHP version number from showing up in HTTP headers for added security.
 #------------------------------
 Header unset X-Powered-By
@@ -43,6 +44,7 @@ Header set X-Content-Type-Options "nosniff"
 #------------------------------
 BrowserMatch MSIE ie
 Header set X-UA-Compatible "IE=Edge,chrome=1"
+</ifModule>
 
 # Do Not Track: Universal Third-Party Web Tracking Opt Out
 # http://datatracker.ietf.org/doc/draft-mayer-do-not-track/
