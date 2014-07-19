@@ -21,7 +21,7 @@
 		</a>
 		<h2>Welcome</h2>
 		<p>
-			Congradualtions and welcome to your new copy of Custodian CMS (CCMS).
+			Congratulations and welcome to your new copy of Custodian CMS (CCMS).
 		</p>
 		<ul class="oj">
 			<li>@version

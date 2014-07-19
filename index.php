@@ -36,10 +36,10 @@ $CLEAN = array();
 $ccms_whitelist = array();
 $user_whitelist = array();
 
-if(file_exists('ccmspre/config.php') && file_exists('ccmspre/user_whiteList.php')) {
+if(file_exists('ccmspre/config.php') && file_exists('ccmspre/user_whitelist.php')) {
     require_once "ccmspre/config.php";
 } else {
-    echo "config.php or user_whiteList.php not found.<br /><br />Go into the /ccmspre/ folder and copy or rename config_original.php and user_whiteList_original.php to config.php and user_whiteList.php.  Update the various settings found throughout and try reloading this page.<br /><br />NOTE: You need to setup a new database on your own but you can copy the content or import the /ccms-db-setup.sql file to build all of the necessary tables and their sample content to help you get started.  Quick link to the <a href=\"/ccms-db-0.2-setup.sql\">ccms-db-0.2-setup.sql</a> found in your document root.";
+    echo "config.php or user_whitelist.php not found.<br /><br />Go into the /ccmspre/ folder and copy or rename config_original.php and user_whitelist_original.php to config.php and user_whitelist.php.  Update the various settings found throughout and try reloading this page.<br /><br />NOTE: You need to setup a new database on your own but you can copy the content or import the /ccms-db-setup.sql file to build all of the necessary tables and their sample content to help you get started.  Quick link to the <a href=\"/ccms-db-0.2-setup.sql\">ccms-db-0.2-setup.sql</a> found in your document root.";
 	die();
 }
 
@@ -74,7 +74,7 @@ if($CFG["DEBUG"] == 1 && $CFG["DEBUG_ERROR_REPORTING"] == 1) error_reporting(E_A
 //$purifier = new HTMLPurifier();
 //$clean_html = $purifier->purify($dirty_html);
 
-require_once $CFG["PREDIR"] . '/user_whiteList.php';
+require_once $CFG["PREDIR"] . '/user_whitelist.php';
 require_once $CFG["PREDIR"] . '/index.php';
 
 if($CFG["DEBUG"] == 1) {
