@@ -86,10 +86,18 @@
 		</p>
 		<p>
 			Then use the <span class="oj">CCMS_DB</span> tag to automatically display database content in the language requested by a visitors browser, if available.  Otherwise display content based on the default language of the site.<br />
-			<span class="oj">e.g.: &#123;CCMS_DB:index_page,paragraph1}</span><br />
-			<a id="a"></a>
+			<span class="oj">e.g.: &#123;CCMS_DB:index_page,paragraph1}</span>
 		</p>
-		<h3>Multilingual Examples/Testing Area</h3><br />
+		<a id="a"></a>
+		<h3>Multilingual Content</h3>
+		<p>
+			The following section demonstrates how to build links in your HTML to expose translated content found in the database.<br />
+			<a class="tapTarget" href="/en/#a" onclick="delLngCookie()">English</a>
+			<a class="tapTarget" href="/fr/#a" onclick="delLngCookie()">Français</a>
+			<a class="tapTarget" href="/de/#a" onclick="delLngCookie()">German (Standard)</a>
+			<a class="tapTarget" href="/ja/#a" onclick="delLngCookie()">日本語 (Japanese)</a>
+			<a class="tapTarget" href="/zh-cn/#a" onclick="delLngCookie()">简体中文(Simplified Chinese)</a>
+		</p>
 		<p>
 			<span style="border:dotted 1px black; margin:5px; padding:5px;">
 				{CCMS_DB:index_page,pangram1}
@@ -107,17 +115,15 @@
 				{CCMS_DB:index_page,pangram4}
 			</span><br />
 			<br />
-			Try loading other browser language codes:
-			<a class="tapTarget" href="http://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/en/#a" onclick="delLngCookie()">English</a>
-			<a class="tapTarget" href="http://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/fr/#a" onclick="delLngCookie()">Français</a>
-			<a class="tapTarget" href="http://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/de/#a" onclick="delLngCookie()">German (Standard)</a>
-			<a class="tapTarget" href="http://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/ja/#a" onclick="delLngCookie()">日本語 (Japanese)</a>
-			<a class="tapTarget" href="http://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/zh-cn/#a" onclick="delLngCookie()">简体中文(Simplified Chinese)</a>
+			Content specific images based on browser language codes are even easier to work with.  Each of the images below are saved on the server in 5 different languages and as you change your desired language using the links above the images below will reflect that change.<br />
+			<img alt="" class="scale" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/text-on-graphic-{CCMS_LIB:_default.php;FUNC:ccms_lng}.png" style="border:solid 1px black;" title="" />
 		</p>
 		<p>
-			Content specific images based on browser language codes are even easier to work with.  Each of the images below are saved on the server in 5 different languages and as you change your desired language using the links above the images below will reflect that change.
+			These links are examples of other pages which all contain content translated by Google Translate so forgive me if its a little off.<br />
+			<a class="tapTarget" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-1.html">Page #1</a>
+			<a class="tapTarget" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-2.html">Page #2</a>
+			<a class="tapTarget" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-3.html">Page #3</a>
 		</p>
-		<img alt="" class="scale" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/text-on-graphic-{CCMS_LIB:_default.php;FUNC:ccms_lng}.png" style="border:solid 1px black; margin-bottom: 100px;" title="" />
 		<h3>Configuration Tip</h3>
 		<p>
 			The template you are currently viewing is <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/index.tpl</span> which leads off to others using this call <span class="oj">&#123;CCMS_TPL:examples/index.tpl}</span>.  You can alter the name of the template which acts as your default index file by changing the <span class="oj">$CFG["INDEX"]</span> variable inside your <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgPreDir}/config.php</span> file.
@@ -196,6 +202,7 @@
 			*/
 			function delLngCookie() {
 				document.cookie = "ccms_lng=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+				return;
 			}
 
 			/*
