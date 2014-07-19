@@ -8,10 +8,10 @@ $CFG["INDEX"] = "index";
 
 // Document root folder globals.
 $CFG["DBH"] = NULL;
-$CFG["USRDIR"] = "ccmsusr";
 $CFG["LIBDIR"] = "ccmslib";
 $CFG["PREDIR"] = "ccmspre";
 $CFG["TPLDIR"] = "ccmstpl";
+$CFG["USRDIR"] = "ccmsusr";
 
 // Use the ini_set function to set value of the include_path option on your server if necessary.
 // e.g.: ini_set('include_path', 'ccmsadm:ccmslib:ccmspre:ccmstpl' . ini_get('include_path'));
