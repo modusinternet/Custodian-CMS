@@ -12,7 +12,7 @@
 	SetEnv TZ America/Vancouver
 </IfModule>
 
-<ifModule mod_headers.c>
+<IfModule mod_headers.c>
 	# Disable your PHP version number from showing up in HTTP headers for added security.
 	#------------------------------
 	Header unset X-Powered-By
@@ -35,7 +35,7 @@
 	#------------------------------
 	BrowserMatch MSIE ie
 	Header set X-UA-Compatible "IE=Edge,chrome=1"
-</ifModule>
+</IfModule>
 
 <IfModule mod_access.c>
 	# Do Not Track: Universal Third-Party Web Tracking Opt Out
