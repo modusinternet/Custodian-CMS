@@ -287,14 +287,14 @@ function CCMS_insDBPreload($a = NULL) {
 	// `access` = '0'; www side
 	// `access` = '1'; admin side
 	if($a[2]) {
-		$scopeArray = explode(",", $a[2]);
-		foreach($scopeArray as $key) {
-			if($scope != "") {
-				$scope .= " OR ";
+		$grpArray = explode(",", $a[2]);
+		foreach($grpArray as $key) {
+			if($grp != "") {
+				$grp .= " OR ";
 			}
-			$scope .= "`scope` = '" . $key . "'";
+			$grp .= "`grp` = '" . $key . "'";
 		}
-		$query = "SELECT * FROM `ccms_ins_db` WHERE `status` = '1' AND `access` = '0' AND (" . $scope . ");";
+		$query = "SELECT * FROM `ccms_ins_db` WHERE `status` = '1' AND `access` = '0' AND (" . $grp . ");";
 	} else {
 		$query = "SELECT * FROM `ccms_ins_db` WHERE `status` = '1' AND `access` = '0';";
 	}
@@ -302,8 +302,8 @@ function CCMS_insDBPreload($a = NULL) {
 	$qry->execute();
 	$qry->setFetchMode(PDO::FETCH_ASSOC);
 	while($row = $qry->fetch()) {
-		$CLEAN["CCMS_insDBPreloadContent"][$row["scope"]][$row["word"]][$CFG["DEFAULT_SITE_CHAR_SET"]] = $row[$CFG["DEFAULT_SITE_CHAR_SET"]];
-		$CLEAN["CCMS_insDBPreloadContent"][$row["scope"]][$row["word"]][$CLEAN["ccms_lng"]] = $row[$CLEAN["ccms_lng"]];
+		$CLEAN["CCMS_insDBPreloadContent"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]] = $row[$CFG["DEFAULT_SITE_CHAR_SET"]];
+		$CLEAN["CCMS_insDBPreloadContent"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]] = $row[$CLEAN["ccms_lng"]];
 	}
 }
 

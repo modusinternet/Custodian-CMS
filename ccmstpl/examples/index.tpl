@@ -1,11 +1,11 @@
-{CCMS_DB_PRELOAD:index_page}<!DOCTYPE html>
+{CCMS_DB_PRELOAD:index}<!DOCTYPE html>
 	<!--[if lt IE 7 ]><html class="ie ie6" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}"> <![endif]-->
 	<!--[if IE 7 ]><html class="ie ie7" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}"> <![endif]-->
 	<!--[if IE 8 ]><html class="ie ie8" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}"> <![endif]-->
 	<!--[if (gte IE 9)|!(IE)]><!--><html lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}"> <!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
-		<title>Custodian CMS by Modus Internet</title>
+		<title>Custodian CMS v0.3</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="Content Managment System, Multilingual Content, Custodian CMS, Modus Internet, Vincent Hallberg," />
@@ -26,14 +26,14 @@
 		<ul class="oj">
 			<li>@version
 				<ul>
-					<li>0.2 (Released: June 10, 2014)</li>
+					<li>0.3 (Released: July 20, 2014)</li>
 				</ul>
 			</li>
 		</ul>
 		<ul class="oj" style="max-width: 830px;">
 			<li>@Copyright
 				<ul>
-					<li>Custodian CMS v0.2 - Content Management System (CMS)<br />
+					<li>Custodian CMS v0.3 - Content Management System (CMS)<br />
 					Copyright (C) {CCMS_LIB:_default.php;FUNC:ccms_dateYear} - Vincent A Hallberg of modusinternet.com</li>
 					<li>This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.</li>
 					<li>This library is distributed in the hope that it will be useful, but	WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.</li>
@@ -76,7 +76,7 @@
 		<img alt="" class="scale" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/phpadm3.png" style="border:solid 1px black;" title="" /><br />
 		<img alt="" class="scale" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/phpadm4.png" style="border:solid 1px black;" title="" />
 		<p>
-			Add records to the <span class="oj">ccms_ins_db</span> table containing the <span class="oj">scope</span>, <span class="oj">word</span> and content for each language you would like to view in your website.
+			Add records to the <span class="oj">ccms_ins_db</span> table containing the <span class="oj">grp</span>, <span class="oj">name</span> and content for each language you would like to view in your website.
 		</p>
 		<img alt="" class="scale" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/phpadm5.png" style="border:solid 1px black;" title="" /><br />
 		<img alt="" class="scale" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/phpadm6.png" style="border:solid 1px black;" title="" />
@@ -100,19 +100,19 @@
 		</p>
 		<p>
 			<span style="border:dotted 1px black; margin:5px; padding:5px;">
-				{CCMS_DB:index_page,pangram1}
+				{CCMS_DB:index,para1}
 			</span><br />
 			<br />
 			<span style="border:dotted 1px black; margin:5px; padding:5px;">
-				{CCMS_DB:index_page,pangram2}
+				{CCMS_DB:index,para2}
 			</span><br />
 			<br />
 			<span style="border:dotted 1px black; margin:5px; padding:5px;">
-				{CCMS_DB:index_page,pangram3}
+				{CCMS_DB:index,para3}
 			</span><br />
 			<br />
 			<span style="border:dotted 1px black; margin:5px; padding:5px;">
-				{CCMS_DB:index_page,pangram4}
+				{CCMS_DB:index,para4}
 			</span><br />
 			<br />
 			Content specific images based on browser language codes are even easier to work with.  Each of the images below are saved on the server in 5 different languages and as you change your desired language using the links above the images below will reflect that change.<br />
