@@ -1,57 +1,58 @@
-# Set timezone for your server. A list of supported timezone can be found at
-# http://www.php.net/manual/en/timezones.php
+<Files .htaccess>
+	# Prevent viewing of .htaccess file.
+	#------------------------------
+	order allow,deny
+	deny from all
+</Files>
+
 <IfModule mod_access.c>
+	# Set timezone for your server. A list of supported timezone can be found at
+	# http://www.php.net/manual/en/timezones.php
+	#------------------------------
 	SetEnv TZ America/Vancouver
 </IfModule>
+
+<ifModule mod_headers.c>
+	# Disable your PHP version number from showing up in HTTP headers for added security.
+	#------------------------------
+	Header unset X-Powered-By
+
+	# Don't allow any pages to be framed - Defends against CSRF
+	#------------------------------
+	Header set X-Frame-Options DENY
+
+	# Turn on IE8-IE9 XSS prevention tools
+	#------------------------------
+	Header set X-XSS-Protection "1; mode=block"
+
+	# Prevent mime based attacks
+	#------------------------------
+	Header set X-Content-Type-Options "nosniff"
+
+	# Use this to force IE to hide that annoying browser compatibility button in the address bar.
+	# IE=edge means IE should use the latest (edge) version of its rendering engine.
+	# chrome=1 means IE should use the Chrome rendering engine if installed.
+	#------------------------------
+	BrowserMatch MSIE ie
+	Header set X-UA-Compatible "IE=Edge,chrome=1"
+</ifModule>
+
+<IfModule mod_access.c>
+	# Do Not Track: Universal Third-Party Web Tracking Opt Out
+	# http://datatracker.ietf.org/doc/draft-mayer-do-not-track/
+	#------------------------------
+	SetEnvIfNoCase DNT 1 DO_NOT_TRACK
+</IfModule>
+
+# Disable your Apache version number from showing up in HTTP headers for added security.
+#------------------------------
+ServerSignature Off
 
 Options +FollowSymLinks
 
 # Prevent people from being able to see the directory of folders that do not contain and index file.
 #------------------------------
 Options -Indexes
-
-# Prevent viewing of .htaccess file.
-#------------------------------
-<Files .htaccess>
-	order allow,deny
-	deny from all
-</Files>
-
-# Disable your Apache version number from showing up in HTTP headers for added security.
-#------------------------------
-ServerSignature Off
-
-<ifModule mod_headers.c>
-# Disable your PHP version number from showing up in HTTP headers for added security.
-#------------------------------
-Header unset X-Powered-By
-
-# Don't allow any pages to be framed - Defends against CSRF
-#------------------------------
-Header set X-Frame-Options DENY
-
-# Turn on IE8-IE9 XSS prevention tools
-#------------------------------
-Header set X-XSS-Protection "1; mode=block"
-
-# Prevent mime based attacks
-#------------------------------
-Header set X-Content-Type-Options "nosniff"
-
-# Use this to force IE to hide that annoying browser compatibility button in the address bar.
-# IE=edge means IE should use the latest (edge) version of its rendering engine.
-# chrome=1 means IE should use the Chrome rendering engine if installed.
-#------------------------------
-BrowserMatch MSIE ie
-Header set X-UA-Compatible "IE=Edge,chrome=1"
-</ifModule>
-
-# Do Not Track: Universal Third-Party Web Tracking Opt Out
-# http://datatracker.ietf.org/doc/draft-mayer-do-not-track/
-#------------------------------
-<IfModule mod_access.c>
-	SetEnvIfNoCase DNT 1 DO_NOT_TRACK
-</IfModule>
 
 # Bad Request
 #------------------------------
