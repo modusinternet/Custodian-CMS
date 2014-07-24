@@ -39,7 +39,8 @@ $user_whitelist = array();
 if(file_exists('ccmspre/config.php') && file_exists('ccmspre/user_whitelist.php')) {
 	require_once "ccmspre/config.php";
 } else {
-	echo "config.php or user_whitelist.php not found.<br /><br />Go into the /ccmspre/ folder and copy or rename config_original.php and user_whitelist_original.php to config.php and user_whitelist.php.  Update the various settings found throughout and try reloading this page.<br /><br />NOTE: You need to setup a new database on your own but you can copy the content or import the /ccms-db-setup.sql file to build all of the necessary tables and their sample content to help you get started.  Quick link to the <a href=\"/ccms-db-0.2-setup.sql\">ccms-db-0.2-setup.sql</a> found in your document root.";
+	echo "<link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+<div class='container' style='width:940px;'><a href='http://modusinternet.com/' title='Modus Internet'><img src='/ccmstpl/img/hdr-940.png' alt='Modus Internet' /></a> <h2><span class='glyphicon glyphicon-exclamation-sign red' style='color:red;'></span> config.php or user_whitelist.php not found.</h2><br /><span class='glyphicon glyphicon-arrow-right'></span> Go into the /ccmspre/ folder <br /><span class='glyphicon glyphicon-arrow-right'></span> Copy config_original.php to config.php <br /><span class='glyphicon glyphicon-arrow-right'></span> Copy user_whitelist_original.php to user_whitelist.php<br /><span class='glyphicon glyphicon-arrow-right'></span> Update the various settings found throughout and try reloading this page.<br /><br /><span class='glyphicon glyphicon-info-sign'></span> NOTE: Create your database and import <a href='/ccms-db-0.2-setup.sql'>ccms-db-0.2-setup.sql</a> to build all of the necessary tables and their sample content to help you get started. This sql file is in your document root.</div>";
 	die();
 }
 
