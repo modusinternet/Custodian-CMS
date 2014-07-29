@@ -1,4 +1,4 @@
-<?
+<?php
 // Domain name
 $CFG["DOMAIN"] = "";
 $CFG["DOMAINSECURE"] = "";

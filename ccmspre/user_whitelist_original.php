@@ -1,4 +1,4 @@
-<?
+<?php
 /*************************************************************
 References:
 http://www.regular-expressions.info/unicode.html

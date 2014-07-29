@@ -1,4 +1,4 @@
-<?
+<?php
 define('CRYPT', '/^[a-z-_/#=&:\pN\?\.\";\'\`\*\s]*\z/i');
 define('HTTP_ACCEPT_LANGUAGE', '/^[a-z0-9-,;=\.]{2,}\z/i');
 define('HTTP_COOKIE', '/^[a-z0-9-_=\.]{1,}\z/i');

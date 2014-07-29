@@ -1,4 +1,4 @@
-<?
+<?php
 function ccms_cfgDomain() {
 	global $CFG;
 	echo $CFG["DOMAIN"];
