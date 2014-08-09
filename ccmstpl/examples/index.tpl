@@ -19,18 +19,15 @@
 		<a href="http://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}" style="text-decoration:none; border:0 none;">
 			<img alt="" class="scale" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/hdr-940.png" title="" />
 		</a>
-		<h2>Welcome</h2>
-		<p>
-			Congratulations and welcome to your new copy of Custodian CMS (CCMS).
-		</p>
+		<h2>Welcome to your new copy of Custodian CMS</h2>
 		<ul class="oj">
 			<li>@version
 				<ul>
-					<li>0.3 (Released: July 20, 2014)</li>
+					<li>0.3 (Released: August 9, 2014)</li>
 				</ul>
 			</li>
 		</ul>
-		<ul class="oj" style="max-width: 830px;">
+		<ul class="oj" style="max-width: 940px;">
 			<li>@Copyright
 				<ul>
 					<li>Custodian CMS v0.3 - Content Management System (CMS)<br />
@@ -82,11 +79,11 @@
 		<img alt="" class="scale" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/phpadm6.png" style="border:solid 1px black;" title="" />
 		<p>
 			Place the <span class="oj">CCMS_DB_PRELOAD</span> tag at the top of your html to preload all the <span class="oj">ccms_ins_db</span> records into memory that you might need for a given page.<br />
-			<span class="oj">e.g.: &#123;CCMS_DB_PRELOAD:index_page}</span>
+			<span class="oj">e.g.: &#123;CCMS_DB_PRELOAD:index}</span>
 		</p>
 		<p>
 			Then use the <span class="oj">CCMS_DB</span> tag to automatically display database content in the language requested by a visitors browser, if available.  Otherwise display content based on the default language of the site.<br />
-			<span class="oj">e.g.: &#123;CCMS_DB:index_page,paragraph1}</span>
+			<span class="oj">e.g.: &#123;CCMS_DB:index,para1}</span>
 		</p>
 		<a id="a"></a>
 		<h3>Multilingual Content</h3>

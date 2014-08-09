@@ -42,9 +42,9 @@ if(file_exists('ccmspre/config.php') && file_exists('ccmspre/user_whitelist.php'
 		</p>
 		<ol>
 			<li>Import the contents of the <a href="/ccms-db-setup.sql">/ccms-db-setup.sql</a> file into a MySQL database.</li>
-			<li>Make a copy of /ccmspre/config_original.php and name it /ccmspre/config.php.</li>
-			<li>Update the config.php template with details about your website.</li>
-			<li>Make a copy of /ccmspre/user_whitelist_original.php and name it /ccmspre/user_whitelist.php.</li>
+			<li>Make a copy of <span class="oj">/ccmspre/config_original.php</span> and name it <span class="oj">/ccmspre/config.php</span>.</li>
+			<li>Update the <span class="oj">/ccmspre/config.php</span> template with details about your website.</li>
+			<li>Make a copy of <span class="oj">/ccmspre/user_whitelist_original.php</span> and name it <span class="oj">/ccmspre/user_whitelist.php</span>.</li>
 			<li>Reload this page.</li>
 		</ol>
 		<p>
