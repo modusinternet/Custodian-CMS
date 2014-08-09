@@ -13,10 +13,6 @@ $CFG["PREDIR"] = "ccmspre";
 $CFG["TPLDIR"] = "ccmstpl";
 $CFG["USRDIR"] = "ccmsusr";
 
-// Use the ini_set function to set value of the include_path option on your server if necessary.
-// e.g.: ini_set('include_path', 'ccmsadm:ccmslib:ccmspre:ccmstpl' . ini_get('include_path'));
-//ini_set('include_path', $CFG["USRDIR"] . ':' . $CFG["LIBDIR"] . ':' . $CFG["PREDIR"] . ':' . $CFG["TPLDIR"] . ':' . ini_get('include_path'));
-
 // This variable is the base fallback for sites that have not configured their default
 // language settings using the admin yet.  In other words, if the default language settings
 // are not found in the database then these base settings will be used instead.  To
