@@ -211,9 +211,10 @@ RewriteRule ^ http%{ENV:variable}://%1%{REQUEST_URI} [R=301,L]
 # Look to see if 'user' is found at the beginning of the {REQUEST_URI}, if so send the visitor to the Custodian CMS admin index template.
 # If you change the location of your CCMS admin directory in the config you will need to make the update here by hand.
 #------------------------------
-RewriteCond %{REQUEST_URI} ^/(([a-z]{2})(-[a-z]{2})?)/user/(.*) [NC]
-RewriteRule ^(([a-z]{2})(-[a-z]{2})?)/user/([a-z0-9-_\./]*)?$ /ccmsuser/index.php?ccms_lng=$1&ccms_tpl=$5 [QSA,L,NC]
-
+#RewriteCond %{REQUEST_URI} ^/(([a-z]{2})(-[a-z]{2})?)/user/(.*) [NC]
+#RewriteRule ^(([a-z]{2})(-[a-z]{2})?)/user/([a-z0-9-_\./]*)?$ /ccmsusr/index.php?ccms_lng=$1&ccms_tpl=$5 [QSA,L,NC]
+RewriteCond %{REQUEST_URI} ^/user/ [NC]
+RewriteRule ^user/(.*)$ /ccmsusr/$1 [QSA,L,NC]
 RewriteCond %{REQUEST_URI} !^/(([a-z]{2})(-[a-z]{2})?)/user/(.*) [NC]
 RewriteRule ^(([a-z]{2})(-[a-z]{2})?)(/([a-z0-9-_\./]*))?$ /index.php?ccms_lng=$1&ccms_tpl=$4 [QSA,L,NC]
 
@@ -241,49 +242,51 @@ RewriteRule ^(([a-z]{2})(-[a-z]{2})?)(/([a-z0-9-_\./]*))?$ /index.php?ccms_lng=$
 	ExpiresActive On
 
 	# Default expiration: 1 hour after request
-	ExpiresDefault "now plus 1 hour"
+	ExpiresDefault "access plus 1 day"
 
 	# CSS and JS expiration: 1 week after request
-	ExpiresByType text/css "now plus 1 week"
-	ExpiresByType application/javascript "now plus 1 week"
-	ExpiresByType application/x-javascript "now plus 1 week"
+	ExpiresByType text/css "access plus 1 week"
+	ExpiresByType text/javascript "access plus 1 week"
+	ExpiresByType text/x-javascript "access plus 1 week"
+	ExpiresByType application/javascript "access plus 1 week"
+	ExpiresByType application/x-javascript "access plus 1 week"
 
 	# Image files expiration: 1 month after request
-	ExpiresByType image/bmp "now plus 1 month"
-	ExpiresByType image/gif "now plus 1 month"
-	ExpiresByType image/jpeg "now plus 1 month"
-	ExpiresByType image/jp2 "now plus 1 month"
-	ExpiresByType image/pipeg "now plus 1 month"
-	ExpiresByType image/png "now plus 1 month"
-	ExpiresByType image/svg+xml "now plus 1 month"
-	ExpiresByType image/tiff "now plus 1 month"
-	ExpiresByType image/vnd.microsoft.icon "now plus 1 month"
-	ExpiresByType image/x-icon "now plus 1 month"
-	ExpiresByType image/ico "now plus 1 month"
-	ExpiresByType image/icon "now plus 1 month"
-	ExpiresByType text/ico "now plus 1 month"
-	ExpiresByType application/ico "now plus 1 month"
-	ExpiresByType image/vnd.wap.wbmp "now plus 1 month"
-	ExpiresByType application/vnd.wap.wbxml "now plus 1 month"
-	ExpiresByType application/smil "now plus 1 month"
+	ExpiresByType image/bmp "access plus 1 month"
+	ExpiresByType image/gif "access plus 1 month"
+	ExpiresByType image/jpeg "access plus 1 month"
+	ExpiresByType image/jp2 "access plus 1 month"
+	ExpiresByType image/pipeg "access plus 1 month"
+	ExpiresByType image/png "access plus 1 month"
+	ExpiresByType image/svg+xml "access plus 1 month"
+	ExpiresByType image/tiff "access plus 1 month"
+	ExpiresByType image/vnd.microsoft.icon "access plus 1 month"
+	ExpiresByType image/x-icon "access plus 1 month"
+	ExpiresByType image/ico "access plus 1 month"
+	ExpiresByType image/icon "access plus 1 month"
+	ExpiresByType text/ico "access plus 1 month"
+	ExpiresByType application/ico "access plus 1 month"
+	ExpiresByType image/vnd.wap.wbmp "access plus 1 month"
+	ExpiresByType application/vnd.wap.wbxml "access plus 1 month"
+	ExpiresByType application/smil "access plus 1 month"
 
 	# Audio files expiration: 1 month after request
-	ExpiresByType audio/basic "now plus 1 month"
-	ExpiresByType audio/mid "now plus 1 month"
-	ExpiresByType audio/midi "now plus 1 month"
-	ExpiresByType audio/mpeg "now plus 1 month"
-	ExpiresByType audio/x-aiff "now plus 1 month"
-	ExpiresByType audio/x-mpegurl "now plus 1 month"
-	ExpiresByType audio/x-pn-realaudio "now plus 1 month"
-	ExpiresByType audio/x-wav "now plus 1 month"
+	ExpiresByType audio/basic "access plus 1 month"
+	ExpiresByType audio/mid "access plus 1 month"
+	ExpiresByType audio/midi "access plus 1 month"
+	ExpiresByType audio/mpeg "access plus 1 month"
+	ExpiresByType audio/x-aiff "access plus 1 month"
+	ExpiresByType audio/x-mpegurl "access plus 1 month"
+	ExpiresByType audio/x-pn-realaudio "access plus 1 month"
+	ExpiresByType audio/x-wav "access plus 1 month"
 
 	# Movie files expiration: 1 month after request
-	ExpiresByType application/x-shockwave-flash "now plus 1 month"
-	ExpiresByType x-world/x-vrml "now plus 1 month"
-	ExpiresByType video/x-msvideo "now plus 1 month"
-	ExpiresByType video/mpeg "now plus 1 month"
-	ExpiresByType video/mp4 "now plus 1 month"
-	ExpiresByType video/quicktime "now plus 1 month"
-	ExpiresByType video/x-la-asf "now plus 1 month"
-	ExpiresByType video/x-ms-asf "now plus 1 month"
+	ExpiresByType application/x-shockwave-flash "access plus 1 month"
+	ExpiresByType x-world/x-vrml "access plus 1 month"
+	ExpiresByType video/x-msvideo "access plus 1 month"
+	ExpiresByType video/mpeg "access plus 1 month"
+	ExpiresByType video/mp4 "access plus 1 month"
+	ExpiresByType video/quicktime "access plus 1 month"
+	ExpiresByType video/x-la-asf "access plus 1 month"
+	ExpiresByType video/x-ms-asf "access plus 1 month"
 </IfModule>
