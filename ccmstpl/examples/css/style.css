@@ -81,10 +81,6 @@
 		border-bottom: 1px dotted #ec7f27;
 	}
 	p a, p a:visited { line-height: inherit; }
-	a.external {
-		background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVklEQVR4Xn3PgQkAMQhDUXfqTu7kTtkpd5RA8AInfArtQ2iRXFWT2QedAfttj2FsPIOE1eCOlEuoWWjgzYaB/IkeGOrxXhqB+uA9Bfcm0lAZuh+YIeAD+cAqSz4kCMUAAAAASUVORK5CYII=") no-repeat scroll right center transparent;
-    	padding-right: 13px;
-    }
 
 
 /* Lists
@@ -108,10 +104,11 @@
 /* Images
 ================================================== */
 	img { margin-bottom: 10px; }
-	img.scale {
+	.scale {
 		max-width: 100%;
 		height: auto;
 	}
+	.iwb { border: solid 1px black; }
 
 
 /* Other
@@ -129,7 +126,4 @@
 		margin: 5px;
 	}
 
-	.bannersWithBorder {
-		border:solid 1px black;
-	}
 
