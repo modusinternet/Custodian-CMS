@@ -40,6 +40,25 @@
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
+		<style type="text/css">
+			/*
+			Critical CSS for Above Fold Content generated using tool/method found here:
+				http://addyosmani.com/blog/detecting-critical-above-the-fold-css-with-paul-kinlan-video/
+			*/
+			html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; }
+			body { line-height: 24px; color: rgb(102, 102, 102); font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; font-family: 'Open Sans'; padding: 20px; -webkit-font-smoothing: antialiased; background: rgb(255, 255, 255); }
+			a, a:visited { border: 0px none; color: rgb(236, 127, 39); text-decoration-line: none; outline: 0px; }
+			img { margin-bottom: 10px; }
+			.scale { max-width: 100%; height: auto; }
+			ol, ul { list-style: none; }
+			ul, ol { margin-bottom: 20px; }
+			ul { list-style: none outside; }
+			a.tapTarget { font-style: normal; font-variant: normal; font-weight: normal; font-size: 18px; line-height: 32px; font-family: 'Open Sans'; margin: 5px; }
+			p { margin: 0px 0px 10px; }
+			p a, p a:visited { line-height: inherit; }
+			h1, h2, h3, h4, h5, h6 { color: rgb(0, 0, 0); font-weight: normal; }
+			h2 { font-size: 35px; line-height: 40px; margin-bottom: 10px; }
+		</style>
 	</head>
 	<body>
 		<a href="http://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}" style="text-decoration: none; border: 0 none;">
