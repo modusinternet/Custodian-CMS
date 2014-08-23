@@ -29,13 +29,29 @@ if(file_exists('ccmspre/config.php') && file_exists('ccmspre/user_whitelist.php'
 		<link rel="shortcut icon" href="/ccmstpl/examples/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="icon" href="/ccmstpl/examples/img/icons/favicon.ico" type="image/x-icon">
 
-		<link type="text/css" rel="stylesheet" href="/ccmstpl/examples/css/style.css">
+		<style type="text/css">
+			/*
+			Critical CSS for Above Fold Content generated using tool/method found here:
+				http://addyosmani.com/blog/detecting-critical-above-the-fold-css-with-paul-kinlan-video/
+			*/
+			html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0px; padding: 0px; border: 0px; vertical-align: baseline; }
+			body { line-height: 24px; color: rgb(102, 102, 102); font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; font-family: 'Open Sans'; padding: 20px; -webkit-font-smoothing: antialiased; background: rgb(255, 255, 255); }
+			h1, h2, h3, h4, h5, h6 { color: rgb(0, 0, 0); font-weight: normal; }
+			h2 { font-size: 35px; line-height: 40px; margin-bottom: 10px; }
+			p { margin: 0px 0px 10px; }
+			ol, ul { list-style: none; }
+			ul, ol { margin-bottom: 20px; }
+			ol { list-style: decimal; }
+			ol, ul.square, ul.circle, ul.disc { margin-left: 30px; }
+			a, a:visited { border: 0px none; color: rgb(236, 127, 39); text-decoration-line: none; outline: 0px; }
+			.oj { color: rgb(236, 127, 39); }
+			p a, p a:visited { line-height: inherit; }
+			ul { list-style: none outside; }
+			ul ul, ul ol, ol ol, ol ul { margin: 4px 0px 5px 30px; font-size: 90%; }
+			ul ul li, ul ol li, ol ol li, ol ul li { margin-bottom: 6px; }
+		</style>
 	</head>
 	<body>
-		<a href="http://modusinternet.com/" title="Modus Internet" style="text-decoration:none; border:0 none;">
-			<img alt="Modus Internet" class="scale" src="/ccmstpl/examples/img/hdr-940.png" />
-		</a>
-
 		<h2>Custodian CMS Configuration Instructions</h2>
 		<p>
 			In order to fully activate your new templates you need to manually complete the following steps.
