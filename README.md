@@ -1,4 +1,4 @@
-![Modus Internet](http://modusinternet.com/ccmstpl/img/hdr-940.png)
+![Modus Internet](http://modusinternet.com/ccmstpl/img/ccms-logo-banner-large-en.png)
 Custodian CMS
 =========
 
