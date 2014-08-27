@@ -120,7 +120,7 @@ RewriteCond %{HTTP_USER_AGENT} ^NetZIP [NC,OR]
 # Tools
 RewriteCond %{HTTP_USER_AGENT} ^(curl|Dart.?Communications|Enfish|htdig|Java|larbin) [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} (FrontPage|Indy.?Library|RPT\-HTTPClient) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(libwww|lwp|PHP|Python|www\.thatrobotsite\.com|webbandit|Wget|Zeus) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(libwww|lwp|libwww-perl*|PHP|Python|www\.thatrobotsite\.com|webbandit|Wget|Zeus) [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} ^(Microsoft|MFC).(Data|Internet|URL|WebDAV|Foundation).(Access|Explorer|Control|MiniRedir|Class) [NC,OR]
 # Unknown
 RewriteCond %{HTTP_USER_AGENT} ^(Crawl_Application|Lachesis|Nutscrape) [NC,OR]
@@ -132,7 +132,7 @@ RewriteCond %{HTTP_USER_AGENT} ^(Mac|Ram|Educate|WEP).?(Finder|Search) [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} ^(Moz+illa|MSIE).?[0-9]?.?[0-9]?[0-9]?$ [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} ^Mozilla/[0-9]\.[0-9][0-9]?.\(compatible[\)\ ] [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} NaverRobot [NC]
-RewriteRule .* - [F]
+RewriteRule .* - [F,L]
 
 # Stop hotlinking.
 #------------------------------
