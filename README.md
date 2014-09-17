@@ -6,29 +6,29 @@ The word 'Custodian' is defined by thefreedictionary.com as 'A person entrusted 
 
 Custodian CMS (CCMS) is a good caretaker to build your site upon because:
 <ol>
-	<li>It combines the best of practice security techniques like hot linking, cross site scripting, remote code execution and MySQL injection protection into multiple areas of the system.  The .htaccess file is approx 275 lines of deeply scrutinised code that is constantly being improved.  Other .htaccess files found throughout it's structure provide additional layers of protection.</li>
+	<li>It combines the best security practices against techniques like hot linking, cross site scripting, remote code execution and MySQL injection in multiple areas of the system.  The .htaccess file is approx 275 lines of deeply scrutinised code that is constantly being improved.  Other .htaccess files found throughout its structure provide additional layers of protection.</li>
 	<li>It opperates under a clearly defined URI structure that is optimal for Search Engines.</li>
-	<li>It provides an easy process and structure for developers to segregate HTML from programming code so that its easier for junior developers and maintainers to work with after development is complete.</li>
+	<li>It provides an easy process and structure for developers to separate HTML from programming code so that its easier for junior developers and maintainers to work with after development is complete.</li>
 	<li>It provides the simplest method in existence to solve the issues of constructing multilingual websites using a single set of templates, on a single domain, containing an unlimited number of languages.</li>
-	<li>It makes things easy for website visitors by figuring out all their language preference automatically.</li>
+	<li>It simplifies the user experience by determining language preference automatically.</li>
 	<li>It gets out of the way of developers to build sites the way they want, with the tools/plugins/frameworks they want, using the themes they want.</li>
 </ol>
 
-Though CCMS does not come with setup scripts or an admin system currently (Admin system will be ready in v1.0) fortunately CCMS is so simple neither one is required to make use of this amazing tool.  For now use a simple text editor to update the config and a tool like phpMyAdmin to add, remove or update your database inserts.
+Though CCMS does not come with setup scripts or an admin system currently (Admin system will be ready in v1.0) fortunately CCMS is so simple neither one is required to make use of this amazing tool.  Use a simple text editor to update the config and a tool like phpMyAdmin to add, remove or update your database inserts.
 
 About
 -----
 
 CCMS is a small, light weight, multilingual, Content Management System distributed for free under the GNU LGPL.
 
-The primary purpose of CCMS is to maintain a database of multilingual content and make it easy to display the correct one using a single set of templates.  One website, one set of templates, may languages.  The website developer sets the default language for the site, adds support for additional languages, fills the database with individually hand crafted blobs of content and inserts CCMS_DB tags throughout the HTML to automatically replace content in the language requested by visitors.  Here is an example of the database content insertion tag used in CCMS.
+The primary purpose of CCMS is to maintain a database of multilingual content and make it easy to display the correct one using a single set of templates.  One website, one set of templates, many languages.  The website developer sets the default language for the site, adds support for additional languages, fills the database with individually hand crafted blobs of content and inserts CCMS_DB tags throughout the HTML to automatically replace content in the language requested by visitors.  Here is an example of the database content insertion tag used in CCMS.
 
 	{CCMS_DB:about_us_page,first_paragraph}
 	{CCMS_DB:use_anywhere,form_button_submit}
 	{CCMS_DB:trips_to_mexico_template,request_more_info_text1}
 
 
-CCMS also provides a framework to help website developers build Search Engine Optimized (SEO)/friendly URIs and insert one template into another (CCMS_TPL tags) or librarys of custom code with the template they are currently working on (CCMS_LIB tags).
+CCMS also provides a framework to help website developers build Search Engine Optimized (SEO)/friendly URIs and insert one template into another (CCMS_TPL tags) or libraries of custom code with the template they are currently working on (CCMS_LIB tags).
 
 	{CCMS_TPL:header.tpl}
 	{CCMS_TPL:somedir/footer.php}
@@ -40,7 +40,7 @@ CCMS also provides a framework to help website developers build Search Engine Op
 
 
 
-Visit the project website at http://modusinternet.com/en/products/custodian-cms.html.
+Visit the project website at http://modusinternet.com/en/products/custodian-cms.html
 
 System requirements
 -------------------
