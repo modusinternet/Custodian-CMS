@@ -6,11 +6,11 @@ The word 'Custodian' is defined by thefreedictionary.com as 'A person entrusted 
 
 Custodian CMS (CCMS) is a good caretaker to build your site upon because:
 <ol>
-	<li>It combines the best of practice security techniques like hot linking, cross site scripting, remote code execution and MySQL injection protection into multiple areas of the system.  The .htaccess file is aprox 275 lines of deeply scrutinised code that is constantly being improved.  Other .htaccess files found throughout it's structure provide additional layers of protection.</li>
+	<li>It combines the best of practice security techniques like hot linking, cross site scripting, remote code execution and MySQL injection protection into multiple areas of the system.  The .htaccess file is approx 275 lines of deeply scrutinised code that is constantly being improved.  Other .htaccess files found throughout it's structure provide additional layers of protection.</li>
 	<li>It opperates under a clearly defined URI structure that is optimal for Search Engines.</li>
-	<li>It provides an easy process and structure for developers to segregate HTML from programming code so that its easier for junior developers and maintainers to work with after development.</li>
+	<li>It provides an easy process and structure for developers to segregate HTML from programming code so that its easier for junior developers and maintainers to work with after development is complete.</li>
 	<li>It provides the simplest method in existence to solve the issues of constructing multilingual websites using a single set of templates, on a single domain, containing an unlimited number of languages.</li>
-	<li>It makes things easy for the website visitor by figuring out all their language preference automatically.</li>
+	<li>It makes things easy for website visitors by figuring out all their language preference automatically.</li>
 	<li>It gets out of the way of developers to build sites the way they want, with the tools/plugins/frameworks they want, using the themes they want.</li>
 </ol>
 
