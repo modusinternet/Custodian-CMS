@@ -84,7 +84,7 @@ RewriteBase /
 #------------------------------
 RewriteCond %{HTTP_REFERER} ^$ [NC]
 RewriteCond %{HTTP_USER_AGENT} ^$ [NC]
-RewriteRule .* - [F]
+RewriteRule .* - [F,L]
 
 # BOT block
 #------------------------------
@@ -120,7 +120,7 @@ RewriteCond %{HTTP_USER_AGENT} ^NetZIP [NC,OR]
 # Tools
 RewriteCond %{HTTP_USER_AGENT} ^(curl|Dart.?Communications|Enfish|htdig|Java|larbin) [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} (FrontPage|Indy.?Library|RPT\-HTTPClient) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(libwww|lwp|libwww-perl*|PHP|Python|www\.thatrobotsite\.com|webbandit|Wget|Zeus) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^(libwww|lwp|libwww-perl.*|PHP|Python|www\.thatrobotsite\.com|webbandit|Wget|Zeus) [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} ^(Microsoft|MFC).(Data|Internet|URL|WebDAV|Foundation).(Access|Explorer|Control|MiniRedir|Class) [NC,OR]
 # Unknown
 RewriteCond %{HTTP_USER_AGENT} ^(Crawl_Application|Lachesis|Nutscrape) [NC,OR]
@@ -154,7 +154,7 @@ RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [OR]
 RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [NC,OR]
 RewriteCond %{QUERY_STRING} (localhost|loopback|127\.0\.0\.1) [NC,OR]
 RewriteCond %{QUERY_STRING} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC]
-RewriteRule .* - [F]
+RewriteRule .* - [F,L]
 
 # Protect against PHP-CGI Remote Code Execution Bug. CVE-2012-1823
 #------------------------------
@@ -186,7 +186,7 @@ RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
 RewriteCond %{QUERY_STRING} GLOBALS(=|[|\%[0-9A-Z]{0,2}) [OR]
 # Block out any script trying to modify a _REQUEST variable via URL
 RewriteCond %{QUERY_STRING} _REQUEST(=|[|\%[0-9A-Z]{0,2})
-RewriteRule .* - [F]
+RewriteRule .* - [F,L]
 
 # If we managed to get passed all those rules then the next step is to call the correct template on the server and
 # start producing output, but first lets make sure the php environment is setup the way we like it first.
@@ -203,10 +203,13 @@ RewriteCond %{SERVER_PORT}s ^(443(s)|[0-9]+s)$
 RewriteRule ^(.*)$ - [env=variable:%2]
 
 # The following two lines look to see if www. is found in your URI and removes it.
-# Comment them out if you don't need this feature enabled.
+# The next two lines look to see if www. is not found if your URI and adds it.
+# Comment one set or the other out depending on your needs.
 #------------------------------
 RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
-RewriteRule ^ http%{ENV:variable}://%1%{REQUEST_URI} [R=301,L]
+RewriteRule ^(.*)$ http%{ENV:variable}://%1%{REQUEST_URI} [R=301,L]
+#RewriteCond %{HTTP_HOST} !^www\.(.+) [NC]
+#RewriteRule ^(.*)$ http%{ENV:variable}://www.%{HTTP_HOST}/$1 [R=301,L]
 
 # Look to see if 'user' is found at the beginning of the {REQUEST_URI}, if so send the visitor to the Custodian CMS admin index template.
 # If you change the location of your CCMS admin directory in the config you will need to make the update here by hand.

@@ -1,1 +1,0 @@
-{CCMS_TPL:examples/index.tpl}

@@ -3,7 +3,7 @@
 # Order allow,deny
 
 # multiple file types
-<FilesMatch ".(fla|htaccess|htm|html|ini|php|phps|tpl|txt|xml|xsl)$">
+<FilesMatch ".(fla|htaccess|html|ini|php)$">
 	Order Allow,Deny
 	Deny from all
 </FilesMatch>

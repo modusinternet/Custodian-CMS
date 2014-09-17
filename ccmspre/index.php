@@ -6,7 +6,7 @@ define('LNG', '/^[a-z]{2}(-[a-z]{2})?\z/i');
 define('PARMS', '/^[a-z-_\pN/]+\z/i');
 define('QUERY_STRING', '/^[a-z\pN-_=&\?\.\/]{1,}\z/i');
 define('SESSION_ID', '/^[a-z\pN]{1,}\z/i');
-define('TPL', '/^[a-z-\pN\.\/]*\z/i');
+define('TPL', '/^[a-z-_\pN\.\/]*\z/i');
 
 define('UTF8_STRING_WHITE', '/^[\pL\pM\s]*\z/u');
 // ^ Start of line
@@ -332,45 +332,39 @@ function CCMS_insTPL($a) {
 		$html = ob_get_contents();
 		ob_end_clean();
 		echo CCMS_tplParser($html);
-	} elseif(preg_match('/\.htm\z/i', $a[2]) || preg_match('/\.html\z/i', $a[2]) || preg_match('/\.tpl\z/i', $a[2]) || preg_match('/\.txt\z/i', $a[2]) || preg_match('/\.xml\z/i', $a[2]) || preg_match('/\.xsl\z/i', $a[2])) {
+	} elseif(preg_match('/\.html\z/i', $a[2])) {
 		if(($html = @file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $a[2])) !== FALSE) {
 			echo CCMS_tplParser($html);
 		} else {
-			echo $a[0] . " ERROR: CCMS_TPL '" . $a[2] . "' not performed.  Be sure the file exists and has either a .htm, .html, .php, .tpl, .txt, .xml or .xsl extention. ";
+			echo $a[0] . " ERROR: CCMS_TPL '" . $a[2] . "' not performed.  Be sure the file exists and ends in a .html  extention. ";
 		}
 	} else {
-		echo $a[0] . " ERROR: CCMS_TPL '" . $a[2] . "' not performed.  Be sure the file exists and has either a .htm, .html, .php, .tpl, .txt, .xml or .xsl extention. ";
+		echo $a[0] . " ERROR: CCMS_TPL '" . $a[2] . "' not performed.  Be sure the file exists and has either a .php or .html extention. ";
 	}
 }
 
 
 function CCMS_setContentTypeHeader() {
 	global $CFG;
-	/*
-	//header("Expires:" . gmdate("D, d M Y H:i:s", time() + ($CFG["COOKIE_VISITOR_EXPIRE"] * 86400)) . " GMT");
-	// To allow your visitors to use the back button after they sent a form with the post method.
-	header("Pragma:public");
-	header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
-	header("Content-Type:text/html; charset=utf-8");
-	*/
-
 	header("Content-Type: text/html; charset=UTF-8");
 	header("Cache-Control: public, must-revalidate, proxy-revalidate");
-	// "public" Indicates that the response may be cached by any cache, even if it would normally be non-cacheable or cacheable only within a
-	// non-shared cache.
-	// "must-revalidate" tells the visitors' 'browser' that if the visitor use thier 'reload' button the content must come from the server and
-	// not their cache.
-	// "proxy-revalidate" is similar to must-revalidate, except that it only applies to proxy caches.
+	/*
+	"public" Indicates that the response may be cached by any cache, even if it would normally be non-cacheable or cacheable only within a non-shared cache.
 
-	// Other example headers that may need to be used depending on the purpose of your site.
+	"must-revalidate" tells the visitors' 'browser' that if the visitor use thier 'reload' button the content must come from the server and not their cache.
 
-	// Use the following to force a no caching situation and make sure the visitors browser always pulls fresh from the server.
-	//header('Cache-Control: no-store, no-cache, must-revalidate');
-	//header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-	// Use the Etag header via md5 of your content to help set a method for browsers to notice a page has changed and fresh version
-	// should be pulled regardless of the expiry date of cached content.
-	//$HashID = md5(a_copy_of_your_object_buffer_for_the_template);
-	//header('ETag: ' . $HashID);
+	"proxy-revalidate" is similar to must-revalidate, except that it only applies to proxy caches.
+
+	Other example headers that may need to be used depending on the purpose of your site.
+
+	Use the following to force a no caching situation and make sure the visitors browser always pulls fresh from the server.
+	header('Cache-Control: no-store, no-cache, must-revalidate');
+	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+
+	Use the Etag header via md5 of your content to help set a method for browsers to notice a page has changed and fresh version should be pulled regardless of the expiry date of cached content.
+	$HashID = md5(a_copy_of_your_object_buffer_for_the_template);
+	header('ETag: ' . $HashID);
+	*/
 }
 
 
@@ -384,7 +378,6 @@ function CCMS_tplParser($a = NULL) {
 			$to = strpos($a, "}", $from);
 			$to++;
 			$b = substr($a, $from, $to-$from);
-			if($CFG["DEBUG"] == 1) echo "b=[" . $b . "]<br />\n";
 			$from = $to;
 			if(preg_match('/^\{(CCMS_LIB):(_?[a-z]+[a-z-_\pN\/]+[a-z-_\pN]+\.php);(FUNC):([a-z_\pN]+)\(?(.*?)\)?}\z/i', $b, $c)) {
 				// {CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}
@@ -440,15 +433,14 @@ function CCMS_tplParser($a = NULL) {
 			} elseif(preg_match('/^\{(CCMS_DB_PRELOAD):([a-z]+[a-z-_,\pN]*)}\z/i', $b, $c)) {
 				// {CCMS_DB_PRELOAD:about_us_filter,footer_filter,header_filter,twiter_feed_filter}
 				CCMS_insDBPreload($c);
-			} elseif(preg_match('/^\{(CCMS_TPL):([a-z-\pN_\/]+(\.php|\.htm|\.html|\.tpl|\.txt|\.xml|\.xsl)?)}\z/i', $b, $c)) {
+			} elseif(preg_match('/^\{(CCMS_TPL):([a-z-_\pN\/]+(\.php|\.html)?)}\z/i', $b, $c)) {
 				// This preg_match helps prevent CCMS_TPL calls like this; {CCMS_TPL:css/../../../../../../../etc/passwd}
 				// {CCMS_TPL:test_01}
-				// {CCMS_TPL:test_02.txt}
+				// {CCMS_TPL:test_02.html}
 				// {CCMS_TPL:test_03.php}
-				// {CCMS_TPL:temp/test_04.tpl}
+				// {CCMS_TPL:temp/test_04}
 				// {CCMS_TPL:temp/test_05.html}
-				// {CCMS_TPL:temp/test_06}
-				// {CCMS_TPL:temp/test_07.php}
+				// {CCMS_TPL:temp/test_06.php}
 				if($CFG["DEBUG"] == 1) echo "c=[" . $c . "]<br />\n";
 				CCMS_insTPL($c);
 			} else {
@@ -474,50 +466,54 @@ function CCMS_go() {
 	global $CFG, $CLEAN;
 	CCMS_setLng();
 	CCMS_cookieVID();
-	CCMS_setContentTypeHeader();
+	//CCMS_setContentTypeHeader();
+
 	// If there is no template requested, show $CFG["INDEX"].
 	// This code helps when dealing with URL's that resemble:
-	// $CFG["INDEX"] = BLANK
+	// $CFG["INDEX"] == BLANK
 	// /
-	// make into:
+	// Make into:
 	// index
-	// /index
+	// index
 	if(!isset($CLEAN["ccms_tpl"]) || $CLEAN["ccms_tpl"] == "" || $CLEAN["ccms_tpl"] == "/") {
 		$CLEAN["ccms_tpl"] = $CFG["INDEX"];
 	}
+
 	// If the template being requested is inside a dir and no specific template name is
 	// part of that request, add index to the end.
 	// /fruit/
 	// /fruit/orange/
 	// /fruit/orange/vitamin/
-	// make into:
+	// Make into:
 	// /fruit/index
 	// /fruit/orange/index
 	// /fruit/orange/vitamin/index
 	if(preg_match('/[\/]\z/', $CLEAN["ccms_tpl"])) {
 		$CLEAN["ccms_tpl"] .= "index";
 	}
-	// Trims the 'forward slash' from both ends and .html from the end of a string saved inside CLEAN["ccms_tpl"]:
-	//$CLEAN["ccms_tpl"] = preg_replace('/^(\/)?(\/?.*?)(\/|\.html)?\z/i', '$2', $CLEAN["ccms_tpl"]);
-	// Trim the 'forward slash', .htm and .html from $CLEAN["ccms_tpl"].
+
+	// Trims the forward slash (/) from the beginning and .html from the end.  Resave back to CLEAN["ccms_tpl"]:
 	// /index
-	// /fruit/orange.htm
+	// /fruit/orange.html
 	// /fruit/orange/vitamin
 	// /fruit/orange/vitamin/c.html
-	// make into:
+	// Make into:
 	// index
 	// fruit/orange
 	// fruit/orange/vitamin
 	// fruit/orange/vitamin/c
 	$CLEAN["ccms_tpl"] = preg_replace('/^(\/)(.*?)(\.html?)?\z/i', '$2', $CLEAN["ccms_tpl"]);
+
 	// Copys the end of the string found inside $CLEAN["ccms_tpl"] after the last /.
 	preg_match('/([^\/]*)\z/', $CLEAN["ccms_tpl"], $ccms_file);
+
 	// Copys the first part of the string inside $CLEAN["ccms_tpl"] before the last /.
 	$ccms_dir = strstr($CLEAN["ccms_tpl"], $ccms_file[0], true);
-	// Test to see if CLEAN["ccms_tpl"] file being requested is stored on server with a .htm, .html, .php,
-	// .tpl or .txt extension.  .php is tested for first, if found it is pre-parsed by php, stored in
-	// a buffer and then submitted to the CMS system for further parsing.  If any other extension
-	// found it is sent immediately to the CML system for parsing.
+
+	// Test to see if CLEAN["ccms_tpl"] file being requested is stored on server with a .php or
+	// .html extension.  .php is tested for first, if found it is pre-parsed by php, stored in
+	// a buffer and then submitted to the CCMS system for further parsing.  Files with .html
+	// extentions are sent immediately to the CCMS system for parsing.
 	//
 	// NOTE: The filenames are returned in the order in which they are stored by the file system.
 	//
@@ -526,28 +522,21 @@ function CCMS_go() {
 	// yourself from pulling out all your hair trying to figure out why the newer file simply
 	// isn't being called.  In these cases it's best to remove the original and replace with
 	// the new file extension all together.
-	if($CFG["DEBUG"] == 1) echo "Looking in ccmstpl dir for .php, .htm, .html, .tpl, .txt, .xml or .xsl template, '" . $CLEAN["ccms_tpl"] . "'.<br />\n";
 	$found = "0";
-
-//echo "<br />1=[" . $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . "]\n";
-
 	if(is_dir($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir)) {
 		$odhandle = @opendir($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir);
 		while(($file = @readdir($odhandle)) !== false) {
-
-//echo "<br />2=[" . $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file . "]\n";
-
 			if($file != "." && $file != ".." && is_file($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file)) {
 				if($file == $ccms_file[0] . ".php") {
-					if($CFG["DEBUG"] == 1) echo $file . " found.<br />\n";
 					ob_start();
 					include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file;
 					$html = ob_get_contents();
 					ob_end_clean();
 					$found = "1";
 					break;
-				} elseif($file == $ccms_file[0] . ".htm" || $file == $ccms_file[0] . ".html" || $file == $ccms_file[0] . ".tpl" || $file == $ccms_file[0] . ".txt" || $file == $ccms_file[0] . ".xml" || $file == $ccms_file[0] . ".xsl") {
-					if($CFG["DEBUG"] == 1) echo $file . " found.<br />\n";
+				} elseif($file == $ccms_file[0] . ".html") {
+					header("Content-Type: text/html; charset=UTF-8");
+					header("Cache-Control: public, must-revalidate, proxy-revalidate");
 					$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
 					$found = "1";
 					break;
@@ -556,12 +545,16 @@ function CCMS_go() {
 		}
 		@closedir($odhandle);
 	}
+
 	if($found == "1") {
 		if(isset($html) && strlen($html) > 0) CCMS_tplParser($html);
 	} else {
-		//echo "ERROR: \$CLEAN[\"ccms_tpl\"] '" . $CLEAN["ccms_tpl"] . "' not found.";
-		$CLEAN["ccms_tpl_org"] = $CLEAN["ccms_tpl"];  // Store a copy of the original tpl requested for use later on in the error page.
-		$CLEAN["ccms_tpl"] = "error";  // Rest the tpl variable to the error page.
+		// Store a copy of the original tpl requested for use later on in the error page.
+		$CLEAN["ccms_tpl_org"] = $CLEAN["ccms_tpl"];
+
+		// Rest the tpl variable to the error page.
+		$CLEAN["ccms_tpl"] = "error";
+
 		ob_start();
 		include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $CLEAN["ccms_tpl"] . ".php";
 		$html = ob_get_contents();

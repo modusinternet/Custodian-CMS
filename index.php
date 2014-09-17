@@ -14,13 +14,10 @@ if(file_exists('ccmspre/config.php') && file_exists('ccmspre/user_whitelist.php'
 } else {
 	echo <<<EOF
 <!DOCTYPE html>
-	<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-	<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-	<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-	<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Custodian CMS v0.3</title>
+		<title>Custodian CMS v0.4</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!--[if lt IE 9]>
@@ -75,14 +72,14 @@ if(file_exists('ccmspre/config.php') && file_exists('ccmspre/user_whitelist.php'
 		<ul class="oj">
 			<li>@version
 				<ul>
-					<li>0.3 (Released: August 9, 2014)</li>
+					<li>0.4 (Released: Sept 17, 2014)</li>
 				</ul>
 			</li>
 		</ul>
 		<ul class="oj">
 			<li>@Copyright
 				<ul>
-					<li>Custodian CMS v0.3 - Content Management System (CMS)<br />
+					<li>Custodian CMS v0.4 - Content Management System (CMS)<br />
 					Copyright (C) 2014 - Vincent A Hallberg of modusinternet.com</li>
 					<li>This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.</li>
 					<li>This library is distributed in the hope that it will be useful, but	WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.</li>
