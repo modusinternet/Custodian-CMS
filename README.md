@@ -2,9 +2,17 @@
 Custodian CMS
 =========
 
-The word 'Custodian' is defined by thefreedictionary.com as 'A person entrusted with guarding or maintaining a property; caretaker.' and this suits the definition of the Custodian CMS very well.
+The word 'Custodian' is defined by thefreedictionary.com as 'A person entrusted with guarding or maintaining a property; caretaker' and this suits the definition of the Custodian CMS very well.
 
-Though Custodian CMS (CCMS) does not come with setup scripts or an admin system currently (Admin system will be ready in v1.0) fortunately CCMS is so simple neither one is required to make use of this amazing tool.  For now use a simple text editor to update the config and a tool like phpMyAdmin to add, remove or update your database inserts.
+Custodian CMS (CCMS) is a good caretaker to build your site upon because:
+1) It combines the best of practice security techniques like hot linking, cross site scripting, remote code execution and MySQL injection protection into multiple areas of the system.  The .htaccess file is aprox 275 lines of deeply scrutinised code that is constantly being improved.  Other .htaccess files found throughout it's structure provide additional layers of protection.
+2) It opperates under a clearly defined URI structure that is optimal for Search Engines.
+3) It provides an easy process and structure for developers to segregate HTML from programming code so that its easier for junior developers and maintainers to work with after development.
+4) It provides the simplest method in existence to solve the issues of constructing multilingual websites using a single set of templates, on a single domain, containing an unlimited number of languages.
+5) It makes things easy for the website visitor by figuring out all their language preference automatically.
+6) It gets out of the way of developers to build sites the way they want, with the tools/plugins/frameworks they want, using the themes they want.
+
+Though CCMS does not come with setup scripts or an admin system currently (Admin system will be ready in v1.0) fortunately CCMS is so simple neither one is required to make use of this amazing tool.  For now use a simple text editor to update the config and a tool like phpMyAdmin to add, remove or update your database inserts.
 
 About
 -----
