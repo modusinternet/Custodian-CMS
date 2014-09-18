@@ -30,9 +30,9 @@ The primary purpose of CCMS is to maintain a database of multilingual content an
 
 CCMS also provides a framework to help website developers build Search Engine Optimized (SEO)/friendly URIs and insert one template into another (CCMS_TPL tags) or libraries of custom code with the template they are currently working on (CCMS_LIB tags).
 
-	{CCMS_TPL:header.tpl}
-	{CCMS_TPL:somedir/footer.php}
-	{CCMS_TPL:products/list.html}
+	{CCMS_TPL:header.html}
+	{CCMS_TPL:somedir/footer.html}
+	{CCMS_TPL:products/list.php}
 
 	{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}
 	{CCMS_LIB:cms/_123.php;FUNC:XyZZy123_}
@@ -61,5 +61,5 @@ Installation
 * Import ccms-db-setup.sql into your MySQL editor after setting up a new database.
 * Update the settings found inside of /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php as required.
 * Copy and or Rename /ccmspre/config_original.php to /ccmspre/config.php and /ccmspre/user_whiteList_original.php to /ccmspre/user_whiteList.php.
-* Open a browser and call your test environment and read the supplimental information there.
+* Open a browser and call your test environment, if the first template that comes up says 'Custodian CMS Configuration Instructions' follow the instructions and double check your installation.  Most likely you forgot to rename the /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php files described above.
 * More links to information regarding installation and configuration can be found at http://modusinternet.com/en/products/custodian-cms/download.html.
