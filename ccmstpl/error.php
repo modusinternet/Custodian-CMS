@@ -1,8 +1,9 @@
-<!DOCTYPE html>
-	<!--[if lt IE 7 ]><html class="ie ie6" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}"> <![endif]-->
-	<!--[if IE 7 ]><html class="ie ie7" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}"> <![endif]-->
-	<!--[if IE 8 ]><html class="ie ie8" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}"> <![endif]-->
-	<!--[if (gte IE 9)|!(IE)]><!--><html lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}"> <!--<![endif]-->
+<?php
+http_response_code(404);
+header("Content-Type: text/html; charset=UTF-8");
+header("Cache-Control: public, must-revalidate, proxy-revalidate");
+?><!DOCTYPE html>
+<html lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}">
 	<head>
 		<meta charset="utf-8">
 		<title>Parsing ERROR | <?=$CFG["DOMAIN"];?></title>
@@ -12,8 +13,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Favicons -->
-		<link rel="shortcut icon" href="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/img/icons/favicon.ico" type="image/x-icon">
-		<link rel="icon" href="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/img/icons/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/icons/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/icons/favicon.ico" type="image/x-icon">
 
 		<!--
 		HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries.

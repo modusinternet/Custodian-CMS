@@ -271,7 +271,7 @@ function CCMS_insDB($a) {
 			echo $CLEAN["CCMS_insDBPreloadContent"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]];
 		}
 	} else {
-		echo $a[0] . " ERROR: Either CCMS_insDBPreloadContent function or CCMS_DB_PRELOAD tag not run on your template prior to calling this CCMS_DB tag. ";
+		echo $a[0] . " ERROR: Either CCMS_insDBPreloadContent function was not called or the CCMS_DB_PRELOAD tag was not found on your template prior to calling this CCMS_DB tag. ";
 	}
 }
 
@@ -417,8 +417,7 @@ function CCMS_tplParser($a = NULL) {
 						echo $c[0] . " ERROR: FUNC '" . $c[4] . "' not found. ";
 					}
 				}
-			} elseif(
-				preg_match('/^\{(CCMS_DB):([a-z]+[a-z-_\pN]+),([a-z]+[a-z-_\pN]+)}\z/i', $b, $c)) {
+			} elseif(preg_match('/^\{(CCMS_DB):([a-z]+[a-z-_\pN]+),([a-z]+[a-z-_\pN]+)}\z/i', $b, $c)) {
 				// {CCMS_DB:about_us_filter,meta_description}
 				// {CCMS_DB:about_us_filter,meta_keywords}
 				// {CCMS_DB:about_us_filter,title}
@@ -522,7 +521,7 @@ function CCMS_go() {
 	// yourself from pulling out all your hair trying to figure out why the newer file simply
 	// isn't being called.  In these cases it's best to remove the original and replace with
 	// the new file extension all together.
-	$found = "0";
+	$found = false;
 	if(is_dir($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir)) {
 		$odhandle = @opendir($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir);
 		while(($file = @readdir($odhandle)) !== false) {
@@ -532,13 +531,13 @@ function CCMS_go() {
 					include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file;
 					$html = ob_get_contents();
 					ob_end_clean();
-					$found = "1";
+					$found = true;
 					break;
 				} elseif($file == $ccms_file[0] . ".html") {
 					header("Content-Type: text/html; charset=UTF-8");
 					header("Cache-Control: public, must-revalidate, proxy-revalidate");
 					$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
-					$found = "1";
+					$found = true;
 					break;
 				}
 			}
@@ -546,7 +545,7 @@ function CCMS_go() {
 		@closedir($odhandle);
 	}
 
-	if($found == "1") {
+	if($found) {
 		if(isset($html) && strlen($html) > 0) CCMS_tplParser($html);
 	} else {
 		// Store a copy of the original tpl requested for use later on in the error page.

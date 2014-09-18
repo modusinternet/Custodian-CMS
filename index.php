@@ -72,7 +72,7 @@ if(file_exists('ccmspre/config.php') && file_exists('ccmspre/user_whitelist.php'
 		<ul class="oj">
 			<li>@version
 				<ul>
-					<li>0.4 (Released: Sept 17, 2014)</li>
+					<li>0.4 (Released: Sept 19, 2014)</li>
 				</ul>
 			</li>
 		</ul>
