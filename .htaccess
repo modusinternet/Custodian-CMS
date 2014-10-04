@@ -80,6 +80,11 @@ ErrorDocument 500 /index.php?ccms_tpl=error500
 RewriteEngine on
 RewriteBase /
 
+# Disable the HTTP TRACE Method for added security.
+#------------------------------
+RewriteCond %{REQUEST_METHOD} ^TRACE
+RewriteRule .* - [F]
+
 # Block empty user agents and empty HTTP referrers.
 #------------------------------
 RewriteCond %{HTTP_REFERER} ^$ [NC]

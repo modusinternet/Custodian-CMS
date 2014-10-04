@@ -127,7 +127,7 @@ function CCMS_setLng() {
 			}
 		}
 	}
-	setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + ($CFG["COOKIE_VISITOR_EXPIRE"] * 86400), "/");
+	setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + ($CFG["COOKIE_VISITOR_EXPIRE"] * 86400), "/", $CFG["DOMAIN"], 0, 1);
 }
 
 
@@ -142,7 +142,7 @@ function CCMS_cookieVID() {
 		if($CFG["DEBUG"] == 1) echo "<br />No 'ccms_vid' variable found, creating one now.\n";
 		$a = md5(time());
 		$b = time() + ($CFG["COOKIE_VISITOR_EXPIRE"] * 86400);
-		setcookie("ccms_vid", $a, $b, "/");
+		setcookie("ccms_vid", $a, $b, "/", $CFG["DOMAIN"], 0, 1);
 		if($CFG["DEBUG"] == 1) echo "<br />a = " . $a . " expire = " . $b . "\n";
 		$CLEAN["ccms_vid"] = $a;
 	} else {
@@ -165,7 +165,7 @@ function CCMS_cookieVID() {
 			}
 		}
 		if($CFG["DEBUG"] == 1) echo "<br />Updating cookie and \$CLEAN[\"ccms_vid\"] arg to " . md5($a) . "\n";
-		setcookie("ccms_vid", md5($a), $b, "/");
+		setcookie("ccms_vid", md5($a), $b, "/", $CFG["DOMAIN"], 0, 1);
 		$CLEAN["ccms_vid"] = md5($a);
 	}
 }
@@ -203,7 +203,7 @@ function CCMS_filter($input, $whitelist) {
 	foreach($input as $key => $value) {
 		if(array_key_exists($key, $whitelist)) {
 			$buf = NULL;
-			$value = trim($value);
+			$value = @trim($value);
 			if(isset($whitelist[$key]['maxlength']) && (strlen($value) > $whitelist[$key]['maxlength'])) {
 				$buf = "MAXLEN";
 			}

@@ -50,7 +50,7 @@ define('EXAMPLE_EXPRESSION_2', '/^[\pN]+\z/');
 
 
 $user_whitelist = array(
-	"example_given_name"	=> array("type" => "EXAMPLE_EXPRESSION_1",	"maxlength" => 15),
+	"example_given_name"	=> array("type" => "EXAMPLE_EXPRESSION_1",	"minlength" => 1,	"maxlength" => 15),
 	"example_age"			=> array("type" => "EXAMPLE_EXPRESSION_2",	"maxlength" => 3),
 );
 
@@ -60,11 +60,16 @@ function USER_filter($input, $whitelist) {
 	foreach($input as $key => $value) {
 		if(array_key_exists($key, $whitelist)) {
 			$buf = NULL;
-			$value = trim($value);
-			if(isset($whitelist[$key]['maxlength']) && (strlen($value) > $whitelist[$key]['maxlength'])) {
+			$value = @trim($value);
+			// utf8_decode() converts unknown ISO-8859-1 chars to '?' for the purpose of counting.
+			$length = strlen(utf8_decode($value));
+			if(isset($whitelist[$key]['minlength']) && ($length < $whitelist[$key]['minlength'])) {
+				$buf = "MINLEN";
+			}
+			if(isset($whitelist[$key]['maxlength']) && ($length > $whitelist[$key]['maxlength'])) {
 				$buf = "MAXLEN";
 			}
-			if($buf != "MAXLEN") {
+			if($buf != "MINLEN" && $buf != "MAXLEN") {
 				switch($whitelist[$key]['type']) {
 
 

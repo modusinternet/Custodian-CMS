@@ -39,7 +39,6 @@ if(file_exists('ccmspre/config.php') && file_exists('ccmspre/user_whitelist.php'
 			.scale { max-width: 100%; height: auto; }
 			h1, h2, h3, h4, h5, h6 { color: rgb(134, 177, 53); font-weight: normal; margin: 25px 0px 10px; }
 			h2 { font-size: 35px; line-height: 40px; }
-			ol, ul { list-style: none; }
 			ul, ol { margin-bottom: 20px; }
 			ul { list-style: none outside; }
 			.oj { color: rgb(236, 127, 39); }
@@ -60,7 +59,7 @@ if(file_exists('ccmspre/config.php') && file_exists('ccmspre/user_whitelist.php'
 			In order to fully activate your new templates you need to manually complete the following steps.
 		</p>
 		<ol>
-			<li>Import the contents of the <a href="/ccms-db-setup.sql">/ccms-db-setup.sql</a> file into a MySQL database.</li>
+			<li>Import the contents of the <span class="oj">/ccms-db-setup.sql</span> file into a MySQL database.</li>
 			<li>Make a copy of <span class="oj">/ccmspre/config_original.php</span> and name it <span class="oj">/ccmspre/config.php</span>.</li>
 			<li>Update the <span class="oj">/ccmspre/config.php</span> template with details about your website.</li>
 			<li>Make a copy of <span class="oj">/ccmspre/user_whitelist_original.php</span> and name it <span class="oj">/ccmspre/user_whitelist.php</span>.</li>
