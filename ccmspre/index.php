@@ -204,10 +204,15 @@ function CCMS_filter($input, $whitelist) {
 		if(array_key_exists($key, $whitelist)) {
 			$buf = NULL;
 			$value = @trim($value);
-			if(isset($whitelist[$key]['maxlength']) && (strlen($value) > $whitelist[$key]['maxlength'])) {
+			// utf8_decode() converts unknown ISO-8859-1 chars to '?' for the purpose of counting.
+			$length = strlen(utf8_decode($value));
+			if(isset($whitelist[$key]['minlength']) && ($length < $whitelist[$key]['minlength'])) {
+				$buf = "MINLEN";
+			}
+			if(isset($whitelist[$key]['maxlength']) && ($length > $whitelist[$key]['maxlength'])) {
 				$buf = "MAXLEN";
 			}
-			if($buf != "MAXLEN") {
+			if($buf != "MINLEN" && $buf != "MAXLEN") {
 				switch($whitelist[$key]['type']) {
 					case "CRYPT":
 						$value = stripslashes(rawurldecode($value));
