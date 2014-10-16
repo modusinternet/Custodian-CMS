@@ -51,16 +51,6 @@
 	RequestHeader unset Range env=bad-range
 </IfModule>
 
-# Disable your Apache version number from showing up in HTTP headers for added security.
-#------------------------------
-ServerSignature Off
-
-Options +FollowSymLinks
-
-# Prevent people from being able to see the directory of folders that do not contain and index file.
-#------------------------------
-Options -Indexes
-
 # Bad Request
 #------------------------------
 ErrorDocument 400 /index.php?ccms_tpl=error400
@@ -77,171 +67,192 @@ ErrorDocument 404 /index.php?ccms_tpl=error404
 #------------------------------
 ErrorDocument 500 /index.php?ccms_tpl=error500
 
-RewriteEngine on
-RewriteBase /
-
-# Disable the HTTP TRACE Method for added security.
+# Disable your Apache version number from showing up in HTTP headers for added security.
 #------------------------------
-RewriteCond %{REQUEST_METHOD} ^TRACE
-RewriteRule .* - [F]
+ServerSignature Off
 
-# Block empty user agents and empty HTTP referrers.
+# Prevent people from being able to see the directory of folders that do not contain and index file.
 #------------------------------
-RewriteCond %{HTTP_REFERER} ^$ [NC]
-RewriteCond %{HTTP_USER_AGENT} ^$ [NC]
-RewriteRule .* - [F,L]
+Options -Indexes
 
-# BOT block
+Options +FollowSymLinks
+Options -Multiviews
+
+# If your attempting to use Custodian CMS on a GoDaddy hosted service you might experience problems running the rewrite
+# rules.  To get this working properly uncomment the code below.  Then skip down about 10 lines and comment out the two
+# lines of code refering to 'php_flag'.
 #------------------------------
-# URL encoded HTML, see http://www.w3schools.com/tags/ref_urlencode.asp
-RewriteCond %{HTTP_USER_AGENT} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
-# Address harvesters
-RewriteCond %{HTTP_USER_AGENT} ^(autoemailspider|ExtractorPro) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^E?Mail.?(Collect|Harvest|Magnet|Reaper|Siphon|Sweeper|Wolf) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} (DTS.?Agent|Email.?Extrac) [NC,OR]
-RewriteCond %{HTTP_REFERER} iaea\.org [NC,OR]
-# Download managers
-RewriteCond %{HTTP_USER_AGENT} ^(Alligator|DA.?[0-9]|DC\-Sakura|Download.?(Demon|Express|Master|Wonder)|FileHound) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(Flash|Leech)Get [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(Fresh|Lightning|Mass|Real|Smart|Speed|Star).?Download(er)? [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(Gamespy|Go!Zilla|iGetter|JetCar|Net(Ants|Pumper)|SiteSnagger|Teleport.?Pro|WebReaper) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(My)?GetRight [NC,OR]
-# Image-grabbers
-RewriteCond %{HTTP_USER_AGENT} ^(AcoiRobot|FlickBot|webcollage) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(Express|Mister|Web).?(Web|Pix|Image).?(Pictures|Collector)? [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^Image.?(fetch|Stripper|Sucker) [NC,OR]
-# "Gray-hats"
-RewriteCond %{HTTP_USER_AGENT} ^(Atomz|BlackWidow|BlogBot|EasyDL|Marketwave|Sqworm|SurveyBot|Webclipping\.com) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} (girafa\.com|gossamer\-threads\.com|grub\-client|Netcraft|Nutch) [NC,OR]
-# Site-grabbers
-RewriteCond %{HTTP_USER_AGENT} ^(eCatch|(Get|Super)Bot|Kapere|HTTrack|JOC|Offline|UtilMind|Xaldon) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^Web.?(Auto|Cop|dup|Fetch|Filter|Gather|Go|Leach|Mine|Mirror|Pix|QL|RACE|Sauger) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^Web.?(site.?(eXtractor|Quester)|Snake|ster|Strip|Suck|vac|walk|Whacker|ZIP) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} WebCapture [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^DISCo\ Pump [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^EirGrabber [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^Net\ Vampire [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^NetZIP [NC,OR]
-# Tools
-RewriteCond %{HTTP_USER_AGENT} ^(curl|Dart.?Communications|Enfish|htdig|Java|larbin) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} (FrontPage|Indy.?Library|RPT\-HTTPClient) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(libwww|lwp|libwww-perl.*|PHP|Python|www\.thatrobotsite\.com|webbandit|Wget|Zeus) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(Microsoft|MFC).(Data|Internet|URL|WebDAV|Foundation).(Access|Explorer|Control|MiniRedir|Class) [NC,OR]
-# Unknown
-RewriteCond %{HTTP_USER_AGENT} ^(Crawl_Application|Lachesis|Nutscrape) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^[CDEFPRS](Browse|Eval|Surf) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(Demo|Full.?Web|Lite|Production|Franklin|Missauga|Missigua).?(Bot|Locat) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} (efp@gmx\.net|hhjhj@yahoo\.com|lerly\.net|mapfeatures\.net|metacarta\.com) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(Industry|Internet|IUFW|Lincoln|Missouri|Program).?(Program|Explore|Web|State|College|Shareware) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(Mac|Ram|Educate|WEP).?(Finder|Search) [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^(Moz+illa|MSIE).?[0-9]?.?[0-9]?[0-9]?$ [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ^Mozilla/[0-9]\.[0-9][0-9]?.\(compatible[\)\ ] [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} NaverRobot [NC]
-RewriteRule .* - [F,L]
+#SetEnv HTTP_MOD_REWRITE On
 
-# Stop hotlinking.
-#------------------------------
-RewriteCond %{HTTP_REFERER} !^$
-# Add to allow abc.com to pull images from the server.
-#RewriteCond %{HTTP_REFERER} !^http(s)?://abc.com [NC]
-# Add to allow www.123.com to pull images from the server.
-#RewriteCond %{HTTP_REFERER} !^http(s)?://www.123.com [NC]
-RewriteCond %{HTTP_HOST}@@%{HTTP_REFERER} !^([^@]*)@@https?://\1/.* [NC]
-RewriteRule \.(bmp|gif|jpe?g|png|swf)$ - [F,L,NC]
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteBase /
 
-# Stop file and mysql injection attacks.
-#------------------------------
-RewriteCond %{REQUEST_METHOD} GET
-RewriteCond %{QUERY_STRING} (;|<|>|'|"|\)|%0A|%0D|%22|%27|%3C|%3E|%00).*(/\*|union|select|insert|cast|set|declare|drop|update|md5|benchmark) [NC,OR]
-RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http:// [OR]
-RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http%3A%2F%2F [OR]
-RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [OR]
-RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [NC,OR]
-RewriteCond %{QUERY_STRING} (localhost|loopback|127\.0\.0\.1) [NC,OR]
-RewriteCond %{QUERY_STRING} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC]
-RewriteRule .* - [F,L]
+	# If we managed to get passed all those rules then the next step is to call the correct template on the server and
+	# start producing output, but first lets make sure the php environment is setup the way we like it first.
+	# Comment the two lines of code out below if experiencing problems on a GoDaddy hosted services.
+	#------------------------------
+	php_flag register_globals off
+	# magic_quotes_gpc are DEPRECATED and will eventually be removed all together, best to disable them now.
+	# http://www.php.net/manual/en/security.magicquotes.what.php
+	php_flag magic_quotes_gpc off
 
-# Protect against PHP-CGI Remote Code Execution Bug. CVE-2012-1823
-#------------------------------
-RewriteCond %{QUERY_STRING} ^(%2d|\-)[^=]+$ [NC]
-RewriteRule .* - [F,L]
+	# Disable the HTTP TRACE Method for added security.
+	#------------------------------
+	RewriteCond %{REQUEST_METHOD} ^TRACE
+	RewriteRule .* - [F]
 
-# Denies any POST Request using a Proxy Server. Can still access site, but not comment.  Just to be clear,
-# this doesn't really work with any proxy service that really wants to hide who they are but what the hell.
-#------------------------------
-RewriteCond %{REQUEST_METHOD} =POST
-RewriteCond %{HTTP:VIA}%{HTTP:FORWARDED}%{HTTP:USERAGENT_VIA}%{HTTP:X_FORWARDED_FOR}%{HTTP:PROXY_CONNECTION} !^$ [OR]
-RewriteCond %{HTTP:XPROXY_CONNECTION}%{HTTP:HTTP_PC_REMOTE_ADDR}%{HTTP:HTTP_CLIENT_IP} !^$
-RewriteRule .* - [F,L,NS]
+	# Block empty user agents and empty HTTP referrers.
+	#------------------------------
+	RewriteCond %{HTTP_REFERER} ^$ [NC]
+	RewriteCond %{HTTP_USER_AGENT} ^$ [NC]
+	RewriteRule .* - [F,L]
 
-# Stop 'PHP Easter Eggs' from working, http://perishablepress.com/expose-php/
-RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC,OR]
-# Stop proc/self/environ?
-RewriteCond %{QUERY_STRING} proc/self/environ [OR]
-# Block out any script trying to set a mosConfig value through the URL
-RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
-# Block out any script trying to base64_encode/decode content via URL
-RewriteCond %{QUERY_STRING} base64_(en|de)code[^(]*\([^)]*\) [OR]
-## IMPORTANT: If the above line throws an HTTP 500 error, replace it with these 2 lines:
-# RewriteCond %{QUERY_STRING} base64_encode\(.*\) [OR]
-# RewriteCond %{QUERY_STRING} base64_decode\(.*\) [OR]
-# Block out any script that includes a <script> tag in URL
-RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
-# Block out any script trying to set a PHP GLOBALS variable via URL
-RewriteCond %{QUERY_STRING} GLOBALS(=|[|\%[0-9A-Z]{0,2}) [OR]
-# Block out any script trying to modify a _REQUEST variable via URL
-RewriteCond %{QUERY_STRING} _REQUEST(=|[|\%[0-9A-Z]{0,2})
-RewriteRule .* - [F,L]
+	# BOT block
+	#------------------------------
+	# URL encoded HTML, see http://www.w3schools.com/tags/ref_urlencode.asp
+	RewriteCond %{HTTP_USER_AGENT} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
+	# Address harvesters
+	RewriteCond %{HTTP_USER_AGENT} ^(autoemailspider|ExtractorPro) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^E?Mail.?(Collect|Harvest|Magnet|Reaper|Siphon|Sweeper|Wolf) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} (DTS.?Agent|Email.?Extrac) [NC,OR]
+	RewriteCond %{HTTP_REFERER} iaea\.org [NC,OR]
+	# Download managers
+	RewriteCond %{HTTP_USER_AGENT} ^(Alligator|DA.?[0-9]|DC\-Sakura|Download.?(Demon|Express|Master|Wonder)|FileHound) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(Flash|Leech)Get [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(Fresh|Lightning|Mass|Real|Smart|Speed|Star).?Download(er)? [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(Gamespy|Go!Zilla|iGetter|JetCar|Net(Ants|Pumper)|SiteSnagger|Teleport.?Pro|WebReaper) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(My)?GetRight [NC,OR]
+	# Image-grabbers
+	RewriteCond %{HTTP_USER_AGENT} ^(AcoiRobot|FlickBot|webcollage) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(Express|Mister|Web).?(Web|Pix|Image).?(Pictures|Collector)? [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^Image.?(fetch|Stripper|Sucker) [NC,OR]
+	# "Gray-hats"
+	RewriteCond %{HTTP_USER_AGENT} ^(Atomz|BlackWidow|BlogBot|EasyDL|Marketwave|Sqworm|SurveyBot|Webclipping\.com) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} (girafa\.com|gossamer\-threads\.com|grub\-client|Netcraft|Nutch) [NC,OR]
+	# Site-grabbers
+	RewriteCond %{HTTP_USER_AGENT} ^(eCatch|(Get|Super)Bot|Kapere|HTTrack|JOC|Offline|UtilMind|Xaldon) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^Web.?(Auto|Cop|dup|Fetch|Filter|Gather|Go|Leach|Mine|Mirror|Pix|QL|RACE|Sauger) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^Web.?(site.?(eXtractor|Quester)|Snake|ster|Strip|Suck|vac|walk|Whacker|ZIP) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} WebCapture [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^DISCo\ Pump [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^EirGrabber [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^Net\ Vampire [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^NetZIP [NC,OR]
+	# Tools
+	RewriteCond %{HTTP_USER_AGENT} ^(curl|Dart.?Communications|Enfish|htdig|Java|larbin) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} (FrontPage|Indy.?Library|RPT\-HTTPClient) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(libwww|lwp|libwww-perl.*|PHP|Python|www\.thatrobotsite\.com|webbandit|Wget|Zeus) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(Microsoft|MFC).(Data|Internet|URL|WebDAV|Foundation).(Access|Explorer|Control|MiniRedir|Class) [NC,OR]
+	# Unknown
+	RewriteCond %{HTTP_USER_AGENT} ^(Crawl_Application|Lachesis|Nutscrape) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^[CDEFPRS](Browse|Eval|Surf) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(Demo|Full.?Web|Lite|Production|Franklin|Missauga|Missigua).?(Bot|Locat) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} (efp@gmx\.net|hhjhj@yahoo\.com|lerly\.net|mapfeatures\.net|metacarta\.com) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(Industry|Internet|IUFW|Lincoln|Missouri|Program).?(Program|Explore|Web|State|College|Shareware) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(Mac|Ram|Educate|WEP).?(Finder|Search) [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^(Moz+illa|MSIE).?[0-9]?.?[0-9]?[0-9]?$ [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} ^Mozilla/[0-9]\.[0-9][0-9]?.\(compatible[\)\ ] [NC,OR]
+	RewriteCond %{HTTP_USER_AGENT} NaverRobot [NC]
+	RewriteRule .* - [F,L]
 
-# If we managed to get passed all those rules then the next step is to call the correct template on the server and
-# start producing output, but first lets make sure the php environment is setup the way we like it first.
-#------------------------------
-php_flag register_globals off
-# magic_quotes_gpc are DEPRECATED and will eventually be removed all together, best to disable them now.
-#http://www.php.net/manual/en/security.magicquotes.what.php
-php_flag magic_quotes_gpc off
+	# Stop hotlinking.
+	#------------------------------
+	RewriteCond %{HTTP_REFERER} !^$
+	# Add to allow abc.com to pull images from the server.
+	#RewriteCond %{HTTP_REFERER} !^http(s)?://abc.com [NC]
+	# Add to allow www.123.com to pull images from the server.
+	#RewriteCond %{HTTP_REFERER} !^http(s)?://www.123.com [NC]
+	RewriteCond %{HTTP_HOST}@@%{HTTP_REFERER} !^([^@]*)@@https?://\1/.* [NC]
+	RewriteRule \.(bmp|gif|jpe?g|png|swf)$ - [F,L,NC]
 
-# The following two lines of code build an environment variable that either contains nothing or an 's' to indicate the server port
-# is http or https.
-#------------------------------
-RewriteCond %{SERVER_PORT}s ^(443(s)|[0-9]+s)$
-RewriteRule ^(.*)$ - [env=variable:%2]
+	# Stop file and mysql injection attacks.
+	#------------------------------
+	RewriteCond %{REQUEST_METHOD} GET
+	RewriteCond %{QUERY_STRING} (;|<|>|'|"|\)|%0A|%0D|%22|%27|%3C|%3E|%00).*(/\*|union|select|insert|cast|set|declare|drop|update|md5|benchmark) [NC,OR]
+	RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http:// [OR]
+	RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http%3A%2F%2F [OR]
+	RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [OR]
+	RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [NC,OR]
+	RewriteCond %{QUERY_STRING} (localhost|loopback|127\.0\.0\.1) [NC,OR]
+	RewriteCond %{QUERY_STRING} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC]
+	RewriteRule .* - [F,L]
 
-# The following two lines look to see if www. is found in your URI and removes it.
-# The next two lines look to see if www. is not found if your URI and adds it.
-# Comment one set or the other out depending on your needs.
-#------------------------------
-RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
-RewriteRule ^(.*)$ http%{ENV:variable}://%1%{REQUEST_URI} [R=301,L]
-#RewriteCond %{HTTP_HOST} !^www\.(.+) [NC]
-#RewriteRule ^(.*)$ http%{ENV:variable}://www.%{HTTP_HOST}/$1 [R=301,L]
+	# Protect against PHP-CGI Remote Code Execution Bug. CVE-2012-1823
+	#------------------------------
+	RewriteCond %{QUERY_STRING} ^(%2d|\-)[^=]+$ [NC]
+	RewriteRule .* - [F,L]
 
-# Look to see if 'user' is found at the beginning of the {REQUEST_URI}, if so send the visitor to the Custodian CMS admin index template.
-# If you change the location of your CCMS admin directory in the config you will need to make the update here by hand.
-#------------------------------
-#RewriteCond %{REQUEST_URI} ^/(([a-z]{2})(-[a-z]{2})?)/user/(.*) [NC]
-#RewriteRule ^(([a-z]{2})(-[a-z]{2})?)/user/([a-z0-9-_\./]*)?$ /ccmsusr/index.php?ccms_lng=$1&ccms_tpl=$5 [QSA,L,NC]
-RewriteCond %{REQUEST_URI} ^/user/ [NC]
-RewriteRule ^user/(.*)$ /ccmsusr/$1 [QSA,L,NC]
-RewriteCond %{REQUEST_URI} !^/(([a-z]{2})(-[a-z]{2})?)/user/(.*) [NC]
-RewriteRule ^(([a-z]{2})(-[a-z]{2})?)(/([a-z0-9-_\./]*))?$ /index.php?ccms_lng=$1&ccms_tpl=$4 [QSA,L,NC]
+	# Denies any POST Request using a Proxy Server. Can still access site, but not comment.  Just to be clear,
+	# this doesn't really work with any proxy service that really wants to hide who they are but what the hell.
+	#------------------------------
+	RewriteCond %{REQUEST_METHOD} =POST
+	RewriteCond %{HTTP:VIA}%{HTTP:FORWARDED}%{HTTP:USERAGENT_VIA}%{HTTP:X_FORWARDED_FOR}%{HTTP:PROXY_CONNECTION} !^$ [OR]
+	RewriteCond %{HTTP:XPROXY_CONNECTION}%{HTTP:HTTP_PC_REMOTE_ADDR}%{HTTP:HTTP_CLIENT_IP} !^$
+	RewriteRule .* - [F,L,NS]
 
-# The following examples will FAIL and result in /ccmstpl/error.php page being called.
-#------------------------------
-# http://abc.com/1
-# http://abc.com/a
-# http://abc.com/12
-# http://abc.com/ab_
-# http://abc.com/ab-s
+	# Stop 'PHP Easter Eggs' from working, http://perishablepress.com/expose-php/
+	RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC,OR]
+	# Stop proc/self/environ?
+	RewriteCond %{QUERY_STRING} proc/self/environ [OR]
+	# Block out any script trying to set a mosConfig value through the URL
+	RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+	# Block out any script trying to base64_encode/decode content via URL
+	RewriteCond %{QUERY_STRING} base64_(en|de)code[^(]*\([^)]*\) [OR]
+	## IMPORTANT: If the above line throws an HTTP 500 error, replace it with these 2 lines:
+	# RewriteCond %{QUERY_STRING} base64_encode\(.*\) [OR]
+	# RewriteCond %{QUERY_STRING} base64_decode\(.*\) [OR]
+	# Block out any script that includes a <script> tag in URL
+	RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+	# Block out any script trying to set a PHP GLOBALS variable via URL
+	RewriteCond %{QUERY_STRING} GLOBALS(=|[|\%[0-9A-Z]{0,2}) [OR]
+	# Block out any script trying to modify a _REQUEST variable via URL
+	RewriteCond %{QUERY_STRING} _REQUEST(=|[|\%[0-9A-Z]{0,2})
+	RewriteRule .* - [F,L]
 
-# The following examples will SUCCEED and result in /index.php successfully being called.
-#------------------------------
-# http://abc.com/ab
-# http://abc.com/ab-cd
-# http://abc.com/ab-cd/somepage
-# http://abc.com/ab-cd/somepage.html
-# http://abc.com/ab-cd/somedir/somepage.html
-# http://abc.com/ab-cd/somedir-02/somepage_some-where.html
+	# The following two lines of code build an environment variable that either contains nothing or an 's' to
+	# indicate the server port is http or https.
+	#------------------------------
+	RewriteCond %{SERVER_PORT}s ^(443(s)|[0-9]+s)$
+	RewriteRule ^(.*)$ - [env=variable:%2]
+
+	# The following two lines look to see if www. is found in your URI and removes it.
+	# The next two lines look to see if www. is not found if your URI and adds it.
+	# Comment one set or the other out depending on your needs.
+	#------------------------------
+	RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
+	RewriteRule ^(.*)$ http%{ENV:variable}://%1%{REQUEST_URI} [R=301,L]
+	#RewriteCond %{HTTP_HOST} !^www\.(.+) [NC]
+	#RewriteRule ^(.*)$ http%{ENV:variable}://www.%{HTTP_HOST}/$1 [R=301,L]
+
+	# Look to see if 'user' is found at the beginning of the {REQUEST_URI}, if so send the visitor to the
+	# Custodian CMS admin index template.  If you change the location of your CCMS admin directory in the
+	# config you will need to make the update here by hand.
+	#------------------------------
+	#RewriteCond %{REQUEST_URI} ^/(([a-z]{2})(-[a-z]{2})?)/user/(.*) [NC]
+	#RewriteRule ^(([a-z]{2})(-[a-z]{2})?)/user/([a-z0-9-_\./]*)?$ /ccmsusr/index.php?ccms_lng=$1&ccms_tpl=$5 [QSA,L,NC]
+	RewriteCond %{REQUEST_URI} ^/user/ [NC]
+	RewriteRule ^user/(.*)$ /ccmsusr/$1 [QSA,L,NC]
+	RewriteCond %{REQUEST_URI} !^/(([a-z]{2})(-[a-z]{2})?)/user/(.*) [NC]
+	RewriteRule ^(([a-z]{2})(-[a-z]{2})?)(/([a-z0-9-_\./]*))?$ /index.php?ccms_lng=$1&ccms_tpl=$4 [QSA,L,NC]
+
+	# The following examples will FAIL and result in /ccmstpl/error.php page being called.
+	#------------------------------
+	# http://abc.com/1
+	# http://abc.com/a
+	# http://abc.com/12
+	# http://abc.com/ab_
+	# http://abc.com/ab-s
+
+	# The following examples will SUCCEED and result in /index.php successfully being called.
+	#------------------------------
+	# http://abc.com/ab
+	# http://abc.com/ab-cd
+	# http://abc.com/ab-cd/somepage
+	# http://abc.com/ab-cd/somepage.html
+	# http://abc.com/ab-cd/somedir/somepage.html
+	# http://abc.com/ab-cd/somedir-02/somepage_some-where.html
+</IfModule>
 
 # Optimize default expiration time
 #------------------------------
