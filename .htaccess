@@ -254,6 +254,8 @@ Options -Multiviews
 	# http://abc.com/ab-cd/somedir-02/somepage_some-where.html
 </IfModule>
 
+FileETag MTime Size
+
 # Optimize default expiration time
 #------------------------------
 <IfModule mod_expires.c>
