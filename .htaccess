@@ -75,14 +75,25 @@ ServerSignature Off
 #------------------------------
 Options -Indexes
 
+
 Options +FollowSymLinks
+
+
 Options -Multiviews
 
-# If your attempting to use Custodian CMS on a GoDaddy hosted service you might experience problems running the rewrite
-# rules.  To get this working properly uncomment the code below.  Then skip down about 10 lines and comment out the two
-# lines of code refering to 'php_flag'.
+
+# If you are attempting to use Custodian CMS on a GoDaddy hosted service you might experience problems getting
+# the templates to work properly.  Often these issues have been found to be related to either Mod Rewrite and
+# or the use of ETags.  To enable Mod Rewrite on GoDaddy servers you'll need to uncomment the following code.
 #------------------------------
 #SetEnv HTTP_MOD_REWRITE On
+
+
+# The other issues seems to be the ETags declaration in this .htaccess file.  The problem is that GoDaddy seems
+# to have Etag support already enabled, the solution would be then to comment out the line of code below.
+#------------------------------
+FileETag MTime Size
+
 
 <IfModule mod_rewrite.c>
 	RewriteEngine on
@@ -254,7 +265,6 @@ Options -Multiviews
 	# http://abc.com/ab-cd/somedir-02/somepage_some-where.html
 </IfModule>
 
-FileETag MTime Size
 
 # Optimize default expiration time
 #------------------------------
