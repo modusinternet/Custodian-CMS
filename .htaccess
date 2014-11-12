@@ -1,3 +1,42 @@
+# If you are attempting to use Custodian CMS on a GoDaddy hosted service you might experience problems getting
+# the templates to work properly.  Often these issues have been found to be related to either Mod Rewrite and
+# or the use of ETags.  To enable Mod Rewrite on GoDaddy servers you'll need to uncomment the following code.
+#------------------------------
+#SetEnv HTTP_MOD_REWRITE On
+
+# The other issues seems to be the ETags declaration in this .htaccess file.  The problem is that GoDaddy seems
+# to have Etag support already enabled, the solution would be then to comment out the line of code below.
+#------------------------------
+FileETag MTime Size
+
+# Bad Request
+#------------------------------
+ErrorDocument 400 /index.php?ccms_tpl=error400
+
+# Forbidden
+#------------------------------
+ErrorDocument 403 /index.php?ccms_tpl=error403
+
+# Not Found
+#------------------------------
+ErrorDocument 404 /index.php?ccms_tpl=error404
+
+# Internal Server Error
+#------------------------------
+ErrorDocument 500 /index.php?ccms_tpl=error500
+
+# Disable your Apache version number from showing up in HTTP headers for added security.
+#------------------------------
+ServerSignature Off
+
+# Prevent people from being able to see the directory of folders that do not contain and index file.
+#------------------------------
+Options -Indexes
+
+Options +FollowSymLinks
+
+Options -Multiviews
+
 <Files .htaccess>
 	# Prevent viewing of .htaccess file.
 	#------------------------------
@@ -10,6 +49,16 @@
 	# http://www.php.net/manual/en/timezones.php
 	#------------------------------
 	SetEnv TZ America/Vancouver
+
+	# Do Not Track: Universal Third-Party Web Tracking Opt Out
+	# http://datatracker.ietf.org/doc/draft-mayer-do-not-track/
+	#------------------------------
+	SetEnvIfNoCase DNT 1 DO_NOT_TRACK
+
+	# Protect against Apache HTTP Server Denial Of Service Vulnerability.  CVE-2011-3192
+	#------------------------------
+	SetEnvIf Range (,.*?){5,} bad-range=1
+	RequestHeader unset Range env=bad-range
 </IfModule>
 
 <IfModule mod_headers.c>
@@ -36,64 +85,6 @@
 	BrowserMatch MSIE ie
 	Header set X-UA-Compatible "IE=Edge,chrome=1"
 </IfModule>
-
-<IfModule mod_access.c>
-	# Do Not Track: Universal Third-Party Web Tracking Opt Out
-	# http://datatracker.ietf.org/doc/draft-mayer-do-not-track/
-	#------------------------------
-	SetEnvIfNoCase DNT 1 DO_NOT_TRACK
-</IfModule>
-
-<IfModule mod_access.c>
-	# Protect against Apache HTTP Server Denial Of Service Vulnerability.  CVE-2011-3192
-	#------------------------------
-	SetEnvIf Range (,.*?){5,} bad-range=1
-	RequestHeader unset Range env=bad-range
-</IfModule>
-
-# Bad Request
-#------------------------------
-ErrorDocument 400 /index.php?ccms_tpl=error400
-
-# Forbidden
-#------------------------------
-ErrorDocument 403 /index.php?ccms_tpl=error403
-
-# Not Found
-#------------------------------
-ErrorDocument 404 /index.php?ccms_tpl=error404
-
-# Internal Server Error
-#------------------------------
-ErrorDocument 500 /index.php?ccms_tpl=error500
-
-# Disable your Apache version number from showing up in HTTP headers for added security.
-#------------------------------
-ServerSignature Off
-
-# Prevent people from being able to see the directory of folders that do not contain and index file.
-#------------------------------
-Options -Indexes
-
-
-Options +FollowSymLinks
-
-
-Options -Multiviews
-
-
-# If you are attempting to use Custodian CMS on a GoDaddy hosted service you might experience problems getting
-# the templates to work properly.  Often these issues have been found to be related to either Mod Rewrite and
-# or the use of ETags.  To enable Mod Rewrite on GoDaddy servers you'll need to uncomment the following code.
-#------------------------------
-#SetEnv HTTP_MOD_REWRITE On
-
-
-# The other issues seems to be the ETags declaration in this .htaccess file.  The problem is that GoDaddy seems
-# to have Etag support already enabled, the solution would be then to comment out the line of code below.
-#------------------------------
-FileETag MTime Size
-
 
 <IfModule mod_rewrite.c>
 	RewriteEngine on
@@ -265,11 +256,9 @@ FileETag MTime Size
 	# http://abc.com/ab-cd/somedir-02/somepage_some-where.html
 </IfModule>
 
-
-# Optimize default expiration time
-#------------------------------
 <IfModule mod_expires.c>
-	# Enable expiration control
+	# Optimize default expiration time
+	#------------------------------
 	ExpiresActive On
 
 	# Default expiration: 1 hour after request
