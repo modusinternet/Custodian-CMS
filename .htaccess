@@ -1,11 +1,17 @@
 # If you are attempting to use Custodian CMS on a GoDaddy hosted service you might experience problems getting
-# the templates to work properly.  Often these issues have been found to be related to either Mod Rewrite and
-# or the use of ETags.  To enable Mod Rewrite on GoDaddy servers you'll need to uncomment the following code.
+# the templates to work properly.  Try doing the following in the code below these comments:
+# Uncomment: SetEnv HTTP_MOD_REWRITE On
+# Comment: FileETag MTime Size
+# Comment: php_flag register_globals off
+# Comment: php_flag magic_quotes_gpc off
+
+
+# To enable Mod Rewrite on GoDaddy servers uncomment the following code.
 #------------------------------
 #SetEnv HTTP_MOD_REWRITE On
 
-# The other issues seems to be the ETags declaration in this .htaccess file.  The problem is that GoDaddy seems
-# to have Etag support already enabled, the solution would be then to comment out the line of code below.
+# The ETag or entity tag provides web cache validation.  If you are trying to install Custodian CMS on a
+# GoDaddy server comment out the line of code below, GoDaddy seems to have Etag support already enabled.
 #------------------------------
 FileETag MTime Size
 
