@@ -13,17 +13,6 @@ $CFG["PREDIR"] = "ccmspre";
 $CFG["TPLDIR"] = "ccmstpl";
 $CFG["USRDIR"] = "ccmsusr";
 
-// This variable is the base fallback for sites that have not configured their default
-// language settings using the admin yet.  In other words, if the default language settings
-// are not found in the database then these base settings will be used instead.  To
-// find all the codes possible check here, http://www.metamodpro.com/browser-language-codes
-// e.g.:
-// $CFG["DEFAULT_SITE_CHAR_SET"] = "en";    // English
-// $CFG["DEFAULT_SITE_CHAR_SET"] = "fr";    // French
-// $CFG["DEFAULT_SITE_CHAR_SET"] = "ja";    // Japanese
-// $CFG["DEFAULT_SITE_CHAR_SET"] = "zh-cn"; // Chinese (PRC)
-$CFG["DEFAULT_SITE_CHAR_SET"] = "en";
-
 // Database globals.
 $CFG["DB_HOST"] = "";
 $CFG["DB_USERNAME"] = "";

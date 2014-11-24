@@ -27,6 +27,11 @@ The primary purpose of CCMS is to maintain a database of multilingual content an
 	{CCMS_DB:use_anywhere,form_button_submit}
 	{CCMS_DB:trips_to_mexico_template,request_more_info_text1}
 
+If your site contains content which may need to be displayed bidirectionaly (BIDI) you can use the CCMS_DB_DIR tag to help output left-to-right (lrt) or right-to-left (rtl) flags to use in your HTML.
+
+	{CCMS_DB_DIR:about_us_page,first_paragraph}
+	{CCMS_DB_DIR:use_anywhere,form_button_submit}
+	{CCMS_DB_DIR:trips_to_mexico_template,request_more_info_text1}
 
 CCMS also provides a framework to help website developers build Search Engine Optimized (SEO)/friendly URIs and insert one template into another (CCMS_TPL tags) or libraries of custom code with the template they are currently working on (CCMS_LIB tags).
 

@@ -1,7 +1,7 @@
 <?php
 define('CRYPT', '/^[a-z-_/#=&:\pN\?\.\";\'\`\*\s]*\z/i');
 define('HTTP_ACCEPT_LANGUAGE', '/^[a-z0-9-,;=\.]{2,}\z/i');
-define('HTTP_COOKIE', '/^[a-z0-9-_=\.]{1,}\z/i');
+define('HTTP_COOKIE', '/^[a-z0-9-_=\.; ]{2,}\z/i');
 define('LNG', '/^[a-z]{2}(-[a-z]{2})?\z/i');
 define('PARMS', '/^[a-z-_\pN/]+\z/i');
 define('QUERY_STRING', '/^[a-z\pN-_=&\?\.\/]{1,}\z/i');
@@ -57,21 +57,9 @@ $ccms_whitelist = array(
 );
 
 
-function CCMS_setLng() {
+function CCMS_Set_LNG() {
 	global $CFG, $CLEAN;
-	if(isset($CLEAN["HTTP_COOKIE"]) && $CLEAN["HTTP_COOKIE"] != "" && $CLEAN["HTTP_COOKIE"] != "MAXLEN" && $CLEAN["HTTP_COOKIE"] != "INVAL") {
-		// There is a valid HTTP_COOKIE variable.
-		$cookieLng = explode("=", $CLEAN["HTTP_COOKIE"]);
-		foreach($cookieLng as $cookieLng2) {
-			$cookieLng3 = explode("=", $cookieLng2);
-			if($cookieLng3[0] == "ccms_lng") {
-				if(preg_match('/^[a-z]{2}(-[a-z]{2})?\z/i', $cookieLng3[1], $matches)) {
-					$CLEAN["ccms_lng"] = $matches[0];
-				}
-				break;
-			}
-		}
-	}
+
 	if(isset($CLEAN["QUERY_STRING"]) && $CLEAN["QUERY_STRING"] != "" && $CLEAN["QUERY_STRING"] != "MAXLEN" && $CLEAN["QUERY_STRING"] != "INVAL") {
 		// There is a valid QUERY_STRING variable.
 		$queryArray = explode("&", $CLEAN["QUERY_STRING"]);
@@ -79,53 +67,103 @@ function CCMS_setLng() {
 			$queryArray3 = explode("=", $queryArray2);
 			if($queryArray3[0] == "ccms_lng") {
 				if(preg_match('/^[a-z]{2}(-[a-z]{2})?\z/i', $queryArray3[1], $matches)) {
-					$CLEAN["ccms_lng"] = $matches[0];
+					foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
+						if(strcasecmp($key, $matches[0]) == 0 && $value["status"] == 1) {
+							if($value["ptrLng"]) {
+								if($CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["status"] == 1) {
+									$CLEAN["ccms_lng"] = $value["ptrLng"];
+									$CFG["CCMS_LNG_DIR"] = $CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["dir"];
+									break 2;
+								}
+							} else {
+								$CLEAN["ccms_lng"] = $key;
+								$CFG["CCMS_LNG_DIR"] = $value["dir"];
+								break 2;
+							}
+						}
+					}
 				}
-				break;
+			}
+		}
+	} else if(isset($CLEAN["HTTP_COOKIE"]) && $CLEAN["HTTP_COOKIE"] != "" && $CLEAN["HTTP_COOKIE"] != "MAXLEN" && $CLEAN["HTTP_COOKIE"] != "INVAL") {
+		// There is a valid HTTP_COOKIE variable.
+		$cookieLng = explode("; ", $CLEAN["HTTP_COOKIE"]);
+		foreach($cookieLng as $cookieLng2) {
+			$cookieLng3 = explode("=", $cookieLng2);
+			if($cookieLng3[0] == "ccms_lng") {
+				if(preg_match('/^[a-z]{2}(-[a-z]{2})?\z/i', $cookieLng3[1], $matches)) {
+					foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
+						if(strcasecmp($key, $matches[0]) == 0 && $value["status"] == 1) {
+							if($value["ptrLng"]) {
+								if($CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["status"] == 1) {
+									$CLEAN["ccms_lng"] = $value["ptrLng"];
+									$CFG["CCMS_LNG_DIR"] = $CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["dir"];
+									break 2;
+								}
+							} else {
+								$CLEAN["ccms_lng"] = $key;
+								$CFG["CCMS_LNG_DIR"] = $value["dir"];
+								break 2;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
+
 	if($CLEAN["ccms_lng"] == "" && isset($CLEAN["HTTP_ACCEPT_LANGUAGE"]) && $CLEAN["HTTP_ACCEPT_LANGUAGE"] != "" && $CLEAN["HTTP_ACCEPT_LANGUAGE"] != "MAXLEN" && $CLEAN["HTTP_ACCEPT_LANGUAGE"] != "INVAL") {
-		// There is a valid HTTP_ACCEPT_LANGUAGE variable.
+		// There is no valid HTTP_COOKIE variable but there is a valid HTTP_ACCEPT_LANGUAGE variable.
 		preg_match_all('/([a-z]{2}((-[a-z]{2,4})*)?)(;q=[0-9]\.[0-9])?/i', $CLEAN["HTTP_ACCEPT_LANGUAGE"],  $matches);
 		foreach($matches[1] as $lngString2) {
-			$qry = $CFG["DBH"]->prepare("SELECT lng FROM `ccms_lng_charset` WHERE `status` = '1' AND `lng` = :lngString2 LIMIT 1;");
-			$qry->execute(array(':lngString2' => $lngString2));
-			$row = $qry->fetch(PDO::FETCH_ASSOC);
-			if($row == true) {
-				$CLEAN["ccms_lng"] = $row["lng"];
-				break;
+			foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
+				if(strcasecmp($key, $lngString2) == 0 && $value["status"] == 1) {
+					if($value["ptrLng"]) {
+						if($CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["status"] == 1) {
+							$CLEAN["ccms_lng"] = $value["ptrLng"];
+							$CFG["CCMS_LNG_DIR"] = $CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["dir"];
+							break 2;
+						}
+					} else {
+						$CLEAN["ccms_lng"] = $key;
+						$CFG["CCMS_LNG_DIR"] = $value["dir"];
+						break 2;
+					}
+				}
 			}
 		}
 	}
+
+	if($CLEAN["ccms_lng"] == "MAXLEN" || $CLEAN["ccms_lng"] == "INVAL") {
+		// Reset the contents of th $CLEAN["ccms_lng"] variable.
+		$CLEAN["ccms_lng"] = "";
+	}
+
+	if($CLEAN["ccms_lng"] != "") {
+		// There is a value assigned to the $CLEAN["ccms_lng"] variable, all we want to do now it double check that we
+		// actually do support it and if it's a pointer language then what is the real language it is pointing too.
+		foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
+			if(strcasecmp($key, $CLEAN["ccms_lng"]) == 0 && $value["status"] == 1) {
+				if($value["ptrLng"]) {
+					if($CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["status"] == 1) {
+						$CLEAN["ccms_lng"] = $value["ptrLng"];
+						$CFG["CCMS_LNG_DIR"] = $CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["dir"];
+						break;
+					}
+				} else {
+					$CLEAN["ccms_lng"] = $key;
+					$CFG["CCMS_LNG_DIR"] = $value["dir"];
+					break;
+				}
+			}
+		}
+	}
+
 	if($CLEAN["ccms_lng"] == "") {
 		// There is still no value assigned to the $CLEAN["ccms_lng"] variable so we will first attempt to retrieve one set
 		// in the database.  If not found in the database we will pull a default language setting from the config file.
-		$qry = $CFG["DBH"]->prepare("SELECT lng FROM `ccms_lng_charset` WHERE `status` = '1' AND `default` = '1' LIMIT 1;");
-		$qry->execute();
-		$row = $qry->fetch(PDO::FETCH_ASSOC);
-		if($row == true) {
-			$CLEAN["ccms_lng"] = $row["lng"];
-		} else {
-			$CLEAN["ccms_lng"] = $CFG["DEFAULT_SITE_CHAR_SET"];
-		}
-	} else {
-		// There is still a value assigned to the $CLEAN["ccms_lng"] variable, all we want to do now it double check that we
-		// actually do support it.  So we will first confirm that it's found in the ccms_lng_charset and marked live, if not then
-		// we will have to correct the value by stepping through our language options and setting it by hand to something else.
-		$qry = $CFG["DBH"]->prepare("SELECT id FROM `ccms_lng_charset` WHERE `status` = '1' AND `lng` = :ccms_lng LIMIT 1;");
-		$qry->execute(array(':ccms_lng' => $CLEAN["ccms_lng"]));
-		$row = $qry->fetch(PDO::FETCH_ASSOC);
-		if($row != true) {
-			$qry = $CFG["DBH"]->prepare("SELECT lng FROM `ccms_lng_charset` WHERE `status` = '1' AND `default` = '1' LIMIT 1;");
-			$qry->execute();
-			$row = $qry->fetch(PDO::FETCH_ASSOC);
-			if($row == true) {
-				$CLEAN["ccms_lng"] = $row["lng"];
-			} else {
-				$CLEAN["ccms_lng"] = $CFG["DEFAULT_SITE_CHAR_SET"];
-			}
-		}
+		$CLEAN["ccms_lng"] = $CFG["DEFAULT_SITE_CHAR_SET"];
+		$CFG["CCMS_LNG_DIR"] = $CFG["DEFAULT_SITE_CHAR_SET_DIR"];
 	}
 	setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + ($CFG["COOKIE_VISITOR_EXPIRE"] * 86400), "/", "", 0, 1);
 }
@@ -133,11 +171,13 @@ function CCMS_setLng() {
 
 function CCMS_cookieVID() {
 	global $CFG, $CLEAN;
+
 	if(isset($CLEAN["ccms_cid"]) && $CLEAN["ccms_cid"] != "" && $CLEAN["ccms_cid"] != "INVAL" && $CLEAN["ccms_cid"] != "MAXLEN") {
 		// This option helps when jumping from one website to another and retaining a users id value for a shoping cart.
 		// Like when moving between www.abc.com and secure.abc.com.
 		$CLEAN["ccms_vid"] = $CLEAN["ccms_cid"];
 	}
+
 	if(!isset($CLEAN["ccms_vid"])) {
 		if($CFG["DEBUG"] == 1) echo "<br />No 'ccms_vid' variable found, creating one now.\n";
 		$a = md5(time());
@@ -153,6 +193,7 @@ function CCMS_cookieVID() {
 		$qry = $CFG["DBH"]->prepare("SELECT expire, id FROM `ccms_visitor_id` WHERE `sid` = :ccms_vid LIMIT 1;");
 		$qry->execute(array(':ccms_vid' => $CLEAN["ccms_vid"]));
 		$row = $qry->fetch(PDO::FETCH_ASSOC);
+
 		if($row == true) {  // If $row contains a valid object.
 			if($a > $row["expire"]) {
 				// If the current time is greater than the time stored in 'expire' then delete the old record and create a new one.
@@ -164,20 +205,24 @@ function CCMS_cookieVID() {
 				$qry->execute(array(':sid' => $CLEAN["ccms_vid"], ':expire' => $b, ':id' => $row["id"]));
 			}
 		}
+
 		if($CFG["DEBUG"] == 1) echo "<br />Updating cookie and \$CLEAN[\"ccms_vid\"] arg to " . md5($a) . "\n";
+
 		setcookie("ccms_vid", md5($a), $b, "/", "", 0, 1);
 		$CLEAN["ccms_vid"] = md5($a);
 	}
 }
 
 
-function CCMS_dbFirstConnect() {
-	global $CFG;
-	if($CFG["DEBUG"] == 1) echo "CCMS_dbFirstConnect() call<br />\n";
+function CCMS_DB_First_Connect() {
+	global $CFG, $CLEAN;
+
+	$CLEAN["CCMS_DB_Preload_Content"] = array();
 	$host		= $CFG["DB_HOST"];
 	$dbname		= $CFG["DB_NAME"];
 	$user		= $CFG["DB_USERNAME"];
 	$pass		= $CFG["DB_PASSWORD"];
+
 	try {
 		// MSSQL
 		// $CFG["DBH"] = new PDO("mssql:host=$host;dbname=$dbname, $user, $pass");
@@ -191,15 +236,35 @@ function CCMS_dbFirstConnect() {
 		$CFG["DBH"]->exec("SET CHARACTER SET utf8");
 		$CFG["DBH"]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	} catch(PDOException $e) {
-		if($CFG["DEBUG"] == 1) echo "Error!: " . $e->getCode() . '<br />\n'. $e->getMessage();
-		$CFG["DBH"] = NULL;
+		if($CFG["DEBUG_SQL"] == 1 && ($CFG["DEBUGIPSONLY"] == "" || stristr($CFG["DEBUGIPSONLY"], $_SERVER["REMOTE_ADDR"]) !== FALSE)) echo "Error!: " . $e->getCode() . '<br />\n'. $e->getMessage();
 		die();
+	}
+	$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset`;");
+	$qry->execute();
+	$qry->setFetchMode(PDO::FETCH_ASSOC);
+
+	while($row = $qry->fetch()) {
+		$CFG["CCMS_LNG_CHARSET"][$row["lng"]]["lngDesc"] = $row["lngDesc"];
+		$CFG["CCMS_LNG_CHARSET"][$row["lng"]]["status"] = $row["status"];
+		$CFG["CCMS_LNG_CHARSET"][$row["lng"]]["default"] = $row["default"];
+		$CFG["CCMS_LNG_CHARSET"][$row["lng"]]["dir"] = $row["dir"];
+		$CFG["CCMS_LNG_CHARSET"][$row["lng"]]["ptrLng"] = $row["ptrLng"];
+	}
+
+	// Pars the $CFG["CCMS_LNG_CHARSET"] table for the default character set and it's direction.
+	foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
+		if($value["default"] == 1) {
+			$CFG["DEFAULT_SITE_CHAR_SET"] = $key;
+			$CFG["DEFAULT_SITE_CHAR_SET_DIR"] = $value["dir"];
+			break;
+		}
 	}
 }
 
 
-function CCMS_filter($input, $whitelist) {
+function CCMS_Filter($input, $whitelist) {
 	global $CLEAN;
+
 	foreach($input as $key => $value) {
 		if(array_key_exists($key, $whitelist)) {
 			$buf = NULL;
@@ -267,30 +332,43 @@ function CCMS_filter($input, $whitelist) {
 }
 
 
-function CCMS_insDB($a) {
+function CCMS_DB($a) {
 	global $CFG, $CLEAN;
-	if(isset($CLEAN["CCMS_insDBPreloadContent"])) {
-		if($CLEAN["CCMS_insDBPreloadContent"][$a[2]][$a[3]][$CLEAN["ccms_lng"]] != "") {
-			echo $CLEAN["CCMS_insDBPreloadContent"][$a[2]][$a[3]][$CLEAN["ccms_lng"]];
+
+	if(isset($CLEAN["CCMS_DB_Preload_Content"])) {
+		if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] != "") {
+			echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"];
 		} else {
-			echo $CLEAN["CCMS_insDBPreloadContent"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]];
+			echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["content"];
 		}
 	} else {
-		echo $a[0] . " ERROR: Either CCMS_insDBPreloadContent function was not called or the CCMS_DB_PRELOAD tag was not found on your template prior to calling this CCMS_DB tag. ";
+		echo $a[0] . " ERROR: Either CCMS_DB_Preload function was not called or the CCMS_DB_PRELOAD tag was not found on your template prior to calling this CCMS_DB tag. ";
 	}
 }
 
 
-function CCMS_insDBPreload($a = NULL) {
+function CCMS_DB_Dir($a) {
 	global $CFG, $CLEAN;
-	$CLEAN["CCMS_insDBPreloadContent"] = array();
+
+	if(isset($CLEAN["CCMS_DB_Preload_Content"])) {
+		if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] != "") {
+			echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["dir"];
+		} else {
+			echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["dir"];
+		}
+	} else {
+		echo $a[0] . " ERROR: Either CCMS_DB_Preload function was not called or the CCMS_DB_PRELOAD tag was not found on your template prior to calling this CCMS_DB_DIR tag. ";
+	}
+}
+
+
+function CCMS_DB_Preload($a = NULL) {
+	global $CFG, $CLEAN;
+
 	// This function can be called in two different ways:
-	// $content = CCMS_insDBPreload("about_us_filter,footer_filter,header_filter,twiter_feed_filter");
+	// $content = CCMS_DB_Preload("about_us_filter,footer_filter,header_filter,twiter_feed_filter");
 	// or
 	// {CCMS_DB_PRELOAD:about_us_filter,footer_filter,header_filter,twiter_feed_filter}
-	//
-	// `access` = '0'; www side
-	// `access` = '1'; admin side
 	if($a[2]) {
 		$grpArray = explode(",", $a[2]);
 		foreach($grpArray as $key) {
@@ -299,6 +377,8 @@ function CCMS_insDBPreload($a = NULL) {
 			}
 			$grp .= "`grp` = '" . $key . "'";
 		}
+		// `access` = '0'; www side
+		// `access` = '1'; admin side
 		$query = "SELECT * FROM `ccms_ins_db` WHERE `status` = '1' AND `access` = '0' AND (" . $grp . ");";
 	} else {
 		$query = "SELECT * FROM `ccms_ins_db` WHERE `status` = '1' AND `access` = '0';";
@@ -306,15 +386,19 @@ function CCMS_insDBPreload($a = NULL) {
 	$qry = $CFG["DBH"]->prepare($query);
 	$qry->execute();
 	$qry->setFetchMode(PDO::FETCH_ASSOC);
+
 	while($row = $qry->fetch()) {
-		$CLEAN["CCMS_insDBPreloadContent"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]] = $row[$CFG["DEFAULT_SITE_CHAR_SET"]];
-		$CLEAN["CCMS_insDBPreloadContent"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]] = $row[$CLEAN["ccms_lng"]];
+		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]]["content"] = $row[$CFG["DEFAULT_SITE_CHAR_SET"]];
+		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]]["dir"] = $CFG["DEFAULT_SITE_CHAR_SET_DIR"];
+		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]]["content"] = $row[$CLEAN["ccms_lng"]];
+		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]]["dir"] = $CFG["CCMS_LNG_DIR"];
 	}
 }
 
 
-function CCMS_insTPL($a) {
+function CCMS_TPL_Insert($a) {
 	global $CFG;
+
 	// Test to see if CLEAN["ccms_tpl"] file being requested is stored on the server with a .htm, .html, .php,
 	// .tpl, .txt, .xml or .xsl extension.  .php is tested for first, if found it is pre-parsed by php, stored in a buffer
 	// and then submitted to the CMS system for further parsing.  If any other extension found it is sent
@@ -336,10 +420,10 @@ function CCMS_insTPL($a) {
 		include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $a[2];
 		$html = ob_get_contents();
 		ob_end_clean();
-		echo CCMS_tplParser($html);
+		echo CCMS_TPL_Parser($html);
 	} elseif(preg_match('/\.html\z/i', $a[2])) {
 		if(($html = @file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $a[2])) !== FALSE) {
-			echo CCMS_tplParser($html);
+			echo CCMS_TPL_Parser($html);
 		} else {
 			echo $a[0] . " ERROR: CCMS_TPL '" . $a[2] . "' not performed.  Be sure the file exists and ends in a .html  extention. ";
 		}
@@ -349,34 +433,12 @@ function CCMS_insTPL($a) {
 }
 
 
-function CCMS_setContentTypeHeader() {
+function CCMS_TPL_Parser($a = NULL) {
 	global $CFG;
-	header("Content-Type: text/html; charset=UTF-8");
-	header("Cache-Control: public, must-revalidate, proxy-revalidate");
-	/*
-	"public" Indicates that the response may be cached by any cache, even if it would normally be non-cacheable or cacheable only within a non-shared cache.
 
-	"must-revalidate" tells the visitors' 'browser' that if the visitor use thier 'reload' button the content must come from the server and not their cache.
-
-	"proxy-revalidate" is similar to must-revalidate, except that it only applies to proxy caches.
-
-	Other example headers that may need to be used depending on the purpose of your site.
-
-	Use the following to force a no caching situation and make sure the visitors browser always pulls fresh from the server.
-	header('Cache-Control: no-store, no-cache, must-revalidate');
-	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-
-	Use the Etag header via md5 of your content to help set a method for browsers to notice a page has changed and fresh version should be pulled regardless of the expiry date of cached content.
-	$HashID = md5(a_copy_of_your_object_buffer_for_the_template);
-	header('ETag: ' . $HashID);
-	*/
-}
-
-
-function CCMS_tplParser($a = NULL) {
-	global $CFG;
 	if($a) {
 		$from = 0;
+
 		while(($to = strpos($a, "{CCMS_", $from)) !== false) {
 			echo substr($a, $from, $to - $from);
 			$from = $to;
@@ -384,6 +446,7 @@ function CCMS_tplParser($a = NULL) {
 			$to++;
 			$b = substr($a, $from, $to-$from);
 			$from = $to;
+
 			if(preg_match('/^\{(CCMS_LIB):(_?[a-z]+[a-z-_\pN\/]+[a-z-_\pN]+\.php);(FUNC):([a-z_\pN]+)\(?(.*?)\)?}\z/i', $b, $c)) {
 				// {CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}
 				// {CCMS_LIB:cms/_123.php;FUNC:XyZZy123_}
@@ -433,10 +496,22 @@ function CCMS_tplParser($a = NULL) {
 				// {CCMS_DB:twiter_feed_filter,title}
 				// {CCMS_DB:twiter_feed_filter,tag_top}
 				// {CCMS_DB:twiter_feed_filter,tag_bottm}
-				CCMS_insDB($c);
+				CCMS_DB($c);
+			} elseif(preg_match('/^\{(CCMS_DB_DIR):([a-z]+[a-z-_\pN]+),([a-z]+[a-z-_\pN]+)}\z/i', $b, $c)) {
+				// {CCMS_DB_DIR:about_us_filter,meta_description}
+				// {CCMS_DB_DIR:about_us_filter,meta_keywords}
+				// {CCMS_DB_DIR:about_us_filter,title}
+				// {CCMS_DB_DIR:about_us_filter,first_paragraph}
+				// {CCMS_DB_DIR:about_us_filter,second_paragraph}
+				// {CCMS_DB_DIR:footer_filter,copywrite}
+				// {CCMS_DB_DIR:header_filter,title}
+				// {CCMS_DB_DIR:twiter_feed_filter,title}
+				// {CCMS_DB_DIR:twiter_feed_filter,tag_top}
+				// {CCMS_DB_DIR:twiter_feed_filter,tag_bottm}
+				CCMS_DB_Dir($c);
 			} elseif(preg_match('/^\{(CCMS_DB_PRELOAD):([a-z]+[a-z-_,\pN]*)}\z/i', $b, $c)) {
 				// {CCMS_DB_PRELOAD:about_us_filter,footer_filter,header_filter,twiter_feed_filter}
-				CCMS_insDBPreload($c);
+				CCMS_DB_Preload($c);
 			} elseif(preg_match('/^\{(CCMS_TPL):([a-z-_\pN\/]+(\.php|\.html)?)}\z/i', $b, $c)) {
 				// This preg_match helps prevent CCMS_TPL calls like this; {CCMS_TPL:css/../../../../../../../etc/passwd}
 				// {CCMS_TPL:test_01}
@@ -446,7 +521,7 @@ function CCMS_tplParser($a = NULL) {
 				// {CCMS_TPL:temp/test_05.html}
 				// {CCMS_TPL:temp/test_06.php}
 				if($CFG["DEBUG"] == 1) echo "c=[" . $c . "]<br />\n";
-				CCMS_insTPL($c);
+				CCMS_TPL_Insert($c);
 			} else {
 				echo $b;
 			}
@@ -456,21 +531,11 @@ function CCMS_tplParser($a = NULL) {
 }
 
 
-function CCMS_sqlQueryFailure($query, $error) {
-	global $CFG;
-	if($CFG["DEBUG_SQL"] == 1) {
-		$MSG = htmlspecialchars("Query Failed: " . $query . "\nMySQL Error: " . $error);
-		return "<pre style=\"font-weight:bold; margin:0px; padding:0px;\">" . $MSG . "</pre>";
-	}
-	return "There was either a problem with your request or the requested page is temporarily unavailable, please try again later.";
-}
-
-
-function CCMS_go() {
+function CCMS_Main() {
 	global $CFG, $CLEAN;
-	CCMS_setLng();
+
+	CCMS_Set_LNG();
 	CCMS_cookieVID();
-	//CCMS_setContentTypeHeader();
 
 	// If there is no template requested, show $CFG["INDEX"].
 	// This code helps when dealing with URL's that resemble:
@@ -527,6 +592,7 @@ function CCMS_go() {
 	// isn't being called.  In these cases it's best to remove the original and replace with
 	// the new file extension all together.
 	$found = false;
+
 	if(is_dir($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir)) {
 		$odhandle = @opendir($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir);
 		while(($file = @readdir($odhandle)) !== false) {
@@ -541,6 +607,11 @@ function CCMS_go() {
 				} elseif($file == $ccms_file[0] . ".html") {
 					header("Content-Type: text/html; charset=UTF-8");
 					header("Cache-Control: public, must-revalidate, proxy-revalidate");
+					/*
+					Use the Etag header via md5 of your content to help set a method for browsers to notice a page has changed and fresh version should be pulled regardless of the expiry date of cached content.
+					$HashID = md5(a_copy_of_your_object_buffer_for_the_template);
+					header("ETag: " . $HashID);
+					*/
 					$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
 					$found = true;
 					break;
@@ -551,7 +622,7 @@ function CCMS_go() {
 	}
 
 	if($found) {
-		if(isset($html) && strlen($html) > 0) CCMS_tplParser($html);
+		if(isset($html) && strlen($html) > 0) CCMS_TPL_Parser($html);
 	} else {
 		// Store a copy of the original tpl requested for use later on in the error page.
 		$CLEAN["ccms_tpl_org"] = $CLEAN["ccms_tpl"];
@@ -563,7 +634,10 @@ function CCMS_go() {
 		include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $CLEAN["ccms_tpl"] . ".php";
 		$html = ob_get_contents();
 		ob_end_clean();
-		CCMS_tplParser($html);
+		CCMS_TPL_Parser($html);
 	}
 }
+
+// benchmark end
+//echo 'Total execution time in seconds: ' . (microtime(true) - $time_start);
 ?>

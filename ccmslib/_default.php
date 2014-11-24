@@ -28,6 +28,16 @@ function ccms_dateYear() {
 	echo date("Y");
 }
 
+function ccms_lng() {
+	global $CLEAN;
+	echo $CLEAN["ccms_lng"];
+}
+
+function ccms_lng_dir() {
+	global $CFG;
+	echo $CFG["CCMS_LNG_DIR"];
+}
+
 function ccms_printrClean() {
 	global $CLEAN;
 	echo "<br />\$CLEAN=[<pre>";
@@ -35,13 +45,18 @@ function ccms_printrClean() {
 	echo "</pre>]\n";
 }
 
+function ccms_version() {
+	global $CFG;
+	echo $CFG["VERSION"];
+}
+
+function ccms_release_date() {
+	global $CFG;
+	echo $CFG["RELEASE_DATE"];
+}
+
 function ccms_tpl() {
 	global $CLEAN;
 	echo $CLEAN["ccms_tpl"];
-}
-
-function ccms_lng() {
-	global $CLEAN;
-	echo $CLEAN["ccms_lng"];
 }
 ?>

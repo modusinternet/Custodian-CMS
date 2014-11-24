@@ -55,7 +55,7 @@ $user_whitelist = array(
 );
 
 
-function USER_filter($input, $whitelist) {
+function CCMS_User_Filter($input, $whitelist) {
 	global $CLEAN;
 	foreach($input as $key => $value) {
 		if(array_key_exists($key, $whitelist)) {
