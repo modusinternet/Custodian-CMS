@@ -46,29 +46,45 @@
 		</p>
 		<h2>Adding Content in Many Languages</h2>
 		<p>
-			The following is a guide on how to add new languages and content to the database using phpMyAdmin.  Once the new admin system is ready this will become trivial.<br />
-			Add browser language codes you want your site to support to the <span class="oj">ccms_lng_charset</span> table and set atleast one of them to be the default.  Check here for a full list of codes: <a href="http://www.metamodpro.com/browser-language-codes" target="_blank">http://www.metamodpro.com/browser-language-codes</a>
+			The following is a guide on how to add new languages and content to the database using phpMyAdmin.  Once the new admin system is ready this will become trivial.
 		</p>
-		<img alt="Using phpMyAdmin with Custodian CMS banner #1" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma1.png" title="Using phpMyAdmin with Custodian CMS banner #1" /><br />
-		<img alt="Using phpMyAdmin with Custodian CMS banner #2" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma2.png" title="Using phpMyAdmin with Custodian CMS banner #2" />
-		<p style="margin-top: 20px;">
-			Add columns for each of your new language codes to the <span class="oj">ccms_ins_db</span> table.
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-1.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-2.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" />
+		<p>
+			Add the browser language codes you want your site to support to the <span class="oj">ccms_lng_charset</span> table above and set one of them to <span class="oj">default</span> (<span class="oj">1</span>).  Check here for a full list of codes: <a href="http://www.metamodpro.com/browser-language-codes" style="word-wrap: break-word;" target="_blank">www.metamodpro.com/browser-language-codes</a> or <a href="http://www.fincher.org/Utilities/CountryLanguageList.shtml" style="word-wrap: break-word;" target="_blank">www.fincher.org/Utilities/CountryLanguageList.shtml</a>  You do not need to keep all the languages codes that are installed by the <span class="oj">/ccms-db-setup.sql</span> file, they are just there as an example for you and to help demonstrate what a site supporting a large number of languages and pointer languages might look like.  (If you change the languages you wish to support in the <span class="oj">ccms_lng_charset</span> table remember to add or remove language columns as needed in the <span class="oj">ccms_ins_db</span> table aswell.)<br />
+			<br />
+			If you are adding a new pointer language (<span class="oj">ptrLng</span>) you do not need to include the character direction (<span class="oj">dir</span>) or a language column in the <span class="oj">ccms_ins_db</span> table.  Only languages which are <span style="text-decoration: underline;">not</span> pointers require the <span class="oj">dir</span> field be filled in and a column in the <span class="oj">ccms_ins_db</span> table.
 		</p>
-		<img alt="Using phpMyAdmin with Custodian CMS banner #3" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma3.png" title="Using phpMyAdmin with Custodian CMS banner #3" /><br />
-		<img alt="Using phpMyAdmin with Custodian CMS banner #4" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma4.png"  title="Using phpMyAdmin with Custodian CMS banner #4" />
-		<p style="margin-top: 20px;">
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-3.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-4.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" />
+		<p>
+			Add columns for each of your new language codes to the <span class="oj">ccms_ins_db</span> table.  <span style="text-decoration: underline;">Accept</span> for <span class="oj">ptrLng</span> records.
+		</p>
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-5.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-6.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" />
+		<p>
 			Add records to the <span class="oj">ccms_ins_db</span> table containing the <span class="oj">grp</span>, <span class="oj">name</span> and content for each language you would like to view in your website.
 		</p>
-		<img alt="Using phpMyAdmin with Custodian CMS banner #5" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma5.png" title="Using phpMyAdmin with Custodian CMS banner #5" /><br />
-		<img alt="Using phpMyAdmin with Custodian CMS banner #6" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma6.png" title="Using phpMyAdmin with Custodian CMS banner #6" />
-		<p style="margin-top: 20px;">
-			Place the <span class="oj">CCMS_DB_PRELOAD</span> tag at the top of your html to preload all the <span class="oj">ccms_ins_db</span> records into memory that you might need for a given page.<br />
-			e.g.: <span class="oj">&#123;CCMS_DB_PRELOAD:index}</span>
-		</p>
 		<p>
-			Then use the <span class="oj">CCMS_DB</span> tag to automatically display database content in the language requested by a visitors browser, if available.  Otherwise display content based on the default language of the site.<br />
-			e.g.: <span class="oj">&#123;CCMS_DB:index,para1}</span>
+			Place the <span class="oj">CCMS_DB_PRELOAD</span> tag at the top of your html to preload all the <span class="oj">ccms_ins_db grp</span> records into memory that you might need for a given page.<br />
+			e.g.:
 		</p>
+		<pre>&#123;CCMS_DB_PRELOAD:index}&lt;!DOCTYPE html>
+&lt;html>
+	&lt;head>
+		&lt;meta charset="utf-8">
+		...</pre>
+		<p>
+			Then use the <span class="oj">CCMS_DB</span> tag to display database content.  CCMS will automatically determine if the prefered language of the visitors browser is even supported by your website and display content from your database in the correct language, if available.  Otherwise the websites default language will be displayed.<br />
+			e.g.:
+		</p>
+		<pre>...
+&lt;p>
+	&lt;span style="color: rgb(134, 177, 53);">
+		"&#123;CCMS_DB:index,para1}"
+	&lt;/span>&lt;br />
+	&lt;br />
+	...</pre>
 		<a id="a"></a>
 		<h2>Multilingual Content Example</h2>
 		<p>
