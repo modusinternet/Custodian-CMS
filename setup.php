@@ -14,7 +14,7 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Custodian CMS v0.4</title>
+		<title>Custodian CMS v<?php echo $CFG["VERSION"];?></title>
 		<meta name="author" content="Custodian CMS, developed by Vincent Hallberg of Modus Internet (modusinternet.com).  Port Coquitlam, British Columbia, Canada." />
 		<meta name="description" content="Welcome to Custodian CMS, a multilingual, template and content management system.  Write one template, using one domain, on one server and support multipule languages." />
 		<meta name="keywords" content="custodian CMS, content managment system, multilingual, multipule languages, modus internet" />
