@@ -86,10 +86,9 @@ Options -Multiviews
 
 	# Use this to force IE to hide that annoying browser compatibility button in the address bar.
 	# IE=edge means IE should use the latest (edge) version of its rendering engine.
-	# chrome=1 means IE should use the Chrome rendering engine if installed.
 	#------------------------------
 	BrowserMatch MSIE ie
-	Header set X-UA-Compatible "IE=Edge,chrome=1"
+	Header set X-UA-Compatible "IE=edge"
 </IfModule>
 
 <IfModule mod_rewrite.c>

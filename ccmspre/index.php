@@ -233,7 +233,8 @@ function CCMS_DB_First_Connect() {
 		// Sybase
 		// $CFG["DBH"] = new PDO("sybase:host=$host;dbname=$dbname, $user, $pass");
 		// Sets encoding UTF-8
-		$CFG["DBH"]->exec("SET CHARACTER SET utf8");
+		//$CFG["DBH"]->exec("SET CHARACTER SET utf8");
+		$CFG["DBH"]->exec("SET CHARACTER SET utf8mb4");
 		$CFG["DBH"]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	} catch(PDOException $e) {
 		if($CFG["DEBUG_SQL"] == 1 && ($CFG["DEBUGIPSONLY"] == "" || stristr($CFG["DEBUGIPSONLY"], $_SERVER["REMOTE_ADDR"]) !== FALSE)) echo "Error!: " . $e->getCode() . '<br />\n'. $e->getMessage();

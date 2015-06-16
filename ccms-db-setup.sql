@@ -1,3 +1,12 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.8
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jun 16, 2015 at 10:43 AM
+-- Server version: 5.5.42-cll
+-- PHP Version: 5.4.31
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -7,7 +16,11 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+--
+-- Database: `modusint_dev`
+--
 
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `ccms_ins_db`
@@ -17,8 +30,8 @@ CREATE TABLE IF NOT EXISTS `ccms_ins_db` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `access` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=www side 1=admin side',
-  `grp` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `grp` varchar(191) NOT NULL,
+  `name` varchar(191) NOT NULL,
   `de` text NOT NULL,
   `en` text NOT NULL,
   `es` text NOT NULL,
@@ -35,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `ccms_ins_db` (
   `zh-tw` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `CCMS_insDBPreload_idx` (`status`,`access`,`grp`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `ccms_ins_db`
@@ -60,14 +73,14 @@ INSERT INTO `ccms_ins_db` (`id`, `status`, `access`, `grp`, `name`, `de`, `en`, 
 
 CREATE TABLE IF NOT EXISTS `ccms_lng_charset` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lngDesc` varchar(63) NOT NULL DEFAULT '',
+  `lngDesc` char(63) NOT NULL DEFAULT '',
   `status` tinyint(1) NOT NULL DEFAULT '0',
-  `lng` varchar(5) NOT NULL,
+  `lng` char(5) NOT NULL,
   `default` tinyint(1) NOT NULL DEFAULT '0',
   `dir` char(3) NOT NULL COMMENT 'Character direction.  ltr = left to right, rtl = right to left',
-  `ptrLng` varchar(5) NOT NULL,
+  `ptrLng` char(5) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=58 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=58 ;
 
 --
 -- Dumping data for table `ccms_lng_charset`
@@ -140,9 +153,9 @@ INSERT INTO `ccms_lng_charset` (`id`, `lngDesc`, `status`, `lng`, `default`, `di
 
 CREATE TABLE IF NOT EXISTS `ccms_user_id` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sid` varchar(32) NOT NULL,
+  `sid` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
   `expire` bigint(20) NOT NULL DEFAULT '0',
-  `parm1` varchar(255) NOT NULL,
+  `parm1` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `visitorsID` (`sid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains the login settings for fully registered users.' AUTO_INCREMENT=1 ;
@@ -155,9 +168,9 @@ CREATE TABLE IF NOT EXISTS `ccms_user_id` (
 
 CREATE TABLE IF NOT EXISTS `ccms_visitor_id` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sid` varchar(32) NOT NULL,
+  `sid` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
   `expire` bigint(20) NOT NULL DEFAULT '0',
-  `parm1` varchar(255) NOT NULL,
+  `parm1` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `visitorsID` (`sid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Contains temporary data for unregistered users.' AUTO_INCREMENT=1 ;
