@@ -1,11 +1,12 @@
-{CCMS_DB_PRELOAD:page,page-1}<!DOCTYPE html>
+{CCMS_DB_PRELOAD:all,page,page-1}<!DOCTYPE html>
 <html lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}">
 	<head>
 		<meta charset="utf-8">
 		<title>Custodian CMS v{CCMS_LIB:_default.php;FUNC:ccms_version} | {CCMS_DB:page,title}1</title>
-		{CCMS_TPL:examples/header.html}
+		{CCMS_TPL:examples/header-head.html}
 	</head>
 	<body>
+		{CCMS_TPL:examples/header-login-nav.html}
 		<a href="//{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}" style="text-decoration: none; border: 0 none;">
 			<img alt="Custodian CMS Banner.  Easy gears no spilled beers." class="scale" title="Custodian CMS Banner.  Easy gears no spilled beers." src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/ccms-logo-banner-large-en.png" />
 		</a>
@@ -19,13 +20,13 @@
 			<li><a class="tapTarget" href="/zh-cn/examples/page-1.html" onclick="lcu('zh-cn')">简体中文(Simplified Chinese)</a></li>
 		</ul>
 		<p>
-			<a class="tapTarget" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-1.html">{CCMS_DB:page,page-num}1</a>
-			<a class="tapTarget" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-2.html">{CCMS_DB:page,page-num}2</a>
-			<a class="tapTarget" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-3.html">{CCMS_DB:page,page-num}3</a>
+			<a class="tapTarget" dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-1.html">{CCMS_DB:page,page-num}1</a>
+			<a class="tapTarget" dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-2.html">{CCMS_DB:page,page-num}2</a>
+			<a class="tapTarget" dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-3.html">{CCMS_DB:page,page-num}3</a>
 		</p>
-		<h2>{CCMS_DB:page,page-num}1</h2>
-		<p>
-			{CCMS_DB:page-1,para1}
+		<h2 dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}">{CCMS_DB:page,page-num}1</h2>
+		<p dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}">
+			<bdo dir="{CCMS_DB_DIR:page-1,para1}">{CCMS_DB:page-1,para1}</bdo>
 		</p>
 		{CCMS_TPL:examples/footer1.html}
 		<script type="text/javascript">

@@ -35,7 +35,7 @@ ErrorDocument 500 /index.php?ccms_tpl=error500
 #------------------------------
 ServerSignature Off
 
-# Prevent people from being able to see the directory of folders that do not contain and index file.
+# Prevent people from being able to see the directory of folders that do not contain an index file.
 #------------------------------
 Options -Indexes
 
@@ -236,11 +236,7 @@ Options -Multiviews
 	# Custodian CMS admin index template.  If you change the location of your CCMS admin directory in the
 	# config you will need to make the update here by hand.
 	#------------------------------
-	#RewriteCond %{REQUEST_URI} ^/(([a-z]{2})(-[a-z]{2})?)/user/(.*) [NC]
-	#RewriteRule ^(([a-z]{2})(-[a-z]{2})?)/user/([a-z0-9-_\./]*)?$ /ccmsusr/index.php?ccms_lng=$1&ccms_tpl=$5 [QSA,L,NC]
-	RewriteCond %{REQUEST_URI} ^/user/ [NC]
-	RewriteRule ^user/(.*)$ /ccmsusr/$1 [QSA,L,NC]
-	RewriteCond %{REQUEST_URI} !^/(([a-z]{2})(-[a-z]{2})?)/user/(.*) [NC]
+	RewriteRule ^(([a-z]{2})(-[a-z]{2})?)/user(/.*)$ /ccmsusr/index.php?ccms_lng=$1&ccms_tpl=$4 [QSA,L,NC]
 	RewriteRule ^(([a-z]{2})(-[a-z]{2})?)(/([a-z0-9-_\./]*))?$ /index.php?ccms_lng=$1&ccms_tpl=$4 [QSA,L,NC]
 
 	# The following examples will FAIL and result in /ccmstpl/error.php page being called.

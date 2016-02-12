@@ -1,11 +1,14 @@
-{CCMS_DB_PRELOAD:index}<!DOCTYPE html>
+{CCMS_DB_PRELOAD:all,index}<!DOCTYPE html>
 <html lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}">
 	<head>
 		<meta charset="utf-8">
 		<title>Custodian CMS v{CCMS_LIB:_default.php;FUNC:ccms_version} | Example Templates Homepage</title>
-		{CCMS_TPL:examples/header.html}
+		{CCMS_TPL:examples/header-head.html}
 	</head>
 	<body>
+		<!-- { CCMS_LIB:_default.php;FUNC:_phpinfo} -->
+
+		{CCMS_TPL:examples/header-login-nav.html}
 		<a href="//{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}" style="text-decoration: none; border: 0 none;">
 			<img alt="Custodian CMS Banner.  Easy gears no spilled beers." class="scale" title="Custodian CMS Banner.  Easy gears no spilled beers." src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/ccms-logo-banner-large-en.png" />
 		</a>

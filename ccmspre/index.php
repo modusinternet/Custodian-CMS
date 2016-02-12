@@ -1,4 +1,18 @@
 <?php
+/*************************************************************
+References:
+http://www.regular-expressions.info/unicode.html
+NOTE: To match a letter including any diacritics, use \p{L}\p{M}*+.
+An extensive list of regular expression examples:
+http://www.roscripts.com/PHP_regular_expressions_examples-136.html
+Another great reference is:
+https://www.autohotkey.com/docs/misc/RegEx-QuickRef.htm
+The online tester that I use most often is:
+https://regex101.com/
+
+A list of predefined PHP constants for use with the filter_var() function can be found here: http://ca2.php.net/manual/en/filter.constants.php
+**************************************************************/
+
 define('CRYPT', '/^[a-z-_/#=&:\pN\?\.\";\'\`\*\s]*\z/i');
 define('HTTP_ACCEPT_LANGUAGE', '/^[a-z0-9-,;=\.]{2,}\z/i');
 define('HTTP_COOKIE', '/^[a-z0-9-_=\.; ]{2,}\z/i');
@@ -8,22 +22,22 @@ define('QUERY_STRING', '/^[a-z\pN-_=&\?\.\/]{1,}\z/i');
 define('SESSION_ID', '/^[a-z\pN]{1,}\z/i');
 define('TPL', '/^[a-z-_\pN\.\/]*\z/i');
 
-define('UTF8_STRING_WHITE', '/^[\pL\pM\s]*\z/u');
+define('UTF8_STRING_WHITE', '/^[\pL\pM*+\s]*\z/u');
 // ^ Start of line
 // [ Starts the character class.
 // \pL Any kind of letter from any language.
-// \pM Mark.  (*** A character intended to be combined with another character (e.g. accents, umlauts, enclosing boxes, etc.). ***)
+// \pM*+	Matches zero or more code points that are combining marks.  A character intended to be combined with another character (e.g. accents, umlauts, enclosing boxes, etc.).
 // \s Whitespaces.
 // ] Ends the character class.
 // * zero or more
 // \z End of subject or newline at end. (Better then $ because $ does not include /n characters at the end of a line.)
 // /u Pattern strings are treated as UTF-8
 
-define('UTF8_STRING_DIGIT_WHITE', '/^[\pL\pM\pN\s]*\z/u');
+define('UTF8_STRING_DIGIT_WHITE', '/^[\pL\pM*+\pN\s]*\z/u');
 // ^ Start of line
 // [ Starts the character class.
 // \pL Any kind of letter from any language.
-// \pM Mark.  (*** A character intended to be combined with another character (e.g. accents, umlauts, enclosing boxes, etc.). ***)
+// \pM*+	Matches zero or more code points that are combining marks.  A character intended to be combined with another character (e.g. accents, umlauts, enclosing boxes, etc.).
 // \pN Any number.
 // \s Whitespaces.
 // ] Ends the character class.
@@ -31,11 +45,11 @@ define('UTF8_STRING_DIGIT_WHITE', '/^[\pL\pM\pN\s]*\z/u');
 // \z End of subject or newline at end. (Better then $ because $ does not include /n characters at the end of a line.)
 // /u Pattern strings are treated as UTF-8
 
-define('UTF8_STRING_DIGIT_PUNC_WHITE', '/^[\pL\pM\pN\pP\s]*\z/u');
+define('UTF8_STRING_DIGIT_PUNC_WHITE', '/^[\pL\pM*+\pN\pP\s]*\z/u');
 // ^ Start of line
 // [ Starts the character class.
 // \pL Any kind of letter from any language.
-// \pM Mark.  (*** A character intended to be combined with another character (e.g. accents, umlauts, enclosing boxes, etc.). ***)
+// \pM*+	Matches zero or more code points that are combining marks.  A character intended to be combined with another character (e.g. accents, umlauts, enclosing boxes, etc.).
 // \pN Any number.
 // \pP Punctuation. (*** Does not include ~$^+=|<> symbols. ***)
 // \s Whitespaces.
@@ -48,7 +62,7 @@ $ccms_whitelist = array(
 	"ccms_lngSelect"		=> array("type" => "LNG",					"maxlength"	=> 5),
 	"ccms_parms"			=> array("type" => "PARMS",					"maxlength"	=> 128),
 	"ccms_tpl"				=> array("type" => "TPL",					"maxlength"	=> 256),
-	"ccms_vid"				=> array("type" => "SESSION_ID",			"maxlength"	=> 64),
+	"ccms_session"			=> array("type" => "SESSION_ID",			"maxlength"	=> 64),
 	"ccms_cid"				=> array("type" => "SESSION_ID",			"maxlength"	=> 64),
 	"ccms_lng"				=> array("type" => "LNG",					"maxlength"	=> 5),
 	"HTTP_ACCEPT_LANGUAGE"	=> array("type" => "HTTP_ACCEPT_LANGUAGE",	"maxlength"	=> 256),
@@ -165,51 +179,108 @@ function CCMS_Set_LNG() {
 		$CLEAN["ccms_lng"] = $CFG["DEFAULT_SITE_CHAR_SET"];
 		$CFG["CCMS_LNG_DIR"] = $CFG["DEFAULT_SITE_CHAR_SET_DIR"];
 	}
-	setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + ($CFG["COOKIE_VISITOR_EXPIRE"] * 86400), "/", "", 0, 1);
+	//setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + ($CFG["COOKIE_SESSION_EXPIRE"] * 60), "/", "", 0, 0);
+	// 259200 = 3 days of secconds based on 60*60*24*3
+	setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + 259200, "/", "", 0, 0);
 }
 
 
-function CCMS_cookieVID() {
+function CCMS_cookie_SESSION() {
 	global $CFG, $CLEAN;
+	$search  = array('<', '>');
+	$replace = array('&lt;', '&gt;');
+	$CLEAN["SESSION"]["user_agent"] = str_replace($search, $replace, trim(substr($_SERVER['HTTP_USER_AGENT'], 0, 255)));
 
-	if(isset($CLEAN["ccms_cid"]) && $CLEAN["ccms_cid"] != "" && $CLEAN["ccms_cid"] != "INVAL" && $CLEAN["ccms_cid"] != "MAXLEN") {
+	/*
+	if(isset($CLEAN["ccms_cid"]) && trim($CLEAN["ccms_cid"]) != "" && $CLEAN["ccms_cid"] != "INVAL" && $CLEAN["ccms_cid"] != "MAXLEN") {
 		// This option helps when jumping from one website to another and retaining a users id value for a shoping cart.
 		// Like when moving between www.abc.com and secure.abc.com.
-		$CLEAN["ccms_vid"] = $CLEAN["ccms_cid"];
+		$CLEAN["ccms_session"] = $CLEAN["ccms_cid"];
 	}
+	*/
 
-	if(!isset($CLEAN["ccms_vid"])) {
-		if($CFG["DEBUG"] == 1) echo "<br />No 'ccms_vid' variable found, creating one now.\n";
-		$a = md5(time());
-		$b = time() + ($CFG["COOKIE_VISITOR_EXPIRE"] * 86400);
-		setcookie("ccms_vid", $a, $b, "/", "", 0, 1);
-		if($CFG["DEBUG"] == 1) echo "<br />a = " . $a . " expire = " . $b . "\n";
-		$CLEAN["ccms_vid"] = $a;
-	} else {
-		// Else update the id value found in the 'ccms_vid' variable every time it is seen.
-		$a = time();
-		$b = $a + ($CFG["COOKIE_VISITOR_EXPIRE"] * 86400);
-		// Check the 'ccms_visitor_id' table for matches.
-		$qry = $CFG["DBH"]->prepare("SELECT expire, id FROM `ccms_visitor_id` WHERE `sid` = :ccms_vid LIMIT 1;");
-		$qry->execute(array(':ccms_vid' => $CLEAN["ccms_vid"]));
+	if(isset($CLEAN["ccms_session"]) && trim($CLEAN["ccms_session"]) != "") {
+		$CLEAN["SESSION"]["code"] = $CLEAN["ccms_session"];
+		// Else update the 'code' and 'exp' value found in the 'ccms_session' record every time it is seen.
+
+		// Check the 'ccms_session' table for matches.
+		$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_session` WHERE `code` = :ccms_session LIMIT 1;");
+		$qry->execute(array(':ccms_session' => $CLEAN["ccms_session"]));
 		$row = $qry->fetch(PDO::FETCH_ASSOC);
 
-		if($row == true) {  // If $row contains a valid object.
-			if($a > $row["expire"]) {
-				// If the current time is greater than the time stored in 'expire' then delete the old record and create a new one.
-				$qry = $CFG["DBH"]->prepare("DELETE FROM `ccms_visitor_id` WHERE `id` = :id LIMIT 1;");
+		if($row) {
+			$a = time();
+
+			// If a record is found.
+			if($a > $row["exp"]) {
+				// If the current time is greater than the time stored in 'exp' then delete the old record and create a new one.
+				$qry = $CFG["DBH"]->prepare("DELETE FROM `ccms_session` WHERE `id` = :id LIMIT 1;");
 				$qry->execute(array(':id' => $row["id"]));
+
+				$a = md5(time());
+				$b = time();
+				$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
+				setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+				$CLEAN["SESSION"]["code"] = $a;
+				$CLEAN["SESSION"]["first"] = $b;
+				$CLEAN["SESSION"]["last"] = $b;
+				$CLEAN["SESSION"]["exp"] = $c;
+				$CLEAN["SESSION"]["ip"] = $_SERVER["REMOTE_ADDR"];
+				$CLEAN["SESSION"]["user_id"] = NULL;
+				$CLEAN["SESSION"]["fail"] = "0";
+
+				$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_session` (code, first, last, exp, ip, user_agent) VALUES (:code, :first, :last, :exp, :ip, :user_agent)");
+				$qry->execute(array(':code' => $a, ':first' => $b, ':last' => $b, ':exp' => $c, ':ip' => $_SERVER["REMOTE_ADDR"], ':user_agent' => $CLEAN["SESSION"]["user_agent"]));
 			} else {
-				// Else update the 'sid' and 'expire' field with their new values.
-				$qry = $CFG["DBH"]->prepare("UPDATE `ccms_visitor_id` SET `sid` = :sid, `expire` = :expire WHERE `id` = :id LIMIT 1;");
-				$qry->execute(array(':sid' => $CLEAN["ccms_vid"], ':expire' => $b, ':id' => $row["id"]));
+				// Else update the 'code' and 'exp' field with the new values.
+				$a = md5(time());
+				$b = time();
+				$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
+				setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+				$CLEAN["SESSION"]["code"] = $a;
+				$CLEAN["SESSION"]["first"] = $row["first"];
+				$CLEAN["SESSION"]["last"] = $b;
+				$CLEAN["SESSION"]["exp"] = $c;
+				$CLEAN["SESSION"]["ip"] = $row["ip"];
+				$CLEAN["SESSION"]["user_id"] = $row["user_id"];
+				$CLEAN["SESSION"]["fail"] = $row["fail"];
+
+				$qry = $CFG["DBH"]->prepare("UPDATE `ccms_session` SET `code` = :code, `last` = :last, `exp` = :exp WHERE `id` = :id LIMIT 1;");
+				$qry->execute(array(':code' => $a, ':last' => $b, ':exp' => $c, ':id' => $row["id"]));
 			}
+		} else {
+			// Its an old cookie and can not be matched up with anything in the database anylonger.  Probably was automatically cleaned out by the admin system.
+			$a = md5(time());
+			$b = time();
+			$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
+			setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+			$CLEAN["SESSION"]["code"] = $a;
+			$CLEAN["SESSION"]["first"] = $b;
+			$CLEAN["SESSION"]["last"] = $b;
+			$CLEAN["SESSION"]["exp"] = $c;
+			$CLEAN["SESSION"]["ip"] = $_SERVER["REMOTE_ADDR"];
+			$CLEAN["SESSION"]["user_id"] = NULL;
+			$CLEAN["SESSION"]["fail"] = "0";
+
+			$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_session` (code, first, last, exp, ip, user_agent) VALUES (:code, :first, :last, :exp, :ip, :user_agent)");
+			$qry->execute(array(':code' => $a, ':first' => $b, ':last' => $b, ':exp' => $c, ':ip' => $_SERVER["REMOTE_ADDR"], ':user_agent' => $CLEAN["SESSION"]["user_agent"]));
 		}
+	} else {
+		// No session information found at all, probably a new visitor.
+		$a = md5(time());
+		$b = time();
+		$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
+		setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+		$CLEAN["SESSION"]["code"] = $a;
+		$CLEAN["SESSION"]["first"] = $b;
+		$CLEAN["SESSION"]["last"] = $b;
+		$CLEAN["SESSION"]["exp"] = $c;
+		$CLEAN["SESSION"]["ip"] = $_SERVER["REMOTE_ADDR"];
+		$CLEAN["SESSION"]["user_id"] = NULL;
+		$CLEAN["SESSION"]["fail"] = "0";
 
-		if($CFG["DEBUG"] == 1) echo "<br />Updating cookie and \$CLEAN[\"ccms_vid\"] arg to " . md5($a) . "\n";
-
-		setcookie("ccms_vid", md5($a), $b, "/", "", 0, 1);
-		$CLEAN["ccms_vid"] = md5($a);
+		$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_session` (code, first, last, exp, ip, user_agent) VALUES (:code, :first, :last, :exp, :ip, :user_agent)");
+		$qry->execute(array(':code' => $a, ':first' => $b, ':last' => $b, ':exp' => $c, ':ip' => $_SERVER["REMOTE_ADDR"], ':user_agent' => $CLEAN["SESSION"]["user_agent"]));
 	}
 }
 
@@ -237,7 +308,8 @@ function CCMS_DB_First_Connect() {
 		$CFG["DBH"]->exec("SET CHARACTER SET utf8mb4");
 		$CFG["DBH"]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	} catch(PDOException $e) {
-		if($CFG["DEBUG_SQL"] == 1 && ($CFG["DEBUGIPSONLY"] == "" || stristr($CFG["DEBUGIPSONLY"], $_SERVER["REMOTE_ADDR"]) !== FALSE)) echo "Error!: " . $e->getCode() . '<br />\n'. $e->getMessage();
+		if($CFG["DEBUG_SQL"] == 1)
+			echo "Error!: " . $e->getCode() . '<br />\n'. $e->getMessage();
 		die();
 	}
 	$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset`;");
@@ -426,10 +498,10 @@ function CCMS_TPL_Insert($a) {
 		if(($html = @file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $a[2])) !== FALSE) {
 			echo CCMS_TPL_Parser($html);
 		} else {
-			echo $a[0] . " ERROR: CCMS_TPL '" . $a[2] . "' not performed.  Be sure the file exists and ends in a .html  extention. ";
+			echo $a[0] . " ERROR: CCMS_TPL '" . $a[2] . "' not performed.  Be sure the file exists and ends in a .html extention.";
 		}
 	} else {
-		echo $a[0] . " ERROR: CCMS_TPL '" . $a[2] . "' not performed.  Be sure the file exists and has either a .php or .html extention. ";
+		echo $a[0] . " ERROR: CCMS_TPL '" . $a[2] . "' not performed.  Be sure the file exists and has either a .php or .html extention.";
 	}
 }
 
@@ -521,7 +593,6 @@ function CCMS_TPL_Parser($a = NULL) {
 				// {CCMS_TPL:temp/test_04}
 				// {CCMS_TPL:temp/test_05.html}
 				// {CCMS_TPL:temp/test_06.php}
-				if($CFG["DEBUG"] == 1) echo "c=[" . $c . "]<br />\n";
 				CCMS_TPL_Insert($c);
 			} else {
 				echo $b;
@@ -536,7 +607,10 @@ function CCMS_Main() {
 	global $CFG, $CLEAN;
 
 	CCMS_Set_LNG();
-	CCMS_cookieVID();
+
+	if(!preg_match('/^\/(([a-z]{2})(-[a-z]{2})?)\/user\/(.*)\z/ui', $_SERVER["REQUEST_URI"])) {
+		CCMS_cookie_SESSION();
+	}
 
 	// If there is no template requested, show $CFG["INDEX"].
 	// This code helps when dealing with URL's that resemble:
@@ -630,6 +704,9 @@ function CCMS_Main() {
 
 		// Rest the tpl variable to the error page.
 		$CLEAN["ccms_tpl"] = "error";
+		if($CLEAN["ccms_tpl"] == "error") {
+			header("HTTP/1.0 404 not found");
+		}
 
 		ob_start();
 		include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $CLEAN["ccms_tpl"] . ".php";
@@ -641,4 +718,3 @@ function CCMS_Main() {
 
 // benchmark end
 //echo 'Total execution time in seconds: ' . (microtime(true) - $time_start);
-?>

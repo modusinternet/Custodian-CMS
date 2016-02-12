@@ -3,6 +3,8 @@
 References:
 http://www.regular-expressions.info/unicode.html
 NOTE: To match a letter including any diacritics, use \p{L}\p{M}*+.
+An extensive list of regular expression examples:
+http://www.roscripts.com/PHP_regular_expressions_examples-136.html
 
 A list of predefined PHP constants for use with the filter_var() function can be found here: http://ca2.php.net/manual/en/filter.constants.php
 **************************************************************/
@@ -49,13 +51,13 @@ define('EXAMPLE_EXPRESSION_2', '/^[\pN]+\z/');
 // / End of the Pattern.
 
 
-$user_whitelist = array(
+$whitelist = array(
 	"example_given_name"	=> array("type" => "EXAMPLE_EXPRESSION_1",	"minlength" => 1,	"maxlength" => 15),
 	"example_age"			=> array("type" => "EXAMPLE_EXPRESSION_2",	"maxlength" => 3),
 );
 
 
-function CCMS_User_Filter($input, $whitelist) {
+function CCMS_Public_Filter($input, $whitelist) {
 	global $CLEAN;
 	foreach($input as $key => $value) {
 		if(array_key_exists($key, $whitelist)) {
@@ -89,4 +91,3 @@ function CCMS_User_Filter($input, $whitelist) {
 		}
 	}
 }
-?>
