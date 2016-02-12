@@ -63,7 +63,7 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 			<div class="tab-content">
 				<div class="tab-pane fade active in" id="welcome">
 					<p style="text-indent: 1.5em;">
-						Welcome to Custodian CMS, <span class="oj">@Version <?php echo $CFG["VERSION"];?> (Release Date: <?php echo $CFG["RELEASE_DATE"];?>)</span>.  This page is designed to help test your server environment, check your configuration template, import example database content and help establish your first super user.  Once everything appears to be properly configure and the setup process is complete you need to either <span class="oj">rename or remove the /setup.php template from your server to continue</span>.
+						Welcome to Custodian CMS, <span class="oj">@Version <?php echo $CFG["VERSION"];?> (Release Date: <?php echo $CFG["RELEASE_DATE"];?>)</span>.  This page is designed to help test your server environment, check your configuration template, import example database content and help establish your first administrator.  Once everything is properly configured and the setup process is complete, you will need to either <span class="oj">rename or remove the /setup.php template from your server to continue</span>.
 					</p>
 					<p style="text-indent: 1.5em;">
 						For more information visit <a class="td-ul" style="word-wrap: break-word;" href="//modusinternet.com/en/products/custodian-cms.html" target="_blank">http://modusinternet.com/en/products/custodian-cms.html</a>.
@@ -71,15 +71,15 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 				</div>
 				<div class="tab-pane fade" id="setup_instructions">
 					<p style="margin-top: 20px;">
-						In order to fully activate your new templates you need to manually complete some of the following steps.  We do not automate most of this process in order to help make sure it never becomes a good target for hackers.  The following shows the test order and a brief description of what is needed to pass each test.  If you are familiar with the requirements listed below click the <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> tab to see your results now.
+						To fully activate your new templates you need to manually complete some of the following steps.  We do not automate most of this process in order to make sure it never becomes a target for hackers.  The following shows the test order and a brief description of what is needed to pass each test.  If you are familiar with the steps listed below click the <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> tab to see your results now.
 					</p>
 					<ol>
-						<li>Custodian CMS requires PHP v5.3.7 and MySQL v4.1 or greater to run properly.</li>
+						<li>Custodian CMS requires PHP v5.3.7+ and MySQL v4.1+ to run properly.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/config_original.php</span> and name it <span class="oj">/ccmspre/config.php</span>.  Then update it with all your domain name and database settings.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/whitelist_public_original.php</span> and name it <span class="oj">/ccmspre/whitelist_public.php</span>.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/whitelist_user_original.php</span> and name it <span class="oj">/ccmspre/whitelist_user.php</span>.</li>
-						<li>Import the contents of the <span class="oj">/ccms-db-setup.sql</span> file into your database manually using something like PHPMyAdmin or goto <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a>, <span class="oj">Test for database content</span> and use the <span class="oj">Click here</span> link to automatically do it for you.</li>
-						<li>Add an administrator using the <span class="oj">Test for Super User</span> form on <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> if you need one.</li>
+						<li>Import the contents of the <span class="oj">/ccms-db-setup.sql</span> file into your database manually (ie: using PHPMyAdmin) or go to <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for database content</span> and use the "<span class="oj">Click here</span>" link to automatically do it for you.</li>
+						<li>Add an administrator using the <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for Administrator</span> form if you need one.</li>
 						<li>Delete or rename the <span class="oj">/setup.php</span> file and reload this page.</li>
 					</ol>
 					<p>
@@ -131,15 +131,53 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 								</div>
 							</div>
 
-<?php if($CFG["DOMAIN"]) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
+<?php if(file_exists("ccmspre/whitelist_public.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#3" role="tab" style="cursor: pointer;">
+									<h4 class="panel-title">
+										Test for <span class="oj">/ccmspre/whitelist_public.php</span> template
+										<i class="fa fa-angle-double-down" style="float: right;"></i>
+									</h4>
+								</div>
+								<div id="3" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
+									<div class="panel-body">
+<?php if($CFG["pass"]==1): ?>
+										Pass
+<?php else: ?>
+										Make a copy of /ccmspre/whitelist_public_original.php, name it /ccmspre/whitelist_public.php and reload this page.
+<?php endif ?>
+									</div>
+								</div>
+							</div>
+
+<?php if(file_exists("ccmspre/whitelist_user.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
+							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
+								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#4" role="tab" style="cursor: pointer;">
+									<h4 class="panel-title">
+										Test for <span class="oj">/ccmspre/whitelist_user.php</span> template
+										<i class="fa fa-angle-double-down" style="float: right;"></i>
+									</h4>
+								</div>
+								<div id="4" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
+									<div class="panel-body">
+<?php if($CFG["pass"]==1): ?>
+										Pass
+<?php else: ?>
+										Make a copy of /ccmspre/whitelist_user_original.php, name it /ccmspre/whitelist_user.php and reload this page.
+<?php endif ?>
+									</div>
+								</div>
+							</div>
+
+<?php if($CFG["DOMAIN"]) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
+							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
+								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#5" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
 										Test for <span class="oj">domain name</span> inside <span class="oj">/ccmspre/config.php</span>
 										<i class="fa fa-angle-double-down" style="float: right;"></i>
 									</h4>
 								</div>
-								<div id="3" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
+								<div id="5" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
 <?php if($CFG["pass"]==1): ?>
 										Pass
@@ -152,13 +190,13 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 
 <?php if($CFG["DB_HOST"] && $CFG["DB_USERNAME"] && $CFG["DB_PASSWORD"] && $CFG["DB_NAME"]) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
-								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#4" role="tab" style="cursor: pointer;">
+								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#6" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
 										Test for <span class="oj">database settings</span> inside <span class="oj">/ccmspre/config.php</span>
 										<i class="fa fa-angle-double-down" style="float: right;"></i>
 									</h4>
 								</div>
-								<div id="4" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
+								<div id="6" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
 <?php if($CFG["pass"]==1): ?>
 										Pass
@@ -185,13 +223,13 @@ try {
 }
 ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
-								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#5" role="tab" style="cursor: pointer;">
+								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#7" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
 										Test <span class="oj">connect</span> to <span class="oj">database</span>
 										<i class="fa fa-angle-double-down" style="float: right;"></i>
 									</h4>
 								</div>
-								<div id="5" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
+								<div id="7" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
 <?php if($CFG["pass"]==1): ?>
 										Pass
@@ -218,13 +256,13 @@ if($CFG["DBH"]) {
 }
 ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
-								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#6" role="tab" style="cursor: pointer;">
+								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#8" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
 										Test for minimum <span class="oj">MySQL v4.1+</span>
 										<i class="fa fa-angle-double-down" style="float: right;"></i>
 									</h4>
 								</div>
-								<div id="6" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
+								<div id="8" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
 <?php if($CFG["pass"]==1): ?>
 										Pass (v<?php echo $valArray[0]; ?>)
@@ -297,13 +335,13 @@ if($CFG["DBH"]) {
 }
 ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
-								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#7" role="tab" style="cursor: pointer;">
+								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#9" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
 										Test for <span class="oj">database content</span>
 										<i class="fa fa-angle-double-down" style="float: right;"></i>
 									</h4>
 								</div>
-								<div id="7" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
+								<div id="9" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
 <?php if($CFG["pass"]==1): ?>
 										Pass
@@ -356,19 +394,19 @@ if($CFG["DBH"]) {
 }
 ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
-								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#8" role="tab" style="cursor: pointer;">
+								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#10" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
-										Test for <span class="oj">Super User</span>
+										Test for <span class="oj">Administrator</span>
 										<i class="fa fa-angle-double-down" style="float: right;"></i>
 									</h4>
 								</div>
-								<div id="8" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
+								<div id="10" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
 <?php if($CFG["pass"]==1): ?>
 										Pass
 <?php else: ?>
 <?php if($CFG["pass2"]==1): ?>
-										No Super Users found in the ccms_user table.  Add one now.<br />
+										No Administrator found in the ccms_user table.  Add one now.<br />
 										<form action="/" id="addSuperUserForm" method="post" novalidate="novalidate">
 											<input type="hidden" name="addSuper" value="1">
 											<div id="login-status" style="color:#ec7f27; font-weight:bold;"></div>
