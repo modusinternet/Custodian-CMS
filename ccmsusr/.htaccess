@@ -1,0 +1,19 @@
+# This folder does not require access over HTTP
+# The following directive denys access by default, with one exception.
+
+# Deny direct requests for files with the following extentions.
+<FilesMatch "\.(fla|htaccess|html|ini|php)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+# Allow direct requests for the index.php template.
+<FilesMatch "index\.php$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+
+# Turn off the cache controls for anything located in this folder.
+<ifModule mod_expires.c>
+	ExpiresActive Off
+</ifModule>

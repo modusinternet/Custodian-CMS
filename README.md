@@ -53,8 +53,8 @@ System requirements
 LAMP
 * Linux
 * Apache
-* MySQL (version 4.1 or greater)
-* PHP (version 5.3.2 or greater)
+* MySQL v4.1+
+* PHP v5.3.7+
 
 (CCMS will probably run on IIS but ya never know.  If someone would like to test it and let me know I'd appreciate it.)
 
