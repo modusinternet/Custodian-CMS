@@ -410,9 +410,9 @@ function CCMS_DB($a) {
 
 	if(isset($CLEAN["CCMS_DB_Preload_Content"])) {
 		if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] != "") {
-			echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"];
+			echo CCMS_TPL_Parser($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"]);
 		} else {
-			echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["content"];
+			echo CCMS_TPL_Parser($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["content"]);
 		}
 	} else {
 		echo $a[0] . " ERROR: Either CCMS_DB_Preload function was not called or the CCMS_DB_PRELOAD tag was not found on your template prior to calling this CCMS_DB tag. ";
