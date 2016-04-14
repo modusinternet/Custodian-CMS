@@ -1,5 +1,5 @@
-# If your server displays a 'Internal Server Error' error message when you first attempt to view these templates on it
-# make the following changes to the 3 lines below.
+# If your server displays a 'Internal Server Error' error message when you first attempt to view these templates
+# try the following changes.
 # Comment: SetEnv HTTP_MOD_REWRITE On
 # Uncomment: php_flag register_globals off
 # Uncomment: php_flag magic_quotes_gpc off
@@ -8,6 +8,8 @@ SetEnv HTTP_MOD_REWRITE On
 #php_flag register_globals off
 #php_flag magic_quotes_gpc off
 
+Header unset ETag
+FileETag None
 
 # Bad Request
 #------------------------------

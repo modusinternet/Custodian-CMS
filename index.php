@@ -9,8 +9,8 @@
 $CFG = array();
 $CLEAN = array();
 
-$CFG["VERSION"] = "0.6";
-$CFG["RELEASE_DATE"] = "Feb 12, 2016";
+$CFG["VERSION"] = "0.6.1";
+$CFG["RELEASE_DATE"] = "Apr 14, 2016";
 
 if(file_exists("setup.php")) {
 	require_once "setup.php";
