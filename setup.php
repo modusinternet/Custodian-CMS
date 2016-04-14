@@ -74,11 +74,11 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 						To fully activate your new templates you need to manually complete some of the following steps.  We do not automate most of this process in order to make sure it never becomes a target for hackers.  The following shows the test order and a brief description of what is needed to pass each test.  If you are familiar with the steps listed below click the <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> tab to see your results now.
 					</p>
 					<ol>
-						<li>Custodian CMS requires PHP v5.3.7+ and MySQL v4.1+ to run properly.</li>
+						<li>Custodian CMS requires PHP v5.3.7+ and MySQL v5.5.3+ to run properly.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/config_original.php</span> and name it <span class="oj">/ccmspre/config.php</span>.  Then update it with all your domain name and database settings.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/whitelist_public_original.php</span> and name it <span class="oj">/ccmspre/whitelist_public.php</span>.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/whitelist_user_original.php</span> and name it <span class="oj">/ccmspre/whitelist_user.php</span>.</li>
-						<li>Import the contents of the <span class="oj">/ccms-db-setup.sql</span> file into your database manually (ie: using PHPMyAdmin) or go to <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for database content</span> and use the "<span class="oj">Click here</span>" link to automatically do it for you.</li>
+						<li>Import the contents of the <span class="oj">/ccms-db-setup.sql</span> file into your database manually (e.g. using PHPMyAdmin) or go to <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for database content</span> and use the "<span class="oj">Click here</span>" link to automatically do it for you.</li>
 						<li>Add an administrator using the <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for Administrator</span> form if you need one.</li>
 						<li>Delete or rename the <span class="oj">/setup.php</span> file and reload this page.</li>
 					</ol>
@@ -214,7 +214,13 @@ $user	= $CFG["DB_USERNAME"];
 $pass	= $CFG["DB_PASSWORD"];
 try {
 	$CFG["DBH"] = @new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
-	$CFG["DBH"]->exec("SET CHARACTER SET utf8");
+	/*
+	Great sites talking about how to handle the utf-8 character sets properly:
+	https://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql
+	https://mathiasbynens.be/notes/mysql-utf8mb4
+	*/
+	//$CFG["DBH"]->exec("SET CHARACTER SET utf8");
+	$CFG["DBH"]->exec("set names utf8mb4");
 	$CFG["DBH"]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$CFG["pass"] = 1;
 } catch(PDOException $e) {
@@ -244,7 +250,7 @@ try {
 if($CFG["DBH"]) {
 	$val = @$CFG["DBH"]->getAttribute(constant("PDO::ATTR_SERVER_VERSION"));
 	$valArray = explode("-", $val);
-	if($valArray[0] >= 4.1) {
+	if($valArray[0] >= '5.5.3') {
 		$CFG["pass"] = 1;
 	} else {
 		$CFG["pass"] = 0;
@@ -258,7 +264,7 @@ if($CFG["DBH"]) {
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#8" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
-										Test for minimum <span class="oj">MySQL v4.1+</span>
+										Test for minimum <span class="oj">MySQL v5.5.3+</span>
 										<i class="fa fa-angle-double-down" style="float: right;"></i>
 									</h4>
 								</div>
