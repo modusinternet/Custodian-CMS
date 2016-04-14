@@ -1,19 +1,13 @@
-# If you are attempting to use Custodian CMS on a GoDaddy hosted service you might experience problems getting
-# the templates to work properly.  Try doing the following in the code below these comments:
-# Uncomment: SetEnv HTTP_MOD_REWRITE On
-# Comment: FileETag MTime Size
-# Comment: php_flag register_globals off
-# Comment: php_flag magic_quotes_gpc off
-
-
-# To enable Mod Rewrite on GoDaddy servers uncomment the following code.
+# If your server displays a 'Internal Server Error' error message when you first attempt to view these templates on it
+# make the following changes to the 3 lines below.
+# Comment: SetEnv HTTP_MOD_REWRITE On
+# Uncomment: php_flag register_globals off
+# Uncomment: php_flag magic_quotes_gpc off
 #------------------------------
-#SetEnv HTTP_MOD_REWRITE On
+SetEnv HTTP_MOD_REWRITE On
+#php_flag register_globals off
+#php_flag magic_quotes_gpc off
 
-# The ETag or entity tag provides web cache validation.  If you are trying to install Custodian CMS on a
-# GoDaddy server comment out the line of code below, GoDaddy seems to have Etag support already enabled.
-#------------------------------
-FileETag MTime Size
 
 # Bad Request
 #------------------------------
@@ -94,15 +88,6 @@ Options -Multiviews
 <IfModule mod_rewrite.c>
 	RewriteEngine on
 	RewriteBase /
-
-	# If we managed to get passed all those rules then the next step is to call the correct template on the server and
-	# start producing output, but first lets make sure the php environment is setup the way we like it first.
-	# Comment the two lines of code out below if experiencing problems on a GoDaddy hosted services.
-	#------------------------------
-	php_flag register_globals off
-	# magic_quotes_gpc are DEPRECATED and will eventually be removed all together, best to disable them now.
-	# http://www.php.net/manual/en/security.magicquotes.what.php
-	php_flag magic_quotes_gpc off
 
 	# Disable the HTTP TRACE Method for added security.
 	#------------------------------
