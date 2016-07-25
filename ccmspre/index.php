@@ -304,8 +304,13 @@ function CCMS_DB_First_Connect() {
 		// Sybase
 		// $CFG["DBH"] = new PDO("sybase:host=$host;dbname=$dbname, $user, $pass");
 		// Sets encoding UTF-8
+		/*
+		Great sites talking about how to handle the utf-8 character sets properly:
+		https://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql
+		https://mathiasbynens.be/notes/mysql-utf8mb4
+		*/
 		//$CFG["DBH"]->exec("SET CHARACTER SET utf8");
-		$CFG["DBH"]->exec("SET CHARACTER SET utf8mb4");
+		$CFG["DBH"]->exec("set names utf8mb4");
 		$CFG["DBH"]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	} catch(PDOException $e) {
 		if($CFG["DEBUG_SQL"] == 1)
@@ -682,11 +687,6 @@ function CCMS_Main() {
 				} elseif($file == $ccms_file[0] . ".html") {
 					header("Content-Type: text/html; charset=UTF-8");
 					header("Cache-Control: public, must-revalidate, proxy-revalidate");
-					/*
-					Use the Etag header via md5 of your content to help set a method for browsers to notice a page has changed and fresh version should be pulled regardless of the expiry date of cached content.
-					$HashID = md5(a_copy_of_your_object_buffer_for_the_template);
-					header("ETag: " . $HashID);
-					*/
 					$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
 					$found = true;
 					break;
