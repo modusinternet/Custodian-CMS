@@ -1,15 +1,28 @@
-# If your server displays a 'Internal Server Error' error message when you first attempt to view these templates
-# try the following changes.
-# Comment: SetEnv HTTP_MOD_REWRITE On
-# Uncomment: php_flag register_globals off
-# Uncomment: php_flag magic_quotes_gpc off
+#AuthType basic
+#AuthName "Restricted Area"
+#AuthGroupFile /dev/null
+#AuthUserFile /home/content/27/6770327/htconfig/.htpassword.ghtpassword
+#Require user fdmorris vinhall
+
+
+
+
+# If you are attempting to use Custodian CMS on a GoDaddy hosted service you might experience problems getting
+# the templates to work properly.  Try doing the following in the code below these comments:
+# Uncomment: SetEnv HTTP_MOD_REWRITE On
+# Comment: FileETag MTime Size
+# Comment: php_flag register_globals off
+# Comment: php_flag magic_quotes_gpc off
+
+
+# To enable Mod Rewrite on GoDaddy servers uncomment the following code.
 #------------------------------
 SetEnv HTTP_MOD_REWRITE On
-#php_flag register_globals off
-#php_flag magic_quotes_gpc off
 
-Header unset ETag
-FileETag None
+# The ETag or entity tag provides web cache validation.  If you are trying to install Custodian CMS on a
+# GoDaddy server comment out the line of code below, GoDaddy seems to have Etag support already enabled.
+#------------------------------
+#FileETag MTime Size
 
 # Bad Request
 #------------------------------
@@ -18,6 +31,7 @@ ErrorDocument 400 /index.php?ccms_tpl=error400
 # Forbidden
 #------------------------------
 ErrorDocument 403 /index.php?ccms_tpl=error403
+#ErrorDocument 403 /index.php?ccms_tpl=search
 
 # Not Found
 #------------------------------
@@ -91,6 +105,15 @@ Options -Multiviews
 	RewriteEngine on
 	RewriteBase /
 
+	# If we managed to get passed all those rules then the next step is to call the correct template on the server and
+	# start producing output, but first lets make sure the php environment is setup the way we like it first.
+	# Comment the two lines of code out below if experiencing problems on a GoDaddy hosted services.
+	#------------------------------
+	#php_flag register_globals off
+	# magic_quotes_gpc are DEPRECATED and will eventually be removed all together, best to disable them now.
+	# http://www.php.net/manual/en/security.magicquotes.what.php
+	#php_flag magic_quotes_gpc off
+
 	# Disable the HTTP TRACE Method for added security.
 	#------------------------------
 	RewriteCond %{REQUEST_METHOD} ^TRACE
@@ -147,7 +170,7 @@ Options -Multiviews
 	RewriteCond %{HTTP_USER_AGENT} ^(Mac|Ram|Educate|WEP).?(Finder|Search) [NC,OR]
 	RewriteCond %{HTTP_USER_AGENT} ^(Moz+illa|MSIE).?[0-9]?.?[0-9]?[0-9]?$ [NC,OR]
 	RewriteCond %{HTTP_USER_AGENT} ^Mozilla/[0-9]\.[0-9][0-9]?.\(compatible[\)\ ] [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} NaverRobot [NC]
+	RewriteCond %{HTTP_USER_AGENT} NaverRobot|AhrefsBot|MJ12bot|SeznamBot [NC]
 	RewriteRule .* - [F,L]
 
 	# Stop hotlinking.
@@ -215,9 +238,16 @@ Options -Multiviews
 	# Comment one set or the other out depending on your needs.
 	#------------------------------
 	RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
-	RewriteRule ^(.*)$ http%{ENV:variable}://%1%{REQUEST_URI} [R=301,L]
+	RewriteRule ^(.*)$ http%{ENV:variable}://%1/$1 [R=301,L]
+	#RewriteRule ^(.*)$ http%{ENV:variable}://%1%{REQUEST_URI} [R=301,L]
+	#RewriteRule ^(.*)$ http%{ENV:variable}://%{HTTP_HOST}/$1 [R=301,L]
 	#RewriteCond %{HTTP_HOST} !^www\.(.+) [NC]
 	#RewriteRule ^(.*)$ http%{ENV:variable}://www.%{HTTP_HOST}/$1 [R=301,L]
+
+	# Force all conection to https and NOT http.
+	#------------------------------
+	#RewriteCond %{SERVER_PORT} !^443$
+	#RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
 
 	# Look to see if 'user' is found at the beginning of the {REQUEST_URI}, if so send the visitor to the
 	# Custodian CMS admin index template.  If you change the location of your CCMS admin directory in the
