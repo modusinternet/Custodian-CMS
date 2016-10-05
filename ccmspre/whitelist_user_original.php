@@ -84,6 +84,13 @@ define('NO_BADCHARS', '/^[^\<\>&#]*\z/');
 // \z		End of subject or newline at end. (Better then $ because $ does not include /n characters at the end of a line.)
 // /		End of the Pattern.
 
+define('ANY', '/^(.*)\z/s');
+// This Reg Expression is almost exactly the same as the one used for passwords but is kept separate for flexibility in the future.
+// ^		Start of line
+// (.*)		Any character, any amount.
+// \z		End of subject or newline at end. (Better then $ because $ does not include /n characters at the end of a line.)
+// /		End of the Pattern.
+// s		Newlines
 
 $whitelist = array(
 	"example_given_name"	=> array("type" => "EXAMPLE_EXPRESSION_1",	"minlength" => 1,	"maxlength" => 15),
@@ -115,6 +122,9 @@ $whitelist = array(
 	"password"				=> array("type" => "PASSWORD",		"minlength" => 8),
 	"password1"				=> array("type" => "PASSWORD",		"minlength" => 8),
 	"password2"				=> array("type" => "PASSWORD",		"minlength" => 8),
+
+	"ccms_ins_db_id"		=> array("type" => "WHOLE_NUMBER",	"minlength" => 1,	"maxlength" => 11),
+	"ccms_ins_db_text"		=> array("type" => "ANY",			"maxlength" => 16000),
 );
 
 
@@ -141,21 +151,20 @@ function CCMS_User_Filter($input, $whitelist) {
 					case "EXAMPLE_EXPRESSION_2":
 						$buf = (preg_match(EXAMPLE_EXPRESSION_2, $value)) ? $value : "INVAL";
 						break;
-
 					case "WHOLE_NUMBER":
 						$buf = (preg_match(WHOLE_NUMBER, $value)) ? $value : "INVAL";
 						break;
-
 					case "EMAIL":
 						$buf = (preg_match(EMAIL, $value)) ? $value : "INVAL";
 						break;
-
 					case "PASSWORD":
 						$buf = (preg_match(PASSWORD, $value)) ? $value : "INVAL";
 						break;
-
 					case "NO_BADCHARS":
 						$buf = (preg_match(NO_BADCHARS, $value)) ? $value : "INVAL";
+						break;
+					case "ANY":
+						$buf = (preg_match(ANY, $value)) ? $value : "INVAL";
 						break;
 
 // Add your own case statements here, just copy the patter above, make the neccessary changes, save and upload.

@@ -17,20 +17,20 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 		<title>Custodian CMS v<?php echo $CFG["VERSION"];?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<!-- Favicons -->
+		<!-- Favicon -->
 		<link rel="shortcut icon" href="/ccmstpl/examples/img/icons/favicon.ico" type="image/x-icon">
-		<link rel="icon" href="/ccmstpl/examples/img/icons/favicon.ico" type="image/x-icon">
 
-		<!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+		<!-- App Screen / Icons -->
+		<link rel="apple-touch-icon" sizes="60x60" href="/ccmstpl/examples/img/icons/CCMS-60x60.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="/ccmstpl/examples/img/icons/CCMS-76x76.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/ccmstpl/examples/img/icons/CCMS-120x120.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="/ccmstpl/examples/img/icons/CCMS-152x152.png">
+
+		<!-- https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html -->
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries.
-		WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
+
 
 		<style type="text/css">
 			.oj { color: rgb(236, 127, 39); }
@@ -496,7 +496,7 @@ if($CFG["DBH"]) {
 			else window.addEventListener('load', cb);
 
 			function loadJSResources() {
-				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js", function(){ // JQuery is loaded
+				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js", function(){ // JQuery is loaded
 					loadFirst("//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", function(){ // Bootstrap is loaded
 						//loadFirst("/ccmsusrv/_js/custodiancms.js", function(){ // CustodianCMS JavaScript
 						loadFirst("/ccmsusr/_js/custodiancms.min.js", function(){ // CustodianCMS JavaScript

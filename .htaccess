@@ -1,12 +1,3 @@
-#AuthType basic
-#AuthName "Restricted Area"
-#AuthGroupFile /dev/null
-#AuthUserFile /home/content/27/6770327/htconfig/.htpassword.ghtpassword
-#Require user fdmorris vinhall
-
-
-
-
 # If you are attempting to use Custodian CMS on a GoDaddy hosted service you might experience problems getting
 # the templates to work properly.  Try doing the following in the code below these comments:
 # Uncomment: SetEnv HTTP_MOD_REWRITE On
@@ -274,57 +265,57 @@ Options -Multiviews
 	# http://abc.com/ab-cd/somedir-02/somepage_some-where.html
 </IfModule>
 
-<IfModule mod_expires.c>
+#<IfModule mod_expires.c>
 	# Optimize default expiration time
 	#------------------------------
-	ExpiresActive On
+#	ExpiresActive On
 
 	# Default expiration: 1 hour after request
-	ExpiresDefault "access plus 1 day"
+#	ExpiresDefault "access plus 1 day"
 
 	# CSS and JS expiration: 1 week after request
-	ExpiresByType text/css "access plus 1 week"
-	ExpiresByType text/javascript "access plus 1 week"
-	ExpiresByType text/x-javascript "access plus 1 week"
-	ExpiresByType application/javascript "access plus 1 week"
-	ExpiresByType application/x-javascript "access plus 1 week"
+#	ExpiresByType text/css "access plus 1 week"
+#	ExpiresByType text/javascript "access plus 1 week"
+#	ExpiresByType text/x-javascript "access plus 1 week"
+#	ExpiresByType application/javascript "access plus 1 week"
+#	ExpiresByType application/x-javascript "access plus 1 week"
 
 	# Image files expiration: 1 month after request
-	ExpiresByType image/bmp "access plus 1 month"
-	ExpiresByType image/gif "access plus 1 month"
-	ExpiresByType image/jpeg "access plus 1 month"
-	ExpiresByType image/jp2 "access plus 1 month"
-	ExpiresByType image/pipeg "access plus 1 month"
-	ExpiresByType image/png "access plus 1 month"
-	ExpiresByType image/svg+xml "access plus 1 month"
-	ExpiresByType image/tiff "access plus 1 month"
-	ExpiresByType image/vnd.microsoft.icon "access plus 1 month"
-	ExpiresByType image/x-icon "access plus 1 month"
-	ExpiresByType image/ico "access plus 1 month"
-	ExpiresByType image/icon "access plus 1 month"
-	ExpiresByType text/ico "access plus 1 month"
-	ExpiresByType application/ico "access plus 1 month"
-	ExpiresByType image/vnd.wap.wbmp "access plus 1 month"
-	ExpiresByType application/vnd.wap.wbxml "access plus 1 month"
-	ExpiresByType application/smil "access plus 1 month"
+#	ExpiresByType image/bmp "access plus 1 month"
+#	ExpiresByType image/gif "access plus 1 month"
+#	ExpiresByType image/jpeg "access plus 1 month"
+#	ExpiresByType image/jp2 "access plus 1 month"
+#	ExpiresByType image/pipeg "access plus 1 month"
+#	ExpiresByType image/png "access plus 1 month"
+#	ExpiresByType image/svg+xml "access plus 1 month"
+#	ExpiresByType image/tiff "access plus 1 month"
+#	ExpiresByType image/vnd.microsoft.icon "access plus 1 month"
+#	ExpiresByType image/x-icon "access plus 1 month"
+#	ExpiresByType image/ico "access plus 1 month"
+#	ExpiresByType image/icon "access plus 1 month"
+#	ExpiresByType text/ico "access plus 1 month"
+#	ExpiresByType application/ico "access plus 1 month"
+#	ExpiresByType image/vnd.wap.wbmp "access plus 1 month"
+#	ExpiresByType application/vnd.wap.wbxml "access plus 1 month"
+#	ExpiresByType application/smil "access plus 1 month"
 
 	# Audio files expiration: 1 month after request
-	ExpiresByType audio/basic "access plus 1 month"
-	ExpiresByType audio/mid "access plus 1 month"
-	ExpiresByType audio/midi "access plus 1 month"
-	ExpiresByType audio/mpeg "access plus 1 month"
-	ExpiresByType audio/x-aiff "access plus 1 month"
-	ExpiresByType audio/x-mpegurl "access plus 1 month"
-	ExpiresByType audio/x-pn-realaudio "access plus 1 month"
-	ExpiresByType audio/x-wav "access plus 1 month"
+#	ExpiresByType audio/basic "access plus 1 month"
+#	ExpiresByType audio/mid "access plus 1 month"
+#	ExpiresByType audio/midi "access plus 1 month"
+#	ExpiresByType audio/mpeg "access plus 1 month"
+#	ExpiresByType audio/x-aiff "access plus 1 month"
+#	ExpiresByType audio/x-mpegurl "access plus 1 month"
+#	ExpiresByType audio/x-pn-realaudio "access plus 1 month"
+#	ExpiresByType audio/x-wav "access plus 1 month"
 
 	# Movie files expiration: 1 month after request
-	ExpiresByType application/x-shockwave-flash "access plus 1 month"
-	ExpiresByType x-world/x-vrml "access plus 1 month"
-	ExpiresByType video/x-msvideo "access plus 1 month"
-	ExpiresByType video/mpeg "access plus 1 month"
-	ExpiresByType video/mp4 "access plus 1 month"
-	ExpiresByType video/quicktime "access plus 1 month"
-	ExpiresByType video/x-la-asf "access plus 1 month"
-	ExpiresByType video/x-ms-asf "access plus 1 month"
-</IfModule>
+#	ExpiresByType application/x-shockwave-flash "access plus 1 month"
+#	ExpiresByType x-world/x-vrml "access plus 1 month"
+#	ExpiresByType video/x-msvideo "access plus 1 month"
+#	ExpiresByType video/mpeg "access plus 1 month"
+#	ExpiresByType video/mp4 "access plus 1 month"
+#	ExpiresByType video/quicktime "access plus 1 month"
+#	ExpiresByType video/x-la-asf "access plus 1 month"
+#	ExpiresByType video/x-ms-asf "access plus 1 month"
+#</IfModule>

@@ -429,10 +429,20 @@ function CCMS_DB_Dir($a) {
 	global $CFG, $CLEAN;
 
 	if(isset($CLEAN["CCMS_DB_Preload_Content"])) {
-		if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] != "") {
-			echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["dir"];
+		if($a[5] == 1) {
+			// Make editable on the public side.
+			if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] != "") {
+				echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["dir"] . "\" data-ccms=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["id"];
+			} else {
+				echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["dir"] . "\" data-ccms=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["id"];
+			}
 		} else {
-			echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["dir"];
+			// Not editable on the public side.
+			if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] != "") {
+				echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["dir"];
+			} else {
+				echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["dir"];
+			}
 		}
 	} else {
 		echo $a[0] . " ERROR: Either CCMS_DB_Preload function was not called or the CCMS_DB_PRELOAD tag was not found on your template prior to calling this CCMS_DB_DIR tag. ";
@@ -466,8 +476,10 @@ function CCMS_DB_Preload($a = NULL) {
 	$qry->setFetchMode(PDO::FETCH_ASSOC);
 
 	while($row = $qry->fetch()) {
+		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]]["id"] = $row["id"];
 		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]]["content"] = $row[$CFG["DEFAULT_SITE_CHAR_SET"]];
 		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]]["dir"] = $CFG["DEFAULT_SITE_CHAR_SET_DIR"];
+		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]]["id"] = $row["id"];
 		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]]["content"] = $row[$CLEAN["ccms_lng"]];
 		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]]["dir"] = $CFG["CCMS_LNG_DIR"];
 	}
@@ -575,16 +587,18 @@ function CCMS_TPL_Parser($a = NULL) {
 				// {CCMS_DB:twiter_feed_filter,tag_top}
 				// {CCMS_DB:twiter_feed_filter,tag_bottm}
 				CCMS_DB($c);
-			} elseif(preg_match('/^\{(CCMS_DB_DIR):([a-z]+[a-z-_\pN]+),([a-z]+[a-z-_\pN]+)}\z/i', $b, $c)) {
+			} elseif(preg_match('/^\{(CCMS_DB_DIR):([a-z]+[a-z-_\pN]+),([a-z]+[a-z-_\pN]+)(:(1))?}\z/i', $b, $c)) {
 				// {CCMS_DB_DIR:about_us_filter,meta_description}
-				// {CCMS_DB_DIR:about_us_filter,meta_keywords}
+				// {CCMS_DB_DIR:about_us_filter,meta_description:1}
+				// {CCMS_DB_DIR:about_us_filter,meta_keywords:1}
 				// {CCMS_DB_DIR:about_us_filter,title}
 				// {CCMS_DB_DIR:about_us_filter,first_paragraph}
 				// {CCMS_DB_DIR:about_us_filter,second_paragraph}
 				// {CCMS_DB_DIR:footer_filter,copywrite}
+				// {CCMS_DB_DIR:footer_filter,copywrite:1}
 				// {CCMS_DB_DIR:header_filter,title}
 				// {CCMS_DB_DIR:twiter_feed_filter,title}
-				// {CCMS_DB_DIR:twiter_feed_filter,tag_top}
+				// {CCMS_DB_DIR:twiter_feed_filter,tag_top:1}
 				// {CCMS_DB_DIR:twiter_feed_filter,tag_bottm}
 				CCMS_DB_Dir($c);
 			} elseif(preg_match('/^\{(CCMS_DB_PRELOAD):([a-z]+[a-z-_,\pN]*)}\z/i', $b, $c)) {
@@ -686,7 +700,8 @@ function CCMS_Main() {
 					break;
 				} elseif($file == $ccms_file[0] . ".html") {
 					header("Content-Type: text/html; charset=UTF-8");
-					header("Cache-Control: public, must-revalidate, proxy-revalidate");
+					header("Cache-Control: no-cache, must-revalidate");
+					header("Pragma: no-cache");
 					$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
 					$found = true;
 					break;

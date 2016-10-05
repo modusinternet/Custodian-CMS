@@ -6,7 +6,6 @@
 		{CCMS_TPL:examples/header-head.html}
 	</head>
 	<body>
-		{CCMS_TPL:examples/header-login-nav.html}
 		<a href="//{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}" style="text-decoration: none; border: 0 none;">
 			<img alt="Custodian CMS Banner.  Easy gears no spilled beers." class="scale" title="Custodian CMS Banner.  Easy gears no spilled beers." src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/ccms-logo-banner-large-en.png" />
 		</a>
@@ -16,6 +15,7 @@
 			<li><a class="tapTarget" href="/de/examples/page-1.html" onclick="lcu('de')">German (Standard)</a></li>
 			<li><a class="tapTarget" href="/ar/examples/page-1.html" onclick="lcu('ar')">العربية (Arabic)</a></li>
 			<li><a class="tapTarget" href="/he/examples/page-1.html" onclick="lcu('he')">עברית (Hebrew)</a></li>
+			<li><a class="tapTarget" href="/hi/examples/page-1.html" onclick="lcu('hi')">हिन्दी (Hindi)</a></li>
 			<li><a class="tapTarget" href="/ja/examples/page-1.html" onclick="lcu('ja')">日本語 (Japanese)</a></li>
 			<li><a class="tapTarget" href="/zh-cn/examples/page-1.html" onclick="lcu('zh-cn')">简体中文(Simplified Chinese)</a></li>
 		</ul>
@@ -26,7 +26,7 @@
 		</p>
 		<h2 dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}">{CCMS_DB:page,page-num}1</h2>
 		<p dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}">
-			<bdo dir="{CCMS_DB_DIR:page-1,para1}">{CCMS_DB:page-1,para1}</bdo>
+			<bdo dir="{CCMS_DB_DIR:page-1,para1:1}">{CCMS_DB:page-1,para1}</bdo>
 		</p>
 		{CCMS_TPL:examples/footer1.html}
 		<script type="text/javascript">
