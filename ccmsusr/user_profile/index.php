@@ -232,36 +232,14 @@ $ccms_user = $qry->fetch(PDO::FETCH_ASSOC);
 						<div class="row">
 							<div class="col-md-12">
 								<h3>Your User Privileges</h3>
-								The string below is an exact copy of what the server reads in order to determine your personal read/write privileges as they relate to this user area.  You have no ability, on this page, to make changes to these settings.  Changes may only be made by someone with access to the '<span class="oj">Admin / User Privileges</span>' area.<br />
+								The string below is an exact copy of what the server reads in order to determine your personal read/write privileges for functions found throughout this site.  The data below that is the same content structured to help make it easier to read.  These setting <span style="text-decoration: underline;">can not</span> be modified here.  Changes can only be made by users with read/write access to the '<span class="oj">Admin / User Privileges</span>' area.<br />
 								<div class="alert alert-success" style="word-wrap: break-word;">
-									<?php echo $ccms_user["priv"]; ?>
+									<?php
+										$json = json_decode($ccms_user["priv"]);
+										echo json_encode($json, JSON_UNESCAPED_SLASHES);
+									?>
+									<pre><?=json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);?></pre>
 								</div>
-								The preceding string brakes down like this:<br />
-<?php
-$search  = array('/', '_');
-$replace = array(' / ', ' ');
-$dirs = explode(";", $ccms_user["priv"]);
-
-foreach ($dirs as $values) {
-	$a = explode(":", $values);
-	echo "<ul><li>" . ucwords(str_replace($search, $replace, $a[0]));
-	$b = explode(",", $a[1]);
-
-	echo "<ul>";
-	if($b[0] == "1") {
-		echo "<li><input disabled type='checkbox' checked='true'> Read</li>";
-	} else {
-		echo "<li><input disabled type='checkbox' checked='false'> Read</li>";
-	}
-	if($b[1] == "1") {
-		echo "<li><input disabled type='checkbox' checked='true'> Write</li>";
-	} else {
-		echo "<li><input disabled type='checkbox' checked='false'> Write</li>";
-	}
-	echo "</ul></li></ul>";
-}
-?>
-								</ul>
 							</div>
 						</div>
 					</div>

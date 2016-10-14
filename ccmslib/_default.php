@@ -62,21 +62,20 @@ function ccms_hrefLang_list() {
 
 function ccms_user_admin_slider() {
 	global $CFG, $CLEAN;
-	$qry = $CFG["DBH"]->prepare("SELECT b.alias FROM `ccms_session` AS a INNER JOIN `ccms_user` AS b On b.id = a.user_id WHERE a.code = :code AND a.ip = :ip AND b.status = '1' LIMIT 1;");
+	$qry = $CFG["DBH"]->prepare("SELECT b.alias, b.priv FROM `ccms_session` AS a INNER JOIN `ccms_user` AS b On b.id = a.user_id WHERE a.code = :code AND a.ip = :ip AND b.status = '1' LIMIT 1;");
 	$qry->execute(array(':code' => $CLEAN["SESSION"]["code"], ':ip' => $_SERVER["REMOTE_ADDR"]));
 	$row = $qry->fetch(PDO::FETCH_ASSOC);
 	if($row == true) {
-		$CFG['loggedIn'] = TRUE;
-		$CFG['alias'] = $row["alias"];
+		//$CFG['loggedIn'] = TRUE;
+		$CLEAN['alias'] = $row["alias"];
 		//echo $CLEAN["CCMS_DB_Preload_Content"]["all"]["login2"][$CLEAN["ccms_lng"]]["content"] . ": <a href='/" . $CLEAN["ccms_lng"] . "/user/'>" . $row["alias"] . "</a> (<a href='/" . $CLEAN["ccms_lng"] . "/user/?logout=1'>" . $CLEAN["CCMS_DB_Preload_Content"]["all"]["login3"][$CLEAN["ccms_lng"]]["content"] . "</a>)";
+		$json_a = json_decode($row["priv"], true);
+		$json_a[priv][content_manager][r] == 1 ? $CFG['loggedIn'] = TRUE : $CFG['loggedIn'] = FALSE;
 	} else {
 		$CFG['loggedIn'] = FALSE;
 		//echo "<a href='/" . $CLEAN["ccms_lng"] . "/user/'>" . $CLEAN["CCMS_DB_Preload_Content"]["all"]["login1"][$CLEAN["ccms_lng"]]["content"] . "</a>";
 	}
-
-	//echo $CFG['loggedIn'];
 	//echo $CLEAN["CCMS_DB_Preload_Content"]["all"]["login2"][$CLEAN["ccms_lng"]]["content"] . ": <a href='/" . $CLEAN["ccms_lng"] . "/user/'>" . $row["alias"] . "</a> (<a href='/" . $CLEAN["ccms_lng"] . "/user/?logout=1'>" . $CLEAN["CCMS_DB_Preload_Content"]["all"]["login3"][$CLEAN["ccms_lng"]]["content"] . "</a>)";
-
 	if($CFG['loggedIn'] == TRUE) { ?>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" charset="utf-8">
 <style>
@@ -103,10 +102,12 @@ $tpl = htmlspecialchars(preg_replace('/^\/([\pL\pN-]*)\/?(.*)\z/i', '${2}', $_SE
 $qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset` ORDER BY lngDesc ASC;");
 if($qry->execute()) {
 	while($row = $qry->fetch()) {
-		if($row["ptrLng"]) {
-			echo "\t\t\t<li id=\"ccms-lng-" . $row["lng"] . "\" onclick=\"ccms_lcu('" . $row["ptrLng"] . "');\" title=\"Points to lng code: " . $row["ptrLng"] . "\"><a href=\"/" . $row["ptrLng"] . "/" . $tpl . "\">" . $row["lngDesc"] . "</a></li>\n";
-		} else {
-			echo "\t\t\t<li id=\"ccms-lng-" . $row["lng"] . "\" onclick=\"ccms_lcu('" . $row["lng"] . "');\" title=\"lng code: " . $row["lng"] . "\"><a href=\"/" . $row["lng"] . "/" . $tpl . "\">" . $row["lngDesc"] . "</a></li>\n";
+		if($json_a[priv][content_manager][lng][$row["lng"]] == 2) {
+			if($row["ptrLng"]) {
+				echo "\t\t\t<li id=\"ccms-lng-" . $row["lng"] . "\" onclick=\"ccms_lcu('" . $row["ptrLng"] . "');\" title=\"Points to lng code: " . $row["ptrLng"] . "\"><a href=\"/" . $row["ptrLng"] . "/" . $tpl . "\">" . $row["lngDesc"] . "</a></li>\n";
+			} else {
+				echo "\t\t\t<li id=\"ccms-lng-" . $row["lng"] . "\" onclick=\"ccms_lcu('" . $row["lng"] . "');\" title=\"lng code: " . $row["lng"] . "\"><a href=\"/" . $row["lng"] . "/" . $tpl . "\">" . $row["lngDesc"] . "</a></li>\n";
+			}
 		}
 	}
 }
@@ -114,7 +115,7 @@ if($qry->execute()) {
 		</ul>
 		<div id="CCMSEdit-user">
 			<a class="CCMSEdit-alias" href="/<?php echo $CLEAN["ccms_lng"]; ?>/user/">
-				<?php echo $CFG["alias"]; ?>
+				<?php echo $CLEAN["alias"]; ?>
 			</a>
 			<span>
 				<a class="CCMSEdit-logout" href="/<?php echo $CLEAN["ccms_lng"]; ?>/user/?logout=1" title="<?php echo $CLEAN["CCMS_DB_Preload_Content"]["all"]["login3"][$CLEAN["ccms_lng"]]["content"]; ?>">

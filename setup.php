@@ -373,8 +373,9 @@ if($CFG["DBH"]) {
 				$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
 				$salt = sprintf("$2a$%02d$", $cost) . $salt;
 				$hash = crypt($_REQUEST["password"], $salt);
-				$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_user` (`email`, `hash`, `status`, `alias`, `super`) VALUES (:email, :hash, '1', :alias, '1');");
-				$qry->execute(array(':email' => $_REQUEST["email"], ':hash' => $hash, ':alias' => $_REQUEST["alias"]));
+				$priv = '{"priv":{"admin":{"r":1,"users_and_user_privileges":{"rw":2},"language_support":{"rw":2},"blacklist_settings":{"rw":2}},"content_manager":{"r":1,"lng":{"de":2,"de-at":2,"de-de":2,"de-li":2,"de-lu":2,"de-ch":2,"en":2,"en-au":2,"en-bz":2,"en-ca":2,"en-ie":2,"en-jm":2,"en-nz":2,"en-ph":2,"en-za":2,"en-tt":2,"en-gb":2,"en-us":2,"en-zw":2,"es":2,"es-ar":2,"es-bo":2,"es-cl":2,"es-co":2,"es-cr":2,"es-do":2,"es-ec":2,"es-sv":2,"es-gt":2,"es-hn":2,"es-mx":2,"es-ni":2,"es-pa":2,"es-py":2,"es-pe":2,"es-pr":2,"es-es":2,"es-uy":2,"es-ve":2,"fr":2,"fr-be":2,"fr-ca":2,"fr-fr":2,"fr-lu":2,"fr-mc":2,"fr-ch":2,"ms":2,"pt":2,"ar":2,"bn":2,"ru":2,"hi":2,"ja":2,"zh":2,"zh-cn":2,"zh-tw":2,"he":2}},"group_lists":{"rw":2}}}';
+				$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_user` (`email`, `hash`, `status`, `alias`, `super`, `priv`) VALUES (:email, :hash, '1', :alias, '1', :priv);");
+				$qry->execute(array(':email' => $_REQUEST["email"], ':hash' => $hash, ':alias' => $_REQUEST["alias"], ':priv' => $priv));
 			}
 		} else {
 			exit('<script>alert("No direct script access allowed");</script>');
