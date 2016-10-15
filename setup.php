@@ -15,6 +15,8 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 	<head>
 		<meta charset="utf-8">
 		<title>Custodian CMS v<?php echo $CFG["VERSION"];?></title>
+		<meta name="author" content="Custodian CMS, developed by Vincent Hallberg of Modus Internet (modusinternet.com).  Port Coquitlam, British Columbia, Canada." />
+		<meta name="description" content="Welcome to Custodian CMS, a multilingual, template and content management system.  Write one template, using one domain, on one server and support multipule languages." />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Favicon -->
@@ -29,8 +31,6 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 		<!-- https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html -->
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-
 
 		<style type="text/css">
 			.oj { color: rgb(236, 127, 39); }
@@ -74,7 +74,7 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 						To fully activate your new templates you need to manually complete some of the following steps.  We do not automate most of this process in order to make sure it never becomes a target for hackers.  The following shows the test order and a brief description of what is needed to pass each test.  If you are familiar with the steps listed below click the <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> tab to see your results now.
 					</p>
 					<ol>
-						<li>Custodian CMS requires PHP v5.3.7+ and MySQL v5.5.3+ to run properly.</li>
+						<li>Custodian CMS requires PHP v5.4+ and MySQL v5.5.3+ to run properly.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/config_original.php</span> and name it <span class="oj">/ccmspre/config.php</span>.  Then update it with all your domain name and database settings.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/whitelist_public_original.php</span> and name it <span class="oj">/ccmspre/whitelist_public.php</span>.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/whitelist_user_original.php</span> and name it <span class="oj">/ccmspre/whitelist_user.php</span>.</li>
@@ -93,11 +93,11 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 					<div class="panel-body">
 						<div class="panel-group" id="accordion" role="tablist">
 
-<?php if(version_compare(phpversion(), '5.3.7', '>=')) { $CFG["pass"]=1; } else { $CFG["pass"]=0; } ?>
+<?php if(version_compare(phpversion(), '5.4', '>=')) { $CFG["pass"]=1; } else { $CFG["pass"]=0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#1" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
-										Test for minimum <span class="oj">PHP v5.3.7+</span>
+										Test for minimum <span class="oj">PHP v5.4+</span>
 										<i class="fa fa-angle-double-down" style="float: right;"></i>
 									</h4>
 								</div>
