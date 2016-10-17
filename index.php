@@ -10,10 +10,10 @@ $CFG = array();
 $CLEAN = array();
 
 $CFG["VERSION"] = "0.6.1";
-$CFG["RELEASE_DATE"] = "Apr 14, 2016";
+$CFG["RELEASE_DATE"] = "Oct 4, 2016";
 
-if(file_exists("setup.php")) {
-	require_once "setup.php";
+if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/setup.php")) {
+	require_once($_SERVER["DOCUMENT_ROOT"] . "/setup.php");
 	die();
 }
 

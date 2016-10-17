@@ -4,7 +4,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
+if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/ccmsusr/index.php"))) {
 	echo "This script can not be called directly.";
 	die();
 }
@@ -112,7 +112,7 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 								</div>
 							</div>
 
-<?php if(file_exists("ccmspre/config.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
+<?php if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/config.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#2" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
@@ -131,7 +131,7 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 								</div>
 							</div>
 
-<?php if(file_exists("ccmspre/whitelist_public.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
+<?php if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/whitelist_public.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#3" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
@@ -150,7 +150,7 @@ if(!($_SERVER["SCRIPT_NAME"] == "/index.php")) {
 								</div>
 							</div>
 
-<?php if(file_exists("ccmspre/whitelist_user.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
+<?php if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/whitelist_user.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#4" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
@@ -293,7 +293,7 @@ if($CFG["DBH"]) {
 				$CFG["DBH"]->query("DESCRIBE `ccms_user`");
 			} catch(PDOException $e) {
 				$CFG["DBH"]->query("DROP TABLE IF EXISTS `ccms_blacklist`, `ccms_ins_db`, `ccms_lng_charset`, `ccms_session`, `ccms_user`");
-				$CFG["DBH"]->exec(file_get_contents('ccms-db-setup.sql'));
+				$CFG["DBH"]->exec(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/ccms-db-setup.sql"));
 			}
 		} else {
 			exit('<script>alert("No direct script access allowed");</script>');

@@ -9,11 +9,8 @@
 $CFG = array();
 $CLEAN = array();
 
-$CFG["VERSION"] = "0.6";
-$CFG["RELEASE_DATE"] = "Nov 20, 2015";
-
-if(file_exists("../setup.php")) {
-	require_once "../setup.php";
+if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/setup.php")) {
+	require_once($_SERVER["DOCUMENT_ROOT"] . "/index.php");
 	die();
 }
 
