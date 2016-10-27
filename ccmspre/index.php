@@ -191,36 +191,29 @@ function CCMS_cookie_SESSION() {
 	$replace = array('&lt;', '&gt;');
 	$CLEAN["SESSION"]["user_agent"] = str_replace($search, $replace, trim(substr($_SERVER['HTTP_USER_AGENT'], 0, 255)));
 
-	/*
-	if(isset($CLEAN["ccms_cid"]) && trim($CLEAN["ccms_cid"]) != "" && $CLEAN["ccms_cid"] != "INVAL" && $CLEAN["ccms_cid"] != "MAXLEN") {
-		// This option helps when jumping from one website to another and retaining a users id value for a shoping cart.
-		// Like when moving between www.abc.com and secure.abc.com.
-		$CLEAN["ccms_session"] = $CLEAN["ccms_cid"];
-	}
-	*/
-
-	if(isset($CLEAN["ccms_session"]) && trim($CLEAN["ccms_session"]) != "") {
-		$CLEAN["SESSION"]["code"] = $CLEAN["ccms_session"];
-		// Else update the 'code' and 'exp' value found in the 'ccms_session' record every time it is seen.
+	if(isset($CLEAN["ccms_session"]) && $CLEAN["ccms_session"] != "MAXLEN" && $CLEAN["ccms_session"] != "INVAL") {
+		// The user appears to already have a session code so now we test it.
 
 		// Check the 'ccms_session' table for matches.
-		$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_session` WHERE `code` = :ccms_session LIMIT 1;");
-		$qry->execute(array(':ccms_session' => $CLEAN["ccms_session"]));
+		$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_session` WHERE `code` = :ccms_session AND `ip` = :ip AND `user_agent` = :user_agent LIMIT 1;");
+		$qry->execute(array(':ccms_session' => $CLEAN["ccms_session"], ':ip' => $_SERVER["REMOTE_ADDR"], ':user_agent' => $CLEAN["SESSION"]["user_agent"]));
 		$row = $qry->fetch(PDO::FETCH_ASSOC);
 
 		if($row) {
+			// Session match found
 			$a = time();
 
-			// If a record is found.
 			if($a > $row["exp"]) {
-				// If the current time is greater than the time stored in 'exp' then delete the old record and create a new one.
+				// Session expired
 				$qry = $CFG["DBH"]->prepare("DELETE FROM `ccms_session` WHERE `id` = :id LIMIT 1;");
 				$qry->execute(array(':id' => $row["id"]));
 
-				$a = md5(time());
-				$b = time();
+				$a = time();
+				$b = $a;
+				$a = md5($a);
 				$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
 				setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+
 				$CLEAN["SESSION"]["code"] = $a;
 				$CLEAN["SESSION"]["first"] = $b;
 				$CLEAN["SESSION"]["last"] = $b;
@@ -229,14 +222,16 @@ function CCMS_cookie_SESSION() {
 				$CLEAN["SESSION"]["user_id"] = NULL;
 				$CLEAN["SESSION"]["fail"] = "0";
 
-				$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_session` (code, first, last, exp, ip, user_agent) VALUES (:code, :first, :last, :exp, :ip, :user_agent)");
+				$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_session` (code, first, last, exp, ip, user_agent) VALUES (:code, :first, :last, :exp, :ip, :user_agent);");
 				$qry->execute(array(':code' => $a, ':first' => $b, ':last' => $b, ':exp' => $c, ':ip' => $_SERVER["REMOTE_ADDR"], ':user_agent' => $CLEAN["SESSION"]["user_agent"]));
 			} else {
-				// Else update the 'code' and 'exp' field with the new values.
-				$a = md5(time());
-				$b = time();
+				// Session not expired
+				$a = time();
+				$b = $a;
+				$a = md5($a);
 				$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
 				setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+
 				$CLEAN["SESSION"]["code"] = $a;
 				$CLEAN["SESSION"]["first"] = $row["first"];
 				$CLEAN["SESSION"]["last"] = $b;
@@ -249,11 +244,13 @@ function CCMS_cookie_SESSION() {
 				$qry->execute(array(':code' => $a, ':last' => $b, ':exp' => $c, ':id' => $row["id"]));
 			}
 		} else {
-			// Its an old cookie and can not be matched up with anything in the database anylonger.  Probably was automatically cleaned out by the admin system.
-			$a = md5(time());
-			$b = time();
+			// Session not found
+			$a = time();
+			$b = $a;
+			$a = md5($a);
 			$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
 			setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+
 			$CLEAN["SESSION"]["code"] = $a;
 			$CLEAN["SESSION"]["first"] = $b;
 			$CLEAN["SESSION"]["last"] = $b;
@@ -262,15 +259,17 @@ function CCMS_cookie_SESSION() {
 			$CLEAN["SESSION"]["user_id"] = NULL;
 			$CLEAN["SESSION"]["fail"] = "0";
 
-			$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_session` (code, first, last, exp, ip, user_agent) VALUES (:code, :first, :last, :exp, :ip, :user_agent)");
+			$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_session` (code, first, last, exp, ip, user_agent) VALUES (:code, :first, :last, :exp, :ip, :user_agent);");
 			$qry->execute(array(':code' => $a, ':first' => $b, ':last' => $b, ':exp' => $c, ':ip' => $_SERVER["REMOTE_ADDR"], ':user_agent' => $CLEAN["SESSION"]["user_agent"]));
 		}
 	} else {
-		// No session information found at all, probably a new visitor.
-		$a = md5(time());
-		$b = time();
+		// Session not found
+		$a = time();
+		$b = $a;
+		$a = md5($a);
 		$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
 		setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+
 		$CLEAN["SESSION"]["code"] = $a;
 		$CLEAN["SESSION"]["first"] = $b;
 		$CLEAN["SESSION"]["last"] = $b;
@@ -279,7 +278,7 @@ function CCMS_cookie_SESSION() {
 		$CLEAN["SESSION"]["user_id"] = NULL;
 		$CLEAN["SESSION"]["fail"] = "0";
 
-		$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_session` (code, first, last, exp, ip, user_agent) VALUES (:code, :first, :last, :exp, :ip, :user_agent)");
+		$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_session` (code, first, last, exp, ip, user_agent) VALUES (:code, :first, :last, :exp, :ip, :user_agent);");
 		$qry->execute(array(':code' => $a, ':first' => $b, ':last' => $b, ':exp' => $c, ':ip' => $_SERVER["REMOTE_ADDR"], ':user_agent' => $CLEAN["SESSION"]["user_agent"]));
 	}
 }

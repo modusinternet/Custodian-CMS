@@ -65,7 +65,7 @@ function ccms_user_admin_slider() {
 	$qry = $CFG["DBH"]->prepare("SELECT b.alias, b.priv FROM `ccms_session` AS a INNER JOIN `ccms_user` AS b On b.id = a.user_id WHERE a.code = :code AND a.ip = :ip AND b.status = '1' LIMIT 1;");
 	$qry->execute(array(':code' => $CLEAN["SESSION"]["code"], ':ip' => $_SERVER["REMOTE_ADDR"]));
 	$row = $qry->fetch(PDO::FETCH_ASSOC);
-	if($row == true) {
+	if($row) {
 		//$CFG['loggedIn'] = TRUE;
 		$CLEAN['alias'] = $row["alias"];
 		//echo $CLEAN["CCMS_DB_Preload_Content"]["all"]["login2"][$CLEAN["ccms_lng"]]["content"] . ": <a href='/" . $CLEAN["ccms_lng"] . "/user/'>" . $row["alias"] . "</a> (<a href='/" . $CLEAN["ccms_lng"] . "/user/?logout=1'>" . $CLEAN["CCMS_DB_Preload_Content"]["all"]["login3"][$CLEAN["ccms_lng"]]["content"] . "</a>)";
@@ -201,7 +201,7 @@ if($qry->execute()) {
 					}).done(function(msg) {
 						textOrig[1] = $.trim($(el).html());
 						$(el).html("");
-						editor=$("<textarea class=\"CCMS-editor-textarea\" rows=\"5\">"+msg+"</textarea><div style=\"position:relative;color:#000;font:16px/1.2 normal;text-align:left;text-transform:none;\"><span><strong>Warning</strong>: Only &lt;a&gt;, &lt;br&gt;, &lt;img&gt;, &lt;p&gt;, &lt;pre&gt;, &lt;span&gt; and CCMS tags like <span style=\"word-break:break-all;\">&#123;CCMS_LIB:_default.php;FUNC:ccms_lng}</span> or &#123;CCMS_DB:index,para1} are permitted here.  All else is automatically removed at the server.<br />Shift+[Enter] for Break</span><span style=\"position:absolute;bottom:0;right:0;\">( ID:"+textOrig[0]+" )</span></div>").appendTo($(el));
+						editor=$("<textarea class=\"CCMS-editor-textarea\" rows=\"5\">"+msg+"</textarea><div style=\"position:relative;color:#000;font:16px/1.2 normal;text-align:left;text-transform:none;\"><span><strong>Warning</strong>: Only &lt;a&gt;, &lt;br&gt;, &lt;img&gt;, &lt;p&gt;, &lt;pre&gt;, &lt;span&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt; and CCMS tags like <span style=\"word-break:break-all;\">&#123;CCMS_LIB:_default.php;FUNC:ccms_lng}</span> or &#123;CCMS_DB:index,para1} are permitted here.  All else is automatically removed at the server.<br />Shift+[Enter] for Break</span><span style=\"position:absolute;bottom:0;right:0;\">( ID:"+textOrig[0]+" )</span></div>").appendTo($(el));
 						$(el).find('textarea').keyup(function (e) {
 							if(e.keyCode == 13 && e.shiftKey) {
 								var content = this.value;
