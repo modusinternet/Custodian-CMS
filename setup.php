@@ -359,6 +359,24 @@ if($CFG["DBH"]) {
 								</div>
 							</div>
 
+<?php if($CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] && $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"]) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
+							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
+								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#10" role="tab" style="cursor: pointer;">
+									<h4 class="panel-title">
+										Test for <span class="oj">Google reCAPTCHA Public Key</span> and <span class="oj">Private Key</span> inside <span class="oj">/ccmspre/config.php</span>
+										<i class="fa fa-angle-double-down" style="float: right;"></i>
+									</h4>
+								</div>
+								<div id="10" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
+									<div class="panel-body">
+<?php if($CFG["pass"]==1): ?>
+										Pass
+<?php else: ?>
+										Google reCAPTCHA is used to help secure the Login and Password Reset forms.  Open the /ccmspre/config.php template, update the $CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] and $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] fields with details dirived from <a href="https://www.google.com/recaptcha/admin/create" target="_blank">https://www.google.com/recaptcha/admin/create</a>.
+<?php endif ?>
+									</div>
+								</div>
+							</div>
 <?php
 if($CFG["DBH"]) {
 	$CFG["pass"] = 1;
@@ -401,13 +419,13 @@ if($CFG["DBH"]) {
 }
 ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
-								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#10" role="tab" style="cursor: pointer;">
+								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#11" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
 										Test for <span class="oj">Administrator</span>
 										<i class="fa fa-angle-double-down" style="float: right;"></i>
 									</h4>
 								</div>
-								<div id="10" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
+								<div id="11" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
 <?php if($CFG["pass"]==1): ?>
 										Pass
