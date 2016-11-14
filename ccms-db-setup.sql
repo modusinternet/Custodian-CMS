@@ -169,7 +169,8 @@ CREATE TABLE `ccms_session` (
   `ip` char(16) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `fail` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'The number of times they failed to login properly to the user area.',
-  `user_agent` varchar(255) NOT NULL
+  `user_agent` varchar(255) NOT NULL,
+  `prf` tinyint(1) DEFAULT NULL COMMENT 'Password Reset Flag'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Session information to help keep track of visitors.';
 
 -- --------------------------------------------------------
@@ -269,4 +270,4 @@ ALTER TABLE `ccms_session`
 -- AUTO_INCREMENT for table `ccms_user`
 --
 ALTER TABLE `ccms_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
