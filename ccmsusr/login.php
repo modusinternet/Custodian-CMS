@@ -262,7 +262,7 @@ $email_message .= "\r\n\r\n--" . $boundary . "--";
 				header("Location: /");
 				die();
 			} else {
-				$ccms_pass_reset_form_message["fail"] = "Password reset failed.  This link is expired or invalid from this device/location.  Please request a new password reset Email for this device from this location.";
+				$ccms_pass_reset_form_message["fail"] = "Password reset failed.  This link is expired or invalid from this browser/device/location.  Please request a new password reset Email for this device from this location.";
 			}
 		}
 	} else {
@@ -334,7 +334,7 @@ $email_message .= "\r\n\r\n--" . $boundary . "--";
 		if(!$row) {
 			// The prf session in the URL is either expired, invalid from this device or location.
 			$CLEAN["ccms_pass_reset_form_prf"] = "";
-			$ccms_pass_reset_form_message["fail"] = "Password reset failed.  This link is expired or invalid from this device/location.  Please request a new password reset Email for this device from this location.";
+			$ccms_pass_reset_form_message["fail"] = "Password reset failed.  This link is expired or invalid from this browser/device/location.  Please request a new password reset Email for this device from this location.";
 		} else {
 			// The prf session is valid.
 			// Remove the Password Reset session from the database because they are one time use only.
@@ -350,7 +350,7 @@ $email_message .= "\r\n\r\n--" . $boundary . "--";
 				$qry = $CFG["DBH"]->prepare("DELETE FROM `ccms_session` WHERE `code` = :ccms_session LIMIT 1;");
 				$qry->execute(array(':ccms_session' => $CLEAN["ccms_pass_reset_form_code"]));
 				$CLEAN["ccms_pass_reset_form_prf"] = "";
-				$ccms_pass_reset_form_message["fail"] = "Password reset failed.  An active user of the provided ID was not found.  Please request a new password reset Email for this device from this location because they are one-time use only.";
+				$ccms_pass_reset_form_message["fail"] = "Password reset failed.  An active user of the provided ID was not found.  Please request a new password reset Email for this browser/device/location because they are one-time use only.";
 			} else {
 				// Success, an active user of the provided ID WAS found.
 				// Encrypt the new password and overwrite the old one.
@@ -377,7 +377,19 @@ $email_message .= "\r\n\r\n--" . $boundary . "--";
 		$qry = $CFG["DBH"]->prepare("DELETE FROM `ccms_session` WHERE `code` = :ccms_session LIMIT 1;");
 		$qry->execute(array(':ccms_session' => $CLEAN["ccms_pass_reset_form_code"]));
 		$CLEAN["ccms_pass_reset_form_prf"] = "";
-		$ccms_pass_reset_form_message["fail"] .= " Please request a new password reset Email for this device from this location because they are one-time use only.";
+
+		// Password reset failed so we increment the fail field by 1, once it reaches 5 the login page wont
+		// even be available to the user anymore till their session expires.
+		$CLEAN["SESSION"]["fail"] = $CLEAN["SESSION"]["fail"] + 1;
+		$qry = $CFG["DBH"]->prepare("UPDATE `ccms_session` SET `fail` = :fail WHERE `code` = :code LIMIT 1;");
+		$qry->execute(array(':fail' => $CLEAN["SESSION"]["fail"], ':code' => $CLEAN["SESSION"]["code"]));
+		if($CLEAN["SESSION"]["fail"] >= 5) {
+			// Maximum number of fails for this session have been reached.  Do not accept anymore tries till this session record expires.
+			header("Location: /");
+			die();
+		} else {
+			$ccms_pass_reset_form_message["fail"] .= " Please request a new password reset Email for this browser/device/location because they are one-time use only.";
+		}
 	}
 }
 

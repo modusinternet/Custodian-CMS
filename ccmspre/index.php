@@ -195,7 +195,7 @@ function CCMS_cookie_SESSION() {
 		// The user appears to already have a session code so now we test it.
 
 		// Check the 'ccms_session' table for matches.
-		$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_session` WHERE `code` = :ccms_session AND `ip` = :ip AND `user_agent` = :user_agent LIMIT 1;");
+		$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_session` WHERE `code` = :ccms_session AND `ip` = :ip AND `user_agent` = :user_agent AND `prf` IS NULL LIMIT 1;");
 		$qry->execute(array(':ccms_session' => $CLEAN["ccms_session"], ':ip' => $_SERVER["REMOTE_ADDR"], ':user_agent' => $CLEAN["SESSION"]["user_agent"]));
 		$row = $qry->fetch(PDO::FETCH_ASSOC);
 
