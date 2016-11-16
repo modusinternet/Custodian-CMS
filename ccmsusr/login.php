@@ -200,7 +200,7 @@ $email_message .= "\r\n\r\n--" . $boundary . "--";
 
 			mail( $CLEAN["ccms_pass_reset_form_email"], "Temporary password reset link from " . $CFG["DOMAIN"], $email_message, $headers, "-f" . $CFG["EMAIL_BOUNCES_RETURNED_TO"] );
 
-			$ccms_pass_reset_form_message["success"] = "A temporary password reset link has been emailed to " . $CLEAN["ccms_pass_reset_form_email"] . ".";
+			$ccms_pass_reset_form_message["success"] = "A temporary password reset link has been emailed to " . $CLEAN["ccms_pass_reset_form_email"] . ". Follow the instructions in the email to reset your password. If you do not receive an email soon, please contact support at: " . $CFG["EMAIL_FROM"] . ".";
 		} else {
 			// An active user with the same email address WAS NOT found in the database.
 			// Password reset failed so we increment the fail field by 1, once it reaches 5 the login page wont
@@ -502,7 +502,7 @@ if($CLEAN["logout"] == "" && $CLEAN["login"] == "" && $CLEAN["ccms_pass_reset_fo
 			<div class="row">
 				<div class="col-md-5 col-md-offset-3">
 					<div class="alert alert-success" style="margin-bottom: 0; margin-top: 20px;">
-						Please reset your password below.  Remember this form will only work one time.  Once you submit this form it will not work again unless you request a new Password Reset Email.
+						Use the form below to reset your password.  Remember this link/form will only work one time.  Once you submit this form it will not work again unless you request a new Password Reset link.
 					</div>
 					<div class="login-panel panel panel-default" style="margin-top: 20px;">
 						<div class="panel-heading">
