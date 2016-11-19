@@ -39,16 +39,24 @@ if(!$error) {
 	$search =	array(
 	"<br>","<br/>","<br />",
 	"<a ","</a>",
+	"<i ","</i>",
 	"<img ",
-	"<p>","</p>",
-	"<span>","</span>",
+	"<p>","<p ","</p>",
+	"<span ","</span>",
+	"<ul>","<ul ","</ul>",
+	"<ol>","<ol ","</ol>",
+	"<li>","<li ","</li>",
 	);
 	$replace =	array(
 	"{BREAK}","{BREAK}","{BREAK}",
 	"{A-BEGIN}","{A-END}",
+	"{I-BEGIN}","{I-END}",
 	"{IMG-BEGIN}",
-	"{P-BEGIN}","{P-END}",
+	"{P1-BEGIN}","{P2-BEGIN}","{P-END}",
 	"{SPAN-BEGIN}","{SPAN-END}",
+	"{UL1-BEGIN}","{UL2-BEGIN}","{UL-END}",
+	"{OL1-BEGIN}","{OL2-BEGIN}","{OL-END}",
+	"{LI1-BEGIN}","{LI2-BEGIN}","{LI-END}",
 	);
 	$CLEAN["ccms_ins_db_text"] = str_replace($search, $replace, $CLEAN["ccms_ins_db_text"]);
 
@@ -59,16 +67,24 @@ if(!$error) {
 	$search =	array(
 	"{BREAK}",
 	"{A-BEGIN}","{A-END}",
+	"{I-BEGIN}","{I-END}",
 	"{IMG-BEGIN}",
-	"{P-BEGIN}","{P-END}",
+	"{P1-BEGIN}","{P2-BEGIN}","{P-END}",
 	"{SPAN-BEGIN}","{SPAN-END}",
+	"{UL1-BEGIN}","{UL2-BEGIN}","{UL-END}",
+	"{OL1-BEGIN}","{OL2-BEGIN}","{OL-END}",
+	"{LI1-BEGIN}","{LI2-BEGIN}","{LI-END}",
 	);
 	$replace =	array(
 	"<br />",
 	"<a ","</a>",
+	"<i ","</i>",
 	"<img ",
-	"<p>","</p>",
-	"<span>","</span>",
+	"<p>","<p ","</p>",
+	"<span ","</span>",
+	"<ul>","<ul ","</ul>",
+	"<ol>","<ol ","</ol>",
+	"<li>","<li ","</li>",
 	);
 
 	$CLEAN["ccms_ins_db_text"] = str_replace($search, $replace, $CLEAN["ccms_ins_db_text"]);
