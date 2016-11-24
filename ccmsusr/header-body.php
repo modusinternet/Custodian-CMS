@@ -19,7 +19,7 @@
 									<a href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/user_profile/"><i class="fa fa-user fa-fw"></i> User Profile</a>
 								</li>
 								<li>
-									<a href="//{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}"><i class="fa fa-home fa-fw"></i> To Homepage</a>
+									<a href="//{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/{CCMS_LIB:_default.php;FUNC:ccms_lng}/?ccms_token={CCMS_LIB:_default.php;FUNC:ccms_token}"><i class="fa fa-home fa-fw"></i> To Homepage</a>
 								</li>
 								<li class="divider"></li>
 								<li>

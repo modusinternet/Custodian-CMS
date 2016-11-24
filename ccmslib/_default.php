@@ -239,7 +239,6 @@ if($qry->execute()) {
 							left : ($t.width() / 2)
 						});
 						$("#CCMS-loadingSpinner").fadeIn();
-
 						$.ajax({
 							url: "/<?php echo $CLEAN["ccms_lng"]; ?>/user/_js/ccms-user-admin-slider-02-ajax.html?ajax_flag=1",
 							cache: false,
@@ -407,7 +406,49 @@ if($qry->execute()) {
 		}
 		document.getElementById("ccms-lng-<?php echo $CLEAN["ccms_lng"]; ?>").scrollIntoView();
 		document.getElementById("ccms-lng-<?php echo $CLEAN["ccms_lng"]; ?>").children[0].style.textDecoration = "underline";
+		setTimeout(function() {ccms_admin_slider_token();}, 100);
 		setTimeout(function() {ccms_edit_mode_switch_main();}, 1000);
+
+	}
+
+	function ccms_admin_slider_token() {
+		// Needed because of page caching.  If you login as a user and need to edit templates using the
+		// User Admin Slider you will have trouble finding your controls if you don't refresh your page because
+		// the browser is set to cache the pages in visitors browsers to help imporve it's speed.
+		var parser = document.createElement('a'),
+			searchObject = {},
+			queries,
+			split,
+			i,
+			ccms_token = "ccms_token=<?php echo md5(time()); ?>";
+		$("a").each(function() {
+			parser.href = this.href;
+			// Convert query string to object
+			queries = parser.search.replace(/^\?/, '').split('&');
+			for( i = 0; i < queries.length; i++ ) {
+				split = queries[i].split('=');
+				searchObject[split[0]] = split[1];
+			}
+			/*
+				parser.protocol
+				parser.host
+				parser.hostname
+				parser.port
+				parser.pathname
+				parser.search
+				parser.searchObject
+				parser.hash
+			*/
+			//console.log('protocol: '+parser.protocol+'\nhost: '+parser.host+'\nhostname: '+parser.hostname+'\nport: '+parser.port+'\npathname: '+parser.pathname+'\nsearch: '+parser.search+'\searchObject: '+parser.searchObject+'\nhash: '+parser.hash+'\n\n');
+			if(parser.hostname == "<?php global $CFG; echo $CFG["DOMAIN"]; ?>") {
+				// First we test to make sure the href belongs to our site and is not a link to another site.
+				// if so then we clean out any previous instances of the ccms_token variable to prevent accumulation.
+				parser.search = parser.search.replace(/([&\?]ccms_token=[a-z0-9]*$|ccms_token=[a-z0-9]*&|[?&]ccms_token=[a-z0-9]*(?=#))/ig, '');
+				// Now we rebuild the link to include a fresh ccms_token to help makesure we don't pull a cached version from
+				// the browser when we get there.
+				this.href = parser.protocol+'//'+parser.hostname+(parser.port ? ':'+parser.port : '')+parser.pathname+(parser.search ? parser.search+'&'+ccms_token : '?'+ccms_token)+parser.hash
+			}
+		});
 	}
 
 	if(window.addEventListener)
@@ -431,6 +472,10 @@ function ccms_lng() {
 function ccms_lng_dir() {
 	global $CFG;
 	echo $CFG["CCMS_LNG_DIR"];
+}
+
+function ccms_token() {
+	echo md5(time());
 }
 
 function ccms_printrClean() {
