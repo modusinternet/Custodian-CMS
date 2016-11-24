@@ -406,7 +406,7 @@ if($qry->execute()) {
 		}
 		document.getElementById("ccms-lng-<?php echo $CLEAN["ccms_lng"]; ?>").scrollIntoView();
 		document.getElementById("ccms-lng-<?php echo $CLEAN["ccms_lng"]; ?>").children[0].style.textDecoration = "underline";
-		setTimeout(function() {ccms_admin_slider_token();}, 100);
+		setTimeout(function() {ccms_admin_slider_token();}, 1000);
 		setTimeout(function() {ccms_edit_mode_switch_main();}, 1000);
 
 	}
