@@ -698,12 +698,21 @@ function CCMS_Main() {
 					$found = true;
 					break;
 				} elseif($file == $ccms_file[0] . ".html") {
-					header("Content-Type: text/html; charset=UTF-8");
-					header("Cache-Control: no-cache, must-revalidate");
-					header("Pragma: no-cache");
-					$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
-					$found = true;
-					break;
+					if($CLEAN["SESSION"]["user_id"] == NULL) {
+						// If this is a normal session and the user is not logged in then cache this page in the visitors browers.
+						header("Content-Type: text/html; charset=UTF-8");
+						$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
+						$found = true;
+						break;
+					} else {
+						// If this is a verified session asigned of an active user then disable cache.
+						header("Content-Type: text/html; charset=UTF-8");
+						header("Cache-Control: no-cache, must-revalidate");
+						header("Pragma: no-cache");
+						$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
+						$found = true;
+						break;
+					}
 				}
 			}
 		}
