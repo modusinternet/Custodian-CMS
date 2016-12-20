@@ -1,6 +1,7 @@
 {
     "name": "modusinternet/custodian-cms",
     "description": "Multilingual Web CMS software",
+    "minimum-stability": "dev",
     "type": "cms",
     "license": "MIT",
     "authors": [
