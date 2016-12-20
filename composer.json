@@ -1,0 +1,13 @@
+{
+    "name": "modusinternet/custodian-cms",
+    "description": "Multilingual Web CMS software",
+    "type": "cms",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vincent Hallberg",
+            "email": "vince@modusinternet.com"
+        }
+    ],
+    "require": {}
+}
