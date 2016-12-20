@@ -2,7 +2,7 @@
     "name": "modusinternet/Custodian-CMS",
     "type": "middleware",
     "description": "CMS software with multilingual support",
-    "keywords": ["cms", "multilingual'],
+    "keywords": ["cms", "multilingual"],
     "homepage": "https://github.com/modusinternet/Custodian-CMS",
     "license": "MIT",
     "authors": [
