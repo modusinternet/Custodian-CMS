@@ -1,0 +1,5 @@
+{
+    "require": {
+        "modusinternet/Custodian-CMS": "1.0.*"
+    }
+}
