@@ -1,5 +1,5 @@
 {
-    "name": "modusinternet/Custodian-CMS",
+    "name": "modusinternet/custodian-cms",
     "type": "middleware",
     "description": "CMS software with multilingual support",
     "keywords": ["cms", "multilingual"],
