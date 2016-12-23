@@ -6,7 +6,6 @@ $CFG["DOMAIN"] = "";
 $CFG["INDEX"] = "index";
 $CFG["USRINDEX"] = "dashboard/";
 
-
 // Document root folder globals.
 $CFG["DBH"] = NULL;
 $CFG["LIBDIR"] = "ccmslib";
@@ -36,7 +35,7 @@ $CFG["DEBUG_ERROR_REPORTING"] = 0;
 // e.g.:
 // $CFG["COOKIE_SESSION_EXPIRE"] = 30; // 30 minutes.
 // $CFG["COOKIE_SESSION_EXPIRE"] = 180; // 3 hours.
-$CFG["COOKIE_SESSION_EXPIRE"] = 60;
+$CFG["COOKIE_SESSION_EXPIRE"] = 120;
 
 // When emails are sent by the server what email address do you want them to be sent from.
 $CFG["EMAIL_FROM"] = "";
@@ -48,7 +47,11 @@ $CFG["EMAIL_BOUNCES_RETURNED_TO"] = "";
 // To get one for your site visit http://www.google.com/cse/
 $CFG["GOOGLE_CUSTOM_SEARCH_ENGINE_CODE"] = "";
 
+// To add Google reCaptcha to your web forms enter your recaptcha keys here.
 // https://www.google.com/recaptcha/admin/create
-$CFG["RECAPTCHA_PUBLICKEY"] = ""; // Site key
-$CFG["RECAPTCHA_PRIVATEKEY"] = ""; // Secret key
+$CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] = ""; // Site key
+$CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] = ""; // Secret key
 
+// To add Google Credentials so that you can embed things like maps to your site add your key here.
+// https://console.cloud.google.com
+$CFG["GOOGLE_CREDENTIALS_KEY"] = "";
