@@ -1,14 +1,13 @@
 {CCMS_DB_PRELOAD:all,page,page-3}<!DOCTYPE html>
-<html lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}">
+<html id="no-fouc" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}" style="opacity: 0;">
 	<head>
 		<meta charset="utf-8">
 		<title>Custodian CMS v{CCMS_LIB:_default.php;FUNC:ccms_version} | {CCMS_DB:page,title}3</title>
+		<meta name="description" content="Welcome to Custodian CMS, a multilingual, template and content management system.  Write one template, using one domain, on one server and support multipule languages." />
 		{CCMS_TPL:examples/header-head.html}
 	</head>
 	<body>
-		<a href="//{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}" style="text-decoration: none; border: 0 none;">
-			<img alt="Custodian CMS Banner.  Easy gears no spilled beers." class="scale" title="Custodian CMS Banner.  Easy gears no spilled beers." src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/ccms-logo-banner-large-en.png" />
-		</a>
+		{CCMS_TPL:examples/header-body.html}
 		<ul>
 			<li><a class="tapTarget" href="/en/examples/page-3.html" onclick="lcu('en')">English</a></li>
 			<li><a class="tapTarget" href="/fr/examples/page-3.html" onclick="lcu('fr')">Français</a></li>
@@ -20,18 +19,46 @@
 			<li><a class="tapTarget" href="/zh-cn/examples/page-3.html" onclick="lcu('zh-cn')">简体中文(Simplified Chinese)</a></li>
 		</ul>
 		<p>
-			<a class="tapTarget" dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-1.html">{CCMS_DB:page,page-num}1</a>
-			<a class="tapTarget" dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-2.html">{CCMS_DB:page,page-num}2</a>
-			<a class="tapTarget" dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-3.html">{CCMS_DB:page,page-num}3</a>
+			<a class="tapTarget" dir="{CCMS_DB_DIR:page,page-num}" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-1.html">{CCMS_DB:page,page-num}1</a>
+			<a class="tapTarget" dir="{CCMS_DB_DIR:page,page-num}" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-2.html">{CCMS_DB:page,page-num}2</a>
+			<a class="tapTarget" dir="{CCMS_DB_DIR:page,page-num}" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-3.html" style="text-decoration: underline;">{CCMS_DB:page,page-num}3</a>
 		</p>
-		<h2 dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}">{CCMS_DB:page,page-num}3</h2>
 		<p dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}">
 			<bdo dir="{CCMS_DB_DIR:page-3,para1:1}">{CCMS_DB:page-3,para1}</bdo>
 		</p>
-		{CCMS_TPL:examples/footer1.html}
-		<script type="text/javascript">
-			LazyLoad.css(['/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/css/style.css', '//fonts.googleapis.com/css?family=Open+Sans:300&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic,greek-ext,greek,vietnamese']);
+		{CCMS_TPL:examples/footer.html}
+		<script>
+			function loadFirst(e,t){var a=document.createElement("script");a.async = true;a.readyState?a.onreadystatechange=function(){("loaded"==a.readyState||"complete"==a.readyState)&&(a.onreadystatechange=null,t())}:a.onload=function(){t()},a.src=e,document.body.appendChild(a)}
+
+			var cb = function() {
+				var l = document.createElement('link');
+				l.rel = 'stylesheet';
+				l.href = '/ccmstpl/examples/css/style.css';
+				var h = document.getElementsByTagName('head')[0];
+				h.parentNode.insertBefore(l, h);
+
+				var l = document.createElement('link');
+				l.rel = 'stylesheet';
+				l.href = '//fonts.googleapis.com/css?family=Open+Sans:300';
+				var h = document.getElementsByTagName('head')[0];
+				h.parentNode.insertBefore(l, h);
+			};
+			var raf = {CCMS_TPL:examples/browser.php}
+			if (raf) raf(cb);
+			else window.addEventListener('load', cb);
+
+			function loadJSResources() {
+				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js", function(){ // JQuery is loaded
+					// Fade in web page.
+					$("#no-fouc").delay(100).animate({"opacity": "1"}, 1000);
+				});
+			}
+
+			if (window.addEventListener)
+				window.addEventListener("load", loadJSResources, false);
+			else if (window.attachEvent)
+				window.attachEvent("onload", loadJSResources);
+			else window.onload = loadJSResources;
 		</script>
-		{CCMS_TPL:examples/footer2.html}
 	</body>
 </html>

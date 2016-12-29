@@ -1,15 +1,14 @@
 {CCMS_DB_PRELOAD:all,index}<!DOCTYPE html>
-<html lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}">
+<html id="no-fouc" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}" style="opacity: 0;">
 	<head>
 		<meta charset="utf-8">
-		<title>Custodian CMS v{CCMS_LIB:_default.php;FUNC:ccms_version} | Example Templates Homepage</title>
+		<title>Custodian CMS v{CCMS_LIB:_default.php;FUNC:ccms_version} | Example Templates | Homepage</title>
+		<meta name="description" content="Welcome to Custodian CMS, a multilingual, template and content management system.  Write one template, using one domain, on one server and support multipule languages." />
 		{CCMS_TPL:examples/header-head.html}
 		<link rel="alternate" hreflang="x-default" href="//{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/">
 	</head>
 	<body>
-		<a href="//{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}" style="text-decoration: none; border: 0 none;">
-			<img alt="Custodian CMS Banner.  Easy gears no spilled beers." class="scale" title="Custodian CMS Banner.  Easy gears no spilled beers." src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/ccms-logo-banner-large-en.png" />
-		</a>
+		{CCMS_TPL:examples/header-body.html}
 		<h1>Welcome to your new copy of Custodian CMS</h1>
 		@Version
 		<p style="margin-left: 20px;">
@@ -17,11 +16,10 @@
 		</p><br />
 		@Copyright
 		<p style="margin-left: 20px;">
-			 &copy; {CCMS_LIB:_default.php;FUNC:ccms_dateYear} <a href="http://modusinternet.com" target="_blank">Modus Internet</a>
+			 &copy; {CCMS_LIB:_default.php;FUNC:ccms_dateYear} <a href="//modusinternet.com" target="_blank">Modus Internet</a>
 		</p>
 		<p style="margin-left: 20px;">
 			<h1>The MIT License (MIT)</h1>
-
 			<p>
 				Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br />
 				<br />
@@ -39,12 +37,12 @@
 			<li>CCMS uses .htaccess files around the site to help keep things organized and secure.</li>
 			<li>CCMS enforces SEO friendly URI practices to help keep all content, regardless of language, on one site with one set of templates.</li>
 			<li>CCMS is able to detect the language preferences of your visitors and render content, as it becomes available, in the appropriate character set.  This means you can add additional languages and begin translating your content at any point, durring or after your development.  You don't need a second website address or set of templates to support additional languages either.  Traditionally you build a website in your primary language first and a second site or set of templates to support any additional languages later.  Not with CCMS, just build your site once and go live when you are ready.  Later you can extend your language support and add translated versions of your exsisting content without shutting down or interupting anything.</li>
-			<li>In CCMS you do not do your programming directly inside your HTML templates, allthough you could if you really wanted to by giving your template a .php extention, you refer to chunks of programming code found in the <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgLibDir}/</span> folder like this:  <span class="oj" style="display: inline-block; word-break: break-all;">&#123;CCMS_LIB:_default.php;FUNC:name_of_some_function}</span>  Using this method helps keep your HTML templates clean easy to read.</li>
+			<li>In CCMS you do not do your programming directly inside your HTML templates, allthough you could if you really wanted to by giving your template a .php extention, you refer to chunks of programming code found in the <span class="oj">/ccmslib/</span> folder like this:  <span class="oj" style="display: inline-block; word-break: break-all;">&#123;CCMS_LIB:_default.php;FUNC:name_of_some_function}</span>  Using this method helps keep your HTML templates clean easy to read.</li>
 			<li>CCMS automatically submits caching headers out with anything requested from your site in order to help reduce the amount of calls/overhead your server has to respond to.</li>
 		</ul>
 		<h2>Configuration</h2>
 		<p>
-			The templates you are reading now can be found in <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/</span> and the <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/index.html</span> file is currently configured in your <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgPreDir}/config.php</span> file to be your default template, the first template CCMS parses when nothing else is specified.  For the purposes of this demonstration there is only one template, besides a few error templates, found in the <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/</span> directory which you can read and overwrite when you are ready.  All other resources related to what you see here now are located in the <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/</span> directory.  When you are ready you can delete this folder and all of its contents as-well.
+			The templates you are reading now can be found in <span class="oj">/ccmstpl/</span> and the <span class="oj">/ccmstpl/index.html</span> file is currently configured in your <span class="oj">/ccmspre/config.php</span> file to be your default template, the first template CCMS parses when nothing else is specified.  For the purposes of this demonstration there is only one template, besides a few error templates, found in the <span class="oj">/ccmstpl/</span> directory which you can read and overwrite when you are ready.  All other resources related to what you see here now are located in the <span class="oj">/ccmstpl/examples/</span> directory.  When you are ready you can delete this folder and all of its contents as-well.
 		</p>
 		<p>
 			CCMS does not come with an admin system yet, it won't be ready till the next big release.  Fortunately its not needed to take advantage of CCMS's features, for now you need to use tools like phpMyAdmin to add, remove or update your database inserts.
@@ -53,20 +51,20 @@
 		<p>
 			The following is a guide on how to add new languages and content to the database using phpMyAdmin.  Once the new admin system is ready this will become trivial.
 		</p>
-		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-1.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
-		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-2.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" />
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" data-class="scale iwb" src="/ccmstpl/examples/img/loading-dash.gif" data-src="/ccmstpl/examples/img/pma-1.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" data-class="scale iwb" src="/ccmstpl/examples/img/loading-dash.gif" data-src="/ccmstpl/examples/img/pma-2.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" />
 		<p>
-			Add the browser language codes you want your site to support to the <span class="oj">ccms_lng_charset</span> table above and set one of them to <span class="oj">default</span> (<span class="oj">1</span>).  Check here for a full list of codes: <a href="http://www.metamodpro.com/browser-language-codes" style="display: inline-block; word-break: break-all;" target="_blank">www.metamodpro.com/browser-language-codes</a> or <a href="http://www.fincher.org/Utilities/CountryLanguageList.shtml" style="display: inline-block; word-break: break-all;" target="_blank">www.fincher.org/Utilities/CountryLanguageList.shtml</a>  You do not need to keep all the languages codes that are installed by the <span class="oj">/ccms-db-setup.sql</span> file, they are just there as an example for you and to help demonstrate what a site supporting a large number of languages and pointer languages might look like.  (If you change the languages you wish to support in the <span class="oj">ccms_lng_charset</span> table remember to add or remove language columns as needed in the <span class="oj">ccms_ins_db</span> table aswell.)<br />
+			Add the browser language codes you want your site to support to the <span class="oj">ccms_lng_charset</span> table above and set one of them to <span class="oj">default</span> (<span class="oj">1</span>).  Check here for a full list of codes: <a href="//www.metamodpro.com/browser-language-codes" style="display: inline-block; word-break: break-all;" target="_blank">www.metamodpro.com/browser-language-codes</a> or <a href="//www.fincher.org/Utilities/CountryLanguageList.shtml" style="display: inline-block; word-break: break-all;" target="_blank">www.fincher.org/Utilities/CountryLanguageList.shtml</a>  You do not need to keep all the languages codes that are installed by the <span class="oj">/ccms-db-setup.sql</span> file, they are just there as an example for you and to help demonstrate what a site supporting a large number of languages and pointer languages might look like.  (If you change the languages you wish to support in the <span class="oj">ccms_lng_charset</span> table remember to add or remove language columns as needed in the <span class="oj">ccms_ins_db</span> table aswell.)<br />
 			<br />
 			If you are adding a new pointer language (<span class="oj">ptrLng</span>) you do not need to include the character direction (<span class="oj">dir</span>) or a language column in the <span class="oj">ccms_ins_db</span> table.  Only languages which are <span style="text-decoration: underline;">not</span> pointers require the <span class="oj">dir</span> field be filled in and a column in the <span class="oj">ccms_ins_db</span> table.
 		</p>
-		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-3.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
-		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-4.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" />
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" data-class="scale iwb" src="/ccmstpl/examples/img/loading-dash.gif" data-src="/ccmstpl/examples/img/pma-3.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" data-class="scale iwb" src="/ccmstpl/examples/img/loading-dash.gif" data-src="/ccmstpl/examples/img/pma-4.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" />
 		<p>
 			Add columns for each of your new language codes to the <span class="oj">ccms_ins_db</span> table.  <span style="text-decoration: underline;">Accept</span> for <span class="oj">ptrLng</span> records.
 		</p>
-		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-5.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
-		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/pma-6.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" />
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" data-class="scale iwb" src="/ccmstpl/examples/img/loading-dash.gif" data-src="/ccmstpl/examples/img/pma-5.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" data-class="scale iwb" src="/ccmstpl/examples/img/loading-dash.gif" data-src="/ccmstpl/examples/img/pma-6.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" />
 		<p>
 			Add records to the <span class="oj">ccms_ins_db</span> table containing the <span class="oj">grp</span>, <span class="oj">name</span> and content for each language you would like to view in your website.
 		</p>
@@ -97,13 +95,13 @@
 		</p>
 		<ul>
 			<li><a class="tapTarget" href="/en/#a" onclick="lcu('en')">English</a></li>
-			<li><a class="tapTarget" href="/fr/#a" onclick="lcu('fr')">Français</a></li>
+			<li><a class="tapTarget" href="/fr/#a" onclick="lcu('fr')">FranÃ§ais</a></li>
 			<li><a class="tapTarget" href="/de/#a" onclick="lcu('de')">German (Standard)</a></li>
 			<li><a class="tapTarget" href="/ar/#a" onclick="lcu('ar')">العربية (Arabic)</a></li>
 			<li><a class="tapTarget" href="/he/#a" onclick="lcu('he')">עברית (Hebrew)</a></li>
 			<li><a class="tapTarget" href="/hi/#a" onclick="lcu('hi')">हिन्दी (Hindi)</a></li>
 			<li><a class="tapTarget" href="/ja/#a" onclick="lcu('ja')">日本語 (Japanese)</a></li>
-			<li><a class="tapTarget" href="/zh-cn/#a" onclick="lcu('zh-cm')">简体中文(Simplified Chinese)</a></li>
+			<li><a class="tapTarget" href="/zh-cn/#a" onclick="lcu('zh-cm')">简体中国 (Simplified Chinese)</a></li>
 		</ul>
 		<p dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}" style="max-width: 640px">
 			<span style="color: rgb(134, 177, 53); margin: 5px; padding: 5px;">
@@ -125,7 +123,7 @@
 		</p>
 		<p>
 			Content specific images based on browser language codes are even easier to work with.  Each of the images below are saved on the server in 5 different languages and as you change your desired language using the links above the images below will reflect that change.<br />
-			<img alt="Dynamically determined image link." class="scale iwb" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/img/text-on-graphic-{CCMS_LIB:_default.php;FUNC:ccms_lng}.png" title="Dynamically determined image link." />
+			<img alt="Dynamically determined image link." data-class="scale iwb" src="/ccmstpl/examples/img/loading-dash.gif" data-src="/ccmstpl/examples/img/text-on-graphic-{CCMS_LIB:_default.php;FUNC:ccms_lng}.png" title="Dynamically determined image link." />
 		</p>
 		<p>
 			These links are examples of other pages which all contain content translated by Google Translate so forgive me if its a little off.<br />
@@ -135,7 +133,7 @@
 		</p>
 		<h2>Configuration Tip</h2>
 		<p>
-			The template you are currently viewing is <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/index.html</span> which leads off to others using this call <span class="oj">&#123;CCMS_TPL:examples/index.html}</span>.  You can alter the name of the template which acts as your default index file by changing the <span class="oj">$CFG["INDEX"]</span> variable inside your <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgPreDir}/config.php</span> file.
+			The template you are currently viewing is <span class="oj">/ccmstpl/index.html</span> which leads off to others using this call <span class="oj">&#123;CCMS_TPL:examples/index.html}</span>.  You can alter the name of the template which acts as your default index file by changing the <span class="oj">$CFG["INDEX"]</span> variable inside your <span class="oj">/ccmspre/config.php</span> file.
 		</p>
 		e.g.:
 		<ul class="oj">
@@ -145,14 +143,14 @@
 			<li>$CFG["INDEX"] = "main"</li>
 		</ul>
 		<p>
-			Once you have chosen the name of your primary index page you can either re-write the name of this template to match or create a new one and place it in the <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}</span> folder.
+			Once you have chosen the name of your primary index page you can either re-write the name of this template to match or create a new one and place it in the <span class="oj">/ccmstpl/</span> folder.
 		</p>
 		<p>
 			<span class="oj">NOTE:</span> You do not need to specify the extension of the file in the config, CCMS will attempt to figure this out on it's own.  Here are the extensions it will look for and in what order. (<span class="oj">.php, .html</span>)  In the case of .php templates it is parsed by PHP first and the CCMS parser second.  In the case of .html they are only parsed using the CCMS parser.
 		</p>
 		<h2>Security Tip</h2>
 		<p>
-			The <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgLibDir}</span>, <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgPreDir}</span> and <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}</span> folders are protected by <span class="oj">.htaccess</span>.
+			The <span class="oj">/ccmslib/</span>, <span class="oj">/ccmspre/</span> and <span class="oj">/ccmstpl/</span> folders are protected by <span class="oj">.htaccess</span>.
 		</p>
 		<pre style="overflow-x: auto;">
 &lt;FilesMatch ".(fla|htaccess|html|ini|php)$"&gt;
@@ -161,7 +159,7 @@
 &lt;/FilesMatch&gt;
 		</pre>
 		<p>
-			Templates in these folders, and their subfolders, cannot be called directly.  Templates inside the <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/</span> folder can only be called using correctly formatted URI's containing browser language codes supported by the site.  Other wise the <span class="oj">/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/error404.php</span> template will be thrown.  A 2-5 character language code followed by the <span class="oj">1-1024</span> character long name of the dir and or page desired.
+			Templates in these folders, and their subfolders, cannot be called directly.  Templates inside the <span class="oj">/ccmstpl/</span> folder can only be called using correctly formatted URI's containing browser language codes supported by the site.  Other wise the <span class="oj">/ccmstpl/error404.php</span> template will be thrown.  A 2-5 character language code followed by the <span class="oj">1-1024</span> character long name of the dir and or page desired.
 		</p>
 		e.g.:
 		<ul class="oj">
@@ -187,12 +185,58 @@
 		</ul>
 		<h2>What Now?</h2>
 		<p>
-			Now build your website.  Remember, this is a template driven CMS which means if you want to add pages to your site you need to add templates to your server.  As you complete each page copy content into the <span class="oj">ccms_ins_db</span> database table, add multilingual versions of content to each record and replace original content in your template with a <span class="oj">CCMS_DB tag</span>.  For more information, community assistance or example code visit:  <a href="http://modusinternet.com/en/products/custodian-cms.html" style="display: inline-block; word-break: break-all;" target="_blank">http://modusinternet.com/en/products/custodian-cms.html</a>.
+			Now build your website.  Remember, this is a template driven CMS which means if you want to add pages to your site you need to add templates to your server.  As you complete each page copy content into the <span class="oj">ccms_ins_db</span> database table, add multilingual versions of content to each record and replace original content in your template with a <span class="oj">CCMS_DB tag</span>.  For more information, community assistance or example code visit:  <a href="modusinternet.com/en/products/custodian-cms.html" style="display: inline-block; word-break: break-all;" target="_blank">modusinternet.com/en/products/custodian-cms.html</a>.
 		</p>
-		{CCMS_TPL:examples/footer1.html}
-		<script type="text/javascript">
-			LazyLoad.css(['/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/examples/css/style.css', '//fonts.googleapis.com/css?family=Open+Sans:300&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic,greek-ext,greek,vietnamese']);
+		{CCMS_TPL:examples/footer.html}
+		<script>
+			function loadFirst(e,t){var a=document.createElement("script");a.async = true;a.readyState?a.onreadystatechange=function(){("loaded"==a.readyState||"complete"==a.readyState)&&(a.onreadystatechange=null,t())}:a.onload=function(){t()},a.src=e,document.body.appendChild(a)}
+
+			var cb = function() {
+				var l = document.createElement("link");
+				l.rel = "stylesheet";
+				l.href = "//fonts.googleapis.com/css?family=Open+Sans:300";
+				var h = document.getElementsByTagName("head")[0];
+				h.parentNode.insertBefore(l, h);
+				
+				var l = document.createElement("link");
+				l.rel = 'stylesheet';
+				l.href = "/ccmstpl/examples/css/style.css";
+				var h = document.getElementsByTagName("head")[0];
+				h.parentNode.insertBefore(l, h);
+				
+				var l = document.createElement("link");
+				l.rel = "stylesheet";
+				l.href = "//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css";
+				var h = document.getElementsByTagName("head")[0];
+				h.parentNode.insertBefore(l, h);
+			};
+			var raf = {CCMS_TPL:examples/browser.php}
+			if (raf) raf(cb);
+			else window.addEventListener('load', cb);
+
+			function loadJSResources() {
+				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js", function(){ // JQuery is loaded
+					// Fade in web page.
+					$("#no-fouc").delay(100).animate({"opacity": "1"}, 1000);
+					
+					// Load larger higher res images, on select image tags, after 'loading' image.
+					$('img[data-src]').each(function() {
+						var img = $(this);
+						var newimg = new Image();
+						newimg.src = img.attr('data-src');
+						newimg.setAttribute('class', img.attr('data-class'));
+						newimg.onload = function() {
+							img.replaceWith(newimg);
+						}
+					});
+				});
+			}
+
+			if (window.addEventListener)
+				window.addEventListener("load", loadJSResources, false);
+			else if (window.attachEvent)
+				window.attachEvent("onload", loadJSResources);
+			else window.onload = loadJSResources;
 		</script>
-		{CCMS_TPL:examples/footer2.html}
 	</body>
 </html>

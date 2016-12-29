@@ -21,8 +21,8 @@
 /* Basic Styles
 ================================================== */
 	html, body, div, span, h2, p, a, img, ol, ul, li {
-		color: rgb(102, 102, 102);
-		font: 16px/1.7 'Open Sans';
+		color: rgb(45, 45, 45);
+		font: 18px/1.6 'Open Sans';
 		font-style: normal;
 		font-variant: normal;
 		font-weight: normal;
@@ -92,4 +92,4 @@
 /* Other
 ================================================== */
 	.iwb { border: solid 1px black; }
-
+	
