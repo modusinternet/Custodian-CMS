@@ -667,7 +667,7 @@ function CCMS_Main() {
 	preg_match('/([^\/]*)\z/', $CLEAN["ccms_tpl"], $ccms_file);
 
 	// Copys the first part of the string inside $CLEAN["ccms_tpl"] before the last /.
-	$ccms_dir = strstr($CLEAN["ccms_tpl"], $ccms_file[0], true);
+	$ccms_dir = @strstr($CLEAN["ccms_tpl"], $ccms_file[0], true);
 
 	// Test to see if CLEAN["ccms_tpl"] file being requested is stored on server with a .php or
 	// .html extension.  .php is tested for first, if found it is pre-parsed by php, stored in
