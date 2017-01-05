@@ -102,7 +102,7 @@ $tpl = htmlspecialchars(preg_replace('/^\/([\pL\pN-]*)\/?(.*)\z/i', '${2}', $_SE
 $qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset` ORDER BY lngDesc ASC;");
 if($qry->execute()) {
 	while($row = $qry->fetch()) {
-		if($json_a[priv][content_manager][lng][$row["lng"]] == 2) {
+		if($json_a[priv][content_manager][lng][$row["lng"]] == 1 || $json_a[priv][content_manager][lng][$row["lng"]] == 2) {
 			if($row["ptrLng"]) {
 				echo "\t\t\t<li id=\"ccms-lng-" . $row["lng"] . "\" onclick=\"ccms_lcu('" . $row["ptrLng"] . "');\" title=\"Points to lng code: " . $row["ptrLng"] . "\"><a href=\"/" . $row["ptrLng"] . "/" . $tpl . "\">" . $row["lngDesc"] . "</a></li>\n";
 			} else {

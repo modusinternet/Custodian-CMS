@@ -70,53 +70,67 @@ $ccms_whitelist = array(
 	"QUERY_STRING"			=> array("type" => "QUERY_STRING",			"maxlength"	=> 1024),
 );
 
-
 function CCMS_Set_LNG() {
 	global $CFG, $CLEAN;
-
-	if(isset($CLEAN["QUERY_STRING"]) && $CLEAN["QUERY_STRING"] != "" && $CLEAN["QUERY_STRING"] != "MAXLEN" && $CLEAN["QUERY_STRING"] != "INVAL") {
+	
+	$CFG["lngCodeFoundFlag"] = false;
+	$CFG["lngCodeActiveFlag"] = false;
+	
+	if($CLEAN["QUERY_STRING"] != "" && $CLEAN["QUERY_STRING"] != "MAXLEN" && $CLEAN["QUERY_STRING"] != "INVAL") {
 		// There is a valid QUERY_STRING variable.
 		$queryArray = explode("&", $CLEAN["QUERY_STRING"]);
 		foreach($queryArray as $queryArray2) {
 			$queryArray3 = explode("=", $queryArray2);
 			if($queryArray3[0] == "ccms_lng") {
-				if(preg_match('/^[a-z]{2}(-[a-z]{2})?\z/i', $queryArray3[1], $matches)) {
+				if(preg_match('/^[a-z]{2}(-[a-z]{2})?\z/i', $queryArray3[1], $match)) {
+					// A value was found in $CLEAN["ccms_lng"] variable.
 					foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
-						if(strcasecmp($key, $matches[0]) == 0 && $value["status"] == 1) {
-							if($value["ptrLng"]) {
-								if($CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["status"] == 1) {
-									$CLEAN["ccms_lng"] = $value["ptrLng"];
-									$CFG["CCMS_LNG_DIR"] = $CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["dir"];
-									break 2;
-								}
-							} else {
+						if(strcasecmp($key, $match[0]) == 0) {
+							// The language code provided was found in the database.
+							$CFG["lngCodeFoundFlag"] = true;
+							if($value["status"] == 1) {
+								// The language code provided is active in the database.
 								$CLEAN["ccms_lng"] = $key;
 								$CFG["CCMS_LNG_DIR"] = $value["dir"];
+								$CFG["lngCodeActiveFlag"] = true;
 								break 2;
+							} elseif($CLEAN["SESSION"]["user_id"]) {
+								// If this is a verified user trying to make changes to content in a language which is currently
+								// not set live, get the users privilages and verify their rights to make updates in the language.
+								$qry = $CFG["DBH"]->prepare("SELECT super, priv FROM `ccms_user` WHERE id = :user_id LIMIT 1;");
+								$qry->execute(array(':user_id' => $CLEAN["SESSION"]["user_id"]));
+								$row = $qry->fetch(PDO::FETCH_ASSOC);
+								$json_a = json_decode($row["priv"], true);
+								if($row["super"] == 1 || $json_a[priv][content_manager][r] == 1) {
+									if($row["super"] == 1 || $json_a[priv][content_manager][lng][$key] == 1 || $json_a[priv][content_manager][lng][$key] == 2) {
+										$CLEAN["ccms_lng"] = $key;
+										$CFG["CCMS_LNG_DIR"] = $value["dir"];
+										$CFG["lngCodeActiveFlag"] = true;
+										break 2;
+									}
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-	} else if(isset($CLEAN["HTTP_COOKIE"]) && $CLEAN["HTTP_COOKIE"] != "" && $CLEAN["HTTP_COOKIE"] != "MAXLEN" && $CLEAN["HTTP_COOKIE"] != "INVAL") {
-		// There is a valid HTTP_COOKIE variable.
+	} elseif($CLEAN["HTTP_COOKIE"] != "" && $CLEAN["HTTP_COOKIE"] != "MAXLEN" && $CLEAN["HTTP_COOKIE"] != "INVAL") {
+		// A value was found in $CLEAN["HTTP_COOKIE"] variable.
 		$cookieLng = explode("; ", $CLEAN["HTTP_COOKIE"]);
 		foreach($cookieLng as $cookieLng2) {
 			$cookieLng3 = explode("=", $cookieLng2);
 			if($cookieLng3[0] == "ccms_lng") {
-				if(preg_match('/^[a-z]{2}(-[a-z]{2})?\z/i', $cookieLng3[1], $matches)) {
+				if(preg_match('/^[a-z]{2}(-[a-z]{2})?\z/i', $cookieLng3[1], $match)) {
 					foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
-						if(strcasecmp($key, $matches[0]) == 0 && $value["status"] == 1) {
-							if($value["ptrLng"]) {
-								if($CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["status"] == 1) {
-									$CLEAN["ccms_lng"] = $value["ptrLng"];
-									$CFG["CCMS_LNG_DIR"] = $CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["dir"];
-									break 2;
-								}
-							} else {
+						if(strcasecmp($key, $match[0]) == 0) {
+							// The language code provided was found in the database.
+							$CFG["lngCodeFoundFlag"] = true;
+							if($value["status"] == 1) {
+								// The language code provided is active in the database.
 								$CLEAN["ccms_lng"] = $key;
 								$CFG["CCMS_LNG_DIR"] = $value["dir"];
+								$CFG["lngCodeActiveFlag"] = true;
 								break 2;
 							}
 						}
@@ -125,63 +139,46 @@ function CCMS_Set_LNG() {
 			}
 		}
 	}
-
-	if($CLEAN["ccms_lng"] == "" && isset($CLEAN["HTTP_ACCEPT_LANGUAGE"]) && $CLEAN["HTTP_ACCEPT_LANGUAGE"] != "" && $CLEAN["HTTP_ACCEPT_LANGUAGE"] != "MAXLEN" && $CLEAN["HTTP_ACCEPT_LANGUAGE"] != "INVAL") {
-		// There is no valid HTTP_COOKIE variable but there is a valid HTTP_ACCEPT_LANGUAGE variable.
-		preg_match_all('/([a-z]{2}((-[a-z]{2,4})*)?)(;q=[0-9]\.[0-9])?/i', $CLEAN["HTTP_ACCEPT_LANGUAGE"],  $matches);
-		foreach($matches[1] as $lngString2) {
+	
+	if($CLEAN["ccms_lng"] == "" && $CLEAN["HTTP_ACCEPT_LANGUAGE"] != "" && $CLEAN["HTTP_ACCEPT_LANGUAGE"] != "MAXLEN" && $CLEAN["HTTP_ACCEPT_LANGUAGE"] != "INVAL") {
+		// Nothing has been found or set in the CLEAN[ccms_lng] variable but there is something in the HTTP_ACCEPT_LANGUAGE variable we can check.
+		preg_match_all('/([a-z]{2}((-[a-z]{2,4})*)?)(;q=[0-9]\.[0-9])?/i', $CLEAN["HTTP_ACCEPT_LANGUAGE"],  $match_all);
+		foreach($match_all[1] as $match) {
 			foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
-				if(strcasecmp($key, $lngString2) == 0 && $value["status"] == 1) {
+				if(strcasecmp($key, $match) == 0) {
+					// The language code provided was found in the database.
+					$CFG["lngCodeFoundFlag"] = true;
 					if($value["ptrLng"]) {
+						// The language code found is a pointer to another language code in the database.
 						if($CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["status"] == 1) {
+							// The other language code pointed to is active in the database.
 							$CLEAN["ccms_lng"] = $value["ptrLng"];
 							$CFG["CCMS_LNG_DIR"] = $CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["dir"];
+							$CFG["lngCodeActiveFlag"] = true;
 							break 2;
 						}
-					} else {
+					} elseif($value["status"] == 1) {
+						// The language code provided is active in the database.
 						$CLEAN["ccms_lng"] = $key;
 						$CFG["CCMS_LNG_DIR"] = $value["dir"];
+						$CFG["lngCodeActiveFlag"] = true;
 						break 2;
 					}
 				}
 			}
 		}
 	}
-
-	if($CLEAN["ccms_lng"] == "MAXLEN" || $CLEAN["ccms_lng"] == "INVAL") {
-		// Reset the contents of th $CLEAN["ccms_lng"] variable.
-		$CLEAN["ccms_lng"] = "";
-	}
-
-	if($CLEAN["ccms_lng"] != "") {
-		// There is a value assigned to the $CLEAN["ccms_lng"] variable, all we want to do now it double check that we
-		// actually do support it and if it's a pointer language then what is the real language it is pointing too.
-		foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
-			if(strcasecmp($key, $CLEAN["ccms_lng"]) == 0 && $value["status"] == 1) {
-				if($value["ptrLng"]) {
-					if($CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["status"] == 1) {
-						$CLEAN["ccms_lng"] = $value["ptrLng"];
-						$CFG["CCMS_LNG_DIR"] = $CFG["CCMS_LNG_CHARSET"][$value["ptrLng"]]["dir"];
-						break;
-					}
-				} else {
-					$CLEAN["ccms_lng"] = $key;
-					$CFG["CCMS_LNG_DIR"] = $value["dir"];
-					break;
-				}
-			}
-		}
-	}
-
+	
 	if($CLEAN["ccms_lng"] == "") {
 		// There is still no value assigned to the $CLEAN["ccms_lng"] variable so we will first attempt to retrieve one set
 		// in the database.  If not found in the database we will pull a default language setting from the config file.
 		$CLEAN["ccms_lng"] = $CFG["DEFAULT_SITE_CHAR_SET"];
 		$CFG["CCMS_LNG_DIR"] = $CFG["DEFAULT_SITE_CHAR_SET_DIR"];
 	}
-	//setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + ($CFG["COOKIE_SESSION_EXPIRE"] * 60), "/", "", 0, 0);
+	
+	setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + ($CFG["COOKIE_SESSION_EXPIRE"] * 60), "/", "", 0, 0);
 	// 259200 = 3 days of secconds based on 60*60*24*3
-	setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + 259200, "/", "", 0, 0);
+	//setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + 259200, "/", "", 0, 0);
 }
 
 
@@ -624,11 +621,11 @@ function CCMS_TPL_Parser($a = NULL) {
 function CCMS_Main() {
 	global $CFG, $CLEAN;
 
-	CCMS_Set_LNG();
-
 	if(!preg_match('/^\/(([a-z]{2})(-[a-z]{2})?)\/user\/(.*)\z/ui', $_SERVER["REQUEST_URI"])) {
 		CCMS_cookie_SESSION();
 	}
+	
+	CCMS_Set_LNG();
 
 	// If there is no template requested, show $CFG["INDEX"].
 	// This code helps when dealing with URL's that resemble:
@@ -686,37 +683,40 @@ function CCMS_Main() {
 	// the new file extension all together.
 	$found = false;
 
-	if(is_dir($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir)) {
-		$odhandle = @opendir($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir);
-		while(($file = @readdir($odhandle)) !== false) {
-			if($file != "." && $file != ".." && is_file($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file)) {
-				if($file == $ccms_file[0] . ".php") {
-					ob_start();
-					include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file;
-					$html = ob_get_contents();
-					ob_end_clean();
-					$found = true;
-					break;
-				} elseif($file == $ccms_file[0] . ".html") {
-					if($CLEAN["SESSION"]["user_id"] == NULL) {
-						// If this is a normal session and the user is not logged in then cache this page in the visitors browers.
-						header("Content-Type: text/html; charset=UTF-8");
-						$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
+	if($CFG["lngCodeFoundFlag"] && $CFG["lngCodeActiveFlag"]) {
+		// Test to make sure the visitor is not requesting a language which is either non existant or status not live.  If so they should be sent to the error.php template regardless.
+		if(is_dir($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir)) {
+			$odhandle = @opendir($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir);
+			while(($file = @readdir($odhandle)) !== false) {
+				if($file != "." && $file != ".." && is_file($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file)) {
+					if($file == $ccms_file[0] . ".php") {
+						ob_start();
+						include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file;
+						$html = ob_get_contents();
+						ob_end_clean();
 						$found = true;
 						break;
-					} else {
-						// If this is a verified session asigned of an active user then disable cache.
-						header("Content-Type: text/html; charset=UTF-8");
-						header("Cache-Control: no-cache, must-revalidate");
-						header("Pragma: no-cache");
-						$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
-						$found = true;
-						break;
+					} elseif($file == $ccms_file[0] . ".html") {
+						if($CLEAN["SESSION"]["user_id"] == NULL) {
+							// If this is a normal session and the user is not logged in then cache this page in the visitors browers.
+							header("Content-Type: text/html; charset=UTF-8");
+							$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
+							$found = true;
+							break;
+						} else {
+							// If this is a verified session asigned of an active user then disable cache.
+							header("Content-Type: text/html; charset=UTF-8");
+							header("Cache-Control: no-cache, must-revalidate");
+							header("Pragma: no-cache");
+							$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
+							$found = true;
+							break;
+						}
 					}
 				}
 			}
+			@closedir($odhandle);
 		}
-		@closedir($odhandle);
 	}
 
 	if($found) {
