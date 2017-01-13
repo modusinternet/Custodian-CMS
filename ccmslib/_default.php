@@ -40,21 +40,22 @@ function ccms_hrefLang_list() {
 	// DONT FORGET to add <link rel="alternate" hreflang="x-default" href="//{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/">
 	// on your homepage below the area where this content is being generated.  It only needs to be on the home page.
 	global $CFG, $CLEAN;
-
+	
 	$tpl1 = htmlspecialchars(preg_replace('/^\/([\pL\pN-]*)\/?(.*)\z/i', '${2}', $_SERVER['REQUEST_URI']));
-	$tpl2 = htmlspecialchars(preg_replace('/^\/([\pL\pN-]*)\/?(.*)\z/i', '${1}', $_SERVER['REQUEST_URI']));
-	if($tpl2 == "") {
-		// this only happens when viewing the homepage and no language indicator is in the URI bar.
-		$tpl2 = $CLEAN["ccms_lng"];
-	}
-
+	echo "<link rel=\"alternate\" hreflang=\"x-default\" href=\"" . $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["SERVER_NAME"] . "/" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/" . $tpl1 . "\">\n";
 	$qry1 = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset` WHERE `status` = 1 ORDER BY lngDesc ASC;");
 	if($qry1->execute()) {
 		while($row = $qry1->fetch()) {
 			if($row["ptrLng"]) {
-				echo "<link rel=\"alternate\" hreflang=\"" . $row["ptrLng"] . "\" href=\"" . $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["SERVER_NAME"] . "/" . $row["ptrLng"] . "/" . $tpl1 . "\">\n";
+				if($row["ptrLng"] != $CLEAN["ccms_lng"]) {
+					// Make sure to show pointers to languages that we are currently not looking at.
+					echo "<link rel=\"alternate\" hreflang=\"" . $row["ptrLng"] . "\" href=\"" . $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["SERVER_NAME"] . "/" . $row["ptrLng"] . "/" . $tpl1 . "\">\n";
+				}
 			} else {
-				echo "<link rel=\"alternate\" hreflang=\"" . $row["lng"] . "\" href=\"" . $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["SERVER_NAME"] . "/" . $row["lng"] . "/" . $tpl1 . "\">\n";
+				if($row["lng"] != $CLEAN["ccms_lng"]) {
+					// Make sure to show pointers to languages that we are currently not looking at.
+					echo "<link rel=\"alternate\" hreflang=\"" . $row["lng"] . "\" href=\"" . $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["SERVER_NAME"] . "/" . $row["lng"] . "/" . $tpl1 . "\">\n";
+				}
 			}
 		}
 	}
