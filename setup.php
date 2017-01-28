@@ -81,6 +81,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 						<li>Import the contents of the <span class="oj">/ccms-db-setup.sql</span> file into your database manually (e.g. using PHPMyAdmin) or go to <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for database content</span> and use the "<span class="oj">Click here</span>" link to automatically do it for you.</li>
 						<li>Add an administrator using the <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for Administrator</span> form if you need one.</li>
 						<li>Delete or rename the <span class="oj">/setup.php</span> file and reload this page.</li>
+						<li>Optional: Add a <span class='oj'>crontask</span> to help keep your session table in the database lean and clean.  We suggest setting up the <span class='oj'>crontask</span> to run at least once a day.  ie: <span class='oj'>/usr/bin/php /home/your-account-name/website-folder/ccmspre/cron_session_cleanup.php</span></li>
 					</ol>
 					<p>
 						For more information or documentation about Custodian CMS <a class="ul" href="http://modusinternet.com/en/products/custodian-cms.html" target="_blank">click here</a>.
