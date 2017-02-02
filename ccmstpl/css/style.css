@@ -20,70 +20,91 @@
 
 /* Basic Styles
 ================================================== */
-	html, body, div, span, h2, p, a, img, ol, ul, li {
-		color: rgb(45, 45, 45);
-		font: 18px/1.6 'Open Sans';
-		font-style: normal;
-		font-variant: normal;
-		font-weight: normal;
-		-webkit-font-smoothing: antialiased;
-	}
 	body {
 		background: #fff;
+		color: #666666;
+		font: 16px/24px 'Open Sans';
 		padding: 20px;
+		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+		-webkit-text-size-adjust: 100%;
 	}
 	pre {
-		color: rgb(236, 127, 39);
-		font: 16px/1.7 'Open Sans';
-		overflow: auto;
+		background: #fff;
+		color: #666666;
+		font: 16px/24px 'Open Sans';
 	}
 
 
 /* Typography
 ================================================== */
-	h1, h2 {
-		color: rgb(134, 177, 53);
-		font-size: 220%;
-		font-style: normal;
-		font-variant: normal;
+	h1, h2, h3, h4, h5, h6 {
+		color: #000000;
 		font-weight: normal;
-		margin: 25px 0 10px;
 	}
-	h2 { font-size: 200%; }
-	p { margin-bottom: 10px; }
+	h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { font-weight: inherit; }
+	h1 { font-size: 46px; line-height: 50px; margin-bottom: 14px;}
+	h2 { font-size: 35px; line-height: 40px; margin-bottom: 10px; }
+	h3 { font-size: 28px; line-height: 34px; margin: 40px 0px 8px 0px; }
+	h4 { font-size: 21px; line-height: 30px; margin-bottom: 4px; }
+	h5 { font-size: 17px; line-height: 24px; }
+	h6 { font-size: 14px; line-height: 21px; }
+	.subheader { color: #777; }
+
+	p { margin: 0 0 10px 0; }
+	p img { margin: 0; }
+	p.lead { font-size: 21px; line-height: 27px; color: #777;  }
+
+	em { font-style: italic; }
+	strong { font-weight: bold; color: #333; }
+	small { font-size: 80%; }
+
+
+/* Blockquotes
+================================================== */
+	blockquote, blockquote p { font-size: 17px; line-height: 24px; color: #777; font-style: italic; }
+	blockquote { margin: 0 0 20px; padding: 9px 20px 0 19px; border-left: 1px solid #ddd; }
+	blockquote cite { display: block; font-size: 12px; color: #555; }
+	blockquote cite:before { content: "\2014 \0020"; }
+	blockquote cite a, blockquote cite a:visited, blockquote cite a:visited { color: #555; }
 
 
 /* Links
 ================================================== */
 	a, a:visited {
-		border: 0px none;
-		color: rgb(236, 127, 39);
-		outline: 0px;
+		border:0 none;
+		color: #ec7f27;
 		text-decoration: none;
+		outline: 0;
 	}
 	a:hover, a:focus {
-		color: rgb(236, 127, 39);
-		border-bottom: 1px dotted rgb(236, 127, 39);
+		color: #ec7f27;
+		border-bottom: 1px dotted #ec7f27;
 	}
-	a.tapTarget {
-		font-size: 20px;
-		font-weight: bold;
-		margin: 5px;
-	}
+	p a, p a:visited { line-height: inherit; }
 
 
 /* Lists
 ================================================== */
-	ul, ol { margin: 0 0 20px 20px; }
-	ul { list-style: none; }
+	ul, ol { margin-bottom: 20px; }
+	ul { list-style: none outside; }
+	ol { list-style: decimal; }
+	ol, ul.square, ul.circle, ul.disc { margin-left: 30px; }
+	ul.square { list-style: square outside; }
 	ul.circle { list-style: circle outside; }
-	.oj, ul.oj>li { color: rgb(236, 127, 39); }
+	ul.disc { list-style: disc outside; }
+	ul ul, ul ol,
+	ol ol, ol ul { margin: 4px 0 5px 30px; font-size: 90%;  }
+	ul ul li, ul ol li,
+	ol ol li, ol ul li { margin-bottom: 6px; }
+	/* li { line-height: 18px; margin-bottom: 12px; } */
+	ul.large li { line-height: 21px; }
+	/* li p { line-height: 21px; } */
 
 
 /* Images
 ================================================== */
 	img { margin-bottom: 10px; }
-	.scale {
+	img.scale {
 		max-width: 100%;
 		height: auto;
 	}
@@ -91,15 +112,20 @@
 
 /* Other
 ================================================== */
-	.b-lazy {
-		-webkit-transition: opacity 500ms ease-in-out;
-		-moz-transition: opacity 500ms ease-in-out;
-		-o-transition: opacity 500ms ease-in-out;
-		transition: opacity 500ms ease-in-out;
-		max-width: 100%;
-		opacity: 0;
-    }
-	 .b-loaded {
-		opacity: 1;
-    }
-	 
+	hr {
+		border: solid #ddd;
+		border-width: 1px 0 0;
+		clear: both;
+		margin: 10px 0 30px;
+		height: 0;
+	}
+	.oj { color: #ec7f27; }
+	a.tapTarget {
+		font: 18px/32px 'Open Sans';
+		margin: 5px;
+	}
+
+	.bannersWithBorder {
+		border:solid 1px black;
+	}
+

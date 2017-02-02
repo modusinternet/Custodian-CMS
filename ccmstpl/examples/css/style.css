@@ -92,11 +92,6 @@
 /* Other
 ================================================== */
 	.b-lazy {
-		/*
-		opacity:0;
-		transform: scale(3);
-		transition: all 500ms;
-		*/
 		-webkit-transition: opacity 500ms ease-in-out;
 		-moz-transition: opacity 500ms ease-in-out;
 		-o-transition: opacity 500ms ease-in-out;
