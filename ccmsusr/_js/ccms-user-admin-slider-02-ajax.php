@@ -37,6 +37,8 @@ if(!$error) {
 
 	//<a>, <br>, <img>, <p>, <pre> and <span>
 	$search =	array(
+	"{ CCMS",
+	"<blockquote>","<blockquote ","</blockquote>",
 	"<br>","<br/>","<br />",
 	"<a ","</a>",
 	"<i ","</i>",
@@ -48,6 +50,8 @@ if(!$error) {
 	"<li>","<li ","</li>",
 	);
 	$replace =	array(
+	"{CCMS",
+	"{BLOCKQUOTE1-BEGIN}","{BLOCKQUOTE2-BEGIN}","{BLOCKQUOTE-END}",
 	"{BREAK}","{BREAK}","{BREAK}",
 	"{A-BEGIN}","{A-END}",
 	"{I-BEGIN}","{I-END}",
@@ -65,6 +69,7 @@ if(!$error) {
 	$CLEAN["ccms_ins_db_text"] = strip_tags($CLEAN["ccms_ins_db_text"]);
 
 	$search =	array(
+	"{BLOCKQUOTE1-BEGIN}","{BLOCKQUOTE2-BEGIN}","{BLOCKQUOTE-END}",
 	"{BREAK}",
 	"{A-BEGIN}","{A-END}",
 	"{I-BEGIN}","{I-END}",
@@ -76,6 +81,7 @@ if(!$error) {
 	"{LI1-BEGIN}","{LI2-BEGIN}","{LI-END}",
 	);
 	$replace =	array(
+	"<blockquote>","<blockquote ","</blockquote>",
 	"<br />",
 	"<a ","</a>",
 	"<i ","</i>",
