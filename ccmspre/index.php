@@ -428,7 +428,7 @@ function CCMS_DB_Dir($a) {
 		if($a[5] == 1) {
 			// Make editable on the public side.
 			if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] != "") {
-				echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["dir"] . "\" data-ccms=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["id"];
+				echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["dir"] . "\" data-ccms=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["id"] . "\" data-ccms-grp=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["grp"] . "\" data-ccms-name=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["name"];
 			} else {
 				echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["dir"] . "\" data-ccms=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["id"];
 			}
@@ -475,9 +475,13 @@ function CCMS_DB_Preload($a = NULL) {
 		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]]["id"] = $row["id"];
 		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]]["content"] = $row[$CFG["DEFAULT_SITE_CHAR_SET"]];
 		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]]["dir"] = $CFG["DEFAULT_SITE_CHAR_SET_DIR"];
+		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]]["grp"] = $row["grp"];
+		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CFG["DEFAULT_SITE_CHAR_SET"]]["name"] = $row["name"];
 		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]]["id"] = $row["id"];
 		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]]["content"] = $row[$CLEAN["ccms_lng"]];
 		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]]["dir"] = $CFG["CCMS_LNG_DIR"];
+		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]]["grp"] = $row["grp"];
+		$CLEAN["CCMS_DB_Preload_Content"][$row["grp"]][$row["name"]][$CLEAN["ccms_lng"]]["name"] = $row["name"];
 	}
 }
 
