@@ -59,15 +59,16 @@ define('UTF8_STRING_DIGIT_PUNC_WHITE', '/^[\pL\pM*+\pN\pP\s]*\z/u');
 // /u Pattern strings are treated as UTF-8
 
 $ccms_whitelist = array(
-	"ccms_lngSelect"		=> array("type" => "LNG",					"maxlength"	=> 5),
-	"ccms_parms"			=> array("type" => "PARMS",					"maxlength"	=> 128),
-	"ccms_tpl"				=> array("type" => "TPL",					"maxlength"	=> 256),
-	"ccms_session"			=> array("type" => "SESSION_ID",			"maxlength"	=> 64),
-	"ccms_cid"				=> array("type" => "SESSION_ID",			"maxlength"	=> 64),
-	"ccms_lng"				=> array("type" => "LNG",					"maxlength"	=> 5),
+	"ccms_lngSelect"	=> array("type" => "LNG",				"maxlength"	=> 5),
+	"ccms_parms"		=> array("type" => "PARMS",			"maxlength"	=> 128),
+	"ccms_tpl"			=> array("type" => "TPL",				"maxlength"	=> 256),
+	"ccms_session"		=> array("type" => "SESSION_ID",		"maxlength"	=> 64),
+	"ccms_cid"			=> array("type" => "SESSION_ID",		"maxlength"	=> 64),
+	"ccms_lng"			=> array("type" => "LNG",				"maxlength"	=> 5),
+	"ccms_token"		=> array("type" => "UTF8_STRING_DIGIT_WHITE",	"maxlength"	=> 64),
 	"HTTP_ACCEPT_LANGUAGE"	=> array("type" => "HTTP_ACCEPT_LANGUAGE",	"maxlength"	=> 256),
-	"HTTP_COOKIE"			=> array("type" => "HTTP_COOKIE",			"maxlength"	=> 256),
-	"QUERY_STRING"			=> array("type" => "QUERY_STRING",			"maxlength"	=> 1024),
+	"HTTP_COOKIE"		=> array("type" => "HTTP_COOKIE",	"maxlength"	=> 256),
+	"QUERY_STRING"		=> array("type" => "QUERY_STRING",	"maxlength"	=> 1024)
 );
 
 function CCMS_Set_LNG() {
@@ -202,6 +203,13 @@ function CCMS_cookie_SESSION() {
 
 			if($a > $row["exp"]) {
 				// Session expired
+				
+				if(isset($CLEAN["ccms_token"])) {
+					// If the session belonged to an administrator or translator we should redirect them to the login page instead.
+					header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
+					die();
+				}
+				
 				$qry = $CFG["DBH"]->prepare("DELETE FROM `ccms_session` WHERE `id` = :id LIMIT 1;");
 				$qry->execute(array(':id' => $row["id"]));
 
