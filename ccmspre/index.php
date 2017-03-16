@@ -250,6 +250,13 @@ function CCMS_cookie_SESSION() {
 			}
 		} else {
 			// Session not found
+		
+			if(isset($CLEAN["ccms_token"])) {
+				// If the URI contains a ccms_token administrator or translator token we should redirect them to the login page instead.
+				header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
+				die();
+			}
+			
 			$a = time();
 			$b = $a;
 			$a = md5($a);
@@ -269,6 +276,13 @@ function CCMS_cookie_SESSION() {
 		}
 	} else {
 		// Session not found
+		
+		if(isset($CLEAN["ccms_token"])) {
+			// If the URI contins a ccms_token administrator or translator token we should redirect them to the login page instead.
+			header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
+			die();
+		}
+		
 		$a = time();
 		$b = $a;
 		$a = md5($a);
