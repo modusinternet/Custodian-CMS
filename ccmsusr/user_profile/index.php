@@ -235,9 +235,9 @@ $ccms_user = $qry->fetch(PDO::FETCH_ASSOC);
 								The string below is an exact copy of what the server reads in order to determine your personal read/write privileges for functions found throughout this site.  The data below that is the same content structured to help make it easier to read.  These setting <span style="text-decoration: underline;">can not</span> be modified here.  Changes can only be made by users with read/write access to the '<span class="oj">Admin / User Privileges</span>' area.<br />
 								<div class="alert alert-success" style="word-wrap: break-word;">
 									<?php
-										$json = json_decode($ccms_user["priv"]);
-										echo json_encode($json, JSON_UNESCAPED_SLASHES);
-									?>
+                                        $json = json_decode($ccms_user["priv"]);
+                                        echo json_encode($json, JSON_UNESCAPED_SLASHES);
+                                    ?>
 									<pre><?=json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);?></pre>
 								</div>
 							</div>
@@ -276,12 +276,12 @@ $ccms_user = $qry->fetch(PDO::FETCH_ASSOC);
 <?php
 $qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_session` WHERE `user_id` = :user_id;");
 $qry->execute(array(':user_id' => $CLEAN["SESSION"]["user_id"]));
-if($qry->rowCount() > 1):
+if ($qry->rowCount() > 1) :
 ?>
 						<div id="session_tab_logout_all_div">
 							<div class="row">
-<?php while($row = $qry->fetch(PDO::FETCH_ASSOC)): ?>
-<?php if($row["code"] != $CLEAN["SESSION"]["code"]): ?>
+<?php while ($row = $qry->fetch(PDO::FETCH_ASSOC)) : ?>
+<?php if ($row["code"] != $CLEAN["SESSION"]["code"]) : ?>
 								<div class="col-md-4 cust-grid-01">
 									<div class="alert alert-warning">
 										<strong>Token:</strong><br />
@@ -314,7 +314,7 @@ if($qry->rowCount() > 1):
 								</div>
 							</div>
 						</div>
-<?php else: ?>
+<?php else : ?>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="alert alert-warning">

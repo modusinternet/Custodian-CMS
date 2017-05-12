@@ -93,86 +93,87 @@ define('ANY', '/^(.*)\z/s');
 // s		Newlines
 
 $whitelist = array(
-	"example_given_name"	=> array("type" => "EXAMPLE_EXPRESSION_1",	"minlength" => 1,	"maxlength" => 15),
-	"example_age"			=> array("type" => "EXAMPLE_EXPRESSION_2",	"maxlength" => 3),
+    "example_given_name"    => array("type" => "EXAMPLE_EXPRESSION_1",  "minlength" => 1,   "maxlength" => 15),
+    "example_age"           => array("type" => "EXAMPLE_EXPRESSION_2",  "maxlength" => 3),
 
-	"logout"				=> array("type" => "WHOLE_NUMBER",	"maxlength" => 1),
-	"login"					=> array("type" => "WHOLE_NUMBER",	"maxlength" => 1),
-	"loginEmail"			=> array("type" => "EMAIL",			"maxlength" => 128),
-	"loginPassword"			=> array("type" => "PASSWORD",		"minlength" => 8),
+    "logout"                => array("type" => "WHOLE_NUMBER",  "maxlength" => 1),
+    "login"                     => array("type" => "WHOLE_NUMBER",  "maxlength" => 1),
+    "loginEmail"            => array("type" => "EMAIL",             "maxlength" => 128),
+    "loginPassword"             => array("type" => "PASSWORD",      "minlength" => 8),
 
-	"ajax_flag"				=> array("type" => "WHOLE_NUMBER",	"maxlength" => 1),
+    "ajax_flag"                 => array("type" => "WHOLE_NUMBER",  "maxlength" => 1),
 
-	"firstname"				=> array("type" => "NO_BADCHARS",	"maxlength" => 64),
-	"lastname"				=> array("type" => "NO_BADCHARS",	"maxlength" => 64),
-	"alias"					=> array("type" => "NO_BADCHARS",	"maxlength" => 32),
-	"position"				=> array("type" => "NO_BADCHARS",	"maxlength" => 64),
-	"address1"				=> array("type" => "NO_BADCHARS",	"maxlength" => 128),
-	"address2"				=> array("type" => "NO_BADCHARS",	"maxlength" => 128),
-	"prov_state"			=> array("type" => "NO_BADCHARS",	"maxlength" => 32),
-	"country"				=> array("type" => "NO_BADCHARS",	"maxlength" => 64),
-	"post_zip"				=> array("type" => "NO_BADCHARS",	"maxlength" => 32),
-	"email"					=> array("type" => "EMAIL",			"maxlength" => 255),
-	"phone1"				=> array("type" => "NO_BADCHARS",	"maxlength" => 64),
-	"phone2"				=> array("type" => "NO_BADCHARS",	"maxlength" => 64),
-	"skype"					=> array("type" => "NO_BADCHARS",	"maxlength" => 32),
-	"facebook"				=> array("type" => "NO_BADCHARS",	"maxlength" => 128),
-	"note"					=> array("type" => "NO_BADCHARS",	"maxlength" => 1024),
+    "firstname"                 => array("type" => "NO_BADCHARS",   "maxlength" => 64),
+    "lastname"              => array("type" => "NO_BADCHARS",   "maxlength" => 64),
+    "alias"                     => array("type" => "NO_BADCHARS",   "maxlength" => 32),
+    "position"              => array("type" => "NO_BADCHARS",   "maxlength" => 64),
+    "address1"              => array("type" => "NO_BADCHARS",   "maxlength" => 128),
+    "address2"              => array("type" => "NO_BADCHARS",   "maxlength" => 128),
+    "prov_state"            => array("type" => "NO_BADCHARS",   "maxlength" => 32),
+    "country"               => array("type" => "NO_BADCHARS",   "maxlength" => 64),
+    "post_zip"              => array("type" => "NO_BADCHARS",   "maxlength" => 32),
+    "email"                     => array("type" => "EMAIL",             "maxlength" => 255),
+    "phone1"                => array("type" => "NO_BADCHARS",   "maxlength" => 64),
+    "phone2"                => array("type" => "NO_BADCHARS",   "maxlength" => 64),
+    "skype"                     => array("type" => "NO_BADCHARS",   "maxlength" => 32),
+    "facebook"              => array("type" => "NO_BADCHARS",   "maxlength" => 128),
+    "note"                  => array("type" => "NO_BADCHARS",   "maxlength" => 1024),
 
-	"password"				=> array("type" => "PASSWORD",		"minlength" => 8),
-	"password1"				=> array("type" => "PASSWORD",		"minlength" => 8),
-	"password2"				=> array("type" => "PASSWORD",		"minlength" => 8),
+    "password"              => array("type" => "PASSWORD",      "minlength" => 8),
+    "password1"                 => array("type" => "PASSWORD",      "minlength" => 8),
+    "password2"                 => array("type" => "PASSWORD",      "minlength" => 8),
 
-	"ccms_ins_db_id"		=> array("type" => "WHOLE_NUMBER",	"minlength" => 1,	"maxlength" => 11),
-	"ccms_ins_db_text"		=> array("type" => "ANY",			"maxlength" => 16000),
+    "ccms_ins_db_id"        => array("type" => "WHOLE_NUMBER",  "minlength" => 1,   "maxlength" => 11),
+    "ccms_ins_db_text"      => array("type" => "ANY",           "maxlength" => 16000),
 );
 
 
-function CCMS_User_Filter($input, $whitelist) {
-	global $CLEAN;
-	foreach($input as $key => $value) {
-		if(array_key_exists($key, $whitelist)) {
-			$buf = NULL;
-			$value = @trim($value);
-			// utf8_decode() converts unknown ISO-8859-1 chars to '?' for the purpose of counting.
-			$length = strlen(utf8_decode($value));
-			if(isset($whitelist[$key]['minlength']) && ($length < $whitelist[$key]['minlength'])) {
-				$buf = "MINLEN";
-			}
-			if(isset($whitelist[$key]['maxlength']) && ($length > $whitelist[$key]['maxlength'])) {
-				$buf = "MAXLEN";
-			}
-			if($buf != "MINLEN" && $buf != "MAXLEN") {
-				switch($whitelist[$key]['type']) {
+function CCMS_User_Filter($input, $whitelist)
+{
+    global $CLEAN;
+    foreach ($input as $key => $value) {
+        if (array_key_exists($key, $whitelist)) {
+            $buf = null;
+            $value = @trim($value);
+            // utf8_decode() converts unknown ISO-8859-1 chars to '?' for the purpose of counting.
+            $length = strlen(utf8_decode($value));
+            if (isset($whitelist[$key]['minlength']) && ($length < $whitelist[$key]['minlength'])) {
+                $buf = "MINLEN";
+            }
+            if (isset($whitelist[$key]['maxlength']) && ($length > $whitelist[$key]['maxlength'])) {
+                $buf = "MAXLEN";
+            }
+            if ($buf != "MINLEN" && $buf != "MAXLEN") {
+                switch ($whitelist[$key]['type']) {
 
-					case "EXAMPLE_EXPRESSION_1":
-						$buf = (preg_match(EXAMPLE_EXPRESSION_1, $value)) ? $value : "INVAL";
-						break;
-					case "EXAMPLE_EXPRESSION_2":
-						$buf = (preg_match(EXAMPLE_EXPRESSION_2, $value)) ? $value : "INVAL";
-						break;
-					case "WHOLE_NUMBER":
-						$buf = (preg_match(WHOLE_NUMBER, $value)) ? $value : "INVAL";
-						break;
-					case "EMAIL":
-						$buf = (preg_match(EMAIL, $value)) ? $value : "INVAL";
-						break;
-					case "PASSWORD":
-						$buf = (preg_match(PASSWORD, $value)) ? $value : "INVAL";
-						break;
-					case "NO_BADCHARS":
-						$buf = (preg_match(NO_BADCHARS, $value)) ? $value : "INVAL";
-						break;
-					case "ANY":
-						$buf = (preg_match(ANY, $value)) ? $value : "INVAL";
-						break;
+                    case "EXAMPLE_EXPRESSION_1":
+                        $buf = (preg_match(EXAMPLE_EXPRESSION_1, $value)) ? $value : "INVAL";
+                        break;
+                    case "EXAMPLE_EXPRESSION_2":
+                        $buf = (preg_match(EXAMPLE_EXPRESSION_2, $value)) ? $value : "INVAL";
+                        break;
+                    case "WHOLE_NUMBER":
+                        $buf = (preg_match(WHOLE_NUMBER, $value)) ? $value : "INVAL";
+                        break;
+                    case "EMAIL":
+                        $buf = (preg_match(EMAIL, $value)) ? $value : "INVAL";
+                        break;
+                    case "PASSWORD":
+                        $buf = (preg_match(PASSWORD, $value)) ? $value : "INVAL";
+                        break;
+                    case "NO_BADCHARS":
+                        $buf = (preg_match(NO_BADCHARS, $value)) ? $value : "INVAL";
+                        break;
+                    case "ANY":
+                        $buf = (preg_match(ANY, $value)) ? $value : "INVAL";
+                        break;
 
 // Add your own case statements here, just copy the patter above, make the neccessary changes, save and upload.
 
 
-				}
-			}
-			$CLEAN[$key] = $buf;
-		}
-	}
+                }
+            }
+            $CLEAN[$key] = $buf;
+        }
+    }
 }

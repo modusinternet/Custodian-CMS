@@ -7,7 +7,7 @@ $CFG["INDEX"] = "index";
 $CFG["USRINDEX"] = "dashboard/";
 
 // Document root folder globals.
-$CFG["DBH"] = NULL;
+$CFG["DBH"] = null;
 $CFG["LIBDIR"] = "ccmslib";
 $CFG["PREDIR"] = "ccmspre";
 $CFG["TPLDIR"] = "ccmstpl";
