@@ -4,10 +4,10 @@ $CFG["DOMAIN"] = "";
 
 // Primary indexes for /ccmstpl/ and /ccmsusr/ sections of the site.
 $CFG["INDEX"] = "index";
-$CFG["USRINDEX"] = "dashboard/";
+$CFG["USRINDEX"] = "_dashboard/";
 
 // Document root folder globals.
-$CFG["DBH"] = null;
+$CFG["DBH"] = NULL;
 $CFG["LIBDIR"] = "ccmslib";
 $CFG["PREDIR"] = "ccmspre";
 $CFG["TPLDIR"] = "ccmstpl";
@@ -18,6 +18,13 @@ $CFG["DB_HOST"] = "";
 $CFG["DB_USERNAME"] = "";
 $CFG["DB_PASSWORD"] = "";
 $CFG["DB_NAME"] = "";
+
+// HTML Minify.
+// This code will not break pre, code or textarea tagged content.
+// WARNING: Make sure your actual HTML templates do not contain any commented // code because minification means all whitespaces will be removed and the carriage return at the end of your comment will also be removed, making everything that comes after that a commented comment aswell.
+// $CFG["HTML_MIN"] = 0; // off
+// $CFG["HTML_MIN"] = 1; // on (Default)
+$CFG["HTML_MIN"] = 1;
 
 // Display debug info for failed SQL calls.  (Requires $CFG["DEBUG"] to also be enabled.)
 // e.g.:

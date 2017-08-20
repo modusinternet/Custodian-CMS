@@ -50,7 +50,7 @@
 		<p>
 			The following is a guide on how to add new languages and content to the database using phpMyAdmin.  Once the new admin system is ready this will become trivial.
 		</p>
-		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="b-lazy scale" data-class="scale" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="/ccmstpl/examples/img/pma-1.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
+		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="b-lazy scale" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="/ccmstpl/examples/img/pma-1.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" /><br />
 		<img alt="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" class="b-lazy scale" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="/ccmstpl/examples/img/pma-2.png" title="Screenshot of Custodian CMS database tables viewed with phpMyAdmin" />
 		<p>
 			Add the browser language codes you want your site to support to the <span class="oj">ccms_lng_charset</span> table above and set one of them to <span class="oj">default</span> (<span class="oj">1</span>).  Check here for a full list of codes: <a href="//www.metamodpro.com/browser-language-codes" style="display: inline-block; word-break: break-all;" target="_blank">www.metamodpro.com/browser-language-codes</a> or <a href="//www.fincher.org/Utilities/CountryLanguageList.shtml" style="display: inline-block; word-break: break-all;" target="_blank">www.fincher.org/Utilities/CountryLanguageList.shtml</a>  You do not need to keep all the languages codes that are installed by the <span class="oj">/ccms-db-setup.sql</span> file, they are just there as an example for you and to help demonstrate what a site supporting a large number of languages and pointer languages might look like.  (If you change the languages you wish to support in the <span class="oj">ccms_lng_charset</span> table remember to add or remove language columns as needed in the <span class="oj">ccms_ins_db</span> table aswell.)<br />
@@ -184,11 +184,11 @@
 		</ul>
 		<h2>What Now?</h2>
 		<p>
-			Now build your website.  Remember, this is a template driven CMS which means if you want to add pages to your site you need to add templates to your server.  As you complete each page copy content into the <span class="oj">ccms_ins_db</span> database table, add multilingual versions of content to each record and replace original content in your template with a <span class="oj">CCMS_DB tag</span>.  For more information, community assistance or example code visit:  <a href="modusinternet.com/en/products/custodian-cms.html" style="display: inline-block; word-break: break-all;" target="_blank">modusinternet.com/en/products/custodian-cms.html</a>.
+			Now build your website.  Remember, this is a template driven CMS which means if you want to add pages to your site you need to add templates to your server.  As you complete each page copy content into the <span class="oj">ccms_ins_db</span> database table, add multilingual versions of content to each record and replace original content in your template with a <span class="oj">CCMS_DB tag</span>.  For more information, community assistance or example code visit:  <a href="//modusinternet.com/en/products/custodian-cms.html" style="display: inline-block; word-break: break-all;" target="_blank">modusinternet.com/en/products/custodian-cms.html</a>.
 		</p>
 		{CCMS_TPL:examples/footer.html}
 		<script>
-			function loadFirst(e,t){var a=document.createElement("script");a.async = true;a.readyState?a.onreadystatechange=function(){("loaded"==a.readyState||"complete"==a.readyState)&&(a.onreadystatechange=null,t())}:a.onload=function(){t()},a.src=e,document.body.appendChild(a)}
+			function loadFirst(e,t){var a=document.createElement("script");a.async = true;a.readyState?a.onreadystatechange=function(){("loaded"==a.readyState||"complete"==a.readyState)&&(a.onreadystatechange=null,t())}:a.onload=function(){t()},a.src=e,document.body.appendChild(a);}
 
 			var cb = function() {
 				var l = document.createElement("link");
@@ -199,7 +199,8 @@
 				
 				var l = document.createElement("link");
 				l.rel = 'stylesheet';
-				l.href = "/ccmstpl/examples/css/style.css";
+				/* l.href = "/ccmstpl/examples/css/style.css"; */
+				l.href = "/ccmstpl/examples/css/style-min.css";
 				var h = document.getElementsByTagName("head")[0];
 				h.parentNode.insertBefore(l, h);
 				
@@ -209,27 +210,31 @@
 				var h = document.getElementsByTagName("head")[0];
 				h.parentNode.insertBefore(l, h);
 			};
-			var raf = {CCMS_TPL:examples/browser.php}
+			
+			/* var raf = {CCMS_TPL:examples/browser.php} */
+			var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
 			if (raf) raf(cb);
 			else window.addEventListener('load', cb);
 			
 			function loadJSResources() {
-				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js", function(){ // JQuery is loaded
-					loadFirst("//cdn.jsdelivr.net/blazy/latest/blazy.min.js", function(){ // Load images lazy, https://github.com/dinbror/blazy
+				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js", function(){ /* JQuery is loaded */
+					loadFirst("//cdn.jsdelivr.net/blazy/latest/blazy.min.js", function(){ /* Load images lazy, https://github.com/dinbror/blazy */
 				
-						// Fade in web page.
+						/* Fade in web page. */
 						$("#no-fouc").delay(100).animate({"opacity": "1"}, 1000);
 						
 						var bLazy = new Blazy();
 					});
 				});
-			}			
+			}
 			
-			if (window.addEventListener)
+			if (window.addEventListener) {
 				window.addEventListener("load", loadJSResources, false);
-			else if (window.attachEvent)
+			} else if (window.attachEvent) {
 				window.attachEvent("onload", loadJSResources);
-			else window.onload = loadJSResources;
+			} else {
+				window.onload = loadJSResources;
+			}
 		</script>
 	</body>
 </html>

@@ -578,6 +578,36 @@ function CCMS_DB_Preload($a = null)
     }
 }
 
+function CCMS_html_min($buffer) {
+	// Enable and Disable this feature in config.php.  
+	// eg:
+	// $CFG["HTML_MIN"] = 0; // off
+	// $CFG["HTML_MIN"] = 1; // on (Default)
+	// 
+	// This code will not break pre, code or textarea tagged content.
+	// WARNING: Make sure your actual HTML templates do not contain any commented // code because minification means all whitespaces will be removed and the carriage return at the end of your comment will also be removed, making everything that comes after that a commented comment aswell.
+	global $CFG, $CLEAN;
+	
+	if($CFG["HTML_MIN"] == 1 && $CLEAN["SESSION"]["user_id"] == null) {
+		// If HTML_MIN is set to 1 in the config file and this is a normal session and the user is not logged in.
+		
+		$search = array("\r\n", "\n", "\t");
+		$replace = array("{CHAR_RET}", "{CHAR_RET}", "{CHAR_TAB}");
+		$buffer = preg_replace_callback(
+			"/<(pre|code|textarea)\s?.*?>(.*?)<\/(pre|code|textarea)>/msi",
+			function ($matches) use (&$search, &$replace) {
+				return str_replace($search, $replace, $matches[0]);
+			},
+			$buffer
+		);
+		$buffer = preg_replace(['/\>[^\S ]+/s','/[^\S ]+\</s','/[\t\n]+/s','/<!--(.|\s)*?-->/','/\/\*(.|\s)*?\*\//'],['>','<','','',''], $buffer);
+		$search = array("{CHAR_RET}", "{CHAR_TAB}");
+		$replace = array("\n", "\t");
+		$buffer = str_replace($search, $replace, $buffer);
+	}
+	return $buffer;
+	//echo $buffer;
+}
 
 function CCMS_TPL_Insert($a)
 {
@@ -604,7 +634,7 @@ function CCMS_TPL_Insert($a)
         include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $a[2];
         $html = ob_get_contents();
         ob_end_clean();
-        echo CCMS_TPL_Parser($html);
+		  echo CCMS_TPL_Parser($html);
     } elseif (preg_match('/\.html\z/i', $a[2])) {
         if (($html = @file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $a[2])) !== false) {
             echo CCMS_TPL_Parser($html);
@@ -616,14 +646,13 @@ function CCMS_TPL_Insert($a)
     }
 }
 
-
 function CCMS_TPL_Parser($a = null)
 {
     global $CFG;
 
     if ($a) {
         $from = 0;
-
+		  $a = CCMS_html_min($a);
         while (($to = strpos($a, "{CCMS_", $from)) !== false) {
             echo substr($a, $from, $to - $from);
             $from = $to;
