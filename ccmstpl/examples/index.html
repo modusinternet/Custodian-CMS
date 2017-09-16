@@ -5,6 +5,14 @@
 		<title>Custodian CMS v{CCMS_LIB:_default.php;FUNC:ccms_version} | Example Templates | Homepage</title>
 		<meta name="description" content="Welcome to Custodian CMS, a multilingual, template and content management system.  Write one template, using one domain, on one server and support multipule languages." />
 		{CCMS_TPL:examples/header-head.html}
+		<style type="text/css">
+			/*
+				You can improve your 'Above Fold Content' score on Google Pagespeed using the two online utilities and placing your resurlts below.
+				https://jonassebastianohlsson.com/criticalpathcssgenerator/
+				https://cssminifier.com/
+			*/
+			a,body,h1,h2,html,img,li,p,span,ul{margin:0;padding:0;border:0;vertical-align:baseline}img,p{margin-bottom:10px}body{line-height:1;background:#fff;padding:20px}a,body,h2,html,img,li,p,span,ul{color:#2d2d2d;font:18px/1.6 'Open Sans';font-style:normal;font-variant:normal;font-weight:400;-webkit-font-smoothing:antialiased}h1,h2{color:#86b135;font-size:220%;font-style:normal;font-variant:normal;font-weight:400;margin:25px 0 10px}.oj,a,a:visited{color:#ec7f27}h2{font-size:200%}a,a:visited{border:0;outline:0;text-decoration:none}ul{margin:0 0 20px 20px;list-style:none}ul.circle{list-style:circle}.scale{max-width:100%;height:auto}
+		</style>
 	</head>
 	<body>
 		{CCMS_TPL:examples/header-body.html}
@@ -100,7 +108,7 @@
 			<li><a class="tapTarget" href="/he/#a" onclick="lcu('he')">עברית (Hebrew)</a></li>
 			<li><a class="tapTarget" href="/hi/#a" onclick="lcu('hi')">हिन्दी (Hindi)</a></li>
 			<li><a class="tapTarget" href="/ja/#a" onclick="lcu('ja')">日本語 (Japanese)</a></li>
-			<li><a class="tapTarget" href="/zh-cn/#a" onclick="lcu('zh-cm')">简体中国 (Simplified Chinese)</a></li>
+			<li><a class="tapTarget" href="/zh-cn/#a" onclick="lcu('zh-cn')">简体中国 (Simplified Chinese)</a></li>
 		</ul>
 		<p dir="{CCMS_LIB:_default.php;FUNC:ccms_lng_dir}" style="max-width: 640px">
 			<span style="color: rgb(134, 177, 53); margin: 5px; padding: 5px;">
@@ -221,7 +229,7 @@
 					loadFirst("//cdn.jsdelivr.net/blazy/latest/blazy.min.js", function(){ /* Load images lazy, https://github.com/dinbror/blazy */
 				
 						/* Fade in web page. */
-						$("#no-fouc").delay(100).animate({"opacity": "1"}, 1000);
+						$("#no-fouc").delay(100).animate({"opacity": "1"}, 500);
 						
 						var bLazy = new Blazy();
 					});

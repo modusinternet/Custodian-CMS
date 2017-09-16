@@ -22,9 +22,23 @@ $CFG["DB_NAME"] = "";
 // HTML Minify.
 // This code will not break pre, code or textarea tagged content.
 // WARNING: Make sure your actual HTML templates do not contain any commented // code because minification means all whitespaces will be removed and the carriage return at the end of your comment will also be removed, making everything that comes after that a commented comment aswell.
-// $CFG["HTML_MIN"] = 0; // off
-// $CFG["HTML_MIN"] = 1; // on (Default)
-$CFG["HTML_MIN"] = 1;
+// e.g.:
+// $CFG["HTML_MIN"] = 0; // off (Default)
+// $CFG["HTML_MIN"] = 1; // on
+$CFG["HTML_MIN"] = 0;
+
+// Caching on .html templates and their threads.
+// NOTE: Does not interfear with the process of updating cookies on it's own.  To make sure a cached site setting does not break dynamically generated content call .php template and set your own headers.
+// e.g.:
+// $CFG["CACHE"] = 0; // off (Default)
+// $CFG["CACHE"] = 1; // on
+$CFG["CACHE"] = 0;
+
+// CACHE templates expire after how many minutes?  Set in number of minutes.
+// e.g.:
+// $CFG["CACHE_EXPIRE"] = 360; // 6 hours  (Default)
+// $CFG["CACHE_EXPIRE"] = 720; // 12 hours
+$CFG["CACHE_EXPIRE"] = 360;
 
 // Display debug info for failed SQL calls.  (Requires $CFG["DEBUG"] to also be enabled.)
 // e.g.:

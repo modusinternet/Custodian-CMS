@@ -103,21 +103,21 @@ header("Cache-Control: public, must-revalidate, proxy-revalidate");
 				<p><?=$CFG["DOMAIN"];?> Alternate Language Search Results<br />
 				<br />
 <?
-// Trim off anything before the first / and save in $lng.
+/* Trim off anything before the first / and save in $lng. */
 $lng = htmlspecialchars(preg_replace('/^\/([a-z]{2}(-[a-z]{2})?)\/(.*)\z/i', '${1}', $_SERVER['REQUEST_URI']));
 
-// Trim off everything after the first / and save in $tmp.
+/* Trim off everything after the first / and save in $tmp. */
 $tpl = htmlspecialchars(preg_replace('/^\/([a-z]{2}(-[a-z]{2})?)\/(.*)\z/i', '${3}', $_SERVER['REQUEST_URI']));
 
 $tpl = ltrim($tpl, "/");
 
-// Replace any occurence of / in $tmp with a space instead and save for use with Google Search.
+/* Replace any occurence of / in $tmp with a space instead and save for use with Google Search. */
 $tpl2 = htmlspecialchars(preg_replace('/[\/*]/i', ' ', $tpl));
 
 $tpl2 = htmlspecialchars(preg_replace('/(\.html|\.htm|\.php)/i', '', $tpl2));
 
 if($tpl == ""){
-	// This fixes URI calls that look like 'mydomain.com/asdf' for the code below because there was only 1 variable after the domain name.
+	/* This fixes URI calls that look like 'mydomain.com/asdf' for the code below because there was only 1 variable after the domain name. */
 	$tpl = $lng;
 	$lng = "";
 }
@@ -154,7 +154,7 @@ if($qry->execute()) {
 		var gcse = document.createElement('script');
 		gcse.type = 'text/javascript';
 		gcse.async = true;
-		gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//www.google.com/cse/cse.js?cx=' + cx + '&language=<?=$CLEAN["ccms_lng"];?>';
+		gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//cse.google.com/cse.js?cx=' + cx + '&language=<?=$CLEAN["ccms_lng"];?>';
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(gcse, s);
 	})();

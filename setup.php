@@ -4,9 +4,9 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-if (!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/ccmsusr/index.php"))) {
-    echo "This script can not be called directly.";
-    die();
+if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/ccmsusr/index.php"))) {
+	echo "This script can not be called directly.";
+	die();
 }
 
 @include "ccmspre/config.php";
@@ -94,12 +94,7 @@ if (!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "
 					<div class="panel-body">
 						<div class="panel-group" id="accordion" role="tablist">
 
-<?php if (version_compare(phpversion(), '5.4', '>=')) {
-    $CFG["pass"]=1;
-
-} else {
-    $CFG["pass"]=0;
-} ?>
+<?php if(version_compare(phpversion(), '5.4', '>=')) { $CFG["pass"]=1; } else { $CFG["pass"]=0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#1" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
@@ -109,21 +104,16 @@ if (!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "
 								</div>
 								<div id="1" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass (v<?php echo phpversion(); ?>)
-<?php else : ?>
+<?php else: ?>
 										The version of PHP on your server does not appear to be high enough. (<?php echo phpversion(); ?>)
 <?php endif ?>
 									</div>
 								</div>
 							</div>
 
-<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/config.php")) {
-    $CFG["pass"] = 1;
-
-} else {
-    $CFG["pass"] = 0;
-} ?>
+<?php if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/config.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#2" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
@@ -133,21 +123,16 @@ if (!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "
 								</div>
 								<div id="2" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass
-<?php else : ?>
+<?php else: ?>
 										Make a copy of /ccmspre/config_original.php, name it /ccmspre/config.php, update the domain name, database settings and reload this page.
 <?php endif ?>
 									</div>
 								</div>
 							</div>
 
-<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/whitelist_public.php")) {
-    $CFG["pass"] = 1;
-
-} else {
-    $CFG["pass"] = 0;
-} ?>
+<?php if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/whitelist_public.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#3" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
@@ -157,21 +142,16 @@ if (!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "
 								</div>
 								<div id="3" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass
-<?php else : ?>
+<?php else: ?>
 										Make a copy of /ccmspre/whitelist_public_original.php, name it /ccmspre/whitelist_public.php and reload this page.
 <?php endif ?>
 									</div>
 								</div>
 							</div>
 
-<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/whitelist_user.php")) {
-    $CFG["pass"] = 1;
-
-} else {
-    $CFG["pass"] = 0;
-} ?>
+<?php if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/whitelist_user.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#4" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
@@ -181,21 +161,16 @@ if (!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "
 								</div>
 								<div id="4" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass
-<?php else : ?>
+<?php else: ?>
 										Make a copy of /ccmspre/whitelist_user_original.php, name it /ccmspre/whitelist_user.php and reload this page.
 <?php endif ?>
 									</div>
 								</div>
 							</div>
 
-<?php if ($CFG["DOMAIN"]) {
-    $CFG["pass"] = 1;
-
-} else {
-    $CFG["pass"] = 0;
-} ?>
+<?php if($CFG["DOMAIN"]) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#5" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
@@ -205,21 +180,16 @@ if (!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "
 								</div>
 								<div id="5" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass
-<?php else : ?>
+<?php else: ?>
 										Open the /ccmspre/config.php template, update the $CFG["DOMAIN"] field with your websites domain name, ie: $CFG["DOMAIN"] = "YOURDOMAIN.COM"; and reload this page.
 <?php endif ?>
 									</div>
 								</div>
 							</div>
 
-<?php if ($CFG["DB_HOST"] && $CFG["DB_USERNAME"] && $CFG["DB_PASSWORD"] && $CFG["DB_NAME"]) {
-    $CFG["pass"] = 1;
-
-} else {
-    $CFG["pass"] = 0;
-} ?>
+<?php if($CFG["DB_HOST"] && $CFG["DB_USERNAME"] && $CFG["DB_PASSWORD"] && $CFG["DB_NAME"]) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#6" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
@@ -229,9 +199,9 @@ if (!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "
 								</div>
 								<div id="6" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass
-<?php else : ?>
+<?php else: ?>
 										Open the /ccmspre/config.php template, update the $CFG["DB_HOST"], $CFG["DB_USERNAME"], $CFG["DB_PASSWORD"], $CFG["DB_NAME"] fields with your database settings and reload this page to test again.
 <?php endif ?>
 									</div>
@@ -239,24 +209,23 @@ if (!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "
 							</div>
 
 <?php
-$host   = $CFG["DB_HOST"];
-$dbname     = $CFG["DB_NAME"];
-$user   = $CFG["DB_USERNAME"];
-$pass   = $CFG["DB_PASSWORD"];
+$host	= $CFG["DB_HOST"];
+$dbname	= $CFG["DB_NAME"];
+$user	= $CFG["DB_USERNAME"];
+$pass	= $CFG["DB_PASSWORD"];
 try {
-    $CFG["DBH"] = @new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
-    /*
+	$CFG["DBH"] = @new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+	/*
 	Great sites talking about how to handle the utf-8 character sets properly:
 	https://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql
 	https://mathiasbynens.be/notes/mysql-utf8mb4
 	*/
-    //$CFG["DBH"]->exec("SET CHARACTER SET utf8");
-    $CFG["DBH"]->exec("set names utf8mb4");
-    $CFG["DBH"]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $CFG["pass"] = 1;
-} catch (PDOException $e) {
-    $CFG["pass"] = 0;
-    $msg = $e->getCode() . ' ' . $e->getMessage();
+	$CFG["DBH"]->exec("set names utf8mb4");
+	$CFG["DBH"]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$CFG["pass"] = 1;
+} catch(PDOException $e) {
+	$CFG["pass"] = 0;
+	$msg = $e->getCode() . ' ' . $e->getMessage();
 }
 ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
@@ -268,9 +237,9 @@ try {
 								</div>
 								<div id="7" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass
-<?php else : ?>
+<?php else: ?>
 										<?php echo $msg; ?>
 <?php endif ?>
 									</div>
@@ -278,18 +247,18 @@ try {
 							</div>
 
 <?php
-if ($CFG["DBH"]) {
-    $val = @$CFG["DBH"]->getAttribute(constant("PDO::ATTR_SERVER_VERSION"));
-    $valArray = explode("-", $val);
-    if ($valArray[0] >= '5.5.3') {
-        $CFG["pass"] = 1;
-    } else {
-        $CFG["pass"] = 0;
-        $msg = "The version of MySQL on your server does not appear to be high enough.  (v" . $valArray[0] . ")  If you attempt to run Custodian CMS in this environment you may experience problems.  Continue at your own risk.";
-    }
+if($CFG["DBH"]) {
+	$val = @$CFG["DBH"]->getAttribute(constant("PDO::ATTR_SERVER_VERSION"));
+	$valArray = explode("-", $val);
+	if($valArray[0] >= '5.5.3') {
+		$CFG["pass"] = 1;
+	} else {
+		$CFG["pass"] = 0;
+		$msg = "The version of MySQL on your server does not appear to be high enough.  (v" . $valArray[0] . ")  If you attempt to run Custodian CMS in this environment you may experience problems.  Continue at your own risk.";
+	}
 } else {
-    $CFG["pass"] = 0;
-    $msg = "Not tested because no database connection established.";
+	$CFG["pass"] = 0;
+	$msg = "Not tested because no database connection established.";
 }
 ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
@@ -301,9 +270,9 @@ if ($CFG["DBH"]) {
 								</div>
 								<div id="8" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass (v<?php echo $valArray[0]; ?>)
-<?php else : ?>
+<?php else: ?>
 										<?php echo $msg; ?>
 <?php endif ?>
 									</div>
@@ -311,64 +280,72 @@ if ($CFG["DBH"]) {
 							</div>
 
 <?php
-if ($CFG["DBH"]) {
-    $CFG["pass"] = 1;
-    if ($_SERVER["REQUEST_URI"] == "/?import=1") {
-        if (strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
-            try {
-                // This try call helps handle situations where /?import=1 is called more then once, most likely accidentally by hitting the reload button.
-                $CFG["DBH"]->query("DESCRIBE `ccms_blacklist`");
-                $CFG["DBH"]->query("DESCRIBE `ccms_ins_db`");
-                $CFG["DBH"]->query("DESCRIBE `ccms_lng_charset`");
-                $CFG["DBH"]->query("DESCRIBE `ccms_session`");
-                $CFG["DBH"]->query("DESCRIBE `ccms_user`");
-            } catch (PDOException $e) {
-                $CFG["DBH"]->query("DROP TABLE IF EXISTS `ccms_blacklist`, `ccms_ins_db`, `ccms_lng_charset`, `ccms_session`, `ccms_user`");
-                $CFG["DBH"]->exec(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/ccms-db-setup.sql"));
-            }
-        } else {
-            exit('<script>alert("No direct script access allowed");</script>');
-            die();
-        }
-    }
-    try {
-        $CFG["DBH"]->query("DESCRIBE `ccms_blacklist`");
-        $msg = "ccms_blacklist: FOUND<br />";
-    } catch (PDOException $e) {
-        $CFG["pass"] = 0;
-        $msg = "ccms_blacklist: <span class='oj'>NOT FOUND</span><br />";
-    }
-    try {
-        $CFG["DBH"]->query("DESCRIBE `ccms_ins_db`");
-        $msg .= "ccms_ins_db: FOUND<br />";
-    } catch (PDOException $e) {
-        $CFG["pass"] = 0;
-        $msg .= 'ccms_ins_db: <span class="oj">NOT FOUND</span><br />';
-    }
-    try {
-        $CFG["DBH"]->query("DESCRIBE `ccms_lng_charset`");
-        $msg .= "ccms_lng_charset: FOUND<br />";
-    } catch (PDOException $e) {
-        $CFG["pass"] = 0;
-        $msg .= 'ccms_lng_charset: <span class="oj">NOT FOUND</span><br />';
-    }
-    try {
-        $CFG["DBH"]->query("DESCRIBE `ccms_session`");
-        $msg .= "ccms_session: FOUND<br />";
-    } catch (PDOException $e) {
-        $CFG["pass"] = 0;
-        $msg .= 'ccms_session: <span class="oj">NOT FOUND</span><br />';
-    }
-    try {
-        $CFG["DBH"]->query("DESCRIBE `ccms_user`");
-        $msg .= "ccms_user: FOUND<br />";
-    } catch (PDOException $e) {
-        $CFG["pass"] = 0;
-        $msg .= 'ccms_user: <span class="oj">NOT FOUND</span><br />';
-    }
+if($CFG["DBH"]) {
+	$CFG["pass"] = 1;
+	if($_SERVER["REQUEST_URI"] == "/?import=1") {
+		if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
+			try {
+				// This try call helps handle situations where /?import=1 is called more then once, most likely accidentally by hitting the reload button.
+				$CFG["DBH"]->query("DESCRIBE `ccms_blacklist`");
+				$CFG["DBH"]->query("DESCRIBE `ccms_cache`");
+				$CFG["DBH"]->query("DESCRIBE `ccms_ins_db`");
+				$CFG["DBH"]->query("DESCRIBE `ccms_lng_charset`");
+				$CFG["DBH"]->query("DESCRIBE `ccms_session`");
+				$CFG["DBH"]->query("DESCRIBE `ccms_user`");
+			} catch(PDOException $e) {
+				$CFG["DBH"]->query("DROP TABLE IF EXISTS `ccms_blacklist`, `ccms_cache`, `ccms_ins_db`, `ccms_lng_charset`, `ccms_session`, `ccms_user`");
+				$CFG["DBH"]->exec(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/ccms-db-setup.sql"));
+			}
+		} else {
+			exit('<script>alert("No direct script access allowed");</script>');
+			die();
+		}
+	}
+	try {
+		$CFG["DBH"]->query("DESCRIBE `ccms_blacklist`");
+		$msg = "\nccms_blacklist: FOUND<br />";
+	} catch(PDOException $e) {
+		$CFG["pass"] = 0;
+		$msg = "\nccms_blacklist: <span class='oj'>NOT FOUND</span><br />";
+	}
+	try {
+		$CFG["DBH"]->query("DESCRIBE `ccms_cache`");
+		$msg .= "\nccms_cache: FOUND<br />";
+	} catch(PDOException $e) {
+		$CFG["pass"] = 0;
+		$msg .= "\nccms_cache: <span class='oj'>NOT FOUND</span><br />";
+	}
+	try {
+		$CFG["DBH"]->query("DESCRIBE `ccms_ins_db`");
+		$msg .= "\nccms_ins_db: FOUND<br />";
+	} catch(PDOException $e) {
+		$CFG["pass"] = 0;
+		$msg .= "\nccms_ins_db: <span class='oj'>NOT FOUND</span><br />";
+	}
+	try {
+		$CFG["DBH"]->query("DESCRIBE `ccms_lng_charset`");
+		$msg .= "\nccms_lng_charset: FOUND<br />";
+	} catch(PDOException $e) {
+		$CFG["pass"] = 0;
+		$msg .= "\nccms_lng_charset: <span class='oj'>NOT FOUND</span><br />";
+	}
+	try {
+		$CFG["DBH"]->query("DESCRIBE `ccms_session`");
+		$msg .= "\nccms_session: FOUND<br />";
+	} catch(PDOException $e) {
+		$CFG["pass"] = 0;
+		$msg .= "\nccms_session: <span class='oj'>NOT FOUND</span><br />";
+	}
+	try {
+		$CFG["DBH"]->query("DESCRIBE `ccms_user`");
+		$msg .= "\nccms_user: FOUND<br />";
+	} catch(PDOException $e) {
+		$CFG["pass"] = 0;
+		$msg .= "\nccms_user: <span class='oj'>NOT FOUND</span><br />";
+	}
 } else {
-    $CFG["pass"] = 0;
-    $msg = "Not tested because no database connection established.";
+	$CFG["pass"] = 0;
+	$msg = "Not tested because no database connection established.";
 }
 ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
@@ -380,9 +357,9 @@ if ($CFG["DBH"]) {
 								</div>
 								<div id="9" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass
-<?php else : ?>
+<?php else: ?>
 										<?php echo $msg; ?>
 										<a class="oj td-ul" href="/?import=1" onclick="return confirm('Are you sure?')">Click here</a> to import the <a class="oj td-ul" data-toggle="popover" data-container="body" type="button" data-content='There should be a file named <span class="oj">ccms-db-setup.sql</span> in the document root of this website.  It contains a copy of all the starter tables and the content required to setup a Custodian CMS project from scratch.  If you are missing this file you can get a copy of it from <a class="oj  td-ul" href="//github.com/modusinternet/Custodian-CMS/blob/master/ccms-db-setup.sql" target="_blank">GitHub</a>.  Just save the file to the document root folder of your website and reload this page to continue.<br /><br />We recommend you either delete or rename this file, along with the setup.php template, when you are done.' data-trigger="click" id="ccms-db-setup" style="cursor: pointer;">required database tables <i class="fa fa-hand-o-up"></i></a> now.  <span class='oj'>WARNING</span>: This process will remove and fully replace <span class="oj td-dul">ALL</span> database tables that may already exist under the same name.  So be sure to back up and rename any tables you do not want to loose before preforming this action.
 <?php endif ?>
@@ -390,12 +367,7 @@ if ($CFG["DBH"]) {
 								</div>
 							</div>
 
-<?php if ($CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] && $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"]) {
-    $CFG["pass"] = 1;
-
-} else {
-    $CFG["pass"] = 0;
-} ?>
+<?php if($CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] && $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"]) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#10" role="tab" style="cursor: pointer;">
 									<h4 class="panel-title">
@@ -405,53 +377,53 @@ if ($CFG["DBH"]) {
 								</div>
 								<div id="10" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass
-<?php else : ?>
+<?php else: ?>
 										Google reCAPTCHA is used to help secure the Login and Password Reset forms.  Open the /ccmspre/config.php template, update the $CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] and $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] fields with details dirived from <a href="https://www.google.com/recaptcha/admin/create" target="_blank">https://www.google.com/recaptcha/admin/create</a>.
 <?php endif ?>
 									</div>
 								</div>
 							</div>
 <?php
-if ($CFG["DBH"]) {
-    $CFG["pass"] = 1;
-    if ($_REQUEST["addSuper"] == 1) {
-        if (strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
-            // This call helps handle situations where it is called more then once, most likely accidentally by hitting the reload button.
-            $count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1 LIMIT 1")->fetchColumn();
-            if ($count == 0) {
-                // Hash the password and add the new super user.
-                // See https://alias.io/2010/01/store-passwords-safely-with-php-and-mysql/ for more details.
-                $cost = 10;
-                $salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
-                $salt = sprintf("$2a$%02d$", $cost) . $salt;
-                $hash = crypt($_REQUEST["password"], $salt);
-                $priv = '{"priv":{"admin":{"r":1,"users_and_user_privileges":{"rw":2},"language_support":{"rw":2},"blacklist_settings":{"rw":2}},"content_manager":{"r":1,"lng":{"de":2,"de-at":2,"de-de":2,"de-li":2,"de-lu":2,"de-ch":2,"en":2,"en-au":2,"en-bz":2,"en-ca":2,"en-ie":2,"en-jm":2,"en-nz":2,"en-ph":2,"en-za":2,"en-tt":2,"en-gb":2,"en-us":2,"en-zw":2,"es":2,"es-ar":2,"es-bo":2,"es-cl":2,"es-co":2,"es-cr":2,"es-do":2,"es-ec":2,"es-sv":2,"es-gt":2,"es-hn":2,"es-mx":2,"es-ni":2,"es-pa":2,"es-py":2,"es-pe":2,"es-pr":2,"es-es":2,"es-uy":2,"es-ve":2,"fr":2,"fr-be":2,"fr-ca":2,"fr-fr":2,"fr-lu":2,"fr-mc":2,"fr-ch":2,"ms":2,"nb-no":2,"pt":2,"ar":2,"bn":2,"ru":2,"hi":2,"ja":2,"zh":2,"zh-cn":2,"zh-tw":2,"he":2}},"group_lists":{"rw":2}}}';
-                $qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_user` (`email`, `hash`, `status`, `alias`, `super`, `priv`) VALUES (:email, :hash, '1', :alias, '1', :priv);");
-                $qry->execute(array(':email' => $_REQUEST["email"], ':hash' => $hash, ':alias' => $_REQUEST["alias"], ':priv' => $priv));
-            }
-        } else {
-            exit('<script>alert("No direct script access allowed");</script>');
-            die();
-        }
-    }
-    try {
-        $CFG["DBH"]->query("DESCRIBE `ccms_user`");
-    } catch (PDOException $e) {
-        $CFG["pass"] = 0;
-        $msg = 'Not tested because ccms_user: <span class="oj">NOT FOUND</span>';
-    }
-    if ($CFG["pass"] == 1) {
-        $count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1 LIMIT 1")->fetchColumn();
-        if ($count == 0) {
-            $CFG["pass"] = 0;
-            $CFG["pass2"] = 1;
-        }
-    }
+if($CFG["DBH"]) {
+	$CFG["pass"] = 1;
+	if($_REQUEST["addSuper"] == 1) {
+		if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
+			// This call helps handle situations where it is called more then once, most likely accidentally by hitting the reload button.
+			$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1 LIMIT 1")->fetchColumn();
+			if($count == 0) {
+				// Hash the password and add the new super user.
+				// See https://alias.io/2010/01/store-passwords-safely-with-php-and-mysql/ for more details.
+				$cost = 10;
+				$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+				$salt = sprintf("$2a$%02d$", $cost) . $salt;
+				$hash = crypt($_REQUEST["password"], $salt);
+				$priv = '{"priv":{"admin":{"r":1,"users_and_user_privileges":{"rw":2},"language_support":{"rw":2},"blacklist_settings":{"rw":2}},"content_manager":{"r":1,"lng":{"de":2,"de-at":2,"de-de":2,"de-li":2,"de-lu":2,"de-ch":2,"en":2,"en-au":2,"en-bz":2,"en-ca":2,"en-ie":2,"en-jm":2,"en-nz":2,"en-ph":2,"en-za":2,"en-tt":2,"en-gb":2,"en-us":2,"en-zw":2,"es":2,"es-ar":2,"es-bo":2,"es-cl":2,"es-co":2,"es-cr":2,"es-do":2,"es-ec":2,"es-sv":2,"es-gt":2,"es-hn":2,"es-mx":2,"es-ni":2,"es-pa":2,"es-py":2,"es-pe":2,"es-pr":2,"es-es":2,"es-uy":2,"es-ve":2,"fr":2,"fr-be":2,"fr-ca":2,"fr-fr":2,"fr-lu":2,"fr-mc":2,"fr-ch":2,"ms":2,"nb-no":2,"pt":2,"ar":2,"bn":2,"ru":2,"hi":2,"ja":2,"zh":2,"zh-cn":2,"zh-tw":2,"he":2}},"group_lists":{"rw":2}}}';
+				$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_user` (`email`, `hash`, `status`, `alias`, `super`, `priv`) VALUES (:email, :hash, '1', :alias, '1', :priv);");
+				$qry->execute(array(':email' => $_REQUEST["email"], ':hash' => $hash, ':alias' => $_REQUEST["alias"], ':priv' => $priv));
+			}
+		} else {
+			exit('<script>alert("No direct script access allowed");</script>');
+			die();
+		}
+	}
+	try {
+		$CFG["DBH"]->query("DESCRIBE `ccms_user`");
+	} catch(PDOException $e) {
+		$CFG["pass"] = 0;
+		$msg = 'Not tested because ccms_user: <span class="oj">NOT FOUND</span>';
+	}
+	if($CFG["pass"] == 1) {
+		$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1 LIMIT 1")->fetchColumn();
+		if($count == 0) {
+			$CFG["pass"] = 0;
+			$CFG["pass2"] = 1;
+		}
+	}
 } else {
-    $CFG["pass"] = 0;
-    $msg = "Not tested because no database connection established.";
+	$CFG["pass"] = 0;
+	$msg = "Not tested because no database connection established.";
 }
 ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
@@ -463,10 +435,10 @@ if ($CFG["DBH"]) {
 								</div>
 								<div id="11" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if ($CFG["pass"]==1) : ?>
+<?php if($CFG["pass"]==1): ?>
 										Pass
-<?php else : ?>
-<?php if ($CFG["pass2"]==1) : ?>
+<?php else: ?>
+<?php if($CFG["pass2"]==1): ?>
 										No Administrator found in the ccms_user table.  Add one now.<br />
 										<form action="/" id="addSuperUserForm" method="post" novalidate="novalidate">
 											<input type="hidden" name="addSuper" value="1">
@@ -494,7 +466,7 @@ if ($CFG["DBH"]) {
 											</div>
 											<button type="submit" class="btn btn-lg btn-success btn-block">Submit</button>
 										</form>
-<?php else : ?>
+<?php else: ?>
 										<?php echo $msg; ?>
 <?php endif ?>
 <?php endif ?>
