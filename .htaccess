@@ -230,6 +230,11 @@ AddOutputFilterByType DEFLATE application/x-javascript
 	RewriteCond %{QUERY_STRING} _REQUEST(=|[|\%[0-9A-Z]{0,2})
 	RewriteRule .* - [F,L]
 
+	# Force all conection to https and NOT http.
+	#------------------------------
+	RewriteCond %{SERVER_PORT} !^443$
+	RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
+
 	# The following two lines of code build an environment variable that either contains nothing or an 's' to
 	# indicate the server port is http or https.
 	#------------------------------
@@ -246,11 +251,6 @@ AddOutputFilterByType DEFLATE application/x-javascript
 	#RewriteRule ^(.*)$ http%{ENV:variable}://%{HTTP_HOST}/$1 [R=301,L]
 	#RewriteCond %{HTTP_HOST} !^www\.(.+) [NC]
 	#RewriteRule ^(.*)$ http%{ENV:variable}://www.%{HTTP_HOST}/$1 [R=301,L]
-
-	# Force all conection to https and NOT http.
-	#------------------------------
-	#RewriteCond %{SERVER_PORT} !^443$
-	#RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
 
 	# Look to see if 'user' is found at the beginning of the {REQUEST_URI}, if so send the visitor to the
 	# Custodian CMS admin index template.  If you change the location of your CCMS admin directory in the
@@ -283,7 +283,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
 	ExpiresActive On
 
 	# Default expiration: 1 day after request
-	ExpiresDefault "access plus 1 day"
+	ExpiresDefault "access plus 7 day"
 
 	# CSS and JS expiration: 1 week after request
 	ExpiresByType text/css "access plus 1 week"

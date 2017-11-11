@@ -40,7 +40,7 @@ CREATE TABLE `ccms_cache` (
   `url_md5` char(32) CHARACTER SET ascii NOT NULL,
   `url` varchar(512) NOT NULL,
   `exp` int(20) NOT NULL,
-  `content` text NOT NULL
+  `content` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
