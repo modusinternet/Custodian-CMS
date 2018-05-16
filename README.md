@@ -1,4 +1,4 @@
-![Custodian CMS Logo and Redirect Link](http://modusinternet.com/ccmstpl/img/ccms-logo-banner-large-en.png)
+![Custodian CMS Logo and Redirect Link](https://custodiancms.org/ccmstpl/img/github_ccms-logo-banner-large-en.png)
 Custodian CMS
 =========
 
@@ -45,7 +45,7 @@ CCMS also provides a framework to help website developers build Search Engine Op
 	{CCMS_LIB:test/dir/indeX_Asdf-123.php;FUNC:cfgindeX_Asdf123("arg1", "arg2")}
 
 
-Visit the project website at https://modusinternet.com/
+Visit the project website at https://custodiancms.org
 
 -------------------
 System requirements
@@ -63,10 +63,10 @@ LAMP
 Installation
 ------------
 
-* Download a CCMS package from https://github.com/modusinternet/custodian-cms/releases or http://modusinternet.com.
+* Download a CCMS package from https://github.com/modusinternet/custodian-cms/releases or https://custodiancms.org.
 * Unpack and place the archive on your server.
 * Import ccms-db-setup.sql into your MySQL editor after setting up a new database.
 * Update the settings found inside of /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php as required.
 * Copy and or Rename /ccmspre/config_original.php to /ccmspre/config.php and /ccmspre/user_whiteList_original.php to /ccmspre/user_whiteList.php.
 * Open a browser and call your test environment, if the first template that comes up says 'Custodian CMS Configuration Instructions' follow the instructions and double check your installation.  Most likely you forgot to rename the /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php files described above.
-* More links to information regarding installation and configuration can be found at http://modusinternet.com.
+* More links to information regarding installation and configuration can be found at https://custodiancms.org.
