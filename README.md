@@ -1,4 +1,4 @@
-![Custodian CMS Logo and Redirect Link](https://modusinternet.com/ccmstpl/img/ccms-logo-banner-large-en.png)
+![Custodian CMS Logo and Redirect Link](http://modusinternet.com/ccmstpl/img/ccms-logo-banner-large-en.png)
 Custodian CMS
 =========
 
@@ -16,7 +16,7 @@ Custodian CMS (CCMS) is a good caretaker to build your site upon because:
 
 Though CCMS does not come with setup scripts or an admin system currently (Admin system will be ready in v1.0) fortunately CCMS is so simple neither one is required to make use of this amazing tool.  Use a simple text editor to update the config and a tool like phpMyAdmin to add, remove or update your database inserts.
 
----
+-----
 About
 -----
 
@@ -45,9 +45,9 @@ CCMS also provides a framework to help website developers build Search Engine Op
 	{CCMS_LIB:test/dir/indeX_Asdf-123.php;FUNC:cfgindeX_Asdf123("arg1", "arg2")}
 
 
-Visit the project website at http://modusinternet.com/en/products/custodian-cms.html
+Visit the project website at https://modusinternet.com/
 
----
+-------------------
 System requirements
 -------------------
 
@@ -59,14 +59,14 @@ LAMP
 
 (CCMS will probably run on IIS but ya never know.  If someone would like to test it and let me know I'd appreciate it.)
 
----
+------------
 Installation
 ------------
 
-* Download a CCMS package from https://github.com/modusinternet/custodian-cms/releases or http://modusinternet.com/en/products/custodian-cms/download.html.
+* Download a CCMS package from https://github.com/modusinternet/custodian-cms/releases or http://modusinternet.com.
 * Unpack and place the archive on your server.
 * Import ccms-db-setup.sql into your MySQL editor after setting up a new database.
 * Update the settings found inside of /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php as required.
 * Copy and or Rename /ccmspre/config_original.php to /ccmspre/config.php and /ccmspre/user_whiteList_original.php to /ccmspre/user_whiteList.php.
 * Open a browser and call your test environment, if the first template that comes up says 'Custodian CMS Configuration Instructions' follow the instructions and double check your installation.  Most likely you forgot to rename the /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php files described above.
-* More links to information regarding installation and configuration can be found at http://modusinternet.com/en/products/custodian-cms/download.html.
+* More links to information regarding installation and configuration can be found at http://modusinternet.com.
