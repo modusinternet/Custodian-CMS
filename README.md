@@ -2,7 +2,6 @@
   <img src="./ccmstpl/img/github_ccms-logo-banner-large-en.png" />
 </p>
 <h1 align="center">Custodian CMS</h1>
-=========
 
 The word 'Custodian' is defined by thefreedictionary.com as 'A person entrusted with guarding or maintaining a property; caretaker' and this suits the definition of the Custodian CMS very well.
 
