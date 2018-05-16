@@ -1,4 +1,4 @@
-![Custodian CMS Logo and Redirect Link](http://modusinternet.com/ccmstpl/img/ccms-logo-banner-large-en.png)
+![Custodian CMS Logo and Redirect Link](https://modusinternet.com/ccmstpl/img/ccms-logo-banner-large-en.png)
 Custodian CMS
 =========
 
