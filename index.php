@@ -17,10 +17,12 @@ if($_SERVER["REAL_DOCUMENT_ROOT"]) {
 	$_SERVER["DOCUMENT_ROOT"] = $_SERVER["REAL_DOCUMENT_ROOT"];
 }
 
+/*
 if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/setup.php")) {
 	require_once($_SERVER["DOCUMENT_ROOT"] . "/setup.php");
 	die();
 }
+*/
 
 require_once "ccmspre/config.php";
 
