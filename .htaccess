@@ -8,7 +8,7 @@
 
 # To enable Mod Rewrite on GoDaddy servers uncomment the following code.
 #------------------------------
-SetEnv HTTP_MOD_REWRITE On
+#SetEnv HTTP_MOD_REWRITE On
 
 # The ETag or entity tag provides web cache validation.  If you are trying to install Custodian CMS on a
 # GoDaddy server comment out the line of code below, GoDaddy seems to have Etag support already enabled.
