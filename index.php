@@ -22,6 +22,7 @@ if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/setup.php")) {
 	die();
 }
 
+
 require_once "ccmspre/config.php";
 
 ob_start("ob_gzhandler");
