@@ -66,7 +66,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 						Welcome to Custodian CMS, <span class="oj">@Version <?php echo $CFG["VERSION"];?> (Release Date: <?php echo $CFG["RELEASE_DATE"];?>)</span>.  This page is designed to help test your server environment, check your configuration template, import example database content and help establish your first administrator.  Once everything is properly configured and the setup process is complete, you will need to either <span class="oj">rename or remove the /setup.php template from your server to continue</span>.
 					</p>
 					<p style="text-indent: 1.5em;">
-						For more information visit <a class="td-ul" style="word-wrap: break-word;" href="//modusinternet.com/en/products/custodian-cms.html" target="_blank">http://modusinternet.com/en/products/custodian-cms.html</a>.
+						For more information visit <a class="td-ul" style="word-wrap: break-word;" href="https://custodiancms.org" target="_blank">https://custodiancms.org</a>.
 					</p>
 				</div>
 				<div class="tab-pane fade" id="setup_instructions">
@@ -481,7 +481,7 @@ if($CFG["DBH"]) {
 				</div>
 				<div class="tab-pane fade" id="copyright">
 					<h1>The MIT License (MIT)</h1>
-					Copyright &copy; <?php echo date("Y");?> <a href="http://modusinternet.com" target="_blank">Modus Internet</a>
+					Copyright &copy; <?php echo date("Y");?> <a href="https://custodiancms.org" target="_blank">custodiancms.org</a>
 					<p>
 						Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br />
 						<br />
@@ -494,7 +494,7 @@ if($CFG["DBH"]) {
 		</div>
 
 		<p style="margin:10px 10px;">
-			Copyright &copy; <?php echo date("Y");?> <a href="http://modusinternet.com" target="_blank">Modus Internet</a>, all rights reserved.
+			Copyright &copy; <?php echo date("Y");?> <a href="https://custodiancms.org" target="_blank">custodiancms.org</a>, all rights reserved.
 		</p>
 
 		<script>
