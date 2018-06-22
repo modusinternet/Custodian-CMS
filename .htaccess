@@ -1,19 +1,13 @@
-# If you are attempting to use Custodian CMS on a GoDaddy hosted service you might experience problems getting
-# the templates to work properly.  Try doing the following in the code below these comments:
+# If you are attempting to use Custodian CMS you experience problems getting
+# the templates to work properly.  Try doing the following in the code below:
 # Uncomment: SetEnv HTTP_MOD_REWRITE On
-# Comment: FileETag MTime Size
-# Comment: php_flag register_globals off
-# Comment: php_flag magic_quotes_gpc off
+# Uncomment: php_flag register_globals off
+# Uncomment: php_flag magic_quotes_gpc off
 
 
 # To enable Mod Rewrite on GoDaddy servers uncomment the following code.
 #------------------------------
 #SetEnv HTTP_MOD_REWRITE On
-
-# The ETag or entity tag provides web cache validation.  If you are trying to install Custodian CMS on a
-# GoDaddy server comment out the line of code below, GoDaddy seems to have Etag support already enabled.
-#------------------------------
-#FileETag MTime Size
 
 # Bad Request
 #------------------------------
@@ -128,55 +122,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
 	RewriteCond %{HTTP_USER_AGENT} ^$ [NC]
 	RewriteRule .* - [F,L]
 
-	# BOT block
-	#------------------------------
-	# URL encoded HTML, see http://www.w3schools.com/tags/ref_urlencode.asp
-	RewriteCond %{HTTP_USER_AGENT} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
-	# Address harvesters
-	RewriteCond %{HTTP_USER_AGENT} ^(autoemailspider|ExtractorPro) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^E?Mail.?(Collect|Harvest|Magnet|Reaper|Siphon|Sweeper|Wolf) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} (DTS.?Agent|Email.?Extrac) [NC,OR]
-	RewriteCond %{HTTP_REFERER} iaea\.org [NC,OR]
-	# Download managers
-	RewriteCond %{HTTP_USER_AGENT} ^(Alligator|DA.?[0-9]|DC\-Sakura|Download.?(Demon|Express|Master|Wonder)|FileHound) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(Flash|Leech)Get [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(Fresh|Lightning|Mass|Real|Smart|Speed|Star).?Download(er)? [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(Gamespy|Go!Zilla|iGetter|JetCar|Net(Ants|Pumper)|SiteSnagger|Teleport.?Pro|WebReaper) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(My)?GetRight [NC,OR]
-	# Image-grabbers
-	RewriteCond %{HTTP_USER_AGENT} ^(AcoiRobot|FlickBot|webcollage) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(Express|Mister|Web).?(Web|Pix|Image).?(Pictures|Collector)? [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^Image.?(fetch|Stripper|Sucker) [NC,OR]
-	# "Gray-hats"
-	RewriteCond %{HTTP_USER_AGENT} ^(Atomz|BlackWidow|BlogBot|EasyDL|Marketwave|Sqworm|SurveyBot|Webclipping\.com) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} (girafa\.com|gossamer\-threads\.com|grub\-client|Netcraft|Nutch) [NC,OR]
-	# Site-grabbers
-	RewriteCond %{HTTP_USER_AGENT} ^(eCatch|(Get|Super)Bot|Kapere|HTTrack|JOC|Offline|UtilMind|Xaldon) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^Web.?(Auto|Cop|dup|Fetch|Filter|Gather|Go|Leach|Mine|Mirror|Pix|QL|RACE|Sauger) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^Web.?(site.?(eXtractor|Quester)|Snake|ster|Strip|Suck|vac|walk|Whacker|ZIP) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} WebCapture [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^DISCo\ Pump [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^EirGrabber [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^Net\ Vampire [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^NetZIP [NC,OR]
-	# Tools
-	RewriteCond %{HTTP_USER_AGENT} ^(curl|Dart.?Communications|Enfish|htdig|Java|larbin) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} (FrontPage|Indy.?Library|RPT\-HTTPClient) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(libwww|lwp|libwww-perl.*|PHP|Python|www\.thatrobotsite\.com|webbandit|Wget|Zeus) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(Microsoft|MFC).(Data|Internet|URL|WebDAV|Foundation).(Access|Explorer|Control|MiniRedir|Class) [NC,OR]
-	# Unknown
-	RewriteCond %{HTTP_USER_AGENT} ^(Crawl_Application|Lachesis|Nutscrape) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^[CDEFPRS](Browse|Eval|Surf) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(Demo|Full.?Web|Lite|Production|Franklin|Missauga|Missigua).?(Bot|Locat) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} (efp@gmx\.net|hhjhj@yahoo\.com|lerly\.net|mapfeatures\.net|metacarta\.com) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(Industry|Internet|IUFW|Lincoln|Missouri|Program).?(Program|Explore|Web|State|College|Shareware) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(Mac|Ram|Educate|WEP).?(Finder|Search) [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^(Moz+illa|MSIE).?[0-9]?.?[0-9]?[0-9]?$ [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} ^Mozilla/[0-9]\.[0-9][0-9]?.\(compatible[\)\ ] [NC,OR]
-	RewriteCond %{HTTP_USER_AGENT} NaverRobot|AhrefsBot|MJ12bot|SeznamBot [NC]
-	RewriteRule .* - [F,L]
-
-	# Stop hotlinking.
+	# Stop hot linking.
 	#------------------------------
 	RewriteCond %{HTTP_REFERER} !^$
 	# Add to allow abc.com to pull images from the server.
@@ -186,7 +132,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
 	RewriteCond %{HTTP_HOST}@@%{HTTP_REFERER} !^([^@]*)@@https?://\1/.* [NC]
 	RewriteRule \.(bmp|gif|jpe?g|png|swf)$ - [F,L,NC]
 
-	# Stop file and mysql injection attacks.
+	# Stop file and MySQL injection attacks.
 	#------------------------------
 	RewriteCond %{REQUEST_METHOD} GET
 	RewriteCond %{QUERY_STRING} (;|<|>|'|"|\)|%0A|%0D|%22|%27|%3C|%3E|%00).*(/\*|union|select|insert|cast|set|declare|drop|update|md5|benchmark) [NC,OR]
@@ -198,39 +144,7 @@ AddOutputFilterByType DEFLATE application/x-javascript
 	RewriteCond %{QUERY_STRING} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC]
 	RewriteRule .* - [F,L]
 
-	# Protect against PHP-CGI Remote Code Execution Bug. CVE-2012-1823
-	#------------------------------
-	RewriteCond %{QUERY_STRING} ^(%2d|\-)[^=]+$ [NC]
-	RewriteRule .* - [F,L]
-
-	# Denies any POST Request using a Proxy Server. Can still access site, but not comment.  Just to be clear,
-	# this doesn't really work with any proxy service that really wants to hide who they are but what the hell.
-	#------------------------------
-	RewriteCond %{REQUEST_METHOD} =POST
-	RewriteCond %{HTTP:VIA}%{HTTP:FORWARDED}%{HTTP:USERAGENT_VIA}%{HTTP:X_FORWARDED_FOR}%{HTTP:PROXY_CONNECTION} !^$ [OR]
-	RewriteCond %{HTTP:XPROXY_CONNECTION}%{HTTP:HTTP_PC_REMOTE_ADDR}%{HTTP:HTTP_CLIENT_IP} !^$
-	RewriteRule .* - [F,L,NS]
-
-	# Stop 'PHP Easter Eggs' from working, http://perishablepress.com/expose-php/
-	RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC,OR]
-	# Stop proc/self/environ?
-	RewriteCond %{QUERY_STRING} proc/self/environ [OR]
-	# Block out any script trying to set a mosConfig value through the URL
-	RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
-	# Block out any script trying to base64_encode/decode content via URL
-	RewriteCond %{QUERY_STRING} base64_(en|de)code[^(]*\([^)]*\) [OR]
-	## IMPORTANT: If the above line throws an HTTP 500 error, replace it with these 2 lines:
-	# RewriteCond %{QUERY_STRING} base64_encode\(.*\) [OR]
-	# RewriteCond %{QUERY_STRING} base64_decode\(.*\) [OR]
-	# Block out any script that includes a <script> tag in URL
-	RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
-	# Block out any script trying to set a PHP GLOBALS variable via URL
-	RewriteCond %{QUERY_STRING} GLOBALS(=|[|\%[0-9A-Z]{0,2}) [OR]
-	# Block out any script trying to modify a _REQUEST variable via URL
-	RewriteCond %{QUERY_STRING} _REQUEST(=|[|\%[0-9A-Z]{0,2})
-	RewriteRule .* - [F,L]
-
-	# Force all conection to https and NOT http.
+	# Force all connection to https and NOT http.
 	#------------------------------
 	RewriteCond %{SERVER_PORT} !^443$
 	RewriteRule (.*) https://%{SERVER_NAME}/$1 [R,L]
@@ -282,15 +196,14 @@ AddOutputFilterByType DEFLATE application/x-javascript
 	#------------------------------
 	ExpiresActive On
 
-	# Default expiration: 1 day after request
-	ExpiresDefault "access plus 7 day"
+	# Default expiration: 1 day after request	ExpiresDefault "access plus 1 month"
 
-	# CSS and JS expiration: 1 week after request
-	ExpiresByType text/css "access plus 1 week"
-	ExpiresByType text/javascript "access plus 1 week"
-	ExpiresByType text/x-javascript "access plus 1 week"
-	ExpiresByType application/javascript "access plus 1 week"
-	ExpiresByType application/x-javascript "access plus 1 week"
+	# CSS and JS expiration: 2 weeks after request
+	ExpiresByType text/css "access plus 2 weeks"
+	ExpiresByType text/javascript "access plus 2 weeks"
+	ExpiresByType text/x-javascript "access plus 2 weeks"
+	ExpiresByType application/javascript "access plus 2 weeks"
+	ExpiresByType application/x-javascript "access plus 2 weeks"
 
 	# Image files expiration: 1 month after request
 	ExpiresByType image/bmp "access plus 1 month"
