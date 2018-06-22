@@ -72,4 +72,5 @@ Or use the original method below to install.
 * Update the settings found inside of /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php as required.
 * Copy and or Rename /ccmspre/config_original.php to /ccmspre/config.php and /ccmspre/user_whiteList_original.php to /ccmspre/user_whiteList.php.
 * Open a browser and call your test environment, if the first template that comes up says 'Custodian CMS Configuration Instructions' follow the instructions and double check your installation.  Most likely you forgot to rename the /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php files described above.
-* More links to information regarding installation and configuration can be found at https://custodiancms.org.
+
+CCMS project website: https://custodiancms.org (Under development)
