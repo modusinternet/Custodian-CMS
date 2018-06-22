@@ -66,7 +66,7 @@ You can now use a single template to download CCMS and begin the config/setup pr
 
 Or use the original method below to install.
 
-* Download a CCMS package from https://github.com/modusinternet/custodian-cms/releases or https://custodiancms.org.
+* Download a CCMS package from https://github.com/modusinternet/custodian-cms/releases.
 * Unpack and place the archive on your server.
 * Import ccms-db-setup.sql into your MySQL editor after setting up a new database.
 * Update the settings found inside of /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php as required.
