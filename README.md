@@ -7,8 +7,8 @@ The word 'Custodian' is defined by thefreedictionary.com as 'A person entrusted 
 
 Custodian CMS (CCMS) is a good caretaker to build your site upon because:
 <ol>
-	<li>It combines the best security practices against techniques like hot linking, cross site scripting, remote code execution and MySQL injection in multiple areas of the system.  The .htaccess file is approx 275 lines of deeply scrutinised code that is constantly being improved.  Other .htaccess files found throughout its structure provide additional layers of protection.</li>
-	<li>It opperates under a clearly defined URI structure that is optimal for Search Engines.</li>
+	<li>It combines the best security practices against techniques like hot linking, cross site scripting, remote code execution and MySQL injection in multiple areas of the system.  The .htaccess file is approx. 275 lines of deeply scrutinized code that is constantly being improved.  Other .htaccess files found throughout its structure provide additional layers of protection.</li>
+	<li>It operates under a clearly defined URI structure that is optimal for Search Engines.</li>
 	<li>It provides an easy process and structure for developers to separate HTML from programming code so that its easier for junior developers and maintainers to work with after development is complete.</li>
 	<li>It provides the simplest method in existence to solve the issues of constructing multilingual websites using a single set of templates, on a single domain, containing an unlimited number of languages.</li>
 	<li>It simplifies the user experience by determining language preference automatically.</li>
@@ -29,7 +29,7 @@ The primary purpose of CCMS is to maintain a database of multilingual content an
 	{CCMS_DB:use_anywhere,form_button_submit}
 	{CCMS_DB:trips_to_mexico_template,request_more_info_text1}
 
-If your site contains content which may need to be displayed bidirectionaly (BIDI) you can use the CCMS_DB_DIR tag to help output left-to-right (lrt) or right-to-left (rtl) flags to use in your HTML.
+If your site contains content which may need to be displayed bidirectional (BIDI) you can use the CCMS_DB_DIR tag to help output left-to-right (lrt) or right-to-left (rtl) flags to use in your HTML.
 
 	{CCMS_DB_DIR:about_us_page,first_paragraph}
 	{CCMS_DB_DIR:use_anywhere,form_button_submit}
@@ -63,6 +63,10 @@ LAMP
 ------------
 Installation
 ------------
+
+You can now use a single template to download CCMS and begin the config/setup process.  Download it here: [Custodian CMS Installer](https://github.com/modusinternet/Custodian-CMS-Installer)
+
+Or use the original method below to install.
 
 * Download a CCMS package from https://github.com/modusinternet/custodian-cms/releases or https://custodiancms.org.
 * Unpack and place the archive on your server.
