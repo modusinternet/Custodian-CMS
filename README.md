@@ -17,9 +17,9 @@ Custodian CMS (CCMS) is a good caretaker to build your site upon because:
 
 Though CCMS does not come with setup scripts or an admin system currently (Admin system will be ready in v1.0) fortunately CCMS is so simple neither one is required to make use of this amazing tool.  Use a simple text editor to update the config and a tool like phpMyAdmin to add, remove or update your database inserts.
 
------
+
 About
------
+--
 
 CCMS is a small, light weight, multilingual, Content Management System distributed for free under the GNU LGPL.
 
@@ -48,9 +48,8 @@ CCMS also provides a framework to help website developers build Search Engine Op
 
 Visit the project website at https://custodiancms.org
 
--------------------
 System requirements
--------------------
+--
 
 LAMP
 * Linux
@@ -60,9 +59,8 @@ LAMP
 
 (CCMS will probably run on IIS but ya never know.  If someone would like to test it and let me know I'd appreciate it.)
 
-------------
 Installation
-------------
+--
 
 You can now use a single template to download CCMS and begin the config/setup process.  Download it here: [Custodian CMS Installer](https://github.com/modusinternet/Custodian-CMS-Installer)
 
