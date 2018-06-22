@@ -23,7 +23,7 @@
 		</p><br />
 		@Copyright
 		<p style="margin-left: 20px;">
-			 &copy; {CCMS_LIB:_default.php;FUNC:ccms_dateYear} <a href="//modusinternet.com" target="_blank">Modus Internet</a>
+			 &copy; {CCMS_LIB:_default.php;FUNC:ccms_dateYear} <a href="https://custodiancms.org" target="_blank">custodiancms.org</a>
 		</p>
 		<p style="margin-left: 20px;">
 			<h1>The MIT License (MIT)</h1>
@@ -192,7 +192,7 @@
 		</ul>
 		<h2>What Now?</h2>
 		<p>
-			Now build your website.  Remember, this is a template driven CMS which means if you want to add pages to your site you need to add templates to your server.  As you complete each page copy content into the <span class="oj">ccms_ins_db</span> database table, add multilingual versions of content to each record and replace original content in your template with a <span class="oj">CCMS_DB tag</span>.  For more information, community assistance or example code visit:  <a href="//modusinternet.com/en/products/custodian-cms.html" style="display: inline-block; word-break: break-all;" target="_blank">modusinternet.com/en/products/custodian-cms.html</a>.
+			Now build your website.  Remember, this is a template driven CMS which means if you want to add pages to your site you need to add them yourself.  As you complete each page copy content into the <span class="oj">ccms_ins_db</span> database table, add multilingual versions of content to each record and replace original content in your template with a <span class="oj">CCMS_DB tag</span>.  For more information, community assistance or example code visit:  <a href="https://custodiancms.org" style="display: inline-block; word-break: break-all;" target="_blank">https://custodiancms.org</a>.
 		</p>
 		{CCMS_TPL:examples/footer.html}
 		<script>
@@ -204,38 +204,38 @@
 				l.href = "//fonts.googleapis.com/css?family=Open+Sans:300";
 				var h = document.getElementsByTagName("head")[0];
 				h.parentNode.insertBefore(l, h);
-				
+
 				var l = document.createElement("link");
 				l.rel = 'stylesheet';
 				/* l.href = "/ccmstpl/examples/css/style.css"; */
 				l.href = "/ccmstpl/examples/css/style-min.css";
 				var h = document.getElementsByTagName("head")[0];
 				h.parentNode.insertBefore(l, h);
-				
+
 				var l = document.createElement("link");
 				l.rel = "stylesheet";
 				l.href = "//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css";
 				var h = document.getElementsByTagName("head")[0];
 				h.parentNode.insertBefore(l, h);
 			};
-			
+
 			/* var raf = {CCMS_TPL:examples/browser.php} */
 			var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
 			if (raf) raf(cb);
 			else window.addEventListener('load', cb);
-			
+
 			function loadJSResources() {
 				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js", function(){ /* JQuery is loaded */
 					loadFirst("//cdn.jsdelivr.net/blazy/latest/blazy.min.js", function(){ /* Load images lazy, https://github.com/dinbror/blazy */
-				
+
 						/* Fade in web page. */
 						$("#no-fouc").delay(100).animate({"opacity": "1"}, 500);
-						
+
 						var bLazy = new Blazy();
 					});
 				});
 			}
-			
+
 			if (window.addEventListener) {
 				window.addEventListener("load", loadJSResources, false);
 			} else if (window.attachEvent) {
