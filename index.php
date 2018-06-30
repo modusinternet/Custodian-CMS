@@ -9,8 +9,8 @@
 $CFG = array();
 $CLEAN = array();
 
-$CFG["VERSION"] = "0.6.2";
-$CFG["RELEASE_DATE"] = "Jun 22, 2018";
+$CFG["VERSION"] = "0.6.3";
+$CFG["RELEASE_DATE"] = "Jun 30, 2018";
 
 // Necessary to solve a problem on GoDaddy servers when running sites found in sub folders of existing sites.
 if($_SERVER["REAL_DOCUMENT_ROOT"]) {
