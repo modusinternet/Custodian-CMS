@@ -63,7 +63,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			<div class="tab-content">
 				<div class="tab-pane fade active in" id="welcome">
 					<p style="text-indent: 1.5em;">
-						Welcome to Custodian CMS, <span class="oj">@Version <?php echo $CFG["VERSION"];?> (Release Date: <?php echo $CFG["RELEASE_DATE"];?>)</span>.  This page is designed to help test your server environment, check your configuration template, import example database content and help establish your first administrator.  Once everything is properly configured and the setup process is complete, you will need to either <span class="oj">rename or remove the /setup.php template from your server to continue</span>.
+						Welcome to Custodian CMS, <span class="oj">@Version <?php echo $CFG["VERSION"];?> (Release Date: <?php echo $CFG["RELEASE_DATE"];?>)</span>.  This page is designed to help test your server environment, check your configuration template, import example database content and help establish your first administrator.  Once everything is properly configured and the setup process is complete, you will need to either <span class="oj">rename or remove the /ccms-setup.php template from your server to continue</span>.
 					</p>
 					<p style="text-indent: 1.5em;">
 						For more information visit <a class="td-ul" style="word-wrap: break-word;" href="https://custodiancms.org" target="_blank">https://custodiancms.org</a>.
@@ -80,7 +80,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 						<li>Make a copy of <span class="oj">/ccmspre/whitelist_user_original.php</span> and name it <span class="oj">/ccmspre/whitelist_user.php</span>.</li>
 						<li>Import the contents of the <span class="oj">/ccms-setup-db.sql</span> file into your database manually (e.g. using PHPMyAdmin) or go to <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for database content</span> and use the "<span class="oj">Click here</span>" link to automatically do it for you.</li>
 						<li>Add an administrator using the <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for Administrator</span> form if you need one.</li>
-						<li>Delete or rename the <span class="oj">/setup.php</span> file and reload this page.</li>
+						<li>Delete or rename the <span class="oj">/ccms-setup.php</span> file and reload this page.</li>
 						<li>Optional: Add a <span class='oj'>crontask</span> to help keep your session table in the database lean and clean.  We suggest setting up the <span class='oj'>crontask</span> to run at least once a day.  ie: <span class='oj'>/usr/bin/php /home/your-account-name/website-folder/ccmspre/cron_session_cleanup.php</span></li>
 					</ol>
 					<p>
@@ -361,7 +361,7 @@ if($CFG["DBH"]) {
 										Pass
 <?php else: ?>
 										<?php echo $msg; ?>
-										<a class="oj td-ul" href="/?import=1" onclick="return confirm('Are you sure?')">Click here</a> to import the <a class="oj td-ul" data-toggle="popover" data-container="body" type="button" data-content='There should be a file named <span class="oj">ccms-setup-db.sql</span> in the document root of this website.  It contains a copy of all the starter tables and the content required to setup a Custodian CMS project from scratch.  If you are missing this file you can get a copy of it from <a class="oj  td-ul" href="//github.com/modusinternet/Custodian-CMS/blob/master/ccms-setup-db.sql" target="_blank">GitHub</a>.  Just save the file to the document root folder of your website and reload this page to continue.<br /><br />We recommend you either delete or rename this file, along with the setup.php template, when you are done.' data-trigger="click" id="ccms-setup-db" style="cursor: pointer;">required database tables <i class="fa fa-hand-o-up"></i></a> now.  <span class='oj'>WARNING</span>: This process will remove and fully replace <span class="oj td-dul">ALL</span> database tables that may already exist under the same name.  So be sure to back up and rename any tables you do not want to loose before preforming this action.
+										<a class="oj td-ul" href="/?import=1" onclick="return confirm('Are you sure?')">Click here</a> to import the <a class="oj td-ul" data-toggle="popover" data-container="body" type="button" data-content='There should be a file named <span class="oj">ccms-setup-db.sql</span> in the document root of this website.  It contains a copy of all the starter tables and the content required to setup a Custodian CMS project from scratch.  If you are missing this file you can get a copy of it from <a class="oj  td-ul" href="//github.com/modusinternet/Custodian-CMS/blob/master/ccms-setup-db.sql" target="_blank">GitHub</a>.  Just save the file to the document root folder of your website and reload this page to continue.<br /><br />We recommend you either delete or rename this file, along with the ccms-setup.php template, when you are done.' data-trigger="click" id="ccms-setup-db" style="cursor: pointer;">required database tables <i class="fa fa-hand-o-up"></i></a> now.  <span class='oj'>WARNING</span>: This process will remove and fully replace <span class="oj td-dul">ALL</span> database tables that may already exist under the same name.  So be sure to back up and rename any tables you do not want to loose before preforming this action.
 <?php endif ?>
 									</div>
 								</div>
@@ -476,7 +476,7 @@ if($CFG["DBH"]) {
 						</div>
 					</div>
 					<p style="text-indent: 1.5em;">
-						If all the tests above are successful, <span class="alert alert-success" style="font-weight: 600;">GREEN</span>, all you need to do next is delete or rename the <span class="oj">/setup.php</span> file and reload this page.
+						If all the tests above are successful, <span class="alert alert-success" style="font-weight: 600;">GREEN</span>, all you need to do next is delete or rename the <span class="oj">/ccms-setup.php</span> file and reload this page.
 					</p>
 				</div>
 				<div class="tab-pane fade" id="copyright">
