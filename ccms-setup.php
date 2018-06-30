@@ -78,7 +78,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 						<li>Make a copy of <span class="oj">/ccmspre/config_original.php</span> and name it <span class="oj">/ccmspre/config.php</span>.  Then update it with all your domain name and database settings.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/whitelist_public_original.php</span> and name it <span class="oj">/ccmspre/whitelist_public.php</span>.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/whitelist_user_original.php</span> and name it <span class="oj">/ccmspre/whitelist_user.php</span>.</li>
-						<li>Import the contents of the <span class="oj">/ccms-db-setup.sql</span> file into your database manually (e.g. using PHPMyAdmin) or go to <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for database content</span> and use the "<span class="oj">Click here</span>" link to automatically do it for you.</li>
+						<li>Import the contents of the <span class="oj">/ccms-setup-db.sql</span> file into your database manually (e.g. using PHPMyAdmin) or go to <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for database content</span> and use the "<span class="oj">Click here</span>" link to automatically do it for you.</li>
 						<li>Add an administrator using the <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> <i class="fa fa-angle-double-right"></i> <span class="oj">Test for Administrator</span> form if you need one.</li>
 						<li>Delete or rename the <span class="oj">/setup.php</span> file and reload this page.</li>
 						<li>Optional: Add a <span class='oj'>crontask</span> to help keep your session table in the database lean and clean.  We suggest setting up the <span class='oj'>crontask</span> to run at least once a day.  ie: <span class='oj'>/usr/bin/php /home/your-account-name/website-folder/ccmspre/cron_session_cleanup.php</span></li>
@@ -294,7 +294,7 @@ if($CFG["DBH"]) {
 				$CFG["DBH"]->query("DESCRIBE `ccms_user`");
 			} catch(PDOException $e) {
 				$CFG["DBH"]->query("DROP TABLE IF EXISTS `ccms_blacklist`, `ccms_cache`, `ccms_ins_db`, `ccms_lng_charset`, `ccms_session`, `ccms_user`");
-				$CFG["DBH"]->exec(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/ccms-db-setup.sql"));
+				$CFG["DBH"]->exec(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/ccms-setup-db.sql"));
 			}
 		} else {
 			exit('<script>alert("No direct script access allowed");</script>');
@@ -361,7 +361,7 @@ if($CFG["DBH"]) {
 										Pass
 <?php else: ?>
 										<?php echo $msg; ?>
-										<a class="oj td-ul" href="/?import=1" onclick="return confirm('Are you sure?')">Click here</a> to import the <a class="oj td-ul" data-toggle="popover" data-container="body" type="button" data-content='There should be a file named <span class="oj">ccms-db-setup.sql</span> in the document root of this website.  It contains a copy of all the starter tables and the content required to setup a Custodian CMS project from scratch.  If you are missing this file you can get a copy of it from <a class="oj  td-ul" href="//github.com/modusinternet/Custodian-CMS/blob/master/ccms-db-setup.sql" target="_blank">GitHub</a>.  Just save the file to the document root folder of your website and reload this page to continue.<br /><br />We recommend you either delete or rename this file, along with the setup.php template, when you are done.' data-trigger="click" id="ccms-db-setup" style="cursor: pointer;">required database tables <i class="fa fa-hand-o-up"></i></a> now.  <span class='oj'>WARNING</span>: This process will remove and fully replace <span class="oj td-dul">ALL</span> database tables that may already exist under the same name.  So be sure to back up and rename any tables you do not want to loose before preforming this action.
+										<a class="oj td-ul" href="/?import=1" onclick="return confirm('Are you sure?')">Click here</a> to import the <a class="oj td-ul" data-toggle="popover" data-container="body" type="button" data-content='There should be a file named <span class="oj">ccms-setup-db.sql</span> in the document root of this website.  It contains a copy of all the starter tables and the content required to setup a Custodian CMS project from scratch.  If you are missing this file you can get a copy of it from <a class="oj  td-ul" href="//github.com/modusinternet/Custodian-CMS/blob/master/ccms-setup-db.sql" target="_blank">GitHub</a>.  Just save the file to the document root folder of your website and reload this page to continue.<br /><br />We recommend you either delete or rename this file, along with the setup.php template, when you are done.' data-trigger="click" id="ccms-setup-db" style="cursor: pointer;">required database tables <i class="fa fa-hand-o-up"></i></a> now.  <span class='oj'>WARNING</span>: This process will remove and fully replace <span class="oj td-dul">ALL</span> database tables that may already exist under the same name.  So be sure to back up and rename any tables you do not want to loose before preforming this action.
 <?php endif ?>
 									</div>
 								</div>
@@ -531,7 +531,7 @@ if($CFG["DBH"]) {
 							// Fade in web page.
 							$("#no-fouc").delay(250).animate({"opacity": "1"}, 250);
 
-							$('#ccms-db-setup').popover({
+							$('#ccms-setup-db').popover({
 								html:true,
 								placement:'top'
 							});
