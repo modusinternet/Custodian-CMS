@@ -14,19 +14,15 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <html id="no-fouc" lang="en" style="opacity: 0;">
 	<head>
 		<meta charset="utf-8">
-		<title>Custodian CMS v<?php echo $CFG["VERSION"];?></title>
-		<meta name="author" content="Custodian CMS, developed by Vincent Hallberg of Modus Internet (modusinternet.com).  Port Coquitlam, British Columbia, Canada." />
+		<link rel="dns-prefetch" href="https://stackpath.bootstrapcdn.com" />
+		<link rel="dns-prefetch" href="https://code.jquery.com" />
+		<title>Custodian CMS Setup v<?php echo $CFG["VERSION"];?></title>
+		<meta name="author" content="Custodian CMS, developed by Vincent Hallberg of Modusinternet.com." />
 		<meta name="description" content="Welcome to Custodian CMS, a multilingual, template and content management system.  Write one template, using one domain, on one server and support multipule languages." />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Favicon -->
-		<link rel="shortcut icon" href="/ccmstpl/examples/img/icons/favicon.ico" type="image/x-icon">
-
-		<!-- App Screen / Icons -->
-		<link rel="apple-touch-icon" sizes="60x60" href="/ccmstpl/examples/img/icons/CCMS-60x60.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="/ccmstpl/examples/img/icons/CCMS-76x76.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="/ccmstpl/examples/img/icons/CCMS-120x120.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="/ccmstpl/examples/img/icons/CCMS-152x152.png">
+		<link rel="shortcut icon" href="/ccmstpl/img/favicon.ico" type="image/x-icon">
 
 		<!-- https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html -->
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -62,18 +58,16 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			<!-- Tab panes -->
 			<div class="tab-content">
 				<div class="tab-pane fade active in" id="welcome">
-					<p style="text-indent: 1.5em;">
+					<p>
 						Welcome to Custodian CMS, <span class="oj">@Version <?php echo $CFG["VERSION"];?> (Release Date: <?php echo $CFG["RELEASE_DATE"];?>)</span>.  This page is designed to help test your server environment, check your configuration template, import example database content and help establish your first administrator.  Once everything is properly configured and the setup process is complete, you will need to either <span class="oj">rename or remove the /ccms-setup.php template from your server to continue</span>.
 					</p>
-					<p style="text-indent: 1.5em;">
-						For more information visit <a class="td-ul" style="word-wrap: break-word;" href="https://custodiancms.org" target="_blank">https://custodiancms.org</a>.
-					</p>
+					<p>For more information visit <a class="oj td-ul" style="word-wrap: break-word;" href="https://custodiancms.org" target="_blank">https://custodiancms.org</a></p>
 				</div>
 				<div class="tab-pane fade" id="setup_instructions">
 					<p style="margin-top: 20px;">
 						To fully activate your new templates you need to manually complete some of the following steps.  We do not automate most of this process in order to make sure it never becomes a target for hackers.  The following shows the test order and a brief description of what is needed to pass each test.  If you are familiar with the steps listed below click the <a class="oj td-ul href-to-step-results" href="#step_results">Setup Results</a> tab to see your results now.
 					</p>
-					<ol>
+					<ol style="margin-left: 20px;">
 						<li>Custodian CMS requires PHP v5.4+ and MySQL v5.5.3+ to run properly.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/config_original.php</span> and name it <span class="oj">/ccmspre/config.php</span>.  Then update it with all your domain name and database settings.</li>
 						<li>Make a copy of <span class="oj">/ccmspre/whitelist_public_original.php</span> and name it <span class="oj">/ccmspre/whitelist_public.php</span>.</li>
@@ -88,7 +82,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 					</p>
 				</div>
 				<div class="tab-pane fade" id="step_results">
-					<p style="text-indent: 1.5em;">
+					<p>
 						Click any of the colored bars below to learn more about each test.
 					</p>
 					<div class="panel-body">
@@ -388,7 +382,7 @@ if($CFG["DBH"]) {
 <?php
 if($CFG["DBH"]) {
 	$CFG["pass"] = 1;
-	if($_REQUEST["addSuper"] == 1) {
+	if($_REQUEST["addSuper"] === "1") {
 		if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
 			// This call helps handle situations where it is called more then once, most likely accidentally by hitting the reload button.
 			$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1 LIMIT 1")->fetchColumn();
@@ -475,26 +469,22 @@ if($CFG["DBH"]) {
 							</div>
 						</div>
 					</div>
-					<p style="text-indent: 1.5em;">
+					<p>
 						If all the tests above are successful, <span class="alert alert-success" style="font-weight: 600;">GREEN</span>, all you need to do next is delete or rename the <span class="oj">/ccms-setup.php</span> file and reload this page.
 					</p>
 				</div>
 				<div class="tab-pane fade" id="copyright">
 					<h1>The MIT License (MIT)</h1>
-					Copyright &copy; <?php echo date("Y");?> <a href="https://custodiancms.org" target="_blank">custodiancms.org</a>
-					<p>
-						Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br />
-						<br />
-						The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br />
-						<br />
-						THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-					</p>
+					<p>Copyright &copy; <?php echo date("Y");?> Vincent Hallberg</p>
+					<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+					<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+					<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 				</div>
 			</div>
 		</div>
 
 		<p style="margin:10px 10px;">
-			Copyright &copy; <?php echo date("Y");?> <a href="https://custodiancms.org" target="_blank">custodiancms.org</a>, all rights reserved.
+			<a id="copyright-link" class="oj" href="#copyright">Copyright</a> &copy; <?php echo date("Y");?> assigned by Vincent Hallberg of <a class='oj' href="https://custodiancms.org" target="_blank">Custodiancms.org</a> and <a class='oj' href="https://modusinternet.com" target="_blank">Modusinternet.com</a>, all rights reserved.
 		</p>
 
 		<script>
@@ -502,49 +492,59 @@ if($CFG["DBH"]) {
 
 			var cb = function() {
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css';
+				l.href = 'https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css';
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				//l.href = '/ccmsusr/_css/custodiancms.css';
-				l.href = '/ccmsusr/_css/custodiancms.min.css';
+				l.href = '/ccmsusr/_css/custodiancms.css';
+				//l.href = '/ccmsusr/_css/custodiancms.min.css';
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
+				l.href = 'https://stackpath.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css';
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//fonts.googleapis.com/css?family=Open+Sans:300';
+				l.href = 'https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese';
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 			};
-			var raf = <?php include "ccmsusr/browser.php"; ?>
+
+			var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
 			if (raf) raf(cb);
 			else window.addEventListener('load', cb);
 
 			function loadJSResources() {
-				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js", function(){ // JQuery is loaded
-					loadFirst("//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", function(){ // Bootstrap is loaded
-						//loadFirst("/ccmsusrv/_js/custodiancms.js", function(){ // CustodianCMS JavaScript
-						loadFirst("/ccmsusr/_js/custodiancms.min.js", function(){ // CustodianCMS JavaScript
+				loadFirst("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js", function() { // JQuery is loaded
+					loadFirst("https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", function() { // Bootstrap is loaded
+						loadFirst("/ccmsusr/_js/custodiancms.js", function() { // CustodianCMS JavaScript
+						//loadFirst("/ccmsusr/_js/custodiancms.min.js", function() { // CustodianCMS JavaScript
 
 							// Fade in web page.
 							$("#no-fouc").delay(250).animate({"opacity": "1"}, 250);
 
 							$('#ccms-setup-db').popover({
-								html:true,
-								placement:'top'
+								html: true,
+								placement: 'top'
 							});
 
-							$('.href-to-step-results').click(function (e) {
+							$('.href-to-step-results').click(function(e) {
 								e.preventDefault();
 								var a = $('a[href="' + $(this).attr('href') + '"]');
 								a.tab('show');
 								a.scrollView();
 							})
 
-							loadFirst("//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js", function(){ // jquery.validate.js is loaded
-								loadFirst("//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js", function(){ // additional-methods.js is loaded
+							$('#copyright-link').on('click', function(e) {
+								e.preventDefault();
+								var a = $('a[href="' + $(this).attr('href') + '"]');
+								a.tab('show');
+								a.scrollView();
+							})
+
+							//loadFirst("//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js", function() { // jquery.validate.js is loaded
+							loadFirst("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js", function() { // jquery.validate.js is loaded
+								//loadFirst("//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js", function() { // additional-methods.js is loaded
+								loadFirst("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js", function() { // additional-methods.js is loaded
 
 									$.validator.addMethod(
 										"badCharRegex",
