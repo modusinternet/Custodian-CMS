@@ -1,42 +1,3 @@
-/* ===== placeholder fix for IE ===== */
-/* Displays placeholder content inside form elements properly in IE. */
-jQuery.placeholder = function() {
-	$('[placeholder]').focus(function() {
-		var input = $(this);
-		if (input.hasClass('placeholder')) {
-			input.val('');
-			input.removeClass('placeholder');
-		}
-	}).blur(function() {
-		var input = $(this);
-		if (input.val() === '') {
-			input.addClass('placeholder');
-			input.val(input.attr('placeholder'));
-		}
-	}).blur().parents('form').submit(function() {
-		$(this).find('[placeholder]').each(function() {
-			var input = $(this);
-			if (input.hasClass('placeholder')) {
-				input.val('');
-			}
-		});
-	});
-	$(window).unload(function() {
-		$('[placeholder]').val('');
-	});
-};
-// If using AJAX, call this on all placeholders after submitting to return placeholder
-jQuery.fn.addPlaceholder = function() {
-	return this.each(function() {
-		var input = $(this);
-		input.addClass('placeholder');
-		input.val(input.attr('placeholder'));
-	});
-};
-$.placeholder();
-/* ===== placeholder fix for IE ===== */
-
-
 /* ===== metisMenu load ===== */
 /* Loads the correct sidebar on window load, collapses the sidebar on window resize. Sets the min-height of #page-wrapper to window size. */
 function showHideNav() {
@@ -144,4 +105,3 @@ var scrolltotop={
 }
 scrolltotop.init();
 /* ========================= End of Scroll to Top Stuff ========================= */
-

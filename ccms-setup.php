@@ -496,8 +496,8 @@ if($CFG["DBH"]) {
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '/ccmsusr/_css/custodiancms.css';
-				//l.href = '/ccmsusr/_css/custodiancms.min.css';
+				//l.href = '/ccmsusr/_css/custodiancms.css';
+				l.href = '/ccmsusr/_css/custodiancms.min.css';
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
@@ -516,8 +516,8 @@ if($CFG["DBH"]) {
 			function loadJSResources() {
 				loadFirst("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js", function() { // JQuery is loaded
 					loadFirst("https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", function() { // Bootstrap is loaded
-						loadFirst("/ccmsusr/_js/custodiancms.js", function() { // CustodianCMS JavaScript
-						//loadFirst("/ccmsusr/_js/custodiancms.min.js", function() { // CustodianCMS JavaScript
+						//loadFirst("/ccmsusr/_js/custodiancms.js", function() { // CustodianCMS JavaScript
+						loadFirst("/ccmsusr/_js/custodiancms.min.js", function() { // CustodianCMS JavaScript
 
 							// Fade in web page.
 							$("#no-fouc").delay(250).animate({"opacity": "1"}, 250);
@@ -541,9 +541,7 @@ if($CFG["DBH"]) {
 								a.scrollView();
 							})
 
-							//loadFirst("//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js", function() { // jquery.validate.js is loaded
 							loadFirst("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js", function() { // jquery.validate.js is loaded
-								//loadFirst("//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js", function() { // additional-methods.js is loaded
 								loadFirst("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js", function() { // additional-methods.js is loaded
 
 									$.validator.addMethod(
