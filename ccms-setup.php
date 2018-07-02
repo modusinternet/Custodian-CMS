@@ -385,16 +385,15 @@ if($CFG["DBH"]) {
 	if($_REQUEST["addSuper"] === "1") {
 		if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
 			// This call helps handle situations where it is called more then once, most likely accidentally by hitting the reload button.
-			$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1 LIMIT 1")->fetchColumn();
+			//$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1;")->fetchColumn();
+			$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1;")->fetchColumn();
 			if($count == 0) {
-				// Hash the password and add the new super user.
-				// See https://alias.io/2010/01/store-passwords-safely-with-php-and-mysql/ for more details.
 				$cost = 10;
 				$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
 				$salt = sprintf("$2a$%02d$", $cost) . $salt;
 				$hash = crypt($_REQUEST["password"], $salt);
 				$priv = '{"priv":{"admin":{"r":1,"users_and_user_privileges":{"rw":2},"language_support":{"rw":2},"blacklist_settings":{"rw":2}},"content_manager":{"r":1,"lng":{"de":2,"de-at":2,"de-de":2,"de-li":2,"de-lu":2,"de-ch":2,"en":2,"en-au":2,"en-bz":2,"en-ca":2,"en-ie":2,"en-jm":2,"en-nz":2,"en-ph":2,"en-za":2,"en-tt":2,"en-gb":2,"en-us":2,"en-zw":2,"es":2,"es-ar":2,"es-bo":2,"es-cl":2,"es-co":2,"es-cr":2,"es-do":2,"es-ec":2,"es-sv":2,"es-gt":2,"es-hn":2,"es-mx":2,"es-ni":2,"es-pa":2,"es-py":2,"es-pe":2,"es-pr":2,"es-es":2,"es-uy":2,"es-ve":2,"fr":2,"fr-be":2,"fr-ca":2,"fr-fr":2,"fr-lu":2,"fr-mc":2,"fr-ch":2,"ms":2,"nb-no":2,"pt":2,"ar":2,"bn":2,"ru":2,"hi":2,"ja":2,"zh":2,"zh-cn":2,"zh-tw":2,"he":2}},"group_lists":{"rw":2}}}';
-				$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_user` (`email`, `hash`, `status`, `alias`, `super`, `priv`) VALUES (:email, :hash, '1', :alias, '1', :priv);");
+				$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_user` (`id`, `email`, `hash`, `status`, `alias`, `super`, `priv`, `firstname`, `lastname`, `position`, `phone1`, `phone2`, `facebook`, `skype`, `note`, `address1`, `address2`, `prov_state`, `country`, `post_zip`, `nav_toggle`) VALUES (NULL, :email, :hash, '1', :alias, '1', :priv, '', '', '', '', '', '', '', '', '', '', '', '', '', '1');");
 				$qry->execute(array(':email' => $_REQUEST["email"], ':hash' => $hash, ':alias' => $_REQUEST["alias"], ':priv' => $priv));
 			}
 		} else {
@@ -403,13 +402,13 @@ if($CFG["DBH"]) {
 		}
 	}
 	try {
-		$CFG["DBH"]->query("DESCRIBE `ccms_user`");
+		$CFG["DBH"]->query("DESCRIBE `ccms_user`;");
 	} catch(PDOException $e) {
 		$CFG["pass"] = 0;
 		$msg = 'Not tested because ccms_user: <span class="oj">NOT FOUND</span>';
 	}
 	if($CFG["pass"] == 1) {
-		$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1 LIMIT 1")->fetchColumn();
+		$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1 LIMIT 1;")->fetchColumn();
 		if($count == 0) {
 			$CFG["pass"] = 0;
 			$CFG["pass2"] = 1;
@@ -429,10 +428,10 @@ if($CFG["DBH"]) {
 								</div>
 								<div id="11" class="panel-collapse collapse" aria-expanded="false" role="tabpanel" style="height: 0px;">
 									<div class="panel-body">
-<?php if($CFG["pass"]==1): ?>
+<?php if($CFG["pass"] === 1): ?>
 										Pass
 <?php else: ?>
-<?php if($CFG["pass2"]==1): ?>
+<?php if($CFG["pass2"] === 1): ?>
 										No Administrator found in the ccms_user table.  Add one now.<br />
 										<form action="/" id="addSuperUserForm" method="post" novalidate="novalidate">
 											<input type="hidden" name="addSuper" value="1">
@@ -441,7 +440,7 @@ if($CFG["DBH"]) {
 												<label for="alias">Alias *</label>
 												<div class="input-group">
 													<div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
-													<input class="form-control placeholder" id="alias" name="alias" placeholder="Account Alias" type="text">
+													<input class="form-control placeholder" id="alias" name="alias" placeholder="Account Name/Alias" type="text">
 												</div>
 											</div>
 											<div class="form-group">
@@ -475,7 +474,7 @@ if($CFG["DBH"]) {
 				</div>
 				<div class="tab-pane fade" id="copyright">
 					<h1>The MIT License (MIT)</h1>
-					<p>Copyright &copy; <?php echo date("Y");?> assigned by Vincent Hallberg of <a class='oj' href="https://custodiancms.org" target="_blank">Custodiancms.org</a> and <a class='oj' href="https://modusinternet.com" target="_blank">Modusinternet.com</a></p>
+					<p>Copyright &copy; <?php echo date("Y"); ?> assigned by Vincent Hallberg of <a class='oj' href="https://custodiancms.org" target="_blank">Custodiancms.org</a> and <a class='oj' href="https://modusinternet.com" target="_blank">Modusinternet.com</a></p>
 					<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 					<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 					<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
@@ -484,7 +483,7 @@ if($CFG["DBH"]) {
 		</div>
 
 		<p style="margin:10px 10px;">
-			<a id="copyright-link" class="oj" href="#copyright">Copyright</a> &copy; <?php echo date("Y");?> assigned by Vincent Hallberg of <a class='oj' href="https://custodiancms.org" target="_blank">Custodiancms.org</a> and <a class='oj' href="https://modusinternet.com" target="_blank">Modusinternet.com</a>, all rights reserved.
+			<a id="copyright-link" class="oj" href="#copyright">Copyright</a> &copy; <?php echo date("Y"); ?> assigned by Vincent Hallberg of <a class='oj' href="https://custodiancms.org" target="_blank">Custodiancms.org</a> and <a class='oj' href="https://modusinternet.com" target="_blank">Modusinternet.com</a>, all rights reserved.
 		</p>
 
 		<script>
