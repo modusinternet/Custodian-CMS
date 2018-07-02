@@ -201,12 +201,12 @@ CREATE TABLE `ccms_session` (
 
 CREATE TABLE `ccms_user` (
   `id` int(11) NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `hash` varchar(128) NOT NULL COMMENT 'The hashed version of the users actual password.',
+  `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `hash` varchar(128) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'The hashed version of the users actual password.',
   `status` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0 = inactive, 1 = active',
   `alias` varchar(32) NOT NULL COMMENT 'nick name / not a login name',
   `super` tinyint(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0=not super user, 1=super user',
-  `priv` varchar(1024) NOT NULL,
+  `priv` varchar(1024) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `firstname` varchar(64) NOT NULL,
   `lastname` varchar(64) NOT NULL,
   `position` varchar(128) NOT NULL,
@@ -222,7 +222,6 @@ CREATE TABLE `ccms_user` (
   `post_zip` varchar(32) NOT NULL,
   `nav_toggle` tinyint(1) UNSIGNED NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Contains the login settings for fully registered users.';
-
 
 
 --
@@ -266,9 +265,7 @@ ALTER TABLE `ccms_session`
 --
 ALTER TABLE `ccms_user`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email_2` (`email`),
-  ADD KEY `visitorsID` (`status`),
-  ADD KEY `email` (`email`(250));
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -303,3 +300,4 @@ ALTER TABLE `ccms_session`
 --
 ALTER TABLE `ccms_user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
