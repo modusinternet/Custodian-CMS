@@ -6,11 +6,16 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
+if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
+	echo "This script can NOT be called directly.";
+	die();
+}
+
 $qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_user` WHERE `id` = :id LIMIT 1;");
 $qry->execute(array(':id' => $CLEAN["SESSION"]["user_id"]));
 $ccms_user = $qry->fetch(PDO::FETCH_ASSOC);
 ?><!DOCTYPE html>
-<html id="no-fouc" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}" style="opacity: 0;">
+<html id="no-fouc" lang="en" style="opacity: 0;">
 	<head>
 		<meta charset="utf-8">
 		<title>User Profile</title>
@@ -63,28 +68,28 @@ $ccms_user = $qry->fetch(PDO::FETCH_ASSOC);
 									<div class="form-group">
 										<label for="firstname" class="control-label">Firstname</label>
 										<div class="input-group">
-											<div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+											<div class="input-group-addon"><span class="fa fa-user"></span></div>
 											<input class="form-control" id="firstname" name="firstname" placeholder="Type your Firstname here." type="text" value="<?php echo $ccms_user["firstname"]; ?>">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="lastname" class="control-label">Lastname</label>
 										<div class="input-group">
-											<div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+											<div class="input-group-addon"><span class="fa fa-user"></span></div>
 											<input class="form-control" id="lastname" name="lastname" placeholder="Type your Lastname here." type="text" value="<?php echo $ccms_user["lastname"]; ?>">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="alias" class="control-label">Alias *</label>
 										<div class="input-group">
-											<div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+											<div class="input-group-addon"><span class="fa fa-user"></span></div>
 											<input class="form-control" id="alias" name="alias" placeholder="Type your Alias here." type="text" value="<?php echo $ccms_user["alias"]; ?>">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="position" class="control-label">Position</label>
 										<div class="input-group">
-											<div class="input-group-addon"><span class="glyphicon glyphicon-cog"></span></div>
+											<div class="input-group-addon"><span class="fa fa-cog"></span></div>
 											<input class="form-control" id="position" name="position" placeholder="Type your work Position or Title here." type="text" value="<?php echo $ccms_user["position"]; ?>">
 										</div>
 									</div>
@@ -132,21 +137,21 @@ $ccms_user = $qry->fetch(PDO::FETCH_ASSOC);
 									<div class="form-group">
 										<label for="email" class="control-label">Email *</label>
 										<div class="input-group">
-											<div class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></div>
+											<div class="input-group-addon"><span class="fa fa-envelope"></span></div>
 											<input class="form-control" id="email" name="email" placeholder="Type your Email Address here." type="text" value="<?php echo $ccms_user["email"]; ?>">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="phone1" class="control-label">Phone #1</label>
 										<div class="input-group">
-											<div class="input-group-addon"><span class="glyphicon glyphicon-phone-alt"></span></div>
+											<div class="input-group-addon"><span class="fa fa-phone"></span></div>
 											<input class="form-control" id="phone1" name="phone1" placeholder="Type your main Phone Number here." type="text" value="<?php echo $ccms_user["phone1"]; ?>">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="phone2" class="control-label">Phone #2</label>
 										<div class="input-group">
-											<div class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></div>
+											<div class="input-group-addon"><span class="fa fa-phone"></span></div>
 											<input class="form-control" id="phone2" name="phone2" placeholder="Type your secondary Phone Number here." type="text" value="<?php echo $ccms_user["phone2"]; ?>">
 										</div>
 									</div>
@@ -333,46 +338,41 @@ if ($qry->rowCount() > 1) :
 
 			var cb = function() {
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css';
+				l.href = "/ccmsusr/_css/bootstrap-3.3.7.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.4.0/metisMenu.min.css';
+				l.href = "/ccmsusr/_css/metisMenu-2.4.0.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				//l.href = '/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_css/custodiancms.css';
-				l.href = '/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_css/custodiancms.min.css';
+				l.href = "/ccmsusr/_css/custodiancms.css";
+				/*l.href = "/ccmsusr/_css/custodiancms.min.css";*/
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
-				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
-
-				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//fonts.googleapis.com/css?family=Open+Sans:300';
+				l.href = "/ccmsusr/_css/font-awesome-4.7.0.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 			};
-			var raf = {CCMS_TPL:browser.php}
+			
+			var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
 			if (raf) raf(cb);
 			else window.addEventListener('load', cb);
 
 			function loadJSResources() {
-				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js", function(){ // JQuery is loaded
-					loadFirst("//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", function(){ // Bootstrap is loaded
-						loadFirst("//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.4.0/metisMenu.min.js", function(){ // MetisMenu JavaScript
-							//loadFirst("/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_js/custodiancms.js", function(){ // CustodianCMS JavaScript
-							loadFirst("/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_js/custodiancms.min.js", function(){ // CustodianCMS JavaScript
-
-								navActiveArray.forEach(function(s) {
-									$("#"+s).addClass("active");
-								});
+				loadFirst("/ccmsusr/_js/jquery-2.2.0.min.js", function() { /* JQuery is loaded */
+					loadFirst("/ccmsusr/_js/bootstrap-3.3.7.min.js", function() { /* Bootstrap is loaded */
+						loadFirst("/ccmsusr/_js/metisMenu-2.4.0.min.js", function() { /* MetisMenu JavaScript */
+							/*loadFirst("/ccmsusr/_js/custodiancms.js", function() { /* CustodianCMS JavaScript */
+							loadFirst("/ccmsusr/_js/custodiancms.min.js", function() { /* CustodianCMS JavaScript */
+								
+								navActiveArray.forEach(function(s) {$("#"+s).addClass("active");});
 
 								// Load MetisMenu
 								$('#side-menu').metisMenu();
 
 								// Fade in web page.
-								$("#no-fouc").delay(250).animate({"opacity": "1"}, 250);
+								$("#no-fouc").delay(200).animate({"opacity": "1"}, 500);
 
 								$("#menu-toggle").click(function(e) {
 									e.preventDefault();
@@ -383,8 +383,10 @@ if ($qry->rowCount() > 1) :
 
 								$(function(){$(window).bind("load resize",function(){showHideNav();})});
 
-								loadFirst("//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js", function(){ // jquery.validate.js is loaded
-									loadFirst("//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js", function(){ // additional-methods.js is loaded
+								/*loadFirst("//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js", function() { /* jquery.validate.js */
+								loadFirst("/ccmsusr/_js/jquery.validate-1.17.0.min.js", function() { /* JQuery Validate */
+									/*loadFirst("//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js", function(){ /* additional-methods.js */
+									loadFirst("/ccmsusr/_js/additional-methods-1.17.0.min.js", function() { /* JQuery Validate Additional Methods */
 
 										$.validator.addMethod(
 											"badCharRegex",
@@ -545,7 +547,7 @@ if ($qry->rowCount() > 1) :
 														if(msg == "1") {
 															//$(form).find('[name="form-status"]').html("Info form updated.");
 															$("#info_tab_form_fail").css("display", "none");
-															$("#info_tab_form_success").html('<span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="margin-right: 10px;"></span>'+"Success: Updates saved.");
+															$("#info_tab_form_success").html('<span class="fa fa-check" aria-hidden="true" style="margin-right: 10px;"></span>'+"Success: Updates saved.");
 															$("#info_tab_form_success").css("display", "block");
 															$("#info_tab_form_success").scrollView();
 															setTimeout(function() {
@@ -640,7 +642,7 @@ if ($qry->rowCount() > 1) :
 														if(msg == "1") {
 															//$(form).find('[name="form-status"]').html("Password form updated.");
 															$("#password_tab_form_fail").css("display", "none");
-															$("#password_tab_form_success").html('<span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="margin-right: 10px;"></span>'+"Success: Updates saved.");
+															$("#password_tab_form_success").html('<span class="fa fa-check" aria-hidden="true" style="margin-right: 10px;"></span>'+"Success: Updates saved.");
 															$("#password_tab_form_success").css("display", "block");
 															$("#password_tab_form_success").scrollView();
 															setTimeout(function() {
@@ -706,7 +708,7 @@ if ($qry->rowCount() > 1) :
 														if(msg == "1") {
 															//$(form).find('[name="form-status"]').html("Password form updated.");
 															$("#session_tab_logout_all_fail").css("display", "none");
-															$("#session_tab_logout_all_success").html('<span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="margin-right: 10px;"></span>'+"Success: All other active sessions for this account have been disabled.");
+															$("#session_tab_logout_all_success").html('<span class="fa fa-check" aria-hidden="true" style="margin-right: 10px;"></span>'+"Success: All other active sessions for this account have been disabled.");
 															$("#session_tab_logout_all_success").css("display", "block");
 															$("#session_tab_logout_all_success").scrollView();
 															setTimeout(function() {

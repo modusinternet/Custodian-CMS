@@ -5,6 +5,13 @@
 		<title>Custodian CMS v{CCMS_LIB:_default.php;FUNC:ccms_version} | {CCMS_DB:page,title}2</title>
 		<meta name="description" content="Welcome to Custodian CMS, a multilingual, template and content management system.  Write one template, using one domain, on one server and support multipule languages." />
 		{CCMS_TPL:examples/header-head.html}
+		<style type="text/css">
+			/*
+				You can improve your 'Above Fold Content' score on Google Pagespeed using the two online utilities and placing your resurlts below.
+				https://jonassebastianohlsson.com/criticalpathcssgenerator/
+				https://cssminifier.com/
+			*/
+		</style>
 	</head>
 	<body>
 		{CCMS_TPL:examples/header-body.html}
@@ -28,38 +35,39 @@
 		</p>
 		{CCMS_TPL:examples/footer.html}
 		<script>
-			function loadFirst(e,t){var a=document.createElement("script");a.async = true;a.readyState?a.onreadystatechange=function(){("loaded"==a.readyState||"complete"==a.readyState)&&(a.onreadystatechange=null,t())}:a.onload=function(){t()},a.src=e,document.body.appendChild(a)}
+			function loadFirst(e,t){var a=document.createElement("script");a.async = true;a.readyState?a.onreadystatechange=function(){("loaded"==a.readyState||"complete"==a.readyState)&&(a.onreadystatechange=null,t())}:a.onload=function(){t()},a.src=e,document.body.appendChild(a);}
 
 			var cb = function() {
-				var l = document.createElement('link');
-				l.rel = 'stylesheet';
-				l.href = '/ccmstpl/examples/css/style.css';
-				var h = document.getElementsByTagName('head')[0];
-				h.parentNode.insertBefore(l, h);
+				var l = document.createElement('link'); l.rel = 'stylesheet';
+				/* l.href = "/ccmstpl/examples/css/style.css"; */
+				l.href = "/ccmstpl/examples/css/style.min.css";
+				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
-				var l = document.createElement('link');
-				l.rel = 'stylesheet';
-				l.href = '//fonts.googleapis.com/css?family=Open+Sans:300';
-				var h = document.getElementsByTagName('head')[0];
-				h.parentNode.insertBefore(l, h);
+				var l = document.createElement('link'); l.rel = 'stylesheet';
+				l.href = "/ccmsusr/_css/font-awesome-4.7.0.min.css";
+				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 			};
-			
+
 			var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
 			if (raf) raf(cb);
 			else window.addEventListener('load', cb);
 
 			function loadJSResources() {
-				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js", function(){ /* JQuery is loaded */
+				loadFirst("/ccmsusr/_js/jquery-2.2.4.min.js", function() { /* JQuery */
+					
 					/* Fade in web page. */
-					$("#no-fouc").delay(100).animate({"opacity": "1"}, 500);
+					$("#no-fouc").delay(200).animate({"opacity": "1"}, 500);
+
 				});
 			}
 
-			if (window.addEventListener)
+			if(window.addEventListener) {
 				window.addEventListener("load", loadJSResources, false);
-			else if (window.attachEvent)
+			} else if(window.attachEvent) {
 				window.attachEvent("onload", loadJSResources);
-			else window.onload = loadJSResources;
+			} else {
+				window.onload = loadJSResources;
+			}
 		</script>
 	</body>
 </html>

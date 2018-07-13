@@ -11,14 +11,14 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 	die();
 }
 ?><!DOCTYPE html>
-<html id="no-fouc" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}" style="opacity: 0;">
+<html id="no-fouc" lang="en" style="opacity: 0;">
 	<head>
 		<meta charset="utf-8">
-		<title>Language Support</title>
+		<title>User Privileges</title>
 		<meta name="description" content="" />
 		{CCMS_TPL:header-head.html}
 		<script>
-			var navActiveArray = ["admin","admin_nav","admin_language_support"];
+			var navActiveArray = ["admin","admin_nav","admin_user_privileges"];
 		</script>
 	</head>
 	<body>
@@ -29,7 +29,7 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 			<div id="page-wrapper">
 				<div class="row">
 					<div class="col-md-12">
-						<h1 class="page-header">Language Support</h1>
+						<h1 class="page-header">User Privileges</h1>
 						<div class="panel panel-danger">
 							<div class="panel-heading">
 								Notice

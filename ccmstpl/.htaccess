@@ -1,9 +1,0 @@
-# This folder does not require access over HTTP
-# (the following directive denies access by default)
-# Order allow,deny
-
-# multiple file types
-<FilesMatch ".(fla|htaccess|html|ini|php)$">
-	Order Allow,Deny
-	Deny from all
-</FilesMatch>

@@ -6,6 +6,11 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
+if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
+	echo "This script can NOT be called directly.";
+	die();
+}
+
 $message = NULL;
 $ccms_pass_reset_form_message = NULL;
 
@@ -397,7 +402,7 @@ if($CLEAN["logout"] == "" && $CLEAN["login"] == "" && $CLEAN["ccms_pass_reset_fo
 	$CLEAN["login"] = "1";
 }
 ?><!DOCTYPE html>
-<html id="no-fouc" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}" style="opacity: 0;">
+<html id="no-fouc" lang="en" style="opacity: 0;">
 	<head>
 		<meta charset="utf-8">
 		<title>Login</title>
@@ -410,6 +415,16 @@ if($CLEAN["logout"] == "" && $CLEAN["login"] == "" && $CLEAN["ccms_pass_reset_fo
 		<div class="container">
 			<div class="row">
 				<div class="col-md-5 col-md-offset-3">
+					
+					<div>
+						<img alt="Custodian CMS Banner." src="/ccmsusr/_img/ccms-535x107.png" style="height: 56px; margin-top: 20px;" title="Custodian CMS Banner.  Easy gears no spilled beers.">
+					</div>
+					
+					
+					
+					
+					
+					
 <?php if(isset($message) && $message != ""): ?>
 					<div class="alert alert-danger" style="margin-bottom: 0; margin-top: 20px;">
 						<?php echo $message; ?>
@@ -552,34 +567,33 @@ if($CLEAN["logout"] == "" && $CLEAN["login"] == "" && $CLEAN["ccms_pass_reset_fo
 
 			var cb = function() {
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css';
+				l.href = "/ccmsusr/_css/bootstrap-3.3.7.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_css/custodiancms.min.css';
+				l.href = "/ccmsusr/_css/custodiancms.css";
+				/*l.href = "/ccmsusr/_css/custodiancms.min.css";*/
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
-				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
-
-				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//fonts.googleapis.com/css?family=Open+Sans:300';
+				l.href = "/ccmsusr/_css/font-awesome-4.7.0.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 			};
-			var raf = {CCMS_TPL:browser.php}
+			
+			var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
 			if (raf) raf(cb);
 			else window.addEventListener('load', cb);
 
 			function loadJSResources() {
-				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js", function(){ /* JQuery is loaded */
-					loadFirst("//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", function(){ /* Bootstrap is loaded */
-						loadFirst("//www.google.com/recaptcha/api.js?hl={CCMS_LIB:_default.php;FUNC:ccms_lng}", function(){ /* Google reCaptcha loaded */
-							loadFirst("//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.11.1/jquery.validate.min.js", function(){ /* jquery.validate.js is loaded */
-								loadFirst("/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_js/custodiancms.min.js", function(){ /* CustodianCMS JavaScript is loaded */
+				loadFirst("/ccmsusr/_js/jquery-2.2.0.min.js", function() { /* JQuery */
+					loadFirst("/ccmsusr/_js/bootstrap-3.3.7.min.js", function() { /* Bootstrap */
+						loadFirst("https://www.google.com/recaptcha/api.js?hl={CCMS_LIB:_default.php;FUNC:ccms_lng}", function() { /* Google reCaptcha */
+							loadFirst("/ccmsusr/_js/jquery.validate-1.17.0.min.js", function() { /* JQuery Validate */
+								/*loadFirst("/ccmsusr/_js/custodiancms.js", function() { /* CustodianCMS JavaScript */
+								loadFirst("/ccmsusr/_js/custodiancms.min.js", function() { /* CustodianCMS JavaScript */
 
 									/* Fade in web page. */
-									$("#no-fouc").delay(250).animate({"opacity": "1"}, 250);
+									$("#no-fouc").delay(200).animate({"opacity": "1"}, 500);
 
 									$("#loginHelpLink").click(function(event){
 										event.preventDefault();

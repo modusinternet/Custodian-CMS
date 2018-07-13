@@ -16,71 +16,67 @@
 							</a>
 							<ul class="dropdown-menu dropdown-user">
 								<li id="user_profile">
-									<a href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/user_profile/"><i class="fa fa-user fa-fw"></i> User Profile</a>
+									<a href="/en/user/user_profile/"><i class="fa fa-user fa-fw"></i> User Profile</a>
 								</li>
 								<li>
-									<a href="//{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/{CCMS_LIB:_default.php;FUNC:ccms_lng}/?ccms_token={CCMS_LIB:_default.php;FUNC:ccms_token}"><i class="fa fa-home fa-fw"></i> To Homepage</a>
+									<a href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/?ccms_token={CCMS_LIB:_default.php;FUNC:ccms_token}"><i class="fa fa-home fa-fw"></i> Back to Homepage</a>
 								</li>
 								<li class="divider"></li>
 								<li>
-									<a href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/login.html?logout=1"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+									<a href="/en/user/login.html?logout=1"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 								</li>
 							</ul>
 						</li>
 					</ul>
-					<a class="navbar-brand line-height-1-4" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/" style="padding: 3px 0 0 0;">
-						<img alt="Custodian CMS Banner.  Easy gears no spilled beers." src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_img/ccms-logo-banner-large-en.png" style="height: 45px;" title="Custodian CMS Banner.  Easy gears no spilled beers.">
+					<a class="navbar-brand line-height-1-4" href="/en/user/" style="padding: 3px 0 0 0;">
+						<img alt="Custodian CMS Banner" src="/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_img/ccms-535x107.png" style="height: 45px;" title="Custodian CMS Bannver.  Easy gears no spilled beers.">
 					</a>
 				</div>
-
-
+				
 				<div id="sidebar-wrapper">
 					<div class="navbar-default sidebar" role="navigation">
 						<div class="sidebar-nav navbar-collapse">
 							<ul class="nav" id="side-menu">
 								<li>
-									<a class="line-height-1-4" id="dashboard" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/dashboard/">
-										<i class="fa fa-dashboard fa-fw"></i>
-										Dashboard
+									<a class="line-height-1-4" id="dashboard" href="/en/user/dashboard/">
+										<i class="fa fa-dashboard fa-fw"></i> Dashboard
 									</a>
 								</li>
 								<li id="admin">
 									<a class="line-height-1-4" id="admin_nav" href="#">
-										<i class="fa fa-cogs fa-fw"></i>
-										Admin
-										<span class="fa arrow"></span>
+										<i class="fa fa-cogs fa-fw"></i> Admin <span class="fa arrow"></span>
 									</a>
 									<ul class="nav nav-second-level">
 										<li>
-											<a class="line-height-1-4" id="admin_users_and_user_privileges" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/admin/users_and_user_privileges/">
-												<i class="fa fa-user fa-fw"></i>
-												Users &amp; User Privileges
+											<a class="line-height-1-4" id="admin_user_privileges" href="/en/user/admin/user_privileges/">
+												<i class="fa fa-user fa-fw"></i> User Privileges
 											</a>
 										</li>
 										<li>
-											<a class="line-height-1-4" id="admin_language_support" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/admin/language_support/">
-												<i class="fa fa-language fa-fw"></i>
-												Language Support
+											<a class="line-height-1-4" id="admin_language_support" href="/en/user/admin/language_support/">
+												<i class="fa fa-language fa-fw"></i> Language Support
 											</a>
 										</li>
 										<li>
-											<a class="line-height-1-4" id="admin_blacklist_settings" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/admin/blacklist_settings/">
-												<i class="fa fa-shield fa-fw"></i>
-												Blacklist Settings
+											<a class="line-height-1-4" id="admin_blacklist_settings" href="/en/user/admin/blacklist_settings/">
+												<i class="fa fa-shield fa-fw"></i> Blacklist Settings
 											</a>
 										</li>
 									</ul>
 								</li>
 								<li>
-									<a class="line-height-1-4" id="content_manager" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/content_manager/">
-										<i class="fa fa-pencil-square-o fa-fw"></i>
-										Content Manager
+									<a class="line-height-1-4" id="content_manager" href="/en/user/content_manager/">
+										<i class="fa fa-pencil-square-o fa-fw"></i> Content Manager
 									</a>
 								</li>
 								<li>
-									<a class="line-height-1-4" id="group_lists" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/group_lists/">
-										<i class="fa fa-picture-o fa-fw"></i>
-										Group Lists
+									<a class="line-height-1-4" id="content_groups" href="/en/user/content_groups/">
+										<i class="fa fa-picture-o fa-fw"></i> Content Groups
+									</a>
+								</li>
+								<li>
+									<a class="line-height-1-4" id="github" href="/en/user/github/">
+										<i class="fa fa-github fa-fw"></i> GitHub
 									</a>
 								</li>
 							</ul>

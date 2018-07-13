@@ -1,3 +1,3 @@
-# This folder does not require access over HTTP
-# (the following directive denies access by default)
-Order allow,deny
+# This folder does not require access over HTTP(s).
+# The following directive denies access to all accept local.
+Require local

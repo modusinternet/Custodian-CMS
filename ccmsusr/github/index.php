@@ -5,15 +5,20 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
+
+if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
+	echo "This script can NOT be called directly.";
+	die();
+}
 ?><!DOCTYPE html>
-<html id="no-fouc" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}" style="opacity: 0;">
+<html id="no-fouc" lang="en" style="opacity: 0;">
 	<head>
 		<meta charset="utf-8">
-		<title>Users &amp; User Privileges</title>
+		<title>GitHub</title>
 		<meta name="description" content="" />
 		{CCMS_TPL:header-head.html}
 		<script>
-			var navActiveArray = ["admin","admin_nav","admin_users_and_user_privileges"];
+			var navActiveArray = ["github"];
 		</script>
 	</head>
 	<body>
@@ -24,7 +29,7 @@ header("Pragma: no-cache");
 			<div id="page-wrapper">
 				<div class="row">
 					<div class="col-md-12">
-						<h1 class="page-header">Users &amp; User Privileges</h1>
+						<h1 class="page-header">GitHub</h1>
 						<div class="panel panel-danger">
 							<div class="panel-heading">
 								Notice
@@ -41,52 +46,46 @@ header("Pragma: no-cache");
 			</div>
 		</div>
 
-
 		<script>
 			function loadFirst(e,t){var a=document.createElement("script");a.async = true;a.readyState?a.onreadystatechange=function(){("loaded"==a.readyState||"complete"==a.readyState)&&(a.onreadystatechange=null,t())}:a.onload=function(){t()},a.src=e,document.body.appendChild(a)}
 
 			var cb = function() {
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css';
+				l.href = "/ccmsusr/_css/bootstrap-3.3.7.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.4.0/metisMenu.min.css';
+				l.href = "/ccmsusr/_css/metisMenu-2.4.0.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				//l.href = '/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_css/custodiancms.css';
-				l.href = '/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_css/custodiancms.min.css';
+				l.href = "/ccmsusr/_css/custodiancms.css";
+				/*l.href = "/ccmsusr/_css/custodiancms.min.css";*/
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
-				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
-
-				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = '//fonts.googleapis.com/css?family=Open+Sans:300';
+				l.href = "/ccmsusr/_css/font-awesome-4.7.0.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 			};
-			var raf = {CCMS_TPL:browser.php}
+			
+			var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
 			if (raf) raf(cb);
 			else window.addEventListener('load', cb);
 
 			function loadJSResources() {
-				loadFirst("//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js", function(){ // JQuery is loaded
-					loadFirst("//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", function(){ // Bootstrap is loaded
-						loadFirst("//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.4.0/metisMenu.min.js", function(){ // MetisMenu JavaScript
-							//loadFirst("/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_js/custodiancms.js", function(){ // CustodianCMS JavaScript
-							loadFirst("/{CCMS_LIB:_default.php;FUNC:ccms_cfgUsrDir}/_js/custodiancms.min.js", function(){ // CustodianCMS JavaScript
+				loadFirst("/ccmsusr/_js/jquery-2.2.0.min.js", function() { /* JQuery is loaded */
+					loadFirst("/ccmsusr/_js/bootstrap-3.3.7.min.js", function() { /* Bootstrap is loaded */
+						loadFirst("/ccmsusr/_js/metisMenu-2.4.0.min.js", function() { /* MetisMenu JavaScript */
+							/*loadFirst("/ccmsusr/_js/custodiancms.js", function() { /* CustodianCMS JavaScript */
+							loadFirst("/ccmsusr/_js/custodiancms.min.js", function() { /* CustodianCMS JavaScript */
 
-								navActiveArray.forEach(function(s) {
-									$("#"+s).addClass("active");
-								});
+								navActiveArray.forEach(function(s) {$("#"+s).addClass("active");});
 
 								// Load MetisMenu
 								$('#side-menu').metisMenu();
 
 								// Fade in web page.
-								$("#no-fouc").delay(250).animate({"opacity": "1"}, 250);
+								$("#no-fouc").delay(200).animate({"opacity": "1"}, 500);
 
 								$("#menu-toggle").click(function(e) {
 									e.preventDefault();

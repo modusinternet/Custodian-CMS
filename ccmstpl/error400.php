@@ -8,12 +8,11 @@ header("Cache-Control: public, must-revalidate, proxy-revalidate");
 		<meta charset="utf-8">
 		<title>400 ERROR | <?=$CFG["DOMAIN"];?></title>
 		<meta name="description" content="" />
-		<meta name="author" content="Custodian CMS, developed by Vincent Hallberg of Modus Internet (modusinternet.com).  Port Coquitlam, British Columbia, Canada." />
+		<meta name="author" content="Developed by Vincent Hallberg of modusinternet.com." />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Favicons -->
-		<link rel="shortcut icon" href="/ccmstpl/examples/img/icons/favicon.ico" type="image/x-icon">
-		<link rel="icon" href="/ccmstpl/examples/img/icons/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/ccmsusr/_img/favicon.ico" type="image/x-icon">
 
 		<!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -195,8 +194,7 @@ if($qry->execute()) {
 						document.getElementsByTagName("head")[0].appendChild(cssNode);
 				}
 
-				loadjscssfile("/{CCMS_LIB:_default.php;FUNC:ccms_cfgTplDir}/css/style.css", "css");
-				loadjscssfile("//fonts.googleapis.com/css?family=Open+Sans:300&amp;subset=latin,cyrillic-ext,latin-ext,cyrillic,greek-ext,greek,vietnamese", "css");
+				loadjscssfile("/ccmstpl/examples/css/style.min.css", "css");
 			};
 		</script>
 	</body>
