@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./ccmstpl/img/github_ccms-logo-banner-large-en.png" />
+  <img src="./ccmsusr/_img/ccms-535x107.png" />
 </p>
 <h1 align="center">Custodian CMS</h1>
 
