@@ -14,15 +14,13 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <html id="no-fouc" lang="en" style="opacity: 0;">
 	<head>
 		<meta charset="utf-8">
-		<link rel="dns-prefetch" href="https://stackpath.bootstrapcdn.com" />
-		<link rel="dns-prefetch" href="https://code.jquery.com" />
 		<title>Custodian CMS Setup v<?php echo $CFG["VERSION"];?></title>
-		<meta name="author" content="Custodian CMS, developed by Vincent Hallberg of Modusinternet.com." />
+		<meta name="author" content="Vincent Hallberg of custodiancms.org and modusinternet.com." />
 		<meta name="description" content="Welcome to Custodian CMS, a multilingual, template and content management system.  Write one template, using one domain, on one server and support multipule languages." />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Favicon -->
-		<link rel="shortcut icon" href="/ccmstpl/img/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="/ccmsusr/_img/favicon.ico" type="image/x-icon">
 
 		<!-- https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html -->
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -40,7 +38,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 	</head>
 	<body>
 		<a href="/" style="text-decoration: none; border: 0 none;">
-			<img alt="Custodian CMS Banner.  Easy gears no spilled beers." class="img-responsive" title="Custodian CMS Banner.  Easy gears no spilled beers." src="/ccmsusr/_img/ccms-logo-banner-large-en.png" />
+			<img alt="Custodian CMS Banner.  Easy gears no spilled beers." class="img-responsive" title="Custodian CMS Banner.  Easy gears no spilled beers." src="/ccmsusr/_img/ccms-535x107.png" />
 		</a><br />
 		<div class="panel-body">
 			<!-- Nav tabs -->
@@ -77,14 +75,9 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 						<li>Delete or rename the <span class="oj">/ccms-setup.php</span> file and reload this page.</li>
 						<li>Optional: Add a <span class='oj'>crontask</span> to help keep your session table in the database lean and clean.  We suggest setting up the <span class='oj'>crontask</span> to run at least once a day.  ie: <span class='oj'>/usr/bin/php /home/your-account-name/website-folder/ccmspre/cron_session_cleanup.php</span></li>
 					</ol>
-					<p>
-						For more information or documentation about Custodian CMS <a class="ul" href="http://modusinternet.com/en/products/custodian-cms.html" target="_blank">click here</a>.
-					</p>
 				</div>
 				<div class="tab-pane fade" id="step_results">
-					<p>
-						Click any of the colored bars below to learn more about each test.
-					</p>
+					<p>Click any of the colored bars below to learn more about each test.</p>
 					<div class="panel-body">
 						<div class="panel-group" id="accordion" role="tablist">
 
@@ -106,7 +99,6 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 									</div>
 								</div>
 							</div>
-
 <?php if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/config.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#2" role="tab" style="cursor: pointer;">
@@ -125,7 +117,6 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 									</div>
 								</div>
 							</div>
-
 <?php if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/whitelist_public.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#3" role="tab" style="cursor: pointer;">
@@ -144,7 +135,6 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 									</div>
 								</div>
 							</div>
-
 <?php if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/ccmspre/whitelist_user.php")) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#4" role="tab" style="cursor: pointer;">
@@ -163,7 +153,6 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 									</div>
 								</div>
 							</div>
-
 <?php if($CFG["DOMAIN"]) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#5" role="tab" style="cursor: pointer;">
@@ -182,7 +171,6 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 									</div>
 								</div>
 							</div>
-
 <?php if($CFG["DB_HOST"] && $CFG["DB_USERNAME"] && $CFG["DB_PASSWORD"] && $CFG["DB_NAME"]) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#6" role="tab" style="cursor: pointer;">
@@ -201,7 +189,6 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 									</div>
 								</div>
 							</div>
-
 <?php
 $host	= $CFG["DB_HOST"];
 $dbname	= $CFG["DB_NAME"];
@@ -239,7 +226,6 @@ try {
 									</div>
 								</div>
 							</div>
-
 <?php
 if($CFG["DBH"]) {
 	$val = @$CFG["DBH"]->getAttribute(constant("PDO::ATTR_SERVER_VERSION"));
@@ -272,7 +258,6 @@ if($CFG["DBH"]) {
 									</div>
 								</div>
 							</div>
-
 <?php
 if($CFG["DBH"]) {
 	$CFG["pass"] = 1;
@@ -360,7 +345,6 @@ if($CFG["DBH"]) {
 									</div>
 								</div>
 							</div>
-
 <?php if($CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] && $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"]) { $CFG["pass"] = 1; } else { $CFG["pass"] = 0; } ?>
 							<div class="panel panel-<?php echo ($CFG["pass"]==1) ? "success" : "danger"; ?>">
 								<div aria-expanded="false" class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#10" role="tab" style="cursor: pointer;">
@@ -474,7 +458,7 @@ if($CFG["DBH"]) {
 				</div>
 				<div class="tab-pane fade" id="copyright">
 					<h1>The MIT License (MIT)</h1>
-					<p>Copyright &copy; <?php echo date("Y"); ?> assigned by Vincent Hallberg of <a class='oj' href="https://custodiancms.org" target="_blank">Custodiancms.org</a> and <a class='oj' href="https://modusinternet.com" target="_blank">Modusinternet.com</a></p>
+					<p>Copyright &copy; <?php echo date("Y"); ?> assigned by Vincent Hallberg of <a class='oj' href="https://custodiancms.org" target="_blank">custodiancms.org</a> and <a class='oj' href="https://modusinternet.com" target="_blank">modusinternet.com</a></p>
 					<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 					<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 					<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
@@ -483,7 +467,7 @@ if($CFG["DBH"]) {
 		</div>
 
 		<p style="margin:10px 10px;">
-			<a id="copyright-link" class="oj" href="#copyright">Copyright</a> &copy; <?php echo date("Y"); ?> assigned by Vincent Hallberg of <a class='oj' href="https://custodiancms.org" target="_blank">Custodiancms.org</a> and <a class='oj' href="https://modusinternet.com" target="_blank">Modusinternet.com</a>, all rights reserved.
+			<a id="copyright-link" class="oj" href="#copyright">Copyright</a> &copy; <?php echo date("Y"); ?> assigned by Vincent Hallberg of <a class='oj' href="https://custodiancms.org" target="_blank">custodiancms.org</a> and <a class='oj' href="https://modusinternet.com" target="_blank">modusinternet.com</a>.
 		</p>
 
 		<script>
@@ -596,11 +580,13 @@ if($CFG["DBH"]) {
 				});
 			}
 
-			if (window.addEventListener)
+			if(window.addEventListener) {
 				window.addEventListener("load", loadJSResources, false);
-			else if (window.attachEvent)
+			} else if(window.attachEvent) {
 				window.attachEvent("onload", loadJSResources);
-			else window.onload = loadJSResources;
+			} else {
+				window.onload = loadJSResources;
+			}
 		</script>
 	</body>
 </html>
