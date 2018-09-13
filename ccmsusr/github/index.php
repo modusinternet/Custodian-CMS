@@ -42,6 +42,7 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 
 
 						<!--
+						https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 						ssh -T git@github.com
 
 						git init
