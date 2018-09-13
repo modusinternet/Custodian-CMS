@@ -38,6 +38,22 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 								<p>This section of the Custodian CMS admin is currently under development.</p>
 							</div>
 						</div>
+
+
+
+						<!--
+						ssh -T git@github.com
+
+						git init
+						git add --all
+						git config --global user.email "vince@modusinternet.com"
+						git config --global user.name "Vince"
+						git commit -m "first commit"
+						git remote add origin git@github.com:modusinternet/dev.git
+						git push -u origin master
+						-->
+
+
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ligula id nisl fringilla finibus. Vestibulum rhoncus, felis at fringilla ullamcorper, ante mi tincidunt nunc, ac ultrices odio odio vitae lorem. Morbi quis elit id urna efficitur aliquam ut et sapien. Fusce porttitor vel ligula faucibus tempor. Pellentesque tincidunt imperdiet enim, id lobortis ipsum tempus id. In facilisis elementum dictum. Donec suscipit ornare tortor, sed volutpat mauris volutpat at. Pellentesque porttitor ut augue at ultrices. Proin egestas semper lorem quis suscipit. Vivamus eget magna tincidunt, semper sem eu, molestie quam. Praesent nisl velit, ultricies ac malesuada id, dapibus in dui. Mauris luctus velit non mi condimentum rhoncus. Nullam sit amet aliquet turpis, id malesuada nulla. Ut sit amet nisl nec ante commodo eleifend.
 
 
@@ -67,7 +83,7 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 				l.href = "/ccmsusr/_css/font-awesome-4.7.0.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 			};
-			
+
 			var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
 			if (raf) raf(cb);
 			else window.addEventListener('load', cb);
