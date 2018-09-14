@@ -39,7 +39,7 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 - add your web servers public ssh-key to your new repo on GitHub under 'Settings/Deploy keys', with 'Allow write access' checked (follow instructions here to generate a new ssh-key if needed: https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 - add a webhook on GitHub under 'Settings/Webhooks' to 'https://YOUR_DOMAIN/ccmsusr/github/webhook.php' (ignor 404 error on first attempt to connect)
 - create a new website folder on your server (must have access to ssh and git services)
-- ssh into it and type 'git clone git@github.com:modusinternet/Custodian-CMS.git' to pull down the repository
+- ssh into it and type 'git clone git://github.com/modusinternet/Custodian-CMS.git' to pull down the repository
 - from the command line on your server type the following
 git init
 git add --all
