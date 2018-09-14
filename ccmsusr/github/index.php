@@ -25,38 +25,107 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 		<div id="wrapper">
 			{CCMS_TPL:header-body.php}
 
-
 			<div id="page-wrapper">
 				<div class="row">
 					<div class="col-md-12">
 						<h1 class="page-header">GitHub</h1>
-						<div class="panel panel-danger">
-							<div class="panel-heading">
-								Notice
-							</div>
+						<div class="panel panel-default">
 							<div class="panel-body">
-								<p>This section of the Custodian CMS admin is currently under development.</p>
+								Listed below are the basic setup details to connect your website to a GitHub repository.  For more information about how to setup and maintain Git on your server visit <a href="https://git-scm.com/docs" target="_blank">https://git-scm.com/docs</a>.
+							</div>
+							<div class="panel-footer">
+								<pre style="padding: unset; margin: unset; border: unset;">
+- create a new website folder on your server (must have access to ssh and git services)
+- ssh into it and type 'git clone git@github.com:modusinternet/Custodian-CMS.git' to pull down the repository
+- create a new repository at GitHub
+- add your web servers public ssh-key to your new repo on GitHub under 'Settings/Deploy keys'
+- from the command line on your server type the following
+git init
+git add --all
+git config --global user.email "noreply@YOUR_DOMAIN.com"
+git config --global user.name "Pushed from the server to repo."
+- test your connection to the GitHub servers via ssh
+ssh -T git@github.com
+- if successful, type the following commands
+git commit -m "first commit"
+git remote add origin git@github.com:YOUR_ACCOUNT_ON_GITHUB/YOUR_REPO_ON_GITHUB.git
+git push -u origin master
+- eventually, check on GitHub to see if all the files on your web server have been copied
+- add a webhook on GitHub under 'Settings/Webhooks' to 'https://YOUR_DOMAIN/ccmsusr/github/webhook.php'
+- connect to your new repo on GitHub via GitHub Desktop
+- connect to your new repo on GitHub via Atom</pre>
 							</div>
 						</div>
+						<?
+						// Test to see if shell_exce() is enabled.
+						if(is_callable('shell_exec') && false === stripos(ini_get('disable_functions'), 'shell_exec')) {
+							// shell_exce() is enabled next test to see if git is installed.
+
+							$output = shell_exec("git --version");
+							if(preg_match("/^git version .*/i", $output)) {
+								// git is installed.
+								echo "<h2>git --version</h2>";
+								echo "<pre>$output</pre>";
+								$output = shell_exec("git config --list");
+								echo "<h2>git config --list</h2>";
+								echo "<pre>$output</pre>";
+
+								/*
+								$output = shell_exec("ssh -T git@github.com");
+								echo "<h2>ssh -T git@github.com</h2>";
+								echo "<pre>$output</pre>";
+								*/
+
+								$output = shell_exec("git status");
+								if(preg_match("/Untracked files .*/i", $output)) {
+									// there are files on the server which need to be uploaded to the repo.
+									$warning = "There are files on the server which need to be uploaded to the repo.";
+								}
+							} else {
+								// git is NOT installed.
+								$danger = "git is NOT installed.";
+							}
+						} else {
+							// shell_exce() is NOT enabled so output and error.
+							$danger = "shell_exce() is NOT enabled so output and error.";
+						}
+						?>
+						<? if($danger): ?>
+							<br><div class="panel panel-danger">
+								<div class="panel-heading">
+									Error
+								</div>
+								<div class="panel-body">
+									<p><?=$danger;?></p>
+								</div>
+							</div>
+						<? elseif($warning): ?>
+							<br><div class="panel panel-warning">
+								<div class="panel-heading">
+									Warning
+								</div>
+								<div class="panel-body">
+									<p><?=$warning;?></p>
+
+									<pre style="padding: unset; margin: unset; border: unset;">ssh commands to be added later:
+
+git add --all
+git commit -m "From server"
+git push -u origin master</pre>
 
 
 
-						<!--
-						https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
-						ssh -T git@github.com
-
-						git init
-						git add --all
-						git config --global user.email "vince@modusinternet.com"
-						git config --global user.name "Vince"
-						git commit -m "first commit"
-						git remote add origin git@github.com:modusinternet/dev.git
-						git push -u origin master
-						-->
 
 
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ligula id nisl fringilla finibus. Vestibulum rhoncus, felis at fringilla ullamcorper, ante mi tincidunt nunc, ac ultrices odio odio vitae lorem. Morbi quis elit id urna efficitur aliquam ut et sapien. Fusce porttitor vel ligula faucibus tempor. Pellentesque tincidunt imperdiet enim, id lobortis ipsum tempus id. In facilisis elementum dictum. Donec suscipit ornare tortor, sed volutpat mauris volutpat at. Pellentesque porttitor ut augue at ultrices. Proin egestas semper lorem quis suscipit. Vivamus eget magna tincidunt, semper sem eu, molestie quam. Praesent nisl velit, ultricies ac malesuada id, dapibus in dui. Mauris luctus velit non mi condimentum rhoncus. Nullam sit amet aliquet turpis, id malesuada nulla. Ut sit amet nisl nec ante commodo eleifend.
 
+								</div>
+							</div>
+							<h2>git status</h2>
+							<? $output = shell_exec("git status"); echo "<pre>$output</pre>"; ?>
+						<? else: ?>
+							<h2>git status</h2>
+							<? $output = shell_exec("git status"); echo "<pre>$output</pre>"; ?>
+						<? endif ?>
 
 					</div>
 				</div>
