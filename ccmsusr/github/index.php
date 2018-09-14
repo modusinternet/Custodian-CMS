@@ -36,7 +36,8 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 							<div class="panel-footer">
 								<pre style="padding: unset; margin: unset; border: unset;">
 - create a new repository at GitHub
-- add your web servers public ssh-key to your new repo on GitHub under 'Settings/Deploy keys' (follow instructions here to generate a new ssh-key: https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+- add your web servers public ssh-key to your new repo on GitHub under 'Settings/Deploy keys' (follow instructions here to generate a new ssh-key if needed: https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+- add a webhook on GitHub under 'Settings/Webhooks' to 'https://YOUR_DOMAIN/ccmsusr/github/webhook.php'
 - create a new website folder on your server (must have access to ssh and git services)
 - ssh into it and type 'git clone git@github.com:modusinternet/Custodian-CMS.git' to pull down the repository
 - from the command line on your server type the following
@@ -51,7 +52,6 @@ git commit -m "first commit"
 git remote add origin git@github.com:YOUR_ACCOUNT_ON_GITHUB/YOUR_REPO_ON_GITHUB.git
 git push -u origin master
 - eventually, check on GitHub to see if all the files on your web server have been copied
-- add a webhook on GitHub under 'Settings/Webhooks' to 'https://YOUR_DOMAIN/ccmsusr/github/webhook.php'
 - connect to your new repo on GitHub via GitHub Desktop
 - connect to your new repo on GitHub via Atom</pre>
 							</div>
