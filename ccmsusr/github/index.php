@@ -35,10 +35,10 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 							</div>
 							<div class="panel-footer">
 								<pre style="padding: unset; margin: unset; border: unset;">
-- create a new website folder on your server (must have access to ssh and git services)
-- ssh into it and type 'git clone git@github.com:modusinternet/Custodian-CMS.git' to pull down the repository
 - create a new repository at GitHub
 - add your web servers public ssh-key to your new repo on GitHub under 'Settings/Deploy keys'
+- create a new website folder on your server (must have access to ssh and git services)
+- ssh into it and type 'git clone git@github.com:modusinternet/Custodian-CMS.git' to pull down the repository
 - from the command line on your server type the following
 git init
 git add --all
