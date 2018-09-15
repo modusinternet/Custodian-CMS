@@ -36,21 +36,29 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 							<div class="panel-footer">
 								<pre style="padding: unset; margin: unset; border: unset;">
 - create a new repository at GitHub
-- add your web servers public ssh-key to your new repo on GitHub under 'Settings/Deploy keys', with 'Allow write access' checked (follow instructions here to generate a new ssh-key if needed: https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+- add your web servers public ssh-key (id_rsa.pub) to your new repo on GitHub under 'Settings/Deploy keys', with 'Allow write access' checked (follow instructions here to generate a new ssh-key if needed: https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 - add a webhook on GitHub under 'Settings/Webhooks' to 'https://YOUR_DOMAIN/ccmsusr/github/webhook.php' (ignor 404 error on first attempt to connect)
-- create a new website folder on your server (must have access to ssh and git services)
-- ssh into it and type 'git clone https://github.com/modusinternet/Custodian-CMS.git' to pull down the repository
-- from the command line on your server type the following
+- create a new website folder on your server (you must have access to shell, ssh and git services)
+
+- ssh into your server and type the folloing commands:
+git clone --depth=1 https://github.com/modusinternet/Custodian-CMS.git /tmp/Custodian-CMS/'
+rm -rf /tmp/Custodian-CMS/.git
+shopt -s dotglob
+cp -r /tmp/Custodian-CMS/* /home/YOUR_ACCOUNT/YOUR_WEB_FOLDER
+rm -rf /tmp/Custodian-CMS
 git init
 git add --all
 git config --global user.email "noreply@YOUR_DOMAIN.com"
-git config --global user.name "Pushed from the server to repo."
+git config --global user.name "Pushed from server to repo."
+
 - test your connection to the GitHub servers via ssh
 ssh -T git@github.com
-- if successful, type the following commands
+
+- if successful, type the following commands:
 git commit -m "first commit"
 git remote add origin git@github.com:YOUR_ACCOUNT_ON_GITHUB/YOUR_REPO_ON_GITHUB.git
 git push -u origin master
+
 - eventually, check on GitHub to see if all the files on your web server have been copied
 - connect to your new repo on GitHub via GitHub Desktop
 - connect to your new repo on GitHub via Atom</pre>
