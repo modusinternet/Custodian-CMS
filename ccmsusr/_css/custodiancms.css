@@ -464,10 +464,22 @@ label {
 .nav-tabs>li {
     margin-bottom: -2px;
 }
+
+.nav-tabs>li>a {
+    border-color: #eee;
+    background-color: #eee;
+}
+
+.nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
+    background-color: #ec7f27;
+    border-color: #ddd;
+    color: #fff;
+}
+
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
     color: #fff;
     cursor: default;
-    background-color: #EC7F27;
+    background-color: #ec7f27;
     border: 1px solid #ddd;
     border-bottom-color: transparent;
 }
