@@ -41,7 +41,7 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 - create a new website folder on your server (you must have access to shell, ssh and git services)
 
 - ssh into your server and type the folloing commands:
-git clone --depth=1 https://github.com/modusinternet/Custodian-CMS.git /tmp/Custodian-CMS/'
+git clone --depth=1 https://github.com/modusinternet/Custodian-CMS.git /tmp/Custodian-CMS
 rm -rf /tmp/Custodian-CMS/.git
 shopt -s dotglob
 cp -r /tmp/Custodian-CMS/* /home/YOUR_ACCOUNT/YOUR_WEB_FOLDER
