@@ -48,8 +48,8 @@ cp -r /tmp/Custodian-CMS/* /home/YOUR_ACCOUNT/YOUR_WEB_FOLDER
 rm -rf /tmp/Custodian-CMS
 git init
 git add --all
-git config --global user.email "noreply@YOUR_DOMAIN.com"
-git config --global user.name "Pushed from server to repo."
+git config --global user.email ""
+git config --global user.name ""
 
 - test your connection to the GitHub servers via ssh
 ssh -T git@github.com
@@ -78,16 +78,10 @@ git push -u origin master
 								echo "<h2>git config --list</h2>";
 								echo "<pre>$output</pre>";
 
-								/*
-								$output = shell_exec("ssh -T git@github.com");
-								echo "<h2>ssh -T git@github.com</h2>";
-								echo "<pre>$output</pre>";
-								*/
-
 								$output = shell_exec("git status");
-								if(preg_match("/Untracked files .*/i", $output)) {
-									// there are files on the server which need to be uploaded to the repo.
-									$warning = "There are files on the server which need to be uploaded to the repo.";
+								if(!preg_match("/nothing to commit/i", $output)) {
+									// there are changes on the server which need to be synchronized with the repo.
+									$warning = "There are changes on the server which need to be synchronized with the repo.";
 								}
 							} else {
 								// git is NOT installed.
@@ -114,7 +108,6 @@ git push -u origin master
 								</div>
 								<div class="panel-body">
 									<p><?=$warning;?></p>
-
 									<pre style="padding: unset; margin: unset; border: unset;">ssh commands to be added later:
 
 git add --all
