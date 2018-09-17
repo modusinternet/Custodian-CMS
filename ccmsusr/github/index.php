@@ -26,18 +26,91 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 			{CCMS_TPL:header-body.php}
 
 			<div id="page-wrapper">
-				<div class="row">
-					<div class="col-md-12">
-						<h1 class="page-header">GitHub</h1>
-						<div class="panel panel-default">
-							<div class="panel-body">
-								Listed below are the basic setup details to connect your website to a GitHub repository.  For more information about how to setup and maintain Git on your server visit <a href="https://git-scm.com/docs" target="_blank">https://git-scm.com/docs</a>.
+				<h1 class="page-header">GitHub</h1>
+				<p>GitHub is the premier tool used by website and software engineers to collaborate and synchronize more than 85 million repositories and projects around the world.  Basically, if your work involves distributing anything through the internet or collaborating with anyone other than yourself, you need to consider setting up an account on GitHub.</p>
+				<p>Click here to learn more about how to set up and connect this website to your own GitHub repo now.</p>
+
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#status" aria-controls="status" role="tab" data-toggle="tab">Status</a></li>
+					<li role="presentation"><a href="#setup" aria-controls="setup" role="tab" data-toggle="tab">Setup</a></li>
+					<li role="presentation"><a href="#other" aria-controls="other" role="tab" data-toggle="tab">Other</a></li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="status">
+
+						<?
+						// Test to see if shell_exce() is enabled.
+						if(is_callable('shell_exec') && false === stripos(ini_get('disable_functions'), 'shell_exec')) {
+							// shell_exce() is enabled next test to see if git is installed.
+
+							$output = shell_exec("git --version");
+							if(preg_match("/^git version .*/i", $output)) {
+								// git is installed.
+
+								$output = shell_exec("git status");
+								if(!preg_match("/nothing to commit/i", $output)) {
+									// there are changes on the server which need to be synchronized with the repo.
+									$warning = "There are changes on the server which need to be synchronized with the repo.";
+								}
+							} else {
+								// git is NOT installed.
+								$danger = "git is NOT installed.";
+							}
+						} else {
+							// shell_exce() is NOT enabled so output and error.
+							$danger = "shell_exce() is NOT enabled so setup and maintenance of a local git repo or connecting to GitHub via /ccmsuser/github/webhook.php will be impossible.  Contact your server admin and confirm that the PHP function shell_exce() is enabled.";
+						}
+						?>
+						<? if($danger): ?>
+							<br><div class="panel panel-danger">
+								<div class="panel-heading">
+									Error
+								</div>
+								<div class="panel-body">
+									<p><?=$danger;?></p>
+								</div>
 							</div>
-							<div class="panel-footer">
-								<pre style="padding: unset; margin: unset; border: unset;">
-- create a new repository at GitHub
-- add your web servers public ssh-key (id_rsa.pub) to your new repo on GitHub under 'Settings/Deploy keys', with 'Allow write access' checked (follow instructions here to generate a new ssh-key if needed: https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
-- add a webhook on GitHub under 'Settings/Webhooks' to 'https://YOUR_DOMAIN/ccmsusr/github/webhook.php' (ignor 404 error on first attempt to connect)
+						<? elseif($warning): ?>
+							<br><div class="panel panel-warning">
+								<div class="panel-heading">
+									Warning
+								</div>
+								<div class="panel-body">
+									<p><?=$warning;?></p>
+									<pre style="padding: 15px; margin: 15px 0px 20px;">ssh commands to be added later:
+
+	git add --all
+	git commit -m "from server"
+	git push -u origin master</pre>
+
+
+
+
+
+
+								</div>
+							</div>
+							<h2>git status</h2>
+							<? $output = shell_exec("git status"); echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">$output</pre>"; ?>
+						<? else: ?>
+							<h2>git status</h2>
+							<? $output = shell_exec("git status"); echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">$output</pre>"; ?>
+						<? endif ?>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="setup">
+						<p style="margin: 15px 0px;">Listed below are the basic setup details to connect your website to a GitHub repository.  For more information about how to setup and maintain Git on your server visit <a href="https://git-scm.com/docs" target="_blank">https://git-scm.com/docs</a>.</p>
+					<pre style="padding: 15px; margin: 15px 0px 20px;">
+- create a new repository at GitHub (https://github.com/)
+
+- add your web servers public ssh-key (id_rsa.pub) to your new repo on GitHub under 'Settings/Deploy keys',
+with 'Allow write access' checked (follow instructions here to generate a new ssh-key if needed:
+https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+
+- add a webhook on GitHub under 'Settings/Webhooks' to
+'https://YOUR_DOMAIN/ccmsusr/github/webhook.php' (ignor 404 error on first attempt to connect)
+
 - create a new website folder on your server (you must have access to shell, ssh and git services)
 
 - ssh into your server and type the folloing commands:
@@ -60,74 +133,29 @@ git remote add origin git@github.com:YOUR_ACCOUNT_ON_GITHUB/YOUR_REPO_ON_GITHUB.
 git push -u origin master
 
 - eventually, check on GitHub to see if all the files on your web server have been copied
-- connect to your new repo on GitHub via GitHub Desktop
-- connect to your new repo on GitHub via Atom</pre>
-							</div>
-						</div>
+
+- connect to your new repo on GitHub via GitHub Desktop: https://desktop.github.com/
+
+- connect to your new repo on GitHub via Atom: https://atom.io/</pre>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="other">
 						<?
-						// Test to see if shell_exce() is enabled.
-						if(is_callable('shell_exec') && false === stripos(ini_get('disable_functions'), 'shell_exec')) {
-							// shell_exce() is enabled next test to see if git is installed.
+						$output = shell_exec("git --version");
+						if(preg_match("/^git version .*/i", $output)) {
+							// git is installed.
 
-							$output = shell_exec("git --version");
-							if(preg_match("/^git version .*/i", $output)) {
-								// git is installed.
-								echo "<h2>git --version</h2>";
-								echo "<pre>$output</pre>";
-								$output = shell_exec("git config --list");
-								echo "<h2>git config --list</h2>";
-								echo "<pre>$output</pre>";
+							echo "<h2>git --version</h2>";
+							echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">$output</pre>";
 
-								$output = shell_exec("git status");
-								if(!preg_match("/nothing to commit/i", $output)) {
-									// there are changes on the server which need to be synchronized with the repo.
-									$warning = "There are changes on the server which need to be synchronized with the repo.";
-								}
-							} else {
-								// git is NOT installed.
-								$danger = "git is NOT installed.";
-							}
+							$output = shell_exec("git config --list");
+							echo "<h2>git config --list</h2>";
+							echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">$output</pre>";
 						} else {
-							// shell_exce() is NOT enabled so output and error.
-							$danger = "shell_exce() is NOT enabled so output and error.";
+							// git is NOT installed.
+							echo "<h2>git --version</h2>";
+							echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">git is NOT installed.</pre>";
 						}
 						?>
-						<? if($danger): ?>
-							<br><div class="panel panel-danger">
-								<div class="panel-heading">
-									Error
-								</div>
-								<div class="panel-body">
-									<p><?=$danger;?></p>
-								</div>
-							</div>
-						<? elseif($warning): ?>
-							<br><div class="panel panel-warning">
-								<div class="panel-heading">
-									Warning
-								</div>
-								<div class="panel-body">
-									<p><?=$warning;?></p>
-									<pre style="padding: unset; margin: unset; border: unset;">ssh commands to be added later:
-
-git add --all
-git commit -m "From server"
-git push -u origin master</pre>
-
-
-
-
-
-
-								</div>
-							</div>
-							<h2>git status</h2>
-							<? $output = shell_exec("git status"); echo "<pre>$output</pre>"; ?>
-						<? else: ?>
-							<h2>git status</h2>
-							<? $output = shell_exec("git status"); echo "<pre>$output</pre>"; ?>
-						<? endif ?>
-
 					</div>
 				</div>
 			</div>
