@@ -81,9 +81,9 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 									<p><?=$warning;?></p>
 									<pre style="padding: 15px; margin: 15px 0px 20px;">ssh commands to be added later:
 
-	git add --all
-	git commit -m "from server"
-	git push -u origin master</pre>
+git add --all
+git commit -m "from server"
+git push -u origin master</pre>
 
 
 
