@@ -51,8 +51,8 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 
 								$output = shell_exec("git status");
 								if(!preg_match("/nothing to commit/i", $output)) {
-									// there are changes on the server which need to be synchronized with the repo.
-									$warning = "There are changes on the server which need to be synchronized with the repo.";
+									// there are changes on the server which need to be synchronized with your GitHub repo.
+									$warning = "There are changes on the server which need to be synchronized with your GitHub repo.";
 								}
 							} else {
 								// git is NOT installed.
@@ -79,6 +79,13 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 								</div>
 								<div class="panel-body">
 									<p><?=$warning;?></p>
+
+
+									<button type="button" class="btn btn-success" id="syncGitHubButton" onclick="syncGitHubButton();">
+										<i class="fa fa-cloud-upload" aria-hidden="true"></i> Sync with GitHub now
+									</button>
+
+
 									<pre style="padding: 15px; margin: 15px 0px 20px;">ssh commands to be added later:
 
 git add --all
@@ -121,8 +128,8 @@ cp -r /tmp/Custodian-CMS/* /home/YOUR_ACCOUNT/YOUR_WEB_FOLDER
 rm -rf /tmp/Custodian-CMS
 git init
 git add --all
-git config --global user.email ""
-git config --global user.name ""
+git config --global user.email "noreply@YOUR_DOMAIN.com"
+git config --global user.name "YOUR_NAME"
 
 - test your connection to the GitHub servers via ssh
 ssh -T git@github.com
@@ -210,11 +217,114 @@ git push -u origin master
 								});
 
 
+
+
+
+
+
+
+
+
 							});
 						});
 					});
 				});
 			}
+
+
+
+
+			function syncGitHubButton(a) {
+				if(a) {
+					alert(a.responseText);
+					// Success, everything worked properly in the posting, display the success message.
+					//document.getElementById("submit_" +b).disabled = false;
+					alert("Update Successfully !");
+					//window.location.reload();
+
+				} else {
+					var location = "/ccmsusr/github/push.php";
+					//var url = "tpl=admin/lib/user_updateRecord&id=" + b;
+					var url = "";
+
+					loadXML(location, url);
+
+					/*
+					if(document.getElementById("email_" + b).value.length > 0) {
+						if(document.getElementById("email_" + b).value == document.getElementById("oldemail_" + b).value) {
+							url += "&type=1&email=" + encodeURIComponent(document.getElementById("email_" + b).value);
+						} else {
+							url += "&type=2&email=" + encodeURIComponent(document.getElementById("email_" + b).value);
+						}
+					} else {
+						if(!focus_flag) {
+							focus_flag = true;
+							document.getElementById("email_" + b).focus();
+						}
+						errMessage+="'User Name (Email Address)' field missing content!  Please update.\n";
+						return_flag=true;
+					}
+
+					if(document.getElementById("super_" + b).checked == true) {
+						url += "&super=1";
+					} else {
+						url += "&super=0";
+					}
+
+					if(return_flag)
+					{
+						alert(errMessage);
+					//document.getElementById("submit_" +b).disabled = false;
+						return false;
+					} else {
+						loadXML(location, url);
+					}
+					*/
+
+
+
+
+
+				}
+			}
+
+			////////// Used to create XMLHttpRequest connetions to server.
+			function loadXML(location, url) {
+				if(window.XMLHttpRequest) {
+					// Native XMLHttpRequest call
+					req = new XMLHttpRequest();
+				} else if (window.ActiveXObject) {
+					// IE/Windows ActiveX call
+					req = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				if(req) {
+					//alert("load XML:" + "https://<?=$CFG["DOMAIN"];?>" + location);
+					req.open("POST", "https://<?=$CFG["DOMAIN"];?>" + location, true);
+					req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+					req.onreadystatechange = processReq;
+					req.send(url);
+				}
+			}
+
+			////////// Used to process the responces and XML returned by servers after XMLHttpRequest connetion and POST.
+			function processReq() {
+				if(req.readyState == 4) {
+					if(req.status == 200) {
+						var node = req.responseXML.getElementsByTagName("method");
+						if(node.length > 0) {
+							method = req.responseXML.getElementsByTagName("method")[0].firstChild.data;
+							eval(method);
+						} else {
+							alert("Error: Method not found in responce.\n" + req.statusText);
+						}
+					} else {
+						alert("Error:\n" + req.statusText);
+					}
+				}
+			}
+
+
+
 
 			if (window.addEventListener)
 				window.addEventListener("load", loadJSResources, false);
