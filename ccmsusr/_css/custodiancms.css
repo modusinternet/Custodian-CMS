@@ -499,6 +499,14 @@ ol.boxed {
     padding: 15px 15px 15px 30px;
 }
 
+p.boxed {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 15px 0px 20px;
+    padding: 15px 15px 15px 30px;
+}
+
 
 
 
