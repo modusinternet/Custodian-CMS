@@ -68,7 +68,7 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 									Error
 								</div>
 								<div class="panel-body">
-									<p><?=$danger;?></p>
+									<p class="boxed"><?=$danger;?></p>
 								</div>
 							</div>
 						<? elseif($warning): ?>
@@ -77,10 +77,10 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 									Warning
 								</div>
 								<div class="panel-body">
-									<p><?=$warning;?></p>
-									<pre style="padding: 15px; margin: 15px 0px 20px;">git add .
-git commit -m "from server"
-git push -u origin master</pre>
+									<p class="boxed"><?=$warning;?></p>
+									<p class="boxed">git add .<br>
+										git commit -m "from server"<br>
+										git push -u origin master</p>
 									<p>Note: Pushing from your server to a repo is generally not recommended for security reasons which is why it is not offered here as a standard feature.</p>
 								</div>
 							</div>
@@ -117,7 +117,7 @@ git push -u origin master</pre>
 						} else {
 							// git is NOT installed.
 							echo "<h2>git --version</h2>";
-							echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">git is NOT installed.</pre>";
+							echo "<p class=\"boxed\">git is NOT installed.</p>";
 						}
 						?>
 					</div>
@@ -137,11 +137,11 @@ git push -u origin master</pre>
 							<li>git clone --depth=1 https://github.com/modusinternet/Custodian-CMS.git /tmp/Custodian-CMS</li>
 							<li>rm -rf /tmp/Custodian-CMS/.git</li>
 							<li>shopt -s dotglob</li>
-							<li>cp -r /tmp/Custodian-CMS/* /home/YOUR_ACCOUNT/YOUR_WEB_FOLDER</li>
+							<li>cp -r /tmp/Custodian-CMS/* /THE_PATH_TO_YOUR_WEBSITES_DOCUMMENT_ROOT</li>
 							<li>rm -rf /tmp/Custodian-CMS</li>
 						</ol>
 						<h2>Initialize git on the Webserver</h2>
-						<p style="margin: 15px 0px;">asdf</p>
+						<p style="margin: 15px 0px;">Once you've finished moving a copy of the Custodian CMS templates into place by either the method described above or using the <a href="https://github.com/modusinternet/Custodian-CMS-Installer" target="_blank">Custodian CMS Installer</a> you need to Initialize git at the document root of the website and connect it to your GitHub repository.</p>
 						<ol class="boxed">
 							<li>git init</li>
 							<li>git add --all</li>
@@ -179,8 +179,8 @@ git push -u origin master</pre>
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = "/ccmsusr/_css/custodiancms.css";
-				/*l.href = "/ccmsusr/_css/custodiancms.min.css";*/
+				/* l.href = "/ccmsusr/_css/custodiancms.css"; */
+				l.href = "/ccmsusr/_css/custodiancms.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
