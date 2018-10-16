@@ -179,8 +179,8 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				/* l.href = "/ccmsusr/_css/custodiancms.css"; */
-				l.href = "/ccmsusr/_css/custodiancms.min.css";
+				l.href = "/ccmsusr/_css/custodiancms.css";
+				/*l.href = "/ccmsusr/_css/custodiancms.min.css";*/
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
