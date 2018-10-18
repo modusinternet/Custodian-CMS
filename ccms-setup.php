@@ -196,11 +196,9 @@ $user	= $CFG["DB_USERNAME"];
 $pass	= $CFG["DB_PASSWORD"];
 try {
 	$CFG["DBH"] = @new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
-	/*
-	Great sites talking about how to handle the utf-8 character sets properly:
+	/* Great sites talking about how to handle the utf-8 character sets properly:
 	https://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql
-	https://mathiasbynens.be/notes/mysql-utf8mb4
-	*/
+	https://mathiasbynens.be/notes/mysql-utf8mb4 */
 	$CFG["DBH"]->exec("set names utf8mb4");
 	$CFG["DBH"]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$CFG["pass"] = 1;
@@ -264,7 +262,7 @@ if($CFG["DBH"]) {
 	if($_SERVER["REQUEST_URI"] == "/?import=1") {
 		if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
 			try {
-				// This try call helps handle situations where /?import=1 is called more then once, most likely accidentally by hitting the reload button.
+				/* This try call helps handle situations where /?import=1 is called more then once, most likely accidentally by hitting the reload button. */
 				$CFG["DBH"]->query("DESCRIBE `ccms_blacklist`");
 				$CFG["DBH"]->query("DESCRIBE `ccms_cache`");
 				$CFG["DBH"]->query("DESCRIBE `ccms_ins_db`");
@@ -368,8 +366,8 @@ if($CFG["DBH"]) {
 	$CFG["pass"] = 1;
 	if($_REQUEST["addSuper"] === "1") {
 		if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
-			// This call helps handle situations where it is called more then once, most likely accidentally by hitting the reload button.
-			//$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1;")->fetchColumn();
+			/* This call helps handle situations where it is called more then once, most likely accidentally by hitting the reload button. */
+			/* $count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1;")->fetchColumn(); */
 			$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1;")->fetchColumn();
 			if($count == 0) {
 				$cost = 10;
@@ -475,20 +473,16 @@ if($CFG["DBH"]) {
 
 			var cb = function() {
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = 'https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css';
+				l.href = '/ccmsusr/_css/bootstrap-3.3.7.min.css';
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				//l.href = '/ccmsusr/_css/custodiancms.css';
+				/* l.href = '/ccmsusr/_css/custodiancms.css'; */
 				l.href = '/ccmsusr/_css/custodiancms.min.css';
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 
 				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = 'https://stackpath.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css';
-				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
-
-				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = 'https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese';
+				l.href = "/ccmsusr/_css/font-awesome-4.7.0.min.css";
 				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
 			};
 
@@ -497,13 +491,13 @@ if($CFG["DBH"]) {
 			else window.addEventListener('load', cb);
 
 			function loadJSResources() {
-				loadFirst("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js", function() { // JQuery is loaded
-					loadFirst("https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", function() { // Bootstrap is loaded
-						//loadFirst("/ccmsusr/_js/custodiancms.js", function() { // CustodianCMS JavaScript
-						loadFirst("/ccmsusr/_js/custodiancms.min.js", function() { // CustodianCMS JavaScript
+				loadFirst("/ccmsusr/_js/jquery-2.2.0.min.js", function() { /* JQuery is loaded */
+					loadFirst("/ccmsusr/_js/bootstrap-3.3.7.min.js", function() { /* Bootstrap is loaded */
+						/*loadFirst("/ccmsusr/_js/custodiancms.js", function() { /* CustodianCMS JavaScript */
+						loadFirst("/ccmsusr/_js/custodiancms.min.js", function() { /* CustodianCMS JavaScript */
 
-							// Fade in web page.
-							$("#no-fouc").delay(250).animate({"opacity": "1"}, 250);
+							/* Fade in web page. */
+							$("#no-fouc").delay(200).animate({"opacity": "1"}, 500);
 
 							$('#ccms-setup-db').popover({
 								html: true,
@@ -524,8 +518,8 @@ if($CFG["DBH"]) {
 								a.scrollView();
 							})
 
-							loadFirst("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js", function() { // jquery.validate.js is loaded
-								loadFirst("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js", function() { // additional-methods.js is loaded
+							loadFirst("/ccmsusr/_js/jquery.validate-1.17.0.min.js", function() { /* jquery.validate.js is loaded */
+								loadFirst("/ccmsusr/_js/additional-methods-1.17.0.min.js", function() { /* additional-methods.js is loaded */
 
 									$.validator.addMethod(
 										"badCharRegex",
@@ -552,7 +546,7 @@ if($CFG["DBH"]) {
 											password: {
 												required: true,
 												minlength: 8,
-												//badCharRegex: "^[^\<\>\&\#]+$"
+												/* badCharRegex: "^[^\<\>\&\#]+$" */
 											}
 										},
 										messages: {
