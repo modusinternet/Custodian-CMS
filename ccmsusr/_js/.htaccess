@@ -1,5 +1,0 @@
-# Allow direct requests.
-<FilesMatch "nicEdit\.js$">
-    Order Allow,Deny
-    Allow from all
-</FilesMatch>
