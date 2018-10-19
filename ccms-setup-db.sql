@@ -168,8 +168,8 @@ INSERT INTO `ccms_lng_charset` (`id`, `lngDesc`, `status`, `lng`, `default`, `di
 (52, 'हिन्दी (Hindi)', 1, 'hi', 0, 'ltr', ''),
 (53, '日本語 (Japanese)', 1, 'ja', 0, 'ltr', ''),
 (54, '中国 (Chinese)', 0, 'zh', 0, '', 'zh-cn'),
-(55, '简体中国 (Simplified Chinese)', 1, 'zh-cn', 0, 'ltr', ''),
-(56, '中國傳統 (Traditional Chinese)', 0, 'zh-tw', 0, '', 'zh-cn'),
+(55, '中文 (Chinese, Simplified)', 1, 'zh-cn', 0, 'ltr', ''),
+(56, '中文 (Chinese,Traditional)', 0, 'zh-tw', 0, '', 'zh-cn'),
 (57, 'עברית (Hebrew)', 1, 'he', 0, 'rtl', ''),
 (59, 'Norwegian (Bokmal)', 0, 'nb-no', 0, 'ltr', '');
 
