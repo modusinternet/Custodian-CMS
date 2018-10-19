@@ -17,13 +17,13 @@
 		{CCMS_TPL:examples/header-body.html}
 		<ul>
 			<li><a class="tapTarget" href="/en/examples/page-3.html" onclick="lcu('en')">English</a></li>
-			<li><a class="tapTarget" href="/fr/examples/page-3.html" onclick="lcu('fr')">Français</a></li>
-			<li><a class="tapTarget" href="/de/examples/page-3.html" onclick="lcu('de')">German (Standard)</a></li>
+			<li><a class="tapTarget" href="/fr/examples/page-3.html" onclick="lcu('fr')">Français (French)</a></li>
+			<li><a class="tapTarget" href="/de/examples/page-3.html" onclick="lcu('de')">Deutsch (German)</a></li>
 			<li><a class="tapTarget" href="/ar/examples/page-3.html" onclick="lcu('ar')">العربية (Arabic)</a></li>
 			<li><a class="tapTarget" href="/he/examples/page-3.html" onclick="lcu('he')">עברית (Hebrew)</a></li>
 			<li><a class="tapTarget" href="/hi/examples/page-3.html" onclick="lcu('hi')">हिन्दी (Hindi)</a></li>
 			<li><a class="tapTarget" href="/ja/examples/page-3.html" onclick="lcu('ja')">日本語 (Japanese)</a></li>
-			<li><a class="tapTarget" href="/zh-cn/examples/page-3.html" onclick="lcu('zh-cn')">简体中文(Simplified Chinese)</a></li>
+			<li><a class="tapTarget" href="/zh-cn/examples/page-3.html" onclick="lcu('zh-cn')">中文 (Chinese, Simplified)</a></li>
 		</ul>
 		<p>
 			<a class="tapTarget" dir="{CCMS_DB_DIR:page,page-num}" href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-1.html">{CCMS_DB:page,page-num}1</a>
@@ -54,7 +54,7 @@
 
 			function loadJSResources() {
 				loadFirst("/ccmsusr/_js/jquery-2.2.4.min.js", function() { /* JQuery */
-					
+
 					/* Fade in web page. */
 					$("#no-fouc").delay(200).animate({"opacity": "1"}, 500);
 
