@@ -161,7 +161,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 							<li>Create a new website folder on your server. (You must have access to shell, ssh and git services.)</li>
 						</ol>
 						<h2>Copy Custondian CMS Templates to Webserver</h2>
-						<p style="margin: 15px 0px;">SSH into your server and type the following on the command-line if you have not already downloaded a copy of the Custodian-CMS repository templates</p>
+						<p style="margin: 15px 0px;">You can download the latest master version of the Custodian CMS templates from <a href="https://github.com/modusinternet/Custodian-CMS/archive/master.zip" target="_blank">GitHub</a> directly or use the <a href="https://github.com/modusinternet/Custodian-CMS-Installer" target="_blank">Custodian CMS Installer</a>.  If you prefer SSH, log into your server and type the following on the command-line.</p>
 						<ol class="boxed">
 							<li>git clone --depth=1 https://github.com/modusinternet/Custodian-CMS.git /tmp/Custodian-CMS</li>
 							<li>rm -rf /tmp/Custodian-CMS/.git</li>
@@ -170,7 +170,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 							<li>rm -rf /tmp/Custodian-CMS</li>
 						</ol>
 						<h2>Initialize git on the Webserver</h2>
-						<p style="margin: 15px 0px;">Once you've finished moving a copy of the Custodian CMS templates into place by either the method described above or using the <a href="https://github.com/modusinternet/Custodian-CMS-Installer" target="_blank">Custodian CMS Installer</a> you need to Initialize git at the document root of the website and connect it to your GitHub repository.</p>
+						<p style="margin: 15px 0px;">Once you've finished moving a copy of the Custodian CMS templates into place initialize git at the document root of the website and connect it to your GitHub repository.</p>
 						<ol class="boxed">
 							<li>Test your connection to the GitHub servers via ssh:<br>
 								ssh -T git@github.com<br>
