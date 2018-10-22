@@ -186,8 +186,8 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 						<h2>Install Local Software</h2>
 						<ol class="boxed">
 							<li>Check GitHub to see if all the files on your web server have been copied over.</li>
-							<li>Install GitHub Desktop (<a href="https://desktop.github.com" target="_blank">https://desktop.github.com</a>) on your PC and connect to your repositories on GitHub.  Tell GitHub Desktop where you want a copy of your repo on GitHub to be downloaded locally.</li>
-							<li>Install the Atom editor (<a href="https://atom.io" target="_blank">https://atom.io</a>) and go to File/Add Project Folder and select the document root folder containing the local copy of your repositories.</li>
+							<li>Install GitHub Desktop (<a href="https://desktop.github.com" target="_blank">https://desktop.github.com</a>) on your PC and File/Clone Repository to somewhere on your computer.</li>
+							<li>Install the Atom editor (<a href="https://atom.io" target="_blank">https://atom.io</a>) and go to File/Add Project Folder and select the document root folder containing the local copy of your repositories.  You should now be able to make changes using Atom, commit your changes to GitHub which will automaticaly submit them to your live website using the webhook.</li>
 						</ol>
 					</div>
 				</div>
