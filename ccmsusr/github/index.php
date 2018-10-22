@@ -10,6 +10,53 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 	echo "This script can NOT be called directly.";
 	die();
 }
+
+$msg = array();
+
+// Test to see if shell_exce() is disabled.
+if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 'shell_exec')) {
+	// shell_exce() is disabled.
+	$msg[shell_exce][error] = TRUE;
+} else {
+	// shell_exce() is enabled.
+	// Test to see if git is installed.
+	$output = trim(shell_exec("git --version"));
+
+	// test to confirm git is installed.
+	if(preg_match("/^git version .*/i", $output)) {
+		// git is installed.
+		$msg[git][version] = $output;
+
+		$output = trim(shell_exec("git status"));
+		if($output == "") {
+			 $output = "not a git repository";
+		}
+		if(preg_match("/not a git repository/i", $output)) {
+			// git has not been setup to work with a repository under this directory yet.
+			$msg[git][status][error] = $output;
+		} elseif(!preg_match("/nothing to commit/i", $output)) {
+			// There is something wrong with this repository, you might need to access it from the commandline and add/commit/push unresolved files first.
+			$msg[git][status][warning] = $output;
+
+			// build and easier list of problem files to read from.
+			$output = trim(shell_exec("git status --porcelain | cut -c4-"));
+			$msg[git][status2][output] = $output;
+		} else {
+			// All is well, looks like there is nothing to commit here.
+			$msg[git][status] = $output;
+		}
+
+		$output = trim(shell_exec("git config --list"));
+		$msg[git][config] = $output;
+
+		if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/.gitignore")) {
+			$msg[gitignore] = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/.gitignore");
+		}
+	} else {
+		// git is NOT installed.
+		$msg[git][error] = $output;
+	}
+}
 ?><!DOCTYPE html>
 <html id="no-fouc" lang="en" style="opacity: 0;">
 	<head>
@@ -31,96 +78,78 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 
 				<ul class="nav nav-tabs" role="tablist">
 					<li role="presentation" class="active"><a href="#status" aria-controls="status" role="tab" data-toggle="tab">Status</a></li>
+<? if(isset($msg[git][version])): ?>
 					<li role="presentation"><a href="#details" aria-controls="details" role="tab" data-toggle="tab">Details</a></li>
+<? endif ?>
 					<li role="presentation"><a href="#setup" aria-controls="setup" role="tab" data-toggle="tab">Setup</a></li>
 				</ul>
 
 				<!-- Tab panes -->
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="status">
-
-						<?
-						// Test to see if shell_exce() is enabled.
-						if(is_callable('shell_exec') && false === stripos(ini_get('disable_functions'), 'shell_exec')) {
-							// shell_exce() is enabled next test to see if git is installed.
-
-							$output = shell_exec("git --version");
-							if(preg_match("/^git version .*/i", $output)) {
-								// git is installed.
-
-								$output = shell_exec("git status");
-								if(!preg_match("/nothing to commit/i", $output)) {
-									// there are changes on the server which need to be synchronized with your GitHub repo.
-									$warning = "There are changes on the server which need to be synchronized with your GitHub repo.  If you have shell-level access to the account on your server running this website, you may use the following ssh calls from the command line to push changes up to your GitHub repository.";
-								}
-							} else {
-								// git is NOT installed.
-								$danger = 'git is NOT installed.  <a href="#setup">Click here</a> to learn more about how to set up and connect this website to your own GitHub repository.';
-							}
-						} else {
-							// shell_exce() is NOT enabled so output and error.
-							$danger = "shell_exce() is NOT enabled so setup and maintenance of a local git repo or connecting to GitHub via /ccmsuser/github/webhook.php will be impossible.  Contact your server admin and confirm that the PHP function shell_exce() is enabled.";
-						}
-						?>
-						<? if($danger): ?>
-							<br><div class="panel panel-danger">
-								<div class="panel-heading">
-									Error
-								</div>
-								<div class="panel-body">
-									<p class="boxed"><?=$danger;?></p>
-								</div>
+<? if(isset($msg[shell_exce][error])): ?>
+						<div class="panel panel-danger">
+							<div class="panel-heading">Error</div>
+							<div class="panel-body">
+								<p>Unable to call shell_exce().  Confirm your account has access to this function with your administrator before continuing.</p>
 							</div>
-						<? elseif($warning): ?>
-							<br><div class="panel panel-warning">
-								<div class="panel-heading">
-									Warning
-								</div>
-								<div class="panel-body">
-									<p class="boxed"><?=$warning;?></p>
-									<p class="boxed">git add .<br>
-										git commit -m "from server"<br>
-										git push -u origin master</p>
-									<p>Note: Pushing from your server to a repo is generally not recommended for security reasons which is why it is not offered here as a standard feature.</p>
-								</div>
+						</div>
+<? elseif(isset($msg[git][error])): ?>
+						<div class="panel panel-danger">
+							<div class="panel-heading">Error</div>
+							<div class="panel-body">
+								<p>.git is either NOT installed or you do not have access to git from this account.  Confirm with your administrator before continuing.</p>
+								<pre style="padding: 15px; margin: 15px 0px 20px;"><?=$msg[git][error];?></pre>
 							</div>
-							<h2>git status</h2>
-							<? $output = shell_exec("git status"); echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">$output</pre>"; ?>
-							(Easier to read; remember all files listed are located relative to the document root of your website.)
-							<? $output = shell_exec("git status --porcelain | cut -c4-"); echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">$output</pre>"; ?>
-						<? else: ?>
-							<h2>git status</h2>
-							<? $output = shell_exec("git status"); echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">$output</pre>"; ?>
-						<? endif ?>
+						</div>
+<? else: ?>
+						<h2>git status</h2>
+	<? if(isset($msg[git][status][error])): ?>
+						<div class="panel panel-danger">
+							<div class="panel-heading">Error</div>
+							<div class="panel-body">
+								<p>No .git repository setup in this directory or any of it's parent directories yet.  <a class="href-to-setup" href="#setup">Click here</a> to learn more about how to set up and connect this website to your own GitHub repository.</p>
+								<pre style="padding: 15px; margin: 15px 0px 20px;">fatal: not a git repository (or any of the parent directories): .git</pre>
+							</div>
+						</div>
+	<? elseif(isset($msg[git][status][warning])): ?>
+						<div class="panel panel-warning">
+							<div class="panel-heading">Warning</div>
+							<div class="panel-body">
+								<p>There is something wrong with this repository, you might need to access it from the command-line and run add/commit/push manunally to fix it.</p>
+								<pre style="padding: 15px; margin: 15px 0px 20px;"><?=$msg[git][status][warning];?></pre>
+								<p>(Easier to read file list; remember all files listed are located relative to the document root of your website.)</p>
+								<pre style="padding: 15px; margin: 15px 0px 20px;"><?=$msg[git][status2][output];?></pre>
+								<p>Note: Pushing from your server to a GitHub repository is not recommended for security reasons which is why it is not an automated feature in Custodian CMS.  Use the command-line option describe below if needed.</p>
+								<p class="boxed">git add .<br>
+									git commit -m "from server"<br>
+									git push -u origin master</p>
+							</div>
+						</div>
+	<? else: ?>
+						<div class="panel panel-success">
+							<div class="panel-heading">Success</div>
+							<div class="panel-body">
+								<pre style="padding: 15px; margin: 15px 0px 20px;"><?=$msg[git][status];?></pre>
+							</div>
+						</div>
+	<? endif ?>
+<? endif ?>
 					</div>
+<? if(isset($msg[git][version])): ?>
 					<div role="tabpanel" class="tab-pane" id="details">
-						<?
-						$output = shell_exec("git --version");
-						if(preg_match("/^git version .*/i", $output)) {
-							// git is installed.
-
-							echo "<h2>git --version</h2>";
-							echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">$output</pre>";
-
-							$output = shell_exec("git config --list");
-							echo "<h2>git config --list</h2>";
-							echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">$output</pre>";
-
-							echo "<h2>/.gitignore</h2>";
-							echo "<pre style=\"padding: 15px; margin: 15px 0px 20px;\">";
-							if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/.gitignore")) {
-								echo file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/.gitignore");
-							} else {
-								echo ".gitignore not found";
-							}
-							echo "</pre>";
-						} else {
-							// git is NOT installed.
-							echo "<h2>git --version</h2>";
-							echo "<p class=\"boxed\">git is NOT installed.</p>";
-						}
-						?>
+						<h2>git --version</h2>
+						<pre style="padding: 15px; margin: 15px 0px 20px;"><?=$msg[git][version];?></pre>
+						<h2>git config --list</h2>
+						<pre style="padding: 15px; margin: 15px 0px 20px;"><?=$msg[git][config];?></pre>
+						<h2>.gitignore</h2>
+	<? if(isset($msg[gitignore])): ?>
+						<pre style="padding: 15px; margin: 15px 0px 20px;"><?=$msg[gitignore];?></pre>
+	<? else: ?>
+						<pre style="padding: 15px; margin: 15px 0px 20px;">.gitignore not found.</pre>
+	<? endif ?>
 					</div>
+<? endif ?>
 					<div role="tabpanel" class="tab-pane" id="setup">
 						<p style="margin: 15px 0px;">Listed below are the basic setup details to connect your website to a GitHub repository.  For more information about how to setup and maintain Git on your server visit <a href="https://git-scm.com/docs" target="_blank">https://git-scm.com/docs</a>.</p>
 						<h2>Repository and Webserver Setup</h2>
@@ -143,17 +172,16 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 						<h2>Initialize git on the Webserver</h2>
 						<p style="margin: 15px 0px;">Once you've finished moving a copy of the Custodian CMS templates into place by either the method described above or using the <a href="https://github.com/modusinternet/Custodian-CMS-Installer" target="_blank">Custodian CMS Installer</a> you need to Initialize git at the document root of the website and connect it to your GitHub repository.</p>
 						<ol class="boxed">
+							<li>Test your connection to the GitHub servers via ssh:<br>
+								ssh -T git@github.com<br>
+								If successful, type the following commands:</li>
 							<li>git init</li>
-							<li>git add --all</li>
+							<li>git add .</li>
 							<li>git config --global user.email "noreply@YOUR_DOMAIN.com"</li>
 							<li>git config --global user.name "YOUR_NAME"</li>
-							<li>Test your connection to the GitHub servers via ssh:<br>
-							ssh -T git@github.com</li>
-							<li>If successful, type the following commands:<br>
-							git commit -m "first commit"<br>
-							git remote add origin<br>
-							git@github.com:YOUR_ACCOUNT_ON_GITHUB/YOUR_REPO_ON_GITHUB.git<br>
-							git push -u origin master</li>
+							<li>git commit -m "first commit"</li>
+							<li>git remote add origin git@github.com:YOUR_ACCOUNT_ON_GITHUB/YOUR_REPO_ON_GITHUB.git</li>
+							<li>git push -u origin master</li>
 						</ol>
 						<h2>Install Local Software</h2>
 						<ol class="boxed">
@@ -212,6 +240,12 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 									$("#wrapper").toggleClass("toggled");
 									$("#wrapper.toggled").find("#sidebar-wrapper").find(".collapse").collapse("hide");
 									$("#sidebar-wrapper").toggle();
+								});
+
+								$('.href-to-setup').click(function(e) {
+									e.preventDefault();
+									var a = $('a[href="' + $(this).attr('href') + '"]');
+									a.tab('show');
 								});
 							});
 						});
