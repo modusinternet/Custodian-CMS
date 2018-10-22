@@ -116,7 +116,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 							<div class="panel-body">
 								<p>There is something wrong with this repository, you might need to access it from the command-line and run add/commit/push manunally to fix it.</p>
 								<pre style="padding: 15px; margin: 15px 0px 20px;"><?=$msg[git][status][warning];?></pre>
-								<p>(Easier to read file list; remember all files listed are located relative to the document root of your website.)</p>
+								<p>(Easier to read file list, remember all files listed are located relative to the document root of your website.)</p>
 								<pre style="padding: 15px; margin: 15px 0px 20px;"><?=$msg[git][status2][output];?></pre>
 								<p>Note: Pushing from your server to a GitHub repository is not recommended for security reasons which is why it is not an automated feature in Custodian CMS.  Use the command-line option describe below if needed.</p>
 								<p class="boxed">git add .<br>
