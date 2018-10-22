@@ -177,7 +177,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 								If successful, type the following commands:</li>
 							<li>git init</li>
 							<li>git add .</li>
-							<li>git config --global user.email "noreply@YOUR_DOMAIN.com"</li>
+							<li>git config --global user.email "noreply@<?=$CFG["DOMAIN"];?>"</li>
 							<li>git config --global user.name "YOUR_NAME"</li>
 							<li>git commit -m "first commit"</li>
 							<li>git remote add origin git@github.com:YOUR_ACCOUNT_ON_GITHUB/YOUR_REPO_ON_GITHUB.git</li>
