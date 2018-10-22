@@ -156,7 +156,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 						<ol class="boxed">
 							<li>Create a new repository at GitHub. (<a href="https://github.com" target="_blank">https://github.com</a>)</li>
 							<li>Add your web servers public ssh-key (id_rsa.pub) to your new repo on GitHub under 'Settings/Deploy keys', with 'Allow write access' checked. (Follow instructions here to generate a new ssh-key if needed: <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/" target="_blank">https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/</a>)</li>
-							<li>Add a webhook on GitHub under 'Settings/Webhooks' to 'https://YOUR_DOMAIN/ccmsusr/github/webhook.php'.<br>
+							<li>Add a webhook on GitHub under 'Settings/Webhooks' to 'https://<?=$CFG["DOMAIN"];?>/ccmsusr/github/webhook.php'.<br>
 								(Note: Ignor the 404 error on first attempt to connect.)</li>
 							<li>Create a new website folder on your server. (You must have access to shell, ssh and git services.)</li>
 						</ol>
