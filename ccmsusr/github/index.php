@@ -71,11 +71,9 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 	<body>
 		<div id="wrapper">
 			{CCMS_TPL:header-body.php}
-
 			<div id="page-wrapper">
 				<h1 class="page-header">GitHub</h1>
 				<p>GitHub is the premier tool used by website and software engineers to collaborate and synchronize more than 85 million repositories and projects around the world.  Basically, if your work involves distributing anything through the internet or collaborating with anyone other than yourself, you need to consider setting up an account on GitHub.</p>
-
 				<ul class="nav nav-tabs" role="tablist">
 					<li role="presentation" class="active"><a href="#status" aria-controls="status" role="tab" data-toggle="tab">Status</a></li>
 <? if(isset($msg[git][version])): ?>
@@ -155,9 +153,8 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 						<h2>Repository and Webserver Setup</h2>
 						<ol class="boxed">
 							<li>Create a new repository at GitHub. (<a href="https://github.com" target="_blank">https://github.com</a>)</li>
-							<li>Add your web servers public ssh-key (id_rsa.pub) to your new repo on GitHub under 'Settings/Deploy keys', with 'Allow write access' checked. (Follow instructions here to generate a new ssh-key if needed: <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/" target="_blank">https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/</a>)</li>
-							<li>Add a webhook on GitHub under 'Settings/Webhooks' to 'https://<?=$CFG["DOMAIN"];?>/ccmsusr/github/webhook.php'.<br>
-								(Note: Ignor the 404 error on first attempt to connect.)</li>
+							<li>Add your web servers public ssh-key (id_rsa.pub) to your new repo on GitHub under "Settings/Deploy keys", with "Allow write access" checked. (Follow instructions here to generate a new ssh-key if needed: <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/" target="_blank">https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/</a>)</li>
+							<li>Add a webhook on GitHub under "Settings/Webhooks": https://<?=$CFG["DOMAIN"];?>/ccmsusr/github/webhook.php</li>
 							<li>Create a new website folder on your server. (You must have access to shell, ssh and git services.)</li>
 						</ol>
 						<h2>Copy Custondian CMS Templates to Webserver</h2>
@@ -187,7 +184,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 						<ol class="boxed">
 							<li>Check GitHub to see if all the files on your web server have been copied over.</li>
 							<li>Install GitHub Desktop (<a href="https://desktop.github.com" target="_blank">https://desktop.github.com</a>) on your PC and File/Clone Repository to somewhere on your computer.</li>
-							<li>Install the Atom editor (<a href="https://atom.io" target="_blank">https://atom.io</a>) and go to File/Add Project Folder and select the document root folder containing the local copy of your repositories.  You should now be able to make changes using Atom, commit your changes to GitHub which will automaticaly submit them to your live website using the webhook.</li>
+							<li>Install the Atom editor (<a href="https://atom.io" target="_blank">https://atom.io</a>) and go to "File/Add Project Folder" and select the document root folder containing the local copy of your repositories.  You should now be able to make changes using Atom, commit your changes to GitHub which will automaticaly submit them to your live website using the webhook.</li>
 						</ol>
 					</div>
 				</div>
