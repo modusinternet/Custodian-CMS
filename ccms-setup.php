@@ -356,7 +356,7 @@ if($CFG["DBH"]) {
 <?php if($CFG["pass"]==1): ?>
 										Pass
 <?php else: ?>
-										Google reCAPTCHA is used to help secure the Login and Password Reset forms.  Open the /ccmspre/config.php template, update the $CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] and $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] fields with details dirived from <a href="https://www.google.com/recaptcha/admin/create" target="_blank">https://www.google.com/recaptcha/admin/create</a>.
+										Google reCAPTCHA is used to help secure the Login and Password Reset forms.  Open the /ccmspre/config.php template, update the $CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] and $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] fields with details dirived from <a href="https://www.google.com/recaptcha/" target="_blank">https://www.google.com/recaptcha/</a>.
 <?php endif ?>
 									</div>
 								</div>

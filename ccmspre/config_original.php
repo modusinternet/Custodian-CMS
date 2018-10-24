@@ -71,7 +71,7 @@ $CFG["EMAIL_BOUNCES_RETURNED_TO"] = "";
 $CFG["GOOGLE_CUSTOM_SEARCH_ENGINE_CODE"] = "";
 
 // To add Google reCaptcha to your web forms enter your recaptcha keys here.
-// https://www.google.com/recaptcha/admin/create
+// https://www.google.com/recaptcha/
 $CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] = ""; // Site key
 $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] = ""; // Secret key
 
