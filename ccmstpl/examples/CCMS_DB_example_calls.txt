@@ -1,0 +1,42 @@
+{
+CCMS_DB_PRELOAD:  (Preload all the records in the ccms_ins_db table that may be needed for the page being built.  We do this to reduce the number of calls on the database.  A single template may contain hundreds of individual content areas which need to be populated.  This procedure reduces all those calls to the database into one.)
+0|1  (public or private:  Set in the function, not something the user needs to configure or write in their CCMS_DB tags.)
+"?????,?????,?????""  (The SCOPE field, preload all the records that contain ????? in the SCOPE field and build an array that can be parsed to populate the CCMS_DB tags found further down in the HTML.)
+}
+
+
+{
+CCMS_DB:
+SCOPE:about_us_filter,
+WORD:first_paragraph;
+}
+
+
+ie:
+
+{CCMS_DB_PRELOAD:about_us_filter,footer_filter,header_filter,twiter_feed_filter}
+{CCMS_DB:about_us_filter,meta_description}
+{CCMS_DB:about_us_filter,meta_keywords}
+{CCMS_DB:about_us_filter,title}
+{CCMS_DB:about_us_filter,first_paragraph}
+{CCMS_DB:about_us_filter,second_paragraph}
+{CCMS_DB:footer_filter,copywrite}
+{CCMS_DB:header_filter,title}
+{CCMS_DB:twiter_feed_filter,title}
+{CCMS_DB:twiter_feed_filter,tag_top}
+{CCMS_DB:twiter_feed_filter,tag_bottm}
+
+or
+
+global $CLEAN;
+CCMS_insDBPreload("about_us_filter,footer_filter,header_filter,twiter_feed_filter")
+echo $CLEAN["CCMS_insDBPreloadContent"]["about_us_filter"]["meta_description"][$CLEAN["ccms_vlng"]]
+echo $CLEAN["CCMS_insDBPreloadContent"]["about_us_filter"]["meta_keywords"][$CLEAN["ccms_vlng"]]
+echo $CLEAN["CCMS_insDBPreloadContent"]["about_us_filter"]["title"][$CLEAN["ccms_vlng"]]
+echo $CLEAN["CCMS_insDBPreloadContent"]["about_us_filter"]["first_paragraph"][$CLEAN["ccms_vlng"]]
+echo $CLEAN["CCMS_insDBPreloadContent"]["about_us_filter"]["second_paragraph"][$CLEAN["ccms_vlng"]]
+echo $CLEAN["CCMS_insDBPreloadContent"]["footer_filter"]["copywrite"][$CLEAN["ccms_vlng"]]
+echo $CLEAN["CCMS_insDBPreloadContent"]["header_filter"]["title"][$CLEAN["ccms_vlng"]]
+echo $CLEAN["CCMS_insDBPreloadContent"]["twiter_feed_filter"]["title"][$CLEAN["ccms_vlng"]]
+echo $CLEAN["CCMS_insDBPreloadContent"]["twiter_feed_filter"]["tag_top"][$CLEAN["ccms_vlng"]]
+echo $CLEAN["CCMS_insDBPreloadContent"]["twiter_feed_filter"]["tag_bottm"][$CLEAN["ccms_vlng"]]
