@@ -75,6 +75,6 @@ $CFG["GOOGLE_CUSTOM_SEARCH_ENGINE_CODE"] = "";
 $CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] = ""; // Site key
 $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] = ""; // Secret key
 
-// To add Google Credentials so that you can embed things like maps to your site add your key here.
+// To add Google Credentials so that you can embed things like Google Maps to your site add your key here.
 // https://console.cloud.google.com
 $CFG["GOOGLE_CREDENTIALS_KEY"] = "";
