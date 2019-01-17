@@ -171,7 +171,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 						<ol class="boxed">
 							<li>Test your connection to the GitHub servers via ssh:<br>
 								ssh -T git@github.com<br>
-								If successful, type the following commands:</li>
+								If successful, move to the document root folder of your new website and type the following commands:</li>
 							<li>git init</li>
 							<li>git add .</li>
 							<li>git config --global user.email "noreply@<?=$CFG["DOMAIN"];?>"</li>
