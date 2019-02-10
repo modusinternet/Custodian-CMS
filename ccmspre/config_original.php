@@ -67,7 +67,7 @@ $CFG["EMAIL_FROM"] = "";
 $CFG["EMAIL_BOUNCES_RETURNED_TO"] = "";
 
 // To enable Google Custom Search Engine in your error pages enter your CustomSearchControl code here.
-// To get one for your site visit http://www.google.com/cse/
+// To get one for your site visit https://cse.google.com/cse/all
 $CFG["GOOGLE_CUSTOM_SEARCH_ENGINE_CODE"] = "";
 
 // To add Google reCaptcha to your web forms enter your recaptcha keys here.
