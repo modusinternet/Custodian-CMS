@@ -76,5 +76,5 @@ $CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] = ""; // Site key
 $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] = ""; // Secret key
 
 // To add Google Credentials so that you can embed things like Google Maps to your site add your key here.
-// https://console.cloud.google.com
+// https://console.cloud.google.com/apis/credentials?project=cloud-apis
 $CFG["GOOGLE_CREDENTIALS_KEY"] = "";
