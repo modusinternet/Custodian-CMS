@@ -99,7 +99,7 @@ function ccms_user_admin_slider() {
 		</div>
 		<ul id="CCMSlng-list">
 <?php
-$tpl = htmlspecialchars(preg_replace('/^\/([\pL\pN\-]*)\/?(.*)\z/i', '${2}', $_SERVER['REQUEST_URI']));
+$tpl = htmlspecialchars(preg_replace('/^\/([\pL\pN-]*)\/?(.*)\z/i', '${2}', $_SERVER['REQUEST_URI']));
 $qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset` ORDER BY lngDesc ASC;");
 if($qry->execute()) {
 	while($row = $qry->fetch()) {
@@ -472,9 +472,21 @@ function ccms_lng() {
 	echo $CLEAN["ccms_lng"];
 }
 
+function ccms_lng_ret() {
+	/* Used to return a value without submitting it to a template buffer prematurely. */
+	global $CLEAN;
+	return $CLEAN["ccms_lng"];
+}
+
 function ccms_lng_dir() {
 	global $CFG;
 	echo $CFG["CCMS_LNG_DIR"];
+}
+
+function ccms_lng_dir_ret() {
+	/* Used to return a value without submitting it to a template buffer prematurely. */
+	global $CFG;
+	return $CFG["CCMS_LNG_DIR"];
 }
 
 function ccms_token() {
