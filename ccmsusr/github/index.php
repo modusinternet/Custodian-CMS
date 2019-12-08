@@ -81,7 +81,6 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 <? endif ?>
 					<li role="presentation"><a href="#setup" aria-controls="setup" role="tab" data-toggle="tab">Setup</a></li>
 				</ul>
-
 				<!-- Tab panes -->
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="status">
