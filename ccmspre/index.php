@@ -172,9 +172,24 @@ function CCMS_Set_LNG() {
 		$CFG["lngCodeActiveFlag"] = true;
 	}
 
-	setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + ($CFG["COOKIE_SESSION_EXPIRE"] * 60), "/", "", 0, 0);
+	//setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + ($CFG["COOKIE_SESSION_EXPIRE"] * 60), "/", "", 0, 0);
 	// 259200 = 3 days of secconds based on 60*60*24*3
 	// setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + 259200, "/", "", 0, 0);
+
+	// This fix adds the 'samesite=strict' attribute to cookies to protect it from cross site scripting button
+	// it does is in one of two different ways depending on your version of PHP.
+	if(PHP_VERSION_ID < 70300) {
+		setcookie("ccms_lng", $CLEAN["ccms_lng"], time() + ($CFG["COOKIE_SESSION_EXPIRE"] * 60), "/; samesite=strict", "", 0, 0);
+	} else {
+		setcookie("ccms_lng", $CLEAN["ccms_lng"], [
+			'expires' => time() + ($CFG["COOKIE_SESSION_EXPIRE"] * 60),
+			'path' => "/",
+			'domain' => $CFG["DOMAIN"],
+			'samesite' => "strict",
+			'secure' => 0,
+			'httponly' => 0,
+		]);
+	}
 }
 
 
@@ -232,7 +247,22 @@ function CCMS_cookie_SESSION() {
 				$b = $a;
 				$a = md5($a);
 				$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
-				setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+				//setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+
+				// This fix adds the 'samesite=strict' attribute to cookies to protect it from cross site scripting button
+				// it does is in one of two different ways depending on your version of PHP.
+				if(PHP_VERSION_ID < 70300) {
+					setcookie("ccms_session", $a, $c, "/; samesite=strict", "", 0, 0);
+				} else {
+					setcookie("ccms_session", $a, [
+						'expires' => $c,
+						'path' => "/",
+						'domain' => $CFG["DOMAIN"],
+						'samesite' => "strict",
+						'secure' => 0,
+						'httponly' => 0,
+					]);
+				}
 
 				$CLEAN["SESSION"]["code"] = $a;
 				$CLEAN["SESSION"]["first"] = $b;
@@ -250,7 +280,22 @@ function CCMS_cookie_SESSION() {
 				$b = $a;
 				$a = md5($a);
 				$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
-				setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+				//setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+
+				// This fix adds the 'samesite=strict' attribute to cookies to protect it from cross site scripting button
+				// it does is in one of two different ways depending on your version of PHP.
+				if(PHP_VERSION_ID < 70300) {
+					setcookie("ccms_session", $a, $c, "/; samesite=strict", "", 0, 0);
+				} else {
+					setcookie("ccms_session", $a, [
+						'expires' => $c,
+						'path' => "/",
+						'domain' => $CFG["DOMAIN"],
+						'samesite' => "strict",
+						'secure' => 0,
+						'httponly' => 0,
+					]);
+				}
 
 				$CLEAN["SESSION"]["code"] = $a;
 				$CLEAN["SESSION"]["first"] = $row["first"];
@@ -275,7 +320,22 @@ function CCMS_cookie_SESSION() {
 			$b = $a;
 			$a = md5($a);
 			$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
-			setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+			//setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+
+			// This fix adds the 'samesite=strict' attribute to cookies to protect it from cross site scripting button
+			// it does is in one of two different ways depending on your version of PHP.
+			if(PHP_VERSION_ID < 70300) {
+				setcookie("ccms_session", $a, $c, "/; samesite=strict", "", 0, 0);
+			} else {
+				setcookie("ccms_session", $a, [
+					'expires' => $c,
+					'path' => "/",
+					'domain' => $CFG["DOMAIN"],
+					'samesite' => "strict",
+					'secure' => 0,
+					'httponly' => 0,
+				]);
+			}
 
 			$CLEAN["SESSION"]["code"] = $a;
 			$CLEAN["SESSION"]["first"] = $b;
@@ -300,7 +360,22 @@ function CCMS_cookie_SESSION() {
 		$b = $a;
 		$a = md5($a);
 		$c = $b + ($CFG["COOKIE_SESSION_EXPIRE"] * 60);
-		setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+		//setcookie("ccms_session", $a, $c, "/", "", 0, 0);
+
+		// This fix adds the 'samesite=strict' attribute to cookies to protect it from cross site scripting button
+		// it does is in one of two different ways depending on your version of PHP.
+		if(PHP_VERSION_ID < 70300) {
+			setcookie("ccms_session", $a, $c, "/; samesite=strict", "", 0, 0);
+		} else {
+			setcookie("ccms_session", $a, [
+				'expires' => $c,
+				'path' => "/",
+				'domain' => $CFG["DOMAIN"],
+				'samesite' => "strict",
+				'secure' => 0,
+				'httponly' => 0,
+			]);
+		}
 
 		$CLEAN["SESSION"]["code"] = $a;
 		$CLEAN["SESSION"]["first"] = $b;
