@@ -61,6 +61,55 @@ function ccms_hrefLang_list() {
 	}
 }
 
+function ccms_lngList() {
+	global $CFG, $CLEAN;
+	// this line of code produces the wrong output on GoDaddy servers.
+	//$tpl = htmlspecialchars(preg_replace('/^\/([\pL\pN-]*)\/?(.*)\z/i', '${2}', $_SERVER['REDIRECT_URL']));
+	$tpl = htmlspecialchars(preg_replace('/^\/([\pL\pN-]*)\/?(.*)\z/i', '${2}', $_SERVER['REQUEST_URI']));
+	$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset` WHERE `status` = 1 ORDER BY lngDesc ASC;");
+	if($qry->execute()) {
+		while($row = $qry->fetch()) {
+			if($row["ptrLng"]) {
+				echo "<li id=\"lng-" . $row["lng"] . "\"><a href=\"/" . $row["ptrLng"] . "/" . $tpl . "\">" . $row["lngDesc"] . "</a></li>\n";
+			} else {
+				echo "<li id=\"lng-" . $row["lng"] . "\"><a href=\"/" . $row["lng"] . "/" . $tpl . "\">" . $row["lngDesc"] . "</a></li>\n";
+			}
+		}
+	}
+}
+
+function ccms_canonical() {
+	global $CFG, $CLEAN;
+
+	// Only use this feature on the homepage to help prevent dupicate indexing attempts
+	// by search engines when dealing with language dir.
+	// ie:
+	// https://yourdomain.com
+	// vs
+	// https://yourdomain.com/en/
+	//
+	// Both would contain the same content so we want Google to not index the normal domain, an index the one containing the /en/ dir instead.
+	// The reason for this is, depending on what language page your currently viewing a site in, (eg: /en/, /fr/, /sp/). the root page
+	// content will look exactly the same, when using CustodianCMS, as the one found in the language specific sub dir.
+	// ie:
+	// https://somedomain.com and https://somedomain.com/cx/
+	//
+	// We need to tell search engines not to index the content on the https://somedomain.com but go ahead and index the content on the
+	// https://somedomain.com/cx/ page.
+
+	if($_SERVER['REQUEST_URI'] === "/"){
+		// if the visitor is looking at the root of the website WITHOUT the language dir.
+		// ie: https://yourdomain.com
+		echo '<meta name="robots" content="noindex" />';
+		echo '<link rel="canonical" href="' . $_SERVER['REQUEST_SCHEME'] . "://" . $CFG["DOMAIN"] . "/" . $CLEAN["ccms_lng"] . '/" />';
+	} else {
+		// if the visitor is looking at the root of the website WITH the language dir.
+		// ie: https://yourdomain.com/en/
+		echo '<link rel="canonical" href="' . $_SERVER['REQUEST_SCHEME'] . "://" . $CFG["DOMAIN"] . $_SERVER['REQUEST_URI'] . '" />';
+	}
+}
+
+
 function ccms_user_admin_slider() {
 	global $CFG, $CLEAN;
 	$qry = $CFG["DBH"]->prepare("SELECT b.alias, b.priv FROM `ccms_session` AS a INNER JOIN `ccms_user` AS b On b.id = a.user_id WHERE a.code = :code AND a.ip = :ip AND b.status = '1' LIMIT 1;");

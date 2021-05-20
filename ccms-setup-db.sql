@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 13, 2019 at 05:58 AM
--- Server version: 5.7.28
+-- Generation Time: Dec 04, 2020 at 08:04 PM
+-- Server version: 5.7.32
 -- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -17,6 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `modusint_ccms_dev`
+--
 
 -- --------------------------------------------------------
 
@@ -45,9 +49,10 @@ INSERT INTO `ccms_blacklist` (`id`, `data`) VALUES
 
 CREATE TABLE `ccms_cache` (
   `id` int(11) NOT NULL,
-  `url_md5` char(32) CHARACTER SET ascii NOT NULL,
   `url` varchar(512) NOT NULL,
+  `date` int(20) NOT NULL,
   `exp` int(20) NOT NULL,
+  `csp` varchar(2048) NOT NULL COMMENT 'content security policy',
   `content` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -123,68 +128,82 @@ CREATE TABLE `ccms_lng_charset` (
 --
 
 INSERT INTO `ccms_lng_charset` (`id`, `lngDesc`, `status`, `lng`, `default`, `dir`, `ptrLng`) VALUES
-(1, 'العربية (Arabic)', 1, 'ar', 0, 'rtl', ''),
-(2, 'বাঙ্গালী (Bengali)', 1, 'bn', 0, 'ltr', ''),
-(3, 'Deutsch (German)', 1, 'de', 0, 'ltr', ''),
-(4, 'Deutsch (Austria)', 0, 'de-at', 0, '', 'de'),
-(5, 'Deutsch (Switzerland)', 0, 'de-ch', 0, '', 'de'),
-(6, 'Deutsch (Germany)', 0, 'de-de', 0, '', 'de'),
-(7, 'Deutsch (Liechtenstein)', 0, 'de-li', 0, '', 'de'),
-(8, 'Deutsch (Luxembourg)', 0, 'de-lu', 0, '', 'de'),
-(9, 'English', 1, 'en', 1, 'ltr', ''),
-(10, 'English (Australia)', 0, 'en-au', 0, '', 'en'),
-(11, 'English (Belize)', 0, 'en-bz', 0, '', 'en'),
-(12, 'English (Canada)', 0, 'en-ca', 0, '', 'en'),
-(13, 'English (United Kingdom)', 0, 'en-gb', 0, '', 'en'),
-(14, 'English (Ireland)', 0, 'en-ie', 0, '', 'en'),
-(15, 'English (Jamaica)', 0, 'en-jm', 0, '', 'en'),
-(16, 'English (New Zealand)', 0, 'en-nz', 0, '', 'en'),
-(17, 'English (Philippines)', 0, 'en-ph', 0, '', 'en'),
-(18, 'English (Trinidad and Tobago)', 0, 'en-tt', 0, '', 'en'),
-(19, 'English (United States)', 0, 'en-us', 0, '', 'en'),
-(20, 'English (South Africa)', 0, 'en-za', 0, '', 'en'),
-(21, 'English (Zimbabwe)', 0, 'en-zw', 0, '', 'en'),
-(22, 'Español (Spanish)', 1, 'es', 0, 'ltr', ''),
-(23, 'Español (Argentina)', 0, 'es-ar', 0, '', 'es'),
-(24, 'Español (Bolivia)', 0, 'es-bo', 0, '', 'es'),
-(25, 'Español (Chile)', 0, 'es-cl', 0, '', 'es'),
-(26, 'Español (Colombia)', 0, 'es-co', 0, '', 'es'),
-(27, 'Español (Costa Rica)', 0, 'es-cr', 0, '', 'es'),
-(28, 'Español (Dominican Republic)', 0, 'es-do', 0, '', 'es'),
-(29, 'Español (Ecuador)', 0, 'es-ec', 0, '', 'es'),
-(30, 'Español (Spain)', 0, 'es-es', 0, '', 'es'),
-(31, 'Español (Guatemala)', 0, 'es-gt', 0, '', 'es'),
-(32, 'Español (Honduras)', 0, 'es-hn', 0, '', 'es'),
-(33, 'Español (Mexico)', 0, 'es-mx', 0, '', 'es'),
-(34, 'Español (Nicaragua)', 0, 'es-ni', 0, '', 'es'),
-(35, 'Español (Panama)', 0, 'es-pa', 0, '', 'es'),
-(36, 'Español (Peru)', 0, 'es-pe', 0, '', 'es'),
-(37, 'Español (Paraguay)', 0, 'es-py', 0, '', 'es'),
-(38, 'Español (Puerto Rico)', 0, 'es-pr', 0, '', 'es'),
-(39, 'Español (El Salvador)', 0, 'es-sv', 0, '', 'es'),
-(40, 'Español (Uruguay)', 0, 'es-uy', 0, '', 'es'),
-(41, 'Español (Venezuela)', 0, 'es-ve', 0, '', 'es'),
-(42, 'Français (French)', 1, 'fr', 0, 'ltr', ''),
-(43, 'Français (Belgium)', 0, 'fr-be', 0, '', 'fr'),
-(44, 'Français (Canada)', 0, 'fr-ca', 0, '', 'fr'),
-(45, 'Français (Switzerland)', 0, 'fr-ch', 0, '', 'fr'),
-(46, 'Français (France)', 0, 'fr-fr', 0, '', 'fr'),
-(47, 'Français (Luxembourg)', 0, 'fr-lu', 0, '', 'fr'),
-(48, 'Français (Monaco)', 0, 'fr-mc', 0, '', 'fr'),
-(49, 'עברית (Hebrew)', 1, 'he', 0, 'rtl', ''),
-(50, 'हिन्दी (Hindi)', 1, 'hi', 0, 'ltr', ''),
-(51, '日本語 (Japanese)', 1, 'ja', 0, 'ltr', ''),
-(52, '한국어 (Korean)', 1, 'ko', 0, 'ltr', ''),
-(53, '한국어, 북한 (Korean, North)', 0, 'ko-kp', 0, 'ltr', 'ko'),
-(54, '한국어, 한국 (Korean, South)', 0, 'ko-kr', 0, 'ltr', 'ko'),
-(55, 'Melayu Indonesia (Malay Indonesian)', 1, 'ms', 0, 'ltr', ''),
-(56, 'Norwegian (Bokmal)', 0, 'nb-no', 0, 'ltr', ''),
-(57, 'Português (Portuguese)', 1, 'pt', 0, 'ltr', ''),
-(58, 'Pусский (Russian)', 0, 'ru', 0, 'ltr', ''),
-(59, 'Tiếng Việt (Vietnamese)', 1, 'vi', 0, 'ltr', ''),
-(60, '中国 (Chinese)', 0, 'zh', 0, '', 'zh-cn'),
-(61, '中文 (Chinese, Simplified)', 1, 'zh-cn', 0, 'ltr', ''),
-(62, '中文 (Chinese,Traditional)', 0, 'zh-tw', 0, '', 'zh-cn');
+(1, 'Deutsch (German)', 1, 'de', 0, 'ltr', ''),
+(2, 'Deutsch (Austria)', 0, 'de-at', 0, '', 'de'),
+(3, 'Deutsch (Germany)', 0, 'de-de', 0, '', 'de'),
+(4, 'Deutsch (Liechtenstein)', 0, 'de-li', 0, '', 'de'),
+(5, 'Deutsch (Luxembourg)', 0, 'de-lu', 0, '', 'de'),
+(6, 'Deutsch (Switzerland)', 0, 'de-ch', 0, '', 'de'),
+(7, 'English', 1, 'en', 1, 'ltr', ''),
+(8, 'English (Australia)', 0, 'en-au', 0, '', 'en'),
+(9, 'English (Belize)', 0, 'en-bz', 0, '', 'en'),
+(10, 'English (Canada)', 0, 'en-ca', 0, '', 'en'),
+(11, 'English (Ireland)', 0, 'en-ie', 0, '', 'en'),
+(12, 'English (Jamaica)', 0, 'en-jm', 0, '', 'en'),
+(13, 'English (New Zealand)', 0, 'en-nz', 0, '', 'en'),
+(14, 'English (Philippines)', 0, 'en-ph', 0, '', 'en'),
+(15, 'English (South Africa)', 0, 'en-za', 0, '', 'en'),
+(16, 'English (Trinidad and Tobago)', 0, 'en-tt', 0, '', 'en'),
+(17, 'English (United Kingdom)', 0, 'en-gb', 0, '', 'en'),
+(18, 'English (United States)', 0, 'en-us', 0, '', 'en'),
+(19, 'English (Zimbabwe)', 0, 'en-zw', 0, '', 'en'),
+(20, 'Español (Spanish)', 1, 'es', 0, 'ltr', ''),
+(21, 'Español (Argentina)', 0, 'es-ar', 0, '', 'es'),
+(22, 'Español (Bolivia)', 0, 'es-bo', 0, '', 'es'),
+(23, 'Español (Chile)', 0, 'es-cl', 0, '', 'es'),
+(24, 'Español (Colombia)', 0, 'es-co', 0, '', 'es'),
+(25, 'Español (Costa Rica)', 0, 'es-cr', 0, '', 'es'),
+(26, 'Español (Dominican Republic)', 0, 'es-do', 0, '', 'es'),
+(27, 'Español (Ecuador)', 0, 'es-ec', 0, '', 'es'),
+(28, 'Español (El Salvador)', 0, 'es-sv', 0, '', 'es'),
+(29, 'Español (Guatemala)', 0, 'es-gt', 0, '', 'es'),
+(30, 'Español (Honduras)', 0, 'es-hn', 0, '', 'es'),
+(31, 'Español (Mexico)', 0, 'es-mx', 0, '', 'es'),
+(32, 'Español (Nicaragua)', 0, 'es-ni', 0, '', 'es'),
+(33, 'Español (Panama)', 0, 'es-pa', 0, '', 'es'),
+(34, 'Español (Paraguay)', 0, 'es-py', 0, '', 'es'),
+(35, 'Español (Peru)', 0, 'es-pe', 0, '', 'es'),
+(36, 'Español (Puerto Rico)', 0, 'es-pr', 0, '', 'es'),
+(37, 'Español (Spain)', 0, 'es-es', 0, '', 'es'),
+(38, 'Español (Uruguay)', 0, 'es-uy', 0, '', 'es'),
+(39, 'Español (Venezuela)', 0, 'es-ve', 0, '', 'es'),
+(40, 'Français (French)', 1, 'fr', 0, 'ltr', ''),
+(41, 'Français (Belgium)', 0, 'fr-be', 0, '', 'fr'),
+(42, 'Français (Canada)', 0, 'fr-ca', 0, '', 'fr'),
+(43, 'Français (France)', 0, 'fr-fr', 0, '', 'fr'),
+(44, 'Français (Luxembourg)', 0, 'fr-lu', 0, '', 'fr'),
+(45, 'Français (Monaco)', 0, 'fr-mc', 0, '', 'fr'),
+(46, 'Français (Switzerland)', 0, 'fr-ch', 0, '', 'fr'),
+(47, 'Melayu Indonesia (Malay Indonesian)', 1, 'ms', 0, 'ltr', ''),
+(48, 'Português (Portuguese)', 1, 'pt', 0, 'ltr', ''),
+(49, 'العربية (Arabic)', 1, 'ar', 0, 'rtl', ''),
+(50, 'বাঙ্গালী (Bengali)', 1, 'bn', 0, 'ltr', ''),
+(51, 'Pусский (Russian)', 0, 'ru', 0, 'ltr', ''),
+(52, 'हिन्दी (Hindi)', 1, 'hi', 0, 'ltr', ''),
+(53, '日本語 (Japanese)', 1, 'ja', 0, 'ltr', ''),
+(54, '中国 (Chinese)', 0, 'zh', 0, '', 'zh-cn'),
+(55, '中文 (Chinese, Simplified)', 1, 'zh-cn', 0, 'ltr', ''),
+(56, '中文 (Chinese,Traditional)', 0, 'zh-tw', 0, '', 'zh-cn'),
+(57, 'עברית (Hebrew)', 1, 'he', 0, 'rtl', ''),
+(59, 'Norwegian (Bokmal)', 0, 'nb-no', 0, 'ltr', ''),
+(60, '한국어 (Korean)', 1, 'ko', 0, 'ltr', ''),
+(61, '한국어, 북한 (Korean, North)', 0, 'ko-kp', 0, 'ltr', 'ko'),
+(62, '한국어, 한국 (Korean, South)', 0, 'ko-kr', 0, 'ltr', 'ko'),
+(63, 'Tiếng Việt (Vietnamese)', 1, 'vi', 0, 'ltr', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ccms_log`
+--
+
+CREATE TABLE `ccms_log` (
+  `id` int(11) NOT NULL,
+  `date` int(20) NOT NULL,
+  `ip` char(16) NOT NULL,
+  `url` varchar(512) NOT NULL,
+  `log` varchar(1024) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Records saved here contain details related to possible session highjacking attempts.';
 
 -- --------------------------------------------------------
 
@@ -249,8 +268,7 @@ ALTER TABLE `ccms_blacklist`
 -- Indexes for table `ccms_cache`
 --
 ALTER TABLE `ccms_cache`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `url_index` (`url_md5`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `ccms_ins_db`
@@ -266,11 +284,16 @@ ALTER TABLE `ccms_lng_charset`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ccms_log`
+--
+ALTER TABLE `ccms_log`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ccms_session`
 --
 ALTER TABLE `ccms_session`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `visitorsID` (`code`(250));
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `ccms_user`
@@ -305,7 +328,13 @@ ALTER TABLE `ccms_ins_db`
 -- AUTO_INCREMENT for table `ccms_lng_charset`
 --
 ALTER TABLE `ccms_lng_charset`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- AUTO_INCREMENT for table `ccms_log`
+--
+ALTER TABLE `ccms_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ccms_session`

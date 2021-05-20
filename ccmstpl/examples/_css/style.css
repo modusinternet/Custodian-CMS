@@ -1,0 +1,157 @@
+a, a:visited{
+	border:0px none;
+	color:var(--cl3);
+	outline:0px;
+	text-decoration:underline;
+}
+
+a:hover,a:focus{text-decoration-style:double}
+
+li.active>a{
+	font-weight:400;
+	text-decoration-style:double
+}
+
+h1,h2,h3,h4,h5,h6{
+	color:var(--cl2);
+	font-family:"Roboto",sans-serif;
+	font-weight:100;
+	margin:50px 0 20px
+}
+
+h1{
+	font-size:4.4rem;
+	line-height:5rem
+}
+
+h2{
+	font-size:3.6rem;
+	line-height:4.6rem
+}
+
+h3{
+	font-size:3rem;
+	line-height:4.2rem
+}
+
+h4{
+	font-size:2.4rem;
+	line-height:3.8rem
+}
+
+h5{
+	font-size:1.8rem;
+	line-height:3.4rem
+}
+
+h6{
+	font-size:1.2rem;
+	line-height:2.8rem
+}
+
+img{
+	filter:drop-shadow(2px 2px 4px rgba(0,0,0,.4));
+	margin-bottom:20px;
+	opacity:1;
+	transition:all 2.0s ease-in-out
+}
+
+img.lazy{opacity:0;}
+
+input{
+	font-family:sans-serif;
+	font-size:1.6rem
+}
+
+input[type="search"]::-ms-clear,
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration{display:none}
+
+ol,ul{
+	list-style:none;
+	margin-bottom:30px
+}
+
+p{margin-bottom:20px}
+
+pre{
+	border:dotted 1px var(--cl3);
+	color:var(--cl3);
+	font:300 2.6rem/3.5rem "Open Sans",sans-serif;
+	margin-bottom:20px;
+	overflow:auto;
+	padding:10px
+}
+
+ul{list-style:none}
+
+ul.circle{
+	list-style:circle outside;
+	margin-left:30px
+}
+
+svg path{fill:var(--cl3)}
+
+.b-lazy{
+	-webkit-transition:opacity 500ms ease-in-out;
+	-moz-transition:opacity 500ms ease-in-out;
+	-o-transition:opacity 500ms ease-in-out;
+	transition:opacity 500ms ease-in-out;
+	max-width:100%;
+	opacity:0
+}
+
+.b-loaded{opacity:1}
+
+.oj,ul.oj>li{color:var(--cl3)}
+
+/* Add to Home Screen (A2HS) START */
+#A2HS-box{
+	left:0;
+	margin:0 auto;
+	max-width:400px;
+	position:fixed;
+	right:0;
+	top:-300px;
+	transition:all 2s;
+	z-index:var(--z-index-A2HS-box)
+}
+
+#A2HS-box.active{top:0}
+
+#A2HS-box>div{
+	box-shadow:0 0 20px 3px rgba(0,0,0,.22);
+	background:#fff;
+	padding:20px;
+	position:relative;
+	max-width:430px;
+	width:auto
+}
+
+#A2HS-box>div:nth-child(2){text-align:right}
+
+#A2HS-box>div img{
+	float:left;
+	margin-right:10px;
+	width:75px
+}
+
+#A2HS-box>div>button{
+	background:#fff;
+	border:none;
+	box-shadow:none;
+	color:#1165f1;
+	padding:1rem 2rem;
+	cursor:pointer
+}
+
+#A2HS-box>div>button:nth-child(2){
+	background:#1165f1;
+	box-shadow:0 2px 5px 0 rgba(0,0,0,.16), 0 2px 6px 0 rgba(0,0,0,.12);
+	color:#fff
+}
+
+#A2HS-box svg{width:100px}
+/* Add to Home Screen (A2HS) END */
