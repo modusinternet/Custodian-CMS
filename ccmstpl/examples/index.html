@@ -19,25 +19,25 @@
 		<meta name="twitter:description" content="{CCMS_DB:index,description}" />
 
 		<script type="application/ld+json">
-		[
-			{
-				"@context":"https://schema.org",
-				"@type":"WebSite",
-				"name":"{CCMS_DB:all,company-name}",
-				"url":"https://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/{CCMS_LIB:_default.php;FUNC:ccms_lng}/",
-				"alternateName":"{CCMS_DB:all,company-name} | {CCMS_DB:index,title}"
-			},{
-				"@context":"https://schema.org",
-				"@type":"Organization",
-				"name":"{CCMS_DB:all,company-name}",
-				"description":"{CCMS_DB:index,description}",
-				"url":"https://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/{CCMS_LIB:_default.php;FUNC:ccms_lng}/",
-				"logo":{
-					"@type":"ImageObject",
-					"url":"/ccmstpl/examples/_img/logo1.png"
-				}{CCMS_TPL:/examples/schema.html}
-			}
-		]
+			[
+				{
+					"@context":"https://schema.org",
+					"@type":"WebSite",
+					"name":"{CCMS_DB:all,company-name}",
+					"url":"https://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/{CCMS_LIB:_default.php;FUNC:ccms_lng}/",
+					"alternateName":"{CCMS_DB:all,company-name} | {CCMS_DB:index,title}"
+				},{
+					"@context":"https://schema.org",
+					"@type":"Organization",
+					"name":"{CCMS_DB:all,company-name}",
+					"description":"{CCMS_DB:index,description}",
+					"url":"https://{CCMS_LIB:_default.php;FUNC:ccms_cfgDomain}/{CCMS_LIB:_default.php;FUNC:ccms_lng}/",
+					"logo":{
+						"@type":"ImageObject",
+						"url":"/ccmstpl/examples/_img/logo1.png"
+					}{CCMS_TPL:/examples/schema.html}
+				}
+			]
 		</script>
 		<style>
 			{CCMS_TPL:/examples/_css/header.html}
@@ -128,22 +128,6 @@
 		</ul>
 		<p>Once you have chosen the name of your primary index page you can either re-write the name of this template to match or create a new one and place it in the <span class="oj">/ccmstpl/</span> folder.</p>
 		<p><span class="oj">NOTE:</span> You do not need to specify the extension of the file in the config, CCMS will attempt to figure this out on it's own.  Here are the extensions it will look for and in what order. (<span class="oj">.php, .html</span>)  In the case of .php templates it is parsed by PHP first and the CCMS parser second.  In the case of .html they are only parsed using the CCMS parser.</p>
-		<h2>Security Tip</h2>
-		<p>The <span class="oj">/ccmslib/</span>, <span class="oj">/ccmspre/</span> and <span class="oj">/ccmstpl/</span> folders are protected by <span class="oj">.htaccess</span>.</p>
-<pre style="overflow-x: auto;">
-&lt;FilesMatch ".(fla|htaccess|html|ini|php)$"&gt;
-	Order Allow,Deny
-	Deny from all
-&lt;/FilesMatch&gt;
-</pre>
-		<p>Templates in these folders, and their subfolders, cannot be called directly.  Templates inside the <span class="oj">/ccmstpl/</span> folder can only be called using correctly formatted URI's containing browser language codes supported by the site.  Other wise the <span class="oj">/ccmstpl/error404.php</span> template will be thrown.  A 2-5 character language code followed by the <span class="oj">1-1024</span> character long name of the dir and or page desired.</p>
-		e.g.:
-		<ul class="oj">
-			<li>abc.com/en/page1.html</li>
-			<li>abc.com/en-us/apples</li>
-			<li>abc.com/fr/fruit/oranges/</li>
-			<li>abc.com/zh-cn/fruit/water-melons.html</li>
-		</ul>
 		<h2>Parser Tip</h2>
 		<p>Templates can have 1 of 2 possible extensions, <span class="oj">.html</span> or <span class="oj">.php</span>.  HTML templates are parsed by the CCMS parser before returning output to the browser and automatically have a header of <span class="oj">Content-Type: text/html</span> attached.  PHP templates are parsed by the PHP parser first and the CCMS parser second.  No header is auto attached in the case of <span class="oj">.php</span> templates, allowing developers to set this to whatever they choose.</p>
 		<p>The CCMS parser looks for 5 possible CCMS tags when parsing templates.</p>
