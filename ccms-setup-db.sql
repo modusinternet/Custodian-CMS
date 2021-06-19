@@ -1,38 +1,15 @@
--- phpMyAdmin SQL Dump
--- version 4.9.5
--- https://www.phpmyadmin.net/
---
--- Host: localhost:3306
--- Generation Time: Dec 04, 2020 at 08:04 PM
--- Server version: 5.7.32
--- PHP Version: 7.3.6
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `modusint_ccms_dev`
---
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `ccms_blacklist`
 --
-
 CREATE TABLE `ccms_blacklist` (
   `id` int(11) NOT NULL,
   `data` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
 --
 -- Dumping data for table `ccms_blacklist`
 --
@@ -40,13 +17,10 @@ CREATE TABLE `ccms_blacklist` (
 INSERT INTO `ccms_blacklist` (`id`, `data`) VALUES
 (1, ''),
 (2, 'viagra|v.i.a.g.r.a|v-i-a-g-r-a|cialis|c.i.a.l.i.s|c-i-a-l-i-s');
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `ccms_cache`
 --
-
 CREATE TABLE `ccms_cache` (
   `id` int(11) NOT NULL,
   `url` varchar(512) NOT NULL,
@@ -55,13 +29,10 @@ CREATE TABLE `ccms_cache` (
   `csp` varchar(2048) NOT NULL COMMENT 'content security policy',
   `content` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `ccms_ins_db`
 --
-
 CREATE TABLE `ccms_ins_db` (
   `id` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
@@ -86,11 +57,9 @@ CREATE TABLE `ccms_ins_db` (
   `zh-cn` text NOT NULL,
   `zh-tw` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
 --
 -- Dumping data for table `ccms_ins_db`
 --
-
 INSERT INTO `ccms_ins_db` (`id`, `status`, `access`, `grp`, `name`, `ar`, `bn`, `de`, `en`, `es`, `fr`, `he`, `hi`, `ja`, `ko`, `ms`, `nb-no`, `pt`, `ru`, `vi`, `zh-cn`, `zh-tw`) VALUES
 (1, 1, 0, 'index', 'para1', 'ويقفز الثعلب البني السريع فوق الكلب الكسول.', '', 'Der schnelle braune Fuchs springt über den faulen Hund.', 'The quick brown fox jumped over the lazy dog.', 'El rápido zorro marrón salta sobre el perro perezoso.', 'Le brun rapide le renard saute sur le chien paresseux.', '', '', '速い茶色のキツネは怠け者の犬を跳び越えます。', '빠른 갈색 여우가 게으른 개 위로 뛰어 들었다.', '', '', '', '', 'Con cáo nâu nhanh nhẹn nhảy qua thân con chó lười.', '那只敏捷的棕毛狐狸跃过那只懒狗。', ''),
 (2, 1, 0, 'index', 'para2', '', '', 'Wenn Zombies ankommen, schnell Richter Pat faxen.', 'When zombies arrive, quickly fax judge Pat.', 'Cuando llegan los zombis, de forma rápida Fax juzgar Pat.', 'Quand les zombies arrivent, faxent rapidement le juge Pat.', 'כאשר זומבים מגיעים, במהירו', '', 'ゾンビが到着するとき、速くパット裁判官にファクスで送ってください。', '좀비가 도착하면 Pat.', '', '', '', '', 'Khi zombie đến, nhanh chóng fax thẩm phán Pat.', '僵尸到达时,快速传真法官英保通™技术。', ''),
@@ -105,14 +74,12 @@ INSERT INTO `ccms_ins_db` (`id`, `status`, `access`, `grp`, `name`, `ar`, `bn`, 
 (13, 1, 0, 'all', 'login3', 'تسجيل خروج', 'ত্যাগ করুন', 'Abmelden', 'Logout', 'Cerrar sesión', 'Se déconnecter', 'להתנתק', 'लॉग आउट', 'ログアウト', '', 'പുറത്തിറങ്ങുക', '', 'Deslogar', 'Выйти', '', '登出', '註銷'),
 (14, 1, 0, 'all', 'login1', 'تسجيل الدخول', 'লগইন', 'Einloggen', 'Login', 'Iniciar sesión', 'S\'identifier', 'התחבר', 'लॉग इन करें', 'ログイン', '', 'Log masuk', '', 'Conecte-se', 'Авторизоваться', '', '登录', '註冊'),
 (16, 1, 0, 'all', 'cookie-button', 'استمر', '', 'Fortsetzen', 'Continue', '', 'Continuer', 'לְהַמשִׁיך', 'जारी रहना', '持続する', '', '', '', '', '', '', '继续', ''),
-(17, 1, 0, 'all', 'cookie-text', 'هذا الموقع يستخدم الكوكيز لإدارة تفضيلات اللغة، استمرار الدورة وتساعد على توفير لكم مع أفضل تجربة ممكنة أثناء زيارتك.', '', 'Diese Website verwendet Cookies, um die Spracheinstellungen, die Beharrlichkeit der Sitzung zu verwalten und Ihnen die bestmögliche Erfahrung während Ihres Besuchs zur Verfügung zu stellen.', 'This website uses cookies to manage language preferences, session persistence and help provide you with the best possible experience during your visit.', 'Este sitio web utiliza cookies para gestionar las preferencias de idioma, la persistencia de las sesiones y ayudarle a proporcionarle la mejor experiencia posible durante su visita.', 'Ce site Web utilise des cookies pour gérer les préférences linguistiques, la persistance des sessions et vous aider à vous offrir la meilleure expérience possible pendant votre visite.', 'אתר זה משתמש בעוגיות כדי לנהל את העדפות שפה, התמדה מושבת ולעזור לספק לך את החוויה הטובה ביותר האפשרית במהלך הביקור שלך.', 'इस वेबसाइट कुकीज़ का उपयोग करता भाषा प्राथमिकताओं, सत्र हठ का प्रबंधन और अपनी यात्रा के दौरान सबसे अच्छा संभव अनुभव प्रदान करने के लिए मदद।', 'このウェブサイトでは、クッキーを使用して言語設定、セッションの永続性を管理し、訪問中の最高のエクスペリエンスを提供しています。', '', '', '', '', '', '', '本网站使用cookies来管理语言偏好，会话持续性，并帮助您在访问期间提供最好的体验。', '');
-
+(17, 1, 0, 'all', 'cookie-text', 'هذا الموقع يستخدم الكوكيز لإدارة تفضيلات اللغة، استمرار الدورة وتساعد على توفير لكم مع أفضل تجربة ممكنة أثناء زيارتك.', '', 'Diese Website verwendet Cookies, um die Spracheinstellungen, die Beharrlichkeit der Sitzung zu verwalten und Ihnen die bestmögliche Erfahrung während Ihres Besuchs zur Verfügung zu stellen.', 'This website uses cookies to manage language preferences, session persistence and help provide you with the best possible experience during your visit.', 'Este sitio web utiliza cookies para gestionar las preferencias de idioma, la persistencia de las sesiones y ayudarle a proporcionarle la mejor experiencia posible durante su visita.', 'Ce site Web utilise des cookies pour gérer les préférences linguistiques, la persistance des sessions et vous aider à vous offrir la meilleure expérience possible pendant votre visite.', 'אתר זה משתמש בעוגיות כדי לנהל את העדפות שפה, התמדה מושבת ולעזור לספק לך את החוויה הטובה ביותר האפשרית במהלך הביקור שלך.', 'इस वेबसाइट कुकीज़ का उपयोग करता भाषा प्राथमिकताओं, सत्र हठ का प्रबंधन और अपनी यात्रा के दौरान सबसे अच्छा संभव अनुभव प्रदान करने के लिए मदद।', 'このウェブサイトでは、クッキーを使用して言語設定、セッションの永続性を管理し、訪問中の最高のエクスペリエンスを提供しています。', '', '', '', '', '', '', '本网站使用cookies来管理语言偏好，会话持续性，并帮助您在访问期间提供最好的体验。', ''),
+(18, 1, 0, 'index', 'description', 'ضع وصف موقعك والخدمات هنا.', 'আপনার সাইট এবং পরিষেবাদির বিবরণ এখানে রাখুন।', 'Platzieren Sie hier Ihre Website- und Servicebeschreibung.', 'Place your site and services description here.', 'Coloque aquí la descripción de su sitio y servicios.', 'Placez votre description de site et de services ici.', 'הצב את תיאור האתר והשירותים שלך כאן.', 'अपनी साइट और सेवाओं का विवरण यहां रखें।', 'ここにサイトとサービスの説明を配置します。', '여기에 사이트 및 서비스 설명을 넣으십시오.', 'Tempatkan deskripsi situs dan layanan Anda di sini.', '', 'Coloque a descrição do seu site e serviços aqui.', 'Разместите здесь описание вашего сайта и услуг.', 'Đặt mô tả trang web và dịch vụ của bạn ở đây.', '将您的站点和服务描述放在这里。', '將您的站點和服務描述放在這裡。');
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `ccms_lng_charset`
 --
-
 CREATE TABLE `ccms_lng_charset` (
   `id` int(11) NOT NULL,
   `lngDesc` char(63) NOT NULL DEFAULT '',
@@ -122,11 +89,9 @@ CREATE TABLE `ccms_lng_charset` (
   `dir` char(3) NOT NULL COMMENT 'Character direction.  ltr = left to right, rtl = right to left',
   `ptrLng` char(5) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
 --
 -- Dumping data for table `ccms_lng_charset`
 --
-
 INSERT INTO `ccms_lng_charset` (`id`, `lngDesc`, `status`, `lng`, `default`, `dir`, `ptrLng`) VALUES
 (1, 'Deutsch (German)', 1, 'de', 0, 'ltr', ''),
 (2, 'Deutsch (Austria)', 0, 'de-at', 0, '', 'de'),
@@ -190,13 +155,10 @@ INSERT INTO `ccms_lng_charset` (`id`, `lngDesc`, `status`, `lng`, `default`, `di
 (61, '한국어, 북한 (Korean, North)', 0, 'ko-kp', 0, 'ltr', 'ko'),
 (62, '한국어, 한국 (Korean, South)', 0, 'ko-kr', 0, 'ltr', 'ko'),
 (63, 'Tiếng Việt (Vietnamese)', 1, 'vi', 0, 'ltr', '');
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `ccms_log`
 --
-
 CREATE TABLE `ccms_log` (
   `id` int(11) NOT NULL,
   `date` int(20) NOT NULL,
@@ -204,13 +166,10 @@ CREATE TABLE `ccms_log` (
   `url` varchar(512) NOT NULL,
   `log` varchar(1024) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Records saved here contain details related to possible session highjacking attempts.';
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `ccms_session`
 --
-
 CREATE TABLE `ccms_session` (
   `id` int(11) NOT NULL,
   `code` varchar(255) NOT NULL,
@@ -223,13 +182,10 @@ CREATE TABLE `ccms_session` (
   `user_agent` varchar(255) NOT NULL,
   `prf` tinyint(1) DEFAULT NULL COMMENT 'Password Reset Flag'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Session information to help keep track of visitors.';
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `ccms_user`
 --
-
 CREATE TABLE `ccms_user` (
   `id` int(11) NOT NULL,
   `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -253,102 +209,82 @@ CREATE TABLE `ccms_user` (
   `post_zip` varchar(32) NOT NULL,
   `nav_toggle` tinyint(1) UNSIGNED NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Contains the login settings for fully registered users.';
-
 --
 -- Indexes for dumped tables
 --
-
 --
 -- Indexes for table `ccms_blacklist`
 --
 ALTER TABLE `ccms_blacklist`
   ADD PRIMARY KEY (`id`);
-
 --
 -- Indexes for table `ccms_cache`
 --
 ALTER TABLE `ccms_cache`
   ADD PRIMARY KEY (`id`);
-
 --
 -- Indexes for table `ccms_ins_db`
 --
 ALTER TABLE `ccms_ins_db`
   ADD PRIMARY KEY (`id`),
   ADD KEY `CCMS_insDBPreload_idx` (`status`,`access`,`grp`);
-
 --
 -- Indexes for table `ccms_lng_charset`
 --
 ALTER TABLE `ccms_lng_charset`
   ADD PRIMARY KEY (`id`);
-
 --
 -- Indexes for table `ccms_log`
 --
 ALTER TABLE `ccms_log`
   ADD PRIMARY KEY (`id`);
-
 --
 -- Indexes for table `ccms_session`
 --
 ALTER TABLE `ccms_session`
   ADD PRIMARY KEY (`id`);
-
 --
 -- Indexes for table `ccms_user`
 --
 ALTER TABLE `ccms_user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
-
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
 --
 -- AUTO_INCREMENT for table `ccms_blacklist`
 --
 ALTER TABLE `ccms_blacklist`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `ccms_cache`
 --
 ALTER TABLE `ccms_cache`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `ccms_ins_db`
 --
 ALTER TABLE `ccms_ins_db`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `ccms_lng_charset`
 --
 ALTER TABLE `ccms_lng_charset`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
-
 --
 -- AUTO_INCREMENT for table `ccms_log`
 --
 ALTER TABLE `ccms_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `ccms_session`
 --
 ALTER TABLE `ccms_session`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `ccms_user`
 --
 ALTER TABLE `ccms_user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
