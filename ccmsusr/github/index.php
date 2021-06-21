@@ -165,7 +165,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 							<li>Create a new website folder on your server. (You must have access to shell, ssh and git services.)</li>
 						</ol>
 						<h2>Copy Custondian CMS Templates to Webserver</h2>
-						<p style="margin: 15px 0px;">You can download the latest master version of the Custodian CMS templates from <a href="https://github.com/modusinternet/Custodian-CMS/archive/master.zip" target="_blank">GitHub</a> directly or use the <a href="https://github.com/modusinternet/Custodian-CMS-Installer" target="_blank">Custodian CMS Installer</a>.  If you prefer SSH, log into your server and type the following on the command-line.</p>
+						<p style="margin: 15px 0px;">You can download the latest master version of the Custodian CMS templates from <a href="https://github.com/modusinternet/Custodian-CMS/archive/master.zip" target="_blank">GitHub</a> directly or use the <a href="https://github.com/modusinternet/Custodian-CMS-Download" target="_blank">Custodian CMS Download</a>.  If you prefer SSH, log into your server and type the following on the command-line.</p>
 						<ol class="boxed">
 							<li>git clone --depth=1 https://github.com/modusinternet/Custodian-CMS.git /tmp/Custodian-CMS</li>
 							<li>rm -rf /tmp/Custodian-CMS/.git</li>
