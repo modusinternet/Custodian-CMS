@@ -59,10 +59,11 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 
 			:root{
 				--cl0:rgb(255,255,255);
-				--cl1:rgba(67,67,67,.8);
-				--cl2:rgb(134,177,53);
-				--cl2-tran:rgba(134,177,53,.6);
-				--cl3:rgb(255,0,0);
+				--cl1:rgb(247,248,250);
+				--cl2:rgba(67,67,67,.8);
+				--cl2-tran:rgba(67,67,67,.2);
+				--cl3:rgb(134,177,53);
+				--cl3-tran:rgba(134,177,53,.6);
 				--cl4:rgb(215,104,15);
 				--cl4-tran:rgba(215,104,15,.6);
 				--cl5:rgb(51,122,183);
@@ -71,7 +72,9 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 				--cl8:rgb(249,249,249);
 				--cl9:rgb(193,193,193);
 				--cl10:rgb(156,156,156);
-				--z-index-A2HS-box:2;
+				--cl11:rgb(255,0,0);
+				--cl12:rgba(10,37,64,.05);
+				--z-index-loading_svg:3
 			}
 
 			*,*::before,*::after{
@@ -85,7 +88,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			a{text-decoration-style:dotted}
 
 			body{
-				color:var(--cl1);
+				color:var(--cl2);
 				background-color:var(--cl0);
 				font:300 2.2rem/3.3rem "Open Sans",sans-serif;
 				opacity:0;
@@ -103,7 +106,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			}
 
 			h1{
-				color:var(--cl2);
+				color:var(--cl3);
 				font:100 4.6rem/7.5rem "Roboto",sans-serif
 			}
 
@@ -125,14 +128,14 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			}
 
 			.aGrid>button{
-				background:var(--cl6);
+				background:var(--cl3);
 				color:var(--cl0);
 				padding:0.7em;
 				width:100%;
 				border:0
 			}
 
-			.aGrid>button:hover{background:var(--cl7)}
+			.aGrid>button:hover{background:var(--cl3-tran)}
 
 			.aGrid>input{
 				padding:0.7em;
@@ -175,9 +178,9 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 
 			.collapsible.gr{
 				background-color:#dff0d8;
-				border:1px solid var(--cl2);
+				border:1px solid var(--cl3);
 				border-radius:4px 4px 0 0;
-				color:var(--cl2)
+				color:var(--cl3)
 			}
 
 			.collapsible.rd{
@@ -196,7 +199,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 				transition:max-height .5s ease-out
 			}
 
-			.gr{color:var(--cl2)}
+			.gr{color:var(--cl3)}
 
 			.logo{
 				filter:drop-shadow(2px 2px 4px rgba(0,0,0,.4));
@@ -210,7 +213,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 
 			.oj{color:var(--cl4)}
 
-			.rd{color:var(--cl3)}
+			.rd{color:var(--cl11)}
 
 			.tabs{
 				border-bottom:1px solid var(--cl4);
@@ -650,7 +653,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <?php endif ?>
 			</div>
 			<p>
-				If all the tests above are <span style="background-color:#dff0d8;border:1px solid var(--cl2);border-radius:4px 4px 0 0;color:var(--cl2);cursor:pointer;padding:5px">GREEN</span>, all you need to do now is <span class="oj">rename or remove</span> the <span class="oj">/ccms-setup.php</span> file and reload this page to continue.
+				If all the tests above are <span style="background-color:#dff0d8;border:1px solid var(--cl3);border-radius:4px 4px 0 0;color:var(--cl3);cursor:pointer;padding:5px">GREEN</span>, all you need to do now is <span class="oj">rename or remove</span> the <span class="oj">/ccms-setup.php</span> file and reload this page to continue.
 			</p>
 		</div>
 
