@@ -115,16 +115,11 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			.aGrid{
 				display:grid;
 				padding:1em;
-				background:var(--cl8);
+				background:var(--cl0);
 				border:1px solid var(--cl9);
 				margin:10px auto;
 				max-width:600px;
 				padding:1em
-			}
-
-			.aGrid>input{
-				background:var(--cl0);
-				border:1px solid var(--cl10)
 			}
 
 			.aGrid>button{
@@ -138,6 +133,9 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			.aGrid>button:hover{background:var(--cl3-tran)}
 
 			.aGrid>input{
+				background:var(--cl0);
+				border:1px solid var(--cl10);
+				border-radius:4px;
 				padding:0.7em;
 				margin-bottom:0.5rem
 			}
@@ -591,7 +589,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 		if($_REQUEST["addSuper"] === "1") {
 			if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
 				/* This call helps handle situations where it is called more then once, most likely accidentally by hitting the reload button. */
-				$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1;")->fetchColumn();
+				$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `status` = 1 AND `super` = 1;")->fetchColumn();
 				if($count == 0) {
 					/*
 					$cost = 10;
@@ -617,7 +615,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			$msg = 'Not tested because ccms_user: <span class="oj">NOT FOUND</span>';
 		}
 		if($CFG["pass"] == 1) {
-			$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `super` = 1 LIMIT 1;")->fetchColumn();
+			$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `status` = 1 AND `super` = 1 LIMIT 1;")->fetchColumn();
 			if($count == 0) {
 				$CFG["pass"] = 0;
 				$CFG["pass2"] = 1;
