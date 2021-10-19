@@ -50,13 +50,17 @@ h6{
 }
 
 img{
+	border:0;
+	display:block;
 	filter:drop-shadow(2px 2px 4px rgba(0,0,0,.4));
 	margin-bottom:20px;
-	opacity:1;
-	transition:all 2.0s ease-in-out
+	max-width:100%
 }
 
-img.lazy{opacity:0;}
+img.lazy{opacity:0}
+img:not(.initial){transition:opacity 5s}
+img.initial,img.loaded,img.error{opacity:1}
+img:not([src]):not([srcset]){visibility:hidden}
 
 input{
 	font-family:sans-serif;

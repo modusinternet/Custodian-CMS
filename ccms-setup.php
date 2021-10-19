@@ -18,7 +18,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Favicon -->
-		<link rel="shortcut icon" href="/ccmsusr/_img/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="/ccmsusr/_img/ico/favicon.ico" type="image/x-icon">
 
 		<style>
 			/* latin-ext */
@@ -85,7 +85,21 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 
 			html{font-size:62.5%}
 
-			a{text-decoration-style:dotted}
+			/*a{text-decoration-style:dotted}*/
+
+
+
+
+			a,a:visited {
+				border:0px none;
+				outline:0px;
+				text-decoration-style:dotted
+			}
+
+			a:hover,a:focus{text-decoration-style:double}
+
+
+
 
 			body{
 				color:var(--cl2);
@@ -494,13 +508,15 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 					/* This try call helps handle situations where /?import=1 is called more then once, most likely accidentally by hitting the reload button. */
 					$CFG["DBH"]->query("DESCRIBE `ccms_blacklist`");
 					$CFG["DBH"]->query("DESCRIBE `ccms_cache`");
+					$CFG["DBH"]->query("DESCRIBE `ccms_headers`");
 					$CFG["DBH"]->query("DESCRIBE `ccms_ins_db`");
 					$CFG["DBH"]->query("DESCRIBE `ccms_lng_charset`");
-					$CFG["DBH"]->query("DESCRIBE `ccms_session`");
+					$CFG["DBH"]->query("DESCRIBE `ccms_log`");
+					$CFG["DBH"]->query("DESCRIBE `ccms_password_recovery`");
 					$CFG["DBH"]->query("DESCRIBE `ccms_user`");
 				} catch(PDOException $e) {
-					/* If any of the querys above fail, drop all tables and reimport. */
-					$CFG["DBH"]->query("DROP TABLE IF EXISTS `ccms_blacklist`,`ccms_cache`,`ccms_ins_db`,`ccms_lng_charset`,`ccms_session`,`ccms_user`");
+					/* If any of the querys above fail, drop all tables and re-import. */
+					$CFG["DBH"]->query("DROP TABLE IF EXISTS `ccms_blacklist`,`ccms_cache`,`ccms_headers`,`ccms_ins_db`,`ccms_lng_charset`,`ccms_log`,`ccms_password_recovery`,`ccms_user`");
 					$CFG["DBH"]->exec(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/ccms-setup-db.sql"));
 				}
 			} else {
@@ -523,6 +539,13 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			$msg .= "\nccms_cache: <span class='oj'>NOT FOUND</span><br />";
 		}
 		try {
+			$CFG["DBH"]->query("DESCRIBE `ccms_headers`");
+			$msg .= "\nccms_headers: FOUND<br />";
+		} catch(PDOException $e) {
+			$CFG["pass"] = 0;
+			$msg .= "\nccms_headers: <span class='oj'>NOT FOUND</span><br />";
+		}
+		try {
 			$CFG["DBH"]->query("DESCRIBE `ccms_ins_db`");
 			$msg .= "\nccms_ins_db: FOUND<br />";
 		} catch(PDOException $e) {
@@ -537,11 +560,18 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			$msg .= "\nccms_lng_charset: <span class='oj'>NOT FOUND</span><br />";
 		}
 		try {
-			$CFG["DBH"]->query("DESCRIBE `ccms_session`");
-			$msg .= "\nccms_session: FOUND<br />";
+			$CFG["DBH"]->query("DESCRIBE `ccms_log`");
+			$msg .= "\nccms_log: FOUND<br />";
 		} catch(PDOException $e) {
 			$CFG["pass"] = 0;
-			$msg .= "\nccms_session: <span class='oj'>NOT FOUND</span><br />";
+			$msg .= "\nccms_log: <span class='oj'>NOT FOUND</span><br />";
+		}
+		try {
+			$CFG["DBH"]->query("DESCRIBE `ccms_password_recovery`");
+			$msg .= "\nccms_password_recovery: FOUND<br />";
+		} catch(PDOException $e) {
+			$CFG["pass"] = 0;
+			$msg .= "\nccms_password_recovery: <span class='oj'>NOT FOUND</span><br />";
 		}
 		try {
 			$CFG["DBH"]->query("DESCRIBE `ccms_user`");
@@ -564,9 +594,9 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <?php else: ?>
 				<?= $msg; ?>
 	<?php if($CFG["DBH"]): ?>
-				<br><br><a class="oj" href="/?import=1" onclick="return confirm('Are you sure?')">Click here</a> to import the required database tables now. (There should be a file named <span class="oj">ccms-setup-db.sql</span> in the document root of this website. It contains a copy of all the starter tables and the content required to setup a Custodian CMS project from scratch. If you are missing this file you can get a copy of it from <a class="oj" href="//github.com/modusinternet/Custodian-CMS/blob/master/ccms-setup-db.sql" target="_blank">GitHub</a>. Just save the file to the document root folder of your website and reload this page to continue. We recommend you either <span class="oj">rename or remove</span> this file, along with the ccms-setup.php file, when you are done.)<br>
+				<br><br><a class="oj" href="/?import=1" onclick="return confirm('Are you sure?')">Click here</a> to import the required database tables now. (There should be a file named <span class="oj">ccms-setup-db.sql</span> in the document root of this website. It contains a copy of all the starter tables and the content required to setup a Custodian CMS project from scratch. If you are missing this file you can get a copy of it from <a class="oj" href="//github.com/modusinternet/Custodian-CMS/blob/master/ccms-setup-db.sql" target="_blank">GitHub</a>. Just save the file to the document root folder of your website and reload this page to continue. We recommend you either <span class="oj">rename or remove</span> this file, along with the ccms-setup.php file, when you are done with the entire 'Setup' process.)<br>
 				<br>
-				<span class="oj">WARNING</span>: This process will remove and fully replace <span class="oj td-dul">ALL</span> database tables that may already exist under the same name.  So be sure to back up and rename any tables you do not want to loose before preforming this action.
+				<span class="oj">WARNING</span>: This process will remove and fully replace <span class="oj td-dul">ALL</span> the ccms_ database tables that may already exist under the same name.  So be sure to back up and rename any tables you do not want to loose before preforming this action.
 	<?php endif ?>
 <?php endif ?>
 			</div>
@@ -600,8 +630,8 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 					$options = ['cost' => 10];
 					$hash = password_hash($_REQUEST["password"], PASSWORD_BCRYPT, $options);
 					$priv = '{"priv":{"admin":{"r":1,"user_privileges":{"rw":2},"language_support":{"rw":2},"blacklist_settings":{"rw":2}},"content_manager":{"r":1,"lng":{"ar":2,"bn":2,"de":2,"de-at":2,"de-ch":2,"de-de":2,"de-li":2,"de-lu":2,"en":2,"en-au":2,"en-bz":2,"en-ca":2,"en-gb":2,"en-ie":2,"en-jm":2,"en-nz":2,"en-ph":2,"en-tt":2,"en-us":2,"en-za":2,"en-zw":2,"es":2,"es-ar":2,"es-bo":2,"es-cl":2,"es-co":2,"es-cr":2,"es-do":2,"es-ec":2,"es-es":2,"es-gt":2,"es-hn":2,"es-mx":2,"es-ni":2,"es-pa":2,"es-pe":2,"es-pr":2,"es-py":2,"es-sv":2,"es-uy":2,"es-ve":2,"fr":2,"fr-be":2,"fr-ca":2,"fr-ch":2,"fr-fr":2,"fr-lu":2,"fr-mc":2,"he":2,"hi":2,"ja":2,"ko":2,"ko-kp":2,"ko-kr":2,"ms":2,"nb-no":2,"pt":2,"ru":2,"vi":2,"zh":2,"zh-cn":2,"zh-tw":2}},"content_groups":{"rw":2},"github":{"rw":2}}}';
-					$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_user` (`id`, `email`, `hash`, `status`, `alias`, `super`, `priv`, `firstname`, `lastname`, `position`, `phone1`, `phone2`, `facebook`, `skype`, `note`, `address1`, `address2`, `prov_state`, `country`, `post_zip`, `nav_toggle`) VALUES (NULL, :email, :hash, '1', :alias, '1', :priv, '', '', '', '', '', '', '', '', '', '', '', '', '', '1');");
-					$qry->execute(array(':email' => $_REQUEST["email"], ':hash' => $hash, ':alias' => $_REQUEST["alias"], ':priv' => $priv));
+					$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_user` (`id`, `email`, `hash`, `status`, `alias`, `super`, `priv`, `firstname`, `lastname`, `position`, `phone1`, `phone2`, `facebook`, `skype`, `note`, `address1`, `address2`, `prov_state`, `country`, `post_zip`, `nav_toggle`, `2fa_secret`) VALUES (NULL, :email, :hash, '1', :alias, '1', :priv, '', '', '', '', '', '', '', '', '', '', '', '', '', '1', :2fa_secret);");
+					$qry->execute(array(':email' => $_REQUEST["email"], ':hash' => $hash, ':alias' => $_REQUEST["alias"], ':priv' => $priv, ':2fa_secret' => $_REQUEST["2fa_secret"]));
 				}
 			} else {
 				exit('<script>alert("No direct script access allowed");</script>');
@@ -629,7 +659,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			<div class="collapsible <?=($CFG["pass"]==1) ? "gr":"rd";?>">
 				Test for <span class="oj">Administrator</span>
 			</div>
-			<div class="collContent">
+			<div class="collContent" id="adminDiv">
 <?php if($CFG["pass"]==1): ?>
 				Pass
 <?php else: ?>
@@ -643,6 +673,24 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 					<input class="placeholder" id="email" name="email" placeholder="Email" type="email">
 					<label for="password">Password <span class="rd">*</span></label>
 					<input class="placeholder" id="password" name="password" placeholder="Password" style="margin-bottom:1rem" type="password" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+					<label for="2fa_checkbox" title="2-Factor Authentication">
+						2FA?
+						 <a href="https://authy.com/what-is-2fa/" target="_blank" title="What is 2FA">
+							<svg style="width:20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#d7680f" d="M18,10.82a1,1,0,0,0-1,1V19a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V8A1,1,0,0,1,5,7h7.18a1,1,0,0,0,0-2H5A3,3,0,0,0,2,8V19a3,3,0,0,0,3,3H16a3,3,0,0,0,3-3V11.82A1,1,0,0,0,18,10.82Zm3.92-8.2a1,1,0,0,0-.54-.54A1,1,0,0,0,21,2H15a1,1,0,0,0,0,2h3.59L8.29,14.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L20,5.41V9a1,1,0,0,0,2,0V3A1,1,0,0,0,21.92,2.62Z"/></svg>
+						</a>
+					</label>
+					<div>
+						<input id="2fa_secret" type="hidden" name="2fa_secret">
+						<input id="2fa_checkbox" name="2fa_checkbox" onclick="qr_code();" style="cursor:pointer" type="checkbox">
+						<div id="ga_qr_div" style="display:none;margin:0 auto;max-width:200px">
+							<svg id="ga_qr_svg" style="display:none;margin:0px auto;width:75px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+								<path fill="#d7680f" d="M25,5A20.14,20.14,0,0,1,45,22.88a2.51,2.51,0,0,0,2.49,2.26h0A2.52,2.52,0,0,0,50,22.33a25.14,25.14,0,0,0-50,0,2.52,2.52,0,0,0,2.5,2.81h0A2.51,2.51,0,0,0,5,22.88,20.14,20.14,0,0,1,25,5Z">
+									<animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="2s" repeatCount="indefinite"/>
+								</path>
+							</svg>
+							<img id="ga_qr_img" style="display:none;margin:0 auto;max-width:200px" />
+						</div>
+					</div>
 					<button type="submit">Submit</button>
 				</form>
 	<?php else: ?>
@@ -698,6 +746,56 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			/* Set the first tab to be highlighted and content to be displayed */
 			document.getElementById("tab01Title")?.click();
 			/* Nav Tabs END */
+
+			/* Administrator QR Generator START */
+			function qr_code(){
+				var twofa_checkbox = document.getElementById('2fa_checkbox');
+				if(twofa_checkbox.checked){
+					//alert("checked");
+
+					document.getElementById("ga_qr_div").style.display = "block";
+					document.getElementById("ga_qr_svg").style.display = "block";
+
+					var xhr = new XMLHttpRequest();
+					xhr.open("POST", "https://custodiancms.org/cross-origin-resources/ga-qr-generater.php<?php if($CFG["DOMAIN"]){echo "?domain=" . $CFG["DOMAIN"];}?>", true);
+					xhr.send();
+					xhr.onreadystatechange = function(){
+						if(xhr.readyState === 4){
+							if(xhr.status === 200){
+								//console.log("xhr done successfully");
+								//sessionStorage.setItem(url,xhr.responseText);
+								var resp = xhr.responseText;
+								var respJson = JSON.parse(resp);
+								/*
+								console.log(respJson["ga_qr_secret"]);
+								console.log(respJson["ga_qr_url"]);
+								*/
+								document.getElementById("2fa_secret").value = respJson["ga_qr_secret"];
+								document.getElementById("ga_qr_img").src = respJson["ga_qr_url"];
+								window.setTimeout(function() {
+									document.getElementById("ga_qr_img").style.display = "block";
+									document.getElementById("ga_qr_svg").style.display = "none";
+									document.getElementById("adminDiv").style.maxHeight = adminDiv.scrollHeight + "px";
+								},1000);
+							} else {
+								//console.log("xhr failed");
+							}
+						} else {
+							//console.log("xhr processing going on");
+						}
+					}
+					//console.log("request sent succesfully");
+				}else{
+					//alert("unchecked");
+
+					document.getElementById("2fa_secret").value = "";
+					document.getElementById("ga_qr_div").style.display = "none";
+					document.getElementById("ga_qr_svg").style.display = "none";
+					document.getElementById("ga_qr_img").style.display = "none";
+					document.getElementById("ga_qr_img").src = "";
+				}
+			}
+			/* Administrator QR Generator END */
 
 			/* Setup Results, Animated Collapsible Divs START */
 			var coll = document.getElementsByClassName("collapsible");

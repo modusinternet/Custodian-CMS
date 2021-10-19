@@ -4,25 +4,48 @@ function ccms_cfgDomain() {
 	echo $CFG["DOMAIN"];
 }
 
+
 function ccms_cfgLibDir() {
 	global $CFG;
 	echo $CFG["LIBDIR"];
 }
+
 
 function ccms_cfgPreDir() {
 	global $CFG;
 	echo $CFG["PREDIR"];
 }
 
+
 function ccms_cfgTplDir() {
 	global $CFG;
 	echo $CFG["TPLDIR"];
 }
 
+
 function ccms_cfgUsrDir() {
 	global $CFG;
 	echo $CFG["USRDIR"];
 }
+
+
+function ccms_cfgCookieSessionExpire() {
+	global $CFG;
+	echo $CFG["COOKIE_SESSION_EXPIRE"];
+}
+
+
+function ccms_csp_nounce() {
+	global $CFG;
+	echo $CFG["nonce"];
+}
+
+
+function ccms_csp_nounce_ret() {
+	global $CFG;
+	return $CFG["nonce"];
+}
+
 
 function ccms_googleRecapPubKey() {
 	global $CFG;
@@ -61,23 +84,6 @@ function ccms_hrefLang_list() {
 	}
 }
 
-function ccms_lngList() {
-	global $CFG, $CLEAN;
-	// this line of code produces the wrong output on GoDaddy servers.
-	//$tpl = htmlspecialchars(preg_replace('/^\/([\pL\pN-]*)\/?(.*)\z/i', '${2}', $_SERVER['REDIRECT_URL']));
-	$tpl = htmlspecialchars(preg_replace('/^\/([\pL\pN-]*)\/?(.*)\z/i', '${2}', $_SERVER['REQUEST_URI']));
-	$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset` WHERE `status` = 1 ORDER BY lngDesc ASC;");
-	if($qry->execute()) {
-		while($row = $qry->fetch()) {
-			if($row["ptrLng"]) {
-				echo "<li id=\"lng-" . $row["lng"] . "\"><a href=\"/" . $row["ptrLng"] . "/" . $tpl . "\">" . $row["lngDesc"] . "</a></li>\n";
-			} else {
-				echo "<li id=\"lng-" . $row["lng"] . "\"><a href=\"/" . $row["lng"] . "/" . $tpl . "\">" . $row["lngDesc"] . "</a></li>\n";
-			}
-		}
-	}
-}
-
 function ccms_canonical() {
 	global $CFG, $CLEAN;
 
@@ -108,6 +114,14 @@ function ccms_canonical() {
 		echo '<link rel="canonical" href="' . $_SERVER['REQUEST_SCHEME'] . "://" . $CFG["DOMAIN"] . $_SERVER['REQUEST_URI'] . '" />';
 	}
 }
+
+
+
+
+
+
+
+
 
 
 function ccms_user_admin_slider() {
@@ -511,6 +525,15 @@ if($qry->execute()) {
 </script>
 <?php }
 }
+
+
+
+
+
+
+
+
+
 
 function ccms_dateYear() {
 	echo date("Y");

@@ -14,10 +14,10 @@ A list of predefined PHP constants for use with the filter_var() function can be
 **************************************************************/
 
 define('CRYPT', '/^[a-z\-_\/#=&:\pN\?\.\";\'\`\*\s]*\z/i');
-define('HTTP_ACCEPT_LANGUAGE', '/^[a-z0-9\-,;=\.]{2,}\z/i');
+define('HTTP_ACCEPT_LANGUAGE', '/[a-z]{2,3}(-[a-z0-9]{2,3})?/i');
 define('HTTP_COOKIE', '/^[a-z\pN\-_=\.; \/]{2,}\z/i');
 define('HTTP_USER_AGENT', '/^[a-z\pN\-_;:,.()#\/\+ ]{2,}\z/i');
-define('LNG', '/^[a-z]{2}(-[a-z]{2})?\z/i');
+define('LNG', '/^[a-z]{2,3}(-[a-z0-9]{2,3})?\z/i');
 define('PARMS', '/^[a-z\-_\pN\/]+\z/i');
 define('QUERY_STRING', '/^[a-z\pN\-_=&\?\.\/]{1,}\z/i');
 define('SESSION_ID', '/^[a-z\pN]{1,}\z/i');
@@ -74,6 +74,46 @@ $ccms_whitelist = array(
 );
 
 
+function CCMS_Set_Headers(){
+	global $CFG, $CLEAN;
+
+	$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_headers` WHERE `status` = 1;");
+	$qry->execute();
+	$qry->setFetchMode(PDO::FETCH_ASSOC);
+
+	while($row = $qry->fetch()) {
+		if($row["name"] === "Content-Security-Policy"){
+			$CFG["nonce"] = hash("sha256", rand());
+			if($CLEAN["ccms_tpl"] === "search"){
+				// This helps make sure Google's Custom Search Engine (CSE) will work properly on the search template.
+				$search = array(
+					"{UNSAFE-EVAL}",
+					"{NONCE}"
+				);
+				$replace = array(
+					" 'unsafe-eval'",
+					$CFG["nonce"]
+				);
+				$row["value"] = str_replace($search, $replace, $row["value"]);
+			} else {
+				$search = array(
+					"{UNSAFE-EVAL}",
+					"{NONCE}"
+				);
+				$replace = array(
+					"",
+					$CFG["nonce"]
+				);
+				$row["value"] = str_replace($search, $replace, $row["value"]);
+			}
+			header($row["name"] . ": " . $row["value"]);
+		} else {
+			header($row["name"] . ": " . $row["value"]);
+		}
+	}
+}
+
+
 function CCMS_Set_LNG() {
 	global $CFG, $CLEAN;
 
@@ -81,23 +121,27 @@ function CCMS_Set_LNG() {
 	$CFG["lngCodeActiveFlag"] = false;
 
 	if(isset($_SESSION["LNG"]) && !isset($CLEAN["ccms_lng"])) {
+		// This might happen if the visitor has been to the site before and a language was correctly set in the SESSION but the website designer made links that return to the homepage without a language variable/dir.  In this case we need to grab the known language preference of the visitor from the session variable and copy it to the ccms_lng argument because it will be needed later on.  ie: https://abc.org as apposed to https://abc.org/en/
 		$CLEAN["ccms_lng"] = $_SESSION["LNG"];
 	}
 
 	if(isset($CLEAN["ccms_lng"]) && $CLEAN["ccms_lng"] !== "MAXLEN" && $CLEAN["ccms_lng"] !== "INVAL") {
+		// Make sure what ever language value that's currenlty inside the ccms_lng arg is also found in the SESSION["LNG"].
+		$_SESSION["LNG"] = $CLEAN["ccms_lng"];
+
 		// A language variable was found in the $_SESSION["LNG"], URI or POST arguments.
 		foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
-			if($key === $CLEAN["ccms_lng"]) {
+			//if($key === $CLEAN["ccms_lng"]) {
+			if(strcasecmp($key, $CLEAN["ccms_lng"]) == 0) {
 				// The $CLEAN["ccms_lng"] language code was found in the database.
 				$CFG["lngCodeFoundFlag"] = true;
-				$_SESSION["LNG"] = $key;
-				if($value["status"] === "1") {
+				//$_SESSION["LNG"] = $key;
+				if($value["status"] == "1") {
 					// The language code provided is active in the database.
 					$CFG["CCMS_LNG_DIR"] = $value["dir"];
 					$CFG["lngCodeActiveFlag"] = true;
 				} elseif(isset($_SESSION["USER_ID"])) {
-					// If this is a verified user trying to make changes to content in a language which is currently
-					// not set live, get the users privilages and verify their rights to make updates in the language.
+					// If this is a verified user trying to make changes to content in a language which is currently not set live, get the users privilages and verify their rights to make updates in the language.
 					$qry = $CFG["DBH"]->prepare("SELECT super, priv FROM `ccms_user` WHERE id = :user_id LIMIT 1;");
 					$qry->execute(array(':user_id' => $_SESSION["USER_ID"]));
 					$row = $qry->fetch(PDO::FETCH_ASSOC);
@@ -114,11 +158,12 @@ function CCMS_Set_LNG() {
 		}
 	} elseif(isset($CLEAN["HTTP_ACCEPT_LANGUAGE"]) && $CLEAN["HTTP_ACCEPT_LANGUAGE"] !== "MAXLEN" && $CLEAN["HTTP_ACCEPT_LANGUAGE"] !== "INVAL") {
 		// Something was found in the HTTP_ACCEPT_LANGUAGE variable.
-		// define('LNG', '/^[a-z]{2}(-[a-z]{2})?\z/i');
-		preg_match_all('/([a-z]{2}((\-[a-z]{2,4})*)?)(;q=[0-9]\.[0-9])?/i', $CLEAN["HTTP_ACCEPT_LANGUAGE"], $match_all);
-		foreach($match_all[1] as $match) {
+
+		preg_match_all("/[a-z]{2,3}(-[a-z0-9]{2,8})?/i", $CLEAN["HTTP_ACCEPT_LANGUAGE"], $matches);
+
+		foreach($matches[0] as $match) {
 			foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
-				if($key === $match) {
+				if(strcasecmp($key, $match) == 0) {
 					// The language code provided was found in the database.
 					$CFG["lngCodeFoundFlag"] = true;
 					if($value["ptrLng"]) {
@@ -158,112 +203,148 @@ function CCMS_Set_LNG() {
 function CCMS_Set_SESSION() {
 	global $CFG, $CLEAN;
 
-	ini_set('session.use_only_cookies', 1); //By setting this directive cookies are used as the mandatory storage to preserve session id. It prevents session hijacking.
-	ini_set('session.cookie_lifetime', $CFG["COOKIE_SESSION_EXPIRE"]); //This is used to set cookie lifetime. If it is set as 0, then cookie remains until browser restart.
-	ini_set('session.cookie_httponly', 1); //This directive stops client side scripts from accessing session id preserved in cookie.
-	ini_set('session.cookie_secure', 1); //Controls whether cookies are sent via secure connections or not. Set it with 1 | 0 value. The default (off) is 0.
+	//ini_set('session.use_only_cookies', 1);
+	// By setting this directive cookies are used as the mandatory storage to preserve session id. It prevents session hijacking.
+
+	//ini_set('session.cookie_lifetime', $CFG["COOKIE_SESSION_EXPIRE"]);
+	// This is used to set cookie lifetime. If it is set as 0, then cookie remains until browser restart.
+
+	ini_set('session.cookie_httponly', 1);
+	// This directive stops client side scripts from accessing session id preserved in cookie.
+
+	ini_set('session.cookie_secure', 1);
+	// Controls whether cookies are sent via secure connections or not. Set it with 1 | 0 value. The default (off) is 0.
+
 	ini_set('session.cookie_samesite', "Strict");
 
 	session_name("__Host-ccms_session");
 
 	// Check to see if a session has already been started.
-	if(PHP_VERSION_ID >= 50400) { // PHP version 5.4.0 or higher
+	if(PHP_VERSION_ID >= 50400) {
+		// PHP version 5.4.0 or higher
+
 		if(session_status() == PHP_SESSION_NONE) {
 			session_start();
 		}
-	} else { // PHP version 5.3.9 or lower
+	} else {
+		// PHP version 5.3.9 or lower
+
 		if(session_id() == '') {
 			session_start();
 		}
 	}
 
-	// Check if the timeout field exists.
-	if(isset($_SESSION['startTime'])) {
-		// See if the number of seconds since the last visit is larger than the timeout period.
-		$duration = time() - (int)$_SESSION['startTime'];
-		if($duration > $CFG["COOKIE_SESSION_EXPIRE"]) {
-			// Destroy the session and restart it but direct logged in users to relogin.
+	if(isset($_SESSION['START_TIME'])) {
+		// The time of the visitors last page load is known.
+
+		$duration = time() - (int)$_SESSION['START_TIME'];
+		// How long ago was it?
+
+		if($duration >= $CFG["COOKIE_SESSION_EXPIRE"]) {
+			// It was too long ago.
+
 			if(isset($_SESSION["USER_ID"])) {
-				// They were a valid user but their session is now expired so send them back to the login page.
-				if($CFG["LOG_EVENTS"] === '1'){
+				// The user was logged in but their session is now expired so send them back to the login page.
+
+				if($CFG["LOG_EVENTS"] === '1') {
+					// Save a log of this event.
 					$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_log` (date, ip, url, log) VALUES (:date, :ip, :url, :log);");
 					$qry->execute(array(':date' => time(), ':ip' => $_SERVER["REMOTE_ADDR"], ':url' => $_SERVER["REQUEST_URI"], ':log' => "User ID (".$_SESSION["USER_ID"].") session expired, redirected to login page.\n\n".$_SERVER["HTTP_USER_AGENT"]."\n\n".var_dump($argv)));
 				}
-				session_destroy();
+
+				// log out
+				$_SESSION = array();
+				$_SESSION['EXPIRED'] = "1";
 				header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
 				exit;
 			} else {
-				// This user was never logged in so go ahead and just restart their session.
-				session_destroy();
-				session_start();
-				$_SESSION['startTime'] = time();
+				// This visitor is not logged in.
+
+				$_SESSION['EXPIRED'] = "1";
+				$_SESSION['START_TIME'] = time();
 			}
 		} else {
-			// This users session is not too old so go ahead and just update the start time.
-			$_SESSION['startTime'] = time();
+			// The visitors session is not too old, update start time.
+
+			$_SESSION['START_TIME'] = time();
 		}
 	} else {
-		// This is prorably a first visit to the site by this user so set the start time in thier session.
-		$_SESSION['startTime'] = time();
+		// The time of the visitors last page load is unknown. Possibly their first visit.
+
+		$_SESSION['START_TIME'] = time();
 	}
 
-	// Confirm the users browser agent hasn't changed to help strengthen login sessions.
-	if(isset($_SESSION['HTTP_USER_AGENT'])) {
-		if($_SESSION['HTTP_USER_AGENT'] != md5($_SERVER['HTTP_USER_AGENT'])) {
+	if(isset($_SESSION["HTTP_USER_AGENT"])) {
+		// The $_SESSION['HTTP_USER_AGENT'] variable is only set when a user is fully logged in to help strengthen session security. It is not necessary to double check at any other time.
+
+		if($_SESSION["HTTP_USER_AGENT"] != md5($_SERVER["HTTP_USER_AGENT"])) {
 			// Possible session highjacking attempt, destroy the session and restart it but direct logged in users to relogin.
-			if(isset($_SESSION["USER_ID"])) {
-				// They were a valid logged in user but their session appears to be under attack so send them back to the login page.
-				session_destroy();
-				header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
-				if($CFG["LOG_EVENTS"] === '1'){
-					$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_log` (date, ip, url, log) VALUES (:date, :ip, :url, :log);");
-					$qry->execute(array(':date' => time(), ':ip' => $_SERVER["REMOTE_ADDR"], ':url' => $_SERVER["REQUEST_URI"], ':log' => "Possible session highjacking attempt.  Session deleted and user redirected to login page.\n\n".$_SERVER["HTTP_USER_AGENT"]."\n\n".var_dump($argv)));
-				}
-				exit;
-			} else {
-				// This user was never logged in so go ahead and just restart their session.
-				session_destroy();
-				session_start();
-				$_SESSION['HTTP_USER_AGENT'] = md5($_SERVER['HTTP_USER_AGENT']);
-				$_SESSION['startTime'] = time();
+
+			if($CFG["LOG_EVENTS"] === '1') {
+				// Save a log of this event.
+				$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_log` (date, ip, url, log) VALUES (:date, :ip, :url, :log);");
+				$qry->execute(array(':date' => time(), ':ip' => $_SERVER["REMOTE_ADDR"], ':url' => $_SERVER["REQUEST_URI"], ':log' => "User ID (".$_SESSION["USER_ID"].") under possible session highjacking attempt.  Session deleted and user redirected to login page.\n\n".$_SERVER["HTTP_USER_AGENT"]."\n\n".var_dump($argv)));
 			}
+
+			// log out
+			$_SESSION = array();
+			$_SESSION['EXPIRED'] = "1";
+			header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
+			exit;
 		}
-	} else {
-		$_SESSION['HTTP_USER_AGENT'] = md5($_SERVER['HTTP_USER_AGENT']);
 	}
 
 	if(isset($_SESSION["USER_ID"])) {
 		$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_user` WHERE `id` = :id && `status` = 1 LIMIT 1;");
 		$qry->execute(array(':id' => $_SESSION["USER_ID"]));
 		$row = $qry->fetch(PDO::FETCH_ASSOC);
+
 		if($row) {
-			// The users 'status' is still live so we get a copy of their privilages and place it inside of session.
-			$_SESSION["PRIV"] = $row["priv"];
+			// User 'status' is still valid
+
+			if(!empty($row["2fa_secret"])) {
+				// The user is valid but has enabled 2 factor authentication.
+
+				if(!isset($_SESSION["2FA_VALID"])) {
+					// The user is logged in successfully but they have 2FA enabled and haven't verified it yet.
+
+					$CLEAN["ccms_tpl"] = "authenticator";
+				}
+			} else {
+				// The user is valid and nothing is outstanding so just update the most current privilages.
+
+				$_SESSION["2FA_VALID"] = null;
+				$_SESSION["PRIV"] = $row["priv"];
+			}
 		} else {
-			/* Looks like they were properly logged in at one point but their 'status' is set to '0' now so they are no longer permitted to act as administrators or access the user templates. */
-			session_destroy();
+			// Looks like they were properly logged in at one point but their account has either been removed or 'status' is set to '0' now.
+
+			if($CFG["LOG_EVENTS"] === '1') {
+				$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_log` (date, ip, url, log) VALUES (:date, :ip, :url, :log);");
+				$qry->execute(array(':date' => time(), ':ip' => $_SERVER["REMOTE_ADDR"], ':url' => $_SERVER["REQUEST_URI"], ':log' => "User ID (".$_SESSION["USER_ID"].") was properly logged in at one point but their 'status' is set to '0' now.  Session deleted and user redirected to login page.\n\n".$_SERVER["HTTP_USER_AGENT"]."\n\n".var_dump($argv)));
+			}
+
+			// log out
+			$_SESSION = array();
+			$_SESSION['EXPIRED'] = "1";
 
 			if($CLEAN["ccms_ajax_flag"] == 1) {
 				// If this call contains an Ajax flag set to '1' we don't actually want to send them to the login page, we'll just send a session expired message instead.
+
 				header("Content-Type: application/javascript; charset=UTF-8");
+				// NOTE: If the template is later called using a serviceWorker be aware that will not respect the settings of the 'cache-control' header as noted in here: https://web.dev/service-workers-cache-storage/#api-nuts-and-bolts
+
 				header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 				header("Cache-Control: post-check=0, pre-check=0", false);
 				header("Pragma: no-cache");
 				echo "/* Session Error */";
-				exit;
 			} else {
-				// Show login template because they are NOT logged in.
-				if($CFG["LOG_EVENTS"] === '1'){
-					$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_log` (date, ip, url, log) VALUES (:date, :ip, :url, :log);");
-					$qry->execute(array(':date' => time(), ':ip' => $_SERVER["REMOTE_ADDR"], ':url' => $_SERVER["REQUEST_URI"], ':log' => "User ID (".$_SESSION["USER_ID"].") status set to 0 between sessions, redirected to login page.\n\n".$_SERVER["HTTP_USER_AGENT"]."\n\n".var_dump($argv)));
-				}
 				header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
-				exit;
 			}
+			exit;
 		}
 	}
 	session_regenerate_id();
-	$CLEAN["ccms_session"] = session_id();
 }
 
 
@@ -439,10 +520,13 @@ function CCMS_DB_Dir($a) {
 function CCMS_DB_Preload($a = null) {
 	global $CFG, $CLEAN;
 
-	// This function can be called in two different ways:
-	// $content = CCMS_DB_Preload("about_us_filter,footer_filter,header_filter,twiter_feed_filter");
-	// or
-	// {CCMS_DB_PRELOAD:about_us_filter,footer_filter,header_filter,twiter_feed_filter}
+	/*
+	This function can be called in two different ways:
+	$content = CCMS_DB_Preload("about_us_filter,footer_filter,header_filter,twiter_feed_filter");
+	or
+	{CCMS_DB_PRELOAD:about_us_filter,footer_filter,header_filter,twiter_feed_filter}
+	*/
+
 	if($a[2]) {
 		$grpArray = explode(",", $a[2]);
 		foreach($grpArray as $key) {
@@ -476,16 +560,20 @@ function CCMS_DB_Preload($a = null) {
 }
 
 function CCMS_html_min($buffer) {
-	// Enable and Disable this feature in config.php.
-	// eg:
-	// $CFG["HTML_MIN"] = 0; // off
-	// $CFG["HTML_MIN"] = 1; // on (Default)
-	//
-	// This code will not break pre, code or textarea tagged content.
-	// WARNING: Make sure your actual HTML templates do not contain any commented // code because minification means all whitespaces will be removed and the carriage return at the end of your comment will also be removed, making everything that comes after that a commented comment aswell.
 	global $CFG, $CLEAN;
 
-	if($CFG["HTML_MIN"] == 1 && $CLEAN["SESSION"]["user_id"] == null) {
+	/*
+	Enable and Disable this feature in config.php.
+		$CFG["HTML_MIN"] = 0; // off
+		$CFG["HTML_MIN"] = 1; // on (Default)
+
+	This code will not break pre, code or textarea tagged content.
+
+	WARNING: Make sure your actual HTML templates do not contain any commented // code because minification means all whitespaces will be removed and the carriage return at the end of your comment will also be removed, making everything that comes after that a commented comment aswell.
+	*/
+
+	if($CFG["HTML_MIN"] === 1 && (!isset($_SESSION["USER_ID"]))) {
+
 		// If HTML_MIN is set to 1 in the config file and this is a normal session and the user is not logged in.
 
 		$search = array("\r\n", "\n", "\t");
@@ -507,22 +595,15 @@ function CCMS_html_min($buffer) {
 function CCMS_TPL_Insert($a) {
 	global $CFG;
 
-	// Test to see if CLEAN["ccms_tpl"] file being requested is stored on the server with a .htm, .html, .php,
-	// .tpl, .txt, .xml or .xsl extension.  .php is tested for first, if found it is pre-parsed by php, stored in a buffer
-	// and then submitted to the CMS system for further parsing.  If any other extension found it is sent
-	// immediately for parsing.
-	//
-	// NOTE: The filenames are returned in the order in which they are stored by the file system.
-	//
-	// NOTE ABOUT file_get_contents(): On Windows servers the case of a filename is not important, however on
-	// UNIX/LINUX systems case is very important.  If you have a file on your system you are looking for is not
-	// typed if with the proper case it will reselt in an error.  Just make sure you always lowercase all your
-	// URL's and template names for safety.
-	//
-	// WARNING: It is recommended that you do NOT store two files of the same name with different extensions
-	// in the same directory at the same time.  You'll save yourself from pulling out all your hair trying
-	// to figure out why the newer file simply isn't being called.  In these cases it's best to remove the
-	// original and replace with the new file extension all together.
+	/*
+	Test to see if CLEAN["ccms_tpl"] file being requested is stored on the server with a .htm, .html, .php, .tpl, .txt, .xml or .xsl extension.  .php is tested for first, if found it is pre-parsed by php, stored in a buffer and then submitted to the CMS system for further parsing.  If any other extension found it is sent immediately for parsing.
+
+	NOTE: The filenames are returned in the order in which they are stored by the file system.
+	NOTE  About file_get_contents() on Windows servers, the case of a filename is not important, however on UNIX/LINUX systems case is very important.  If you have a file on your system you are looking for is not typed if with the proper case it will reselt in an error.  Just make sure you always lowercase all your URL's and template names for safety.
+
+	WARNING: It is recommended that you do NOT store two files of the same name with different extensions in the same directory at the same time.  You'll save yourself from pulling out all your hair trying to figure out why the newer file simply isn't being called.  In these cases it's best to remove the original and replace with the new file extension all together.
+	*/
+
 	if(preg_match('/\.php\z/i', $a[2])) {
 		ob_start();
 		include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $a[2];
@@ -565,14 +646,12 @@ function CCMS_TPL_Parser($a = null) {
 						$tmp[$key] = rtrim($val, '"');
 					}
 				}
-				// Note: There is a potential bug/problem with the use of the function_exists() function below.
-				// If someone places two CCMS_LIB tags in their code like this:
-				// {CCMS_LIB:_default.php;FUNC:test1}
-				// {CCMS_LIB:user_lib.php;FUNC:test1}
-				// The function test1 inside the _default.php template gets loaded first by PHP with the require_once().
-				// When PHP attempts to load the the user_lib.php template it will produce an error complaining that the
-				// test1 function is already in use because it was previously loaded on the _default.php template.
-				// Rule of thumb, make sure all your functions have different names.
+				/*
+				Note: There is a potential bug/problem with the use of the function_exists() function below. If someone places two CCMS_LIB tags in their code like this:
+					{CCMS_LIB:_default.php;FUNC:test1}
+					{CCMS_LIB:user_lib.php;FUNC:test1}
+				The function test1 inside the _default.php template gets loaded first by PHP with the require_once(). When PHP attempts to load the the user_lib.php template it will produce an error complaining that the test1 function is already in use because it was previously loaded on the _default.php template. Rule of thumb, make sure all your functions have different names.
+				*/
 				if (function_exists($c[4])) {
 					if ($c["5"] == "") {
 						call_user_func($c[4]);
@@ -658,6 +737,8 @@ function CCMS_Main() {
 		$CLEAN["ccms_tpl"] = $CFG["INDEX"];
 	}
 
+	CCMS_Set_Headers();
+
 	CCMS_Set_LNG();
 
 	// If the template being requested is inside a dir and no specific template name is
@@ -722,7 +803,8 @@ function CCMS_Main() {
 						$found = true;
 						break;
 					} elseif ($file == $ccms_file[0] . ".css" || $file == $ccms_file[0] . ".html" || $file == $ccms_file[0] . ".js") {
-						if($CLEAN["SESSION"]["user_id"] == null) {
+
+						if(!isset($_SESSION["USER_ID"])) {
 							// If this is a normal session and the user is not logged in then cache this page in the visitors browers.
 							if($file == $ccms_file[0] . ".css"){
 								header("Content-Type: text/css; charset=utf-8");
@@ -772,26 +854,23 @@ function CCMS_Main() {
 										ob_end_clean();
 										$date = time();
 
-										if(empty($CFG["csp"])) {
-											/* This feature only works on sites that build up their Content-Security-Policy features and want to cache them along with the cached template in the database for extration later. eg: icondds.com. */
-											$CFG["csp"] = "";
-										}
-
-										$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_cache` (url, date, exp, csp, content) VALUES (:url, :date, :exp, :csp, :content);");
-										$qry->execute(array(':url' => $url, ':date' => $date, ':exp' => $date + ($CFG["CACHE_EXPIRE"] * 60), ':csp' => $CFG["csp"], ':content' => $buf));
-
 										header("Expires: " . gmdate('D, d M Y H:i:s T', $date + ($CFG["CACHE_EXPIRE"] * 60)));
 										header("Last-Modified: " . gmdate('D, d M Y H:i:s T', $date));
 
-										$tmp = $date + ($CFG["CACHE_EXPIRE"] * 60);
+										$tmp = $CFG["CACHE_EXPIRE"] * 60;
+										// NOTE: If the template is later called using a serviceWorker be aware that will not respect the settings of the 'cache-control' header as noted in here: https://web.dev/service-workers-cache-storage/#api-nuts-and-bolts
 										header("Cache-Control: max-age=" . $tmp);
 										$etag = md5($url) . "." . $date;
 										header("ETag: " . $etag);
 
 										echo $buf;
-										/*
-										echo "<!-- cache id: " . $CFG["DBH"]->lastInsertId() . " -->";
-										*/
+
+										$search = $CFG["nonce"];
+										$replace = "{NONCE}";
+										$buf = str_replace($search, $replace, $buf);
+
+										$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_cache` (url, date, exp, content) VALUES (:url, :date, :exp, :content);");
+										$qry->execute(array(':url' => $url, ':date' => $date, ':exp' => $date + ($CFG["CACHE_EXPIRE"] * 60), ':content' => $buf));
 									} else {
 										// The cached template is NOT expried.  It should be used.
 
@@ -804,15 +883,15 @@ function CCMS_Main() {
 												header("Expires: " . gmdate('D, d M Y H:i:s T', $row["exp"]));
 												header('Last-Modified: ' . gmdate('D, d M Y H:i:s T', $row["date"]));
 
-												header("Cache-Control: max-age=" . $row["exp"]);
+												$tmp = $CFG["CACHE_EXPIRE"] * 60;
+
+												// NOTE: If the template is later called using a serviceWorker be aware that will not respect the settings of the 'cache-control' header as noted in here: https://web.dev/service-workers-cache-storage/#api-nuts-and-bolts
+												header("Cache-Control: max-age=" . $tmp);
 												header("ETag: " . $etag);
 
-												if(!empty($row["csp"])) {
-													/* This feature only works on sites that build up their Content-Security-Policy features and want to cache them along with the cached template in the database for extration later. eg: icondds.com. */
-													header($row["csp"]);
-												}
-
-												echo $row["content"];
+												$search = "{NONCE}";
+												$replace = $CFG["nonce"];
+												echo str_replace($search, $replace, $row["content"]);
 											}
 										} elseif(isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
 											if($_SERVER['HTTP_IF_NONE_MATCH'] == $etag) {
@@ -821,34 +900,29 @@ function CCMS_Main() {
 												header("Expires: " . gmdate('D, d M Y H:i:s T', $row["exp"]));
 												header('Last-Modified: ' . gmdate('D, d M Y H:i:s T', $row["date"]));
 
-												header("Cache-Control: max-age=" . $row["exp"]);
+												$tmp = $CFG["CACHE_EXPIRE"] * 60;
+												//header("Cache-Control: max-age=" . $row["exp"]);
+												// NOTE: If the template is later called using a serviceWorker be aware that will not respect the settings of the 'cache-control' header as noted in here: https://web.dev/service-workers-cache-storage/#api-nuts-and-bolts
+												header("Cache-Control: max-age=" . $tmp);
 												header("ETag: " . $etag);
 
-												if(!empty($row["csp"])) {
-													/* This feature only works on sites that build up their Content-Security-Policy features and want to cache them along with the cached template in the database for extration later. eg: icondds.com. */
-													header($row["csp"]);
-												}
-
-												echo $row["content"];
+												$search = "{NONCE}";
+												$replace = $CFG["nonce"];
+												echo str_replace($search, $replace, $row["content"]);
 											}
 										} else {
 											header("Expires: " . gmdate('D, d M Y H:i:s T', $row["exp"]));
 											header('Last-Modified: ' . gmdate('D, d M Y H:i:s T', $row["date"]));
 
-											header("Cache-Control: max-age=" . $row["exp"]);
+											$tmp = $CFG["CACHE_EXPIRE"] * 60;
+											// NOTE: If the template is later called using a serviceWorker be aware that will not respect the settings of the 'cache-control' header as noted in here: https://web.dev/service-workers-cache-storage/#api-nuts-and-bolts
+											header("Cache-Control: max-age=" . $tmp);
 											header("ETag: " . $etag);
 
-											if(!empty($row["csp"])) {
-												/* This feature only works on sites that build up their Content-Security-Policy features and want to cache them along with the cached template in the database for extration later. eg: icondds.com. */
-												header($row["csp"]);
-											}
-
-											echo $row["content"];
+											$search = "{NONCE}";
+											$replace = $CFG["nonce"];
+											echo str_replace($search, $replace, $row["content"]);
 										}
-
-										/*
-										echo "<!-- cache id: " . $row["id"] . " -->";
-										*/
 									}
 								} else {
 									// A cached version of the page requested was NOT found.
@@ -861,26 +935,23 @@ function CCMS_Main() {
 									ob_end_clean();
 									$date = time();
 
-									if(empty($CFG["csp"])) {
-										/* This feature only works on sites that build up their Content-Security-Policy features and want to cache them along with the cached template in the database for extration later. eg: icondds.com. */
-										$CFG["csp"] = "";
-									}
-
-									$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_cache` (url, date, exp, csp, content) VALUES (:url, :date, :exp, :csp, :content);");
-									$qry->execute(array(':url' => $url, ':date' => $date, ':exp' => $date + ($CFG["CACHE_EXPIRE"] * 60), ':csp' => $CFG["csp"], ':content' => $buf));
-
 									header("Expires: " . gmdate('D, d M Y H:i:s T', $date + ($CFG["CACHE_EXPIRE"] * 60)));
 									header("Last-Modified: " . gmdate('D, d M Y H:i:s T', $date));
 
-									$tmp = $date + ($CFG["CACHE_EXPIRE"] * 60);
+									$tmp = $CFG["CACHE_EXPIRE"] * 60;
+									// NOTE: If the template is later called using a serviceWorker be aware that will not respect the settings of the 'cache-control' header as noted in here: https://web.dev/service-workers-cache-storage/#api-nuts-and-bolts
 									header("Cache-Control: max-age=" . $tmp);
 									$etag = md5($url) . "." . $date;
 									header("ETag: " . $etag);
 
 									echo $buf;
-									/*
-									echo "<!-- cache id: " . $CFG["DBH"]->lastInsertId() . " -->";
-									*/
+
+									$search = $CFG["nonce"];
+									$replace = "{NONCE}";
+									$buf = str_replace($search, $replace, $buf);
+
+									$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_cache` (url, date, exp, content) VALUES (:url, :date, :exp, :content);");
+									$qry->execute(array(':url' => $url, ':date' => $date, ':exp' => $date + ($CFG["CACHE_EXPIRE"] * 60), ':content' => $buf));
 								}
 							} else {
 								// Cache setting in /ccmspre/config.php is NOT enabled, $CFG["CACHE"] = 0;.
@@ -905,8 +976,10 @@ function CCMS_Main() {
 							} else {
 								header("Content-Type: text/html; charset=utf-8");
 							}
+							// NOTE: If the template is later called using a serviceWorker be aware that will not respect the settings of the 'cache-control' header as noted in here: https://web.dev/service-workers-cache-storage/#api-nuts-and-bolts
 							header("Cache-Control: no-cache, must-revalidate");
 							header("Pragma: no-cache");
+
 							$html = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/" . $ccms_dir . $file);
 							CCMS_TPL_Parser($html);
 							$found = true;

@@ -1,3 +1,36 @@
+/* Loading Screen START */
+window.setTimeout(function(){
+	document.getElementById("loading_svg").style.opacity="0";
+	window.setTimeout(function(){
+		document.getElementById("loading_svg").style.display="none";
+	},500);
+},500);
+window.setTimeout(function(){
+	document.getElementsByTagName("main")[0].style.opacity="1";
+},250);
+/* Loading Screen END */
+
+/* Load metisMenu START */
+$("#menu1").metisMenu();
+navActiveSub.forEach(function(nl){$("#"+nl).addClass("mm-active");});
+navActiveSub.forEach(function(nl){$("#"+nl+">a").attr("aria-expanded","true");});
+navActiveSub.forEach(function(nl){$("#"+nl+">a").addClass("active");});
+navActiveSub.forEach(function(nl){$("#"+nl+">ul").addClass("mm-show");});
+navActiveItem.forEach(function(nl){$("#"+nl+">a").addClass("active");});
+/* Load metisMenu END */
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ===== metisMenu load ===== */
 /* Loads the correct sidebar on window load, collapses the sidebar on window resize. Sets the min-height of #page-wrapper to window size. */
 function showHideNav() {

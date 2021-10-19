@@ -1,22 +1,22 @@
 <?php
-/*************************************************************
+/*
 References:
 http://www.regular-expressions.info/unicode.html
 NOTE: To match a letter including any diacritics, use \p{L}\p{M}*+.
+
 An extensive list of regular expression examples:
 http://www.roscripts.com/PHP_regular_expressions_examples-136.html
+
 Another great reference is:
 https://www.autohotkey.com/docs/misc/RegEx-QuickRef.htm
+
 The online tester that I use most often is:
 https://regex101.com/
 
 A list of predefined PHP constants for use with the filter_var() function can be found here: http://ca2.php.net/manual/en/filter.constants.php
-**************************************************************/
 
 
-/*************************************************************
-The following is a list of types already pre defined that you can use and the regular expressions they represent.
-These types are found at the top of the /ccmspre/index.php template and should not be altered there.
+The following is a list of types already pre defined that you can use and the regular expressions they represent. These types are found at the top of the /ccmspre/index.php template and should not be altered there.
 
 CRYPT									=>	/^[a-z\-_\/#=&:\pN\?\.\";\'\`\*\s]*\z/i
 HTTP_ACCEPT_LANGUAGE				=>	/^[a-z0-9\-,;=\.]{2,}\z/i
@@ -24,14 +24,14 @@ HTTP_COOKIE							=>	/^[a-z\-_=\.\pN]{1,}\z/i
 LNG									=>	/^[a-z]{2}(-[a-z]{2})?\z/i
 PARMS									=>	/^[a-z\-_\pN\/]+\z/i
 QUERY_STRING						=>	/^[a-z\-_=&\.\pN]{1,}\z/i
-SESSION_ID							=>	/^[a-z0-9]{1,}\z/i
+SESSION_ID							=>	/^[a-z\pN]{1,}\z/i
 TPL									=>	/^[a-z\-\pN\/]{1,}\z/i
 UTF8_STRING_WHITE					=>	/^[\pL\pM*+\s]*\z/u
 UTF8_STRING_DIGIT_WHITE			=>	/^[\pL\pM*+\pN\s]*\z/u
 UTF8_STRING_DIGIT_PUNC_WHITE	=>	/^[\pL\pM*+\pN\pP\s]*\z/u
 
 If you would like to add your own DEFINE's please add them here.  Remember to add a new switch statement to the USER_filter() below.
-**************************************************************/
+*/
 
 
 define('EXAMPLE_EXPRESSION_1', '/^[\pL\pM*+\s]{2,15}\z/u');
@@ -64,6 +64,7 @@ define('WHOLE_NUMBER', '/^[\pN]*\z/');
 // /		End of the Pattern.
 
 define('EMAIL', '/^[A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,6}\z/i');
+// This def is obsolete now, we use filter_var() FILTER_VALIDATE_EMAIL below instead now.
 
 define('PASSWORD', '/^(.+)\z/');
 // ^		Start of line
@@ -104,44 +105,40 @@ define('G_RECAPTCHA_RESPONSE', '/^[a-z\pN\-_]*\z/i');
 // /i		Case insensitive
 
 $whitelist = array(
-	"example_given_name"					=> array("type" => "EXAMPLE_EXPRESSION_1",	"minlength" => 1,		"maxlength" => 15),
-	"example_age"							=> array("type" => "EXAMPLE_EXPRESSION_2",	"maxlength" => 3),
+	"example_given_name"	=> array("type" => "EXAMPLE_EXPRESSION_1",	"minlength" => 1,	"maxlength" => 15),
+	"example_age"					=> array("type" => "EXAMPLE_EXPRESSION_2",	"maxlength" => 3),
 
-	"logout"									=> array("type" => "WHOLE_NUMBER",				"maxlength" => 1),
-	"login"									=> array("type" => "WHOLE_NUMBER",				"maxlength" => 1),
-	"loginEmail"							=> array("type" => "EMAIL",						"maxlength" => 128),
-	"loginPassword"						=> array("type" => "PASSWORD",					"minlength" => 8),
+	"ccms_logout"										=> array("type" => "WHOLE_NUMBER",	"maxlength" => 1),
+	"ccms_login"										=> array("type" => "WHOLE_NUMBER",	"maxlength" => 1),
+	"ccms_login_email"							=> array("type" => "EMAIL",					"maxlength" => 128),
+	"ccms_login_password"						=> array("type" => "PASSWORD",			"minlength" => 8),
+	"ccms_pass_reset_form_code"			=> array("type" => "SESSION_ID",		"maxlength" => 64),
+	"ccms_pass_reset_part_1"				=> array("type" => "WHOLE_NUMBER",	"maxlength" => 1),
+	"ccms_pass_reset_part_1_email"	=> array("type" => "EMAIL",					"maxlength" => 255),
+	"ccms_pass_reset_part_2"				=> array("type" => "WHOLE_NUMBER",	"maxlength" => 1),
+	"ccms_pass_reset_part_2_pass_1"	=> array("type" => "PASSWORD",			"minlength" => 8),
+	"ccms_pass_reset_part_2_pass_2"	=> array("type" => "PASSWORD",			"minlength" => 8),
+	"ccms_auth_token"								=> array("type" => "WHOLE_NUMBER",	"minlength" => 6,	"maxlength" => 6),
+	"g-recaptcha-response"					=> array("type" => "G_RECAPTCHA_RESPONSE",	"maxlength" => 2048),
 
-	"ajax_flag"								=> array("type" => "WHOLE_NUMBER",				"maxlength" => 1),
-
-	"firstname"								=> array("type" => "NO_BADCHARS",				"maxlength" => 64),
-	"lastname"								=> array("type" => "NO_BADCHARS",				"maxlength" => 64),
-	"alias"									=> array("type" => "NO_BADCHARS",				"maxlength" => 32),
-	"position"								=> array("type" => "NO_BADCHARS",				"maxlength" => 64),
-	"address1"								=> array("type" => "NO_BADCHARS",				"maxlength" => 128),
-	"address2"								=> array("type" => "NO_BADCHARS",				"maxlength" => 128),
-	"prov_state"							=> array("type" => "NO_BADCHARS",				"maxlength" => 32),
-	"country"								=> array("type" => "NO_BADCHARS",				"maxlength" => 64),
-	"post_zip"								=> array("type" => "NO_BADCHARS",				"maxlength" => 32),
-	"email"									=> array("type" => "EMAIL",						"maxlength" => 255),
-	"phone1"									=> array("type" => "NO_BADCHARS",				"maxlength" => 64),
-	"phone2"									=> array("type" => "NO_BADCHARS",				"maxlength" => 64),
-	"skype"									=> array("type" => "NO_BADCHARS",				"maxlength" => 32),
-	"facebook"								=> array("type" => "NO_BADCHARS",				"maxlength" => 128),
-	"note"									=> array("type" => "NO_BADCHARS",				"maxlength" => 1024),
-
-	"password"								=> array("type" => "PASSWORD",					"minlength" => 8),
-	"password1"								=> array("type" => "PASSWORD",					"minlength" => 8),
-	"password2"								=> array("type" => "PASSWORD",					"minlength" => 8),
-
-	"ccms_ins_db_id"						=> array("type" => "WHOLE_NUMBER",				"minlength" => 1,		"maxlength" => 11),
-	"ccms_ins_db_text"					=> array("type" => "ANY",							"maxlength" => 16000),
-
-	"ccms_pass_reset_form"				=> array("type" => "WHOLE_NUMBER",				"maxlength" => 1),
-	"ccms_pass_reset_form_email"		=> array("type" => "EMAIL",						"maxlength" => 255),
-	"g-recaptcha-response"				=> array("type" => "G_RECAPTCHA_RESPONSE",	"maxlength" => 2048),
-	"ccms_pass_reset_form_prf"			=> array("type" => "WHOLE_NUMBER",				"maxlength" => 1),
-	"ccms_pass_reset_form_code"		=> array("type" => "SESSION_ID",					"maxlength"	=> 64)
+	"ajax_flag"								=> array("type" => "WHOLE_NUMBER",		"maxlength" => 1),
+	"firstname"								=> array("type" => "NO_BADCHARS",			"maxlength" => 64),
+	"lastname"								=> array("type" => "NO_BADCHARS",			"maxlength" => 64),
+	"alias"										=> array("type" => "NO_BADCHARS",			"maxlength" => 32),
+	"position"								=> array("type" => "NO_BADCHARS",			"maxlength" => 64),
+	"address1"								=> array("type" => "NO_BADCHARS",			"maxlength" => 128),
+	"address2"								=> array("type" => "NO_BADCHARS",			"maxlength" => 128),
+	"prov_state"							=> array("type" => "NO_BADCHARS",			"maxlength" => 32),
+	"country"									=> array("type" => "NO_BADCHARS",			"maxlength" => 64),
+	"post_zip"								=> array("type" => "NO_BADCHARS",			"maxlength" => 32),
+	"email"										=> array("type" => "EMAIL",						"maxlength" => 255),
+	"phone1"									=> array("type" => "NO_BADCHARS",			"maxlength" => 64),
+	"phone2"									=> array("type" => "NO_BADCHARS",			"maxlength" => 64),
+	"skype"										=> array("type" => "NO_BADCHARS",			"maxlength" => 32),
+	"facebook"								=> array("type" => "NO_BADCHARS",			"maxlength" => 128),
+	"note"										=> array("type" => "NO_BADCHARS",			"maxlength" => 1024),
+	"ccms_ins_db_id"					=> array("type" => "WHOLE_NUMBER",		"minlength" => 1,	"maxlength" => 11),
+	"ccms_ins_db_text"				=> array("type" => "ANY",							"maxlength" => 16000)
 );
 
 
@@ -171,7 +168,8 @@ function CCMS_User_Filter($input, $whitelist) {
 						$buf = (preg_match(WHOLE_NUMBER, $value)) ? $value : "INVAL";
 						break;
 					case "EMAIL":
-						$buf = (preg_match(EMAIL, $value)) ? $value : "INVAL";
+						//$buf = (preg_match(EMAIL, $value)) ? $value : "INVAL";
+						$buf = (filter_var($value, FILTER_VALIDATE_EMAIL)) ? $value : "INVAL";
 						break;
 					case "PASSWORD":
 						$buf = (preg_match(PASSWORD, $value)) ? $value : "INVAL";

@@ -28,6 +28,7 @@ try{
 
 
 /* Lazyload Images START */
+/*
 var lazyloadImages;
 if("IntersectionObserver" in window){
 	lazyloadImages = document.querySelectorAll(".lazy");
@@ -70,12 +71,8 @@ if("IntersectionObserver" in window){
 	window.addEventListener("resize",lazyload);
 	window.addEventListener("orientationChange",lazyload);
 }
+*/
 /* Lazyload Images END */
-
-
-/* General Data Protection Regulation (GDPR) Cookie Consent Banner START */
-window.wpcc.init({"colors":{"popup":{"background":"#ffe4e1","text":"#000000","border":"var(--cl3)"},"button":{"background":"var(--cl3)","text":"#ffffff"}},"position":"bottom","padding":"none","fontsize":"tiny","content":{"href":"/en/about-us/privacy-policy.html","message":"This site uses cookies to help maintain session persistance and language preferences. Services such as Google also place cookies here to help us improve your experience by providing insights into how the site is being used."}})
-/* General Data Protection Regulation (GDPR) Cookie Consent Banner END */
 
 
 /* Add to Home screen (A2HS) START
