@@ -65,7 +65,7 @@ CREATE TABLE `ccms_headers` (
 
 INSERT INTO `ccms_headers` (`id`, `status`, `name`, `value`, `note`) VALUES
 (1, 1, 'Permissions-Policy', 'accelerometer=(), autoplay=(), camera=(), encrypted-media=(), fullscreen=(self), geolocation=(self), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(self), picture-in-picture=(), sync-xhr=(), usb=()', 'Permissions-Policy (Feature-Policy)<br>\r\nControl browser’s features such as geolocation, fullscreen, speaker, USB, autoplay, speaker, vibrate, microphone, payment, vr, etc. to enable or disable within a web application.<br>\r\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy<br>\r\nhttps://github.com/w3c/webappsec-permissions-policy/blob/master/permissions-policy-explainer.md#appendix-big-changes-since-this-was-called-feature-policy\r\n'),
-(2, 1, 'X-Powered-By', 'Me', 'Disable your PHP version number from showing up in HTTP headers for added security.'),
+(2, 1, 'X-Powered-By', '', 'Disable your PHP version number from showing up in HTTP headers for added security.'),
 (3, 1, 'X-Frame-Options', 'sameorigin', 'Don\'t allow any pages to be framed - Defends against CSRF.'),
 (4, 1, 'X-XSS-Protection', '1; mode=block', 'Turn on IE8-IE9 XSS prevention tools.'),
 (5, 1, 'X-Content-Type-Options', 'nosniff', 'Prevent mime-based attacks.'),
