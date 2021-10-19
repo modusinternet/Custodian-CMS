@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./ccmsusr/_img/ccms-535x107.png" />
+	<img src="./ccmstpl/examples/_img/business-card.png" />
 </p>
 <h1 align="center">Custodian CMS</h1>
 
