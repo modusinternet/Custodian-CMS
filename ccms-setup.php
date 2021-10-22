@@ -420,7 +420,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <?php endif ?>
 			</div>
 
-<?php if($CFG["DOMAIN"]) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
+<?php if(isset($CFG["DOMAIN"])) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
 			<div class="collapsible <?=($CFG["pass"]==1) ? "gr":"rd";?>">
 				Test for <span class="oj">domain name</span> inside <span class="oj">/ccmspre/config.php</span>
 			</div>
@@ -432,7 +432,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <?php endif ?>
 			</div>
 
-<?php if($CFG["DB_HOST"]&&$CFG["DB_USERNAME"]&&$CFG["DB_PASSWORD"]&&$CFG["DB_NAME"]) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
+<?php if(isset($CFG["DB_HOST"]) && isset($CFG["DB_USERNAME"]) && isset($CFG["DB_PASSWORD"]) && isset($CFG["DB_NAME"])) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
 			<div class="collapsible <?=($CFG["pass"]==1) ? "gr":"rd";?>">
 				Test for <span class="oj">database settings</span> inside <span class="oj">/ccmspre/config.php</span>
 			</div>
@@ -445,12 +445,15 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			</div>
 
 <?php
+	/*
 	$host	= $CFG["DB_HOST"];
 	$dbname	= $CFG["DB_NAME"];
 	$user	= $CFG["DB_USERNAME"];
 	$pass	= $CFG["DB_PASSWORD"];
+	*/
 	try {
-		$CFG["DBH"] = @new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+		//$CFG["DBH"] = @new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+		$CFG["DBH"] = @new PDO("mysql:host=" . $CFG["DB_HOST"] . ";dbname=" . $CFG["DB_NAME"] . "", $CFG["DB_USERNAME"],  $CFG["DB_PASSWORD"], array(PDO::ATTR_PERSISTENT => true));
 		/* Great sites talking about how to handle the utf-8 character sets properly:
 		https://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql
 		https://mathiasbynens.be/notes/mysql-utf8mb4 */
@@ -474,7 +477,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			</div>
 
 <?php
-	if($CFG["DBH"]) {
+	if(isset($CFG["DBH"])) {
 		$val = @$CFG["DBH"]->getAttribute(constant("PDO::ATTR_SERVER_VERSION"));
 		$valArray = explode("-", $val);
 		if($valArray[0] >= '5.5.3') {
@@ -500,7 +503,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			</div>
 
 <?php
-	if($CFG["DBH"]) {
+	if(isset($CFG["DBH"])) {
 		$CFG["pass"] = 1;
 		if($_REQUEST["import"] === "1") {
 			if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
@@ -593,7 +596,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 				Pass
 <?php else: ?>
 				<?= $msg; ?>
-	<?php if($CFG["DBH"]): ?>
+	<?php if(isset($CFG["DBH"])): ?>
 				<br><br><a class="oj" href="/?import=1" onclick="return confirm('Are you sure?')">Click here</a> to import the required database tables now. (There should be a file named <span class="oj">ccms-setup-db.sql</span> in the document root of this website. It contains a copy of all the starter tables and the content required to setup a Custodian CMS project from scratch. If you are missing this file you can get a copy of it from <a class="oj" href="//github.com/modusinternet/Custodian-CMS/blob/master/ccms-setup-db.sql" target="_blank">GitHub</a>. Just save the file to the document root folder of your website and reload this page to continue. We recommend you either <span class="oj">rename or remove</span> this file, along with the ccms-setup.php file, when you are done with the entire 'Setup' process.)<br>
 				<br>
 				<span class="oj">WARNING</span>: This process will remove and fully replace <span class="oj td-dul">ALL</span> the ccms_ database tables that may already exist under the same name.  So be sure to back up and rename any tables you do not want to loose before preforming this action.
@@ -601,7 +604,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <?php endif ?>
 			</div>
 
-<?php if($CFG["GOOGLE_RECAPTCHA_PUBLICKEY"]&&$CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"]) {$CFG["pass"]=1;} else { $CFG["pass"]=0;}?>
+<?php if(isset($CFG["GOOGLE_RECAPTCHA_PUBLICKEY"]) && isset($CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"])) {$CFG["pass"]=1;} else { $CFG["pass"]=0;}?>
 			<div class="collapsible <?=($CFG["pass"]==1) ? "gr":"rd";?>">
 				Test for <span class="oj">Google reCAPTCHA Public Key</span> and <span class="oj">Private Key</span> inside <span class="oj">/ccmspre/config.php</span>
 			</div>
@@ -614,7 +617,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			</div>
 
 <?php
-	if($CFG["DBH"]) {
+	if(isset($CFG["DBH"])) {
 		$CFG["pass"] = 1;
 		if($_REQUEST["addSuper"] === "1") {
 			if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
@@ -660,10 +663,10 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 				Test for <span class="oj">Administrator</span>
 			</div>
 			<div class="collContent" id="adminDiv">
-<?php if($CFG["pass"]==1): ?>
+<?php if($CFG["pass"] == 1): ?>
 				Pass
 <?php else: ?>
-	<?php if($CFG["pass2"] === 1): ?>
+	<?php if(($CFG["pass2"] ?? null) === 1): ?>
 				No Administrator found in the ccms_user table.  Add one now.<br>
 				<form action="/" class="aGrid" method="post" novalidate="novalidate">
 					<input type="hidden" name="addSuper" value="1">
@@ -757,7 +760,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 					document.getElementById("ga_qr_svg").style.display = "block";
 
 					var xhr = new XMLHttpRequest();
-					xhr.open("POST", "https://custodiancms.org/cross-origin-resources/ga-qr-generater.php<?php if($CFG["DOMAIN"]){echo "?domain=" . $CFG["DOMAIN"];}?>", true);
+					xhr.open("POST", "https://custodiancms.org/cross-origin-resources/ga-qr-generater.php<?php if(isset($CFG["DOMAIN"])){echo "?domain=" . $CFG["DOMAIN"];}?>", true);
 					xhr.send();
 					xhr.onreadystatechange = function(){
 						if(xhr.readyState === 4){
