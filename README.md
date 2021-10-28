@@ -62,7 +62,7 @@ LAMP
 Installation
 --
 
-You can now use a single template to download CCMS and begin the config/setup process.  Download it here: [Custodian CMS Installer](https://github.com/modusinternet/Custodian-CMS-Installer)
+You can now use a single template to download CCMS and begin the config/setup process.  Download it here: [Custodian CMS Download](https://github.com/modusinternet/Custodian-CMS-Download)
 
 Or use the original method below to install.
 
