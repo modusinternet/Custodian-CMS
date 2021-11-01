@@ -2,7 +2,7 @@ a, a:visited{
 	border:0px none;
 	color:var(--cl3);
 	outline:0px;
-	text-decoration:underline;
+	text-decoration-style:dotted
 }
 
 a:hover,a:focus{text-decoration-style:double}

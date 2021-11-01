@@ -1,4 +1,4 @@
-{CCMS_DB_PRELOAD:all,index}<!DOCTYPE html>
+{CCMS_DB_PRELOAD:all,index,page}<!DOCTYPE html>
 <html lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}">
 	<head>
 		{CCMS_TPL:/examples/header-head.html}
@@ -97,8 +97,8 @@
 			<!-- img alt="Tested on GTmetrix 2021-08-01" class="b-lazy" data-src="/ccmstpl/examples/_img/tested_on_gtmetrix_2021-08-01.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" / -->
 
 			<picture>
-				<source data-srcset="/ccmstpl/examples/_img/tested_on_gtmetrix_2021-08-01.webp" type="image/webp" />
-				<img alt="Tested on GTmetrix 2021-08-01" class="lazy" data-src="/ccmstpl/examples/_img/tested_on_gtmetrix_2021-08-01.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+				<source data-srcset="/ccmstpl/examples/_img/tested_on_gtmetrix_2021-11-01.webp" type="image/webp" />
+				<img alt="Tested on GTmetrix 2021-08-01" class="lazy" data-src="/ccmstpl/examples/_img/tested_on_gtmetrix_2021-11-01.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
 			</picture><br>
 			https://gtmetrix.com
 		</a><br>
@@ -140,9 +140,11 @@
 
 		<img alt="Dynamically determined image link." class="lazy" data-src="/ccmstpl/examples/_img/text-on-graphic-{CCMS_LIB:_default.php;FUNC:ccms_lng}.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
 		<p>The following links are to example pages of translated static content. FYI: Translation provided by Google so forgive me if its a little off. (Any tranlation assistance would be greatly appreciated.)</p>
-		<a href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-1.html">Page #1</a> |
-		<a href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-2.html">Page #2</a> |
-		<a href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-3.html">Page #3</a>
+		<p dir="{CCMS_DB_DIR:page,page-num}">
+			<a href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-1.html" style="text-decoration-style:double">{CCMS_DB:page,page-num}1</a> |
+			<a href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-2.html">{CCMS_DB:page,page-num}2</a> |
+			<a href="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/page-3.html">{CCMS_DB:page,page-num}3</a>
+		</p>
 		<h2>Configuration</h2>
 		<p>The templates you are looking at now can be found in <span class="oj">/ccmstpl/</span> and the <span class="oj">/ccmstpl/index.html</span> file is currently configured in your <span class="oj">/ccmspre/config.php</span> file to be your default starting template. (The first template CCMS parses when nothing else is specified) For the purposes of this demonstration there is only one template, besides a few error templates, found in the <span class="oj">/ccmstpl/</span> directory which you can read and overwrite when you are ready.  All other resources related to what you see here now are located in the <span class="oj">/ccmstpl/examples/</span> directory.  When you are ready you can delete this folder and all of its contents as-well.</p>
 		<p>CCMS does not come with an admin system yet, it won't be ready till the next big release.  Fortunately its not needed to take advantage of CCMS's features, for now you need to use tools like phpMyAdmin to add, remove or update your database inserts.</p>

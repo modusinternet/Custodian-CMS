@@ -85,11 +85,6 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 
 			html{font-size:62.5%}
 
-			/*a{text-decoration-style:dotted}*/
-
-
-
-
 			a,a:visited {
 				border:0px none;
 				outline:0px;
@@ -97,9 +92,6 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			}
 
 			a:hover,a:focus{text-decoration-style:double}
-
-
-
 
 			body{
 				color:var(--cl2);
@@ -420,7 +412,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <?php endif ?>
 			</div>
 
-<?php if(isset($CFG["DOMAIN"])) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
+<?php if(!empty($CFG["DOMAIN"])) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
 			<div class="collapsible <?=($CFG["pass"]==1) ? "gr":"rd";?>">
 				Test for <span class="oj">domain name</span> inside <span class="oj">/ccmspre/config.php</span>
 			</div>
@@ -432,7 +424,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <?php endif ?>
 			</div>
 
-<?php if(isset($CFG["DB_HOST"]) && isset($CFG["DB_USERNAME"]) && isset($CFG["DB_PASSWORD"]) && isset($CFG["DB_NAME"])) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
+<?php if(!empty($CFG["DB_HOST"]) && !empty($CFG["DB_USERNAME"]) && !empty($CFG["DB_PASSWORD"]) && !empty($CFG["DB_NAME"])) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
 			<div class="collapsible <?=($CFG["pass"]==1) ? "gr":"rd";?>">
 				Test for <span class="oj">database settings</span> inside <span class="oj">/ccmspre/config.php</span>
 			</div>
@@ -445,15 +437,12 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			</div>
 
 <?php
-	/*
 	$host	= $CFG["DB_HOST"];
 	$dbname	= $CFG["DB_NAME"];
 	$user	= $CFG["DB_USERNAME"];
 	$pass	= $CFG["DB_PASSWORD"];
-	*/
 	try {
-		//$CFG["DBH"] = @new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
-		$CFG["DBH"] = @new PDO("mysql:host=" . $CFG["DB_HOST"] . ";dbname=" . $CFG["DB_NAME"] . "", $CFG["DB_USERNAME"],  $CFG["DB_PASSWORD"], array(PDO::ATTR_PERSISTENT => true));
+		$CFG["DBH"] = @new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 		/* Great sites talking about how to handle the utf-8 character sets properly:
 		https://www.toptal.com/php/a-utf-8-primer-for-php-and-mysql
 		https://mathiasbynens.be/notes/mysql-utf8mb4 */
@@ -484,7 +473,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			$CFG["pass"] = 1;
 		} else {
 			$CFG["pass"] = 0;
-			$msg = "The version of MySQL on your server does not appear to be high enough.  (v" . $valArray[0] . ")  If you attempt to run Custodian CMS in this environment you may experience problems.  Continue at your own risk.";
+			$msg = "The version of MySQL/MariaDB on your server does not appear to be high enough.  (v" . $valArray[0] . ")  If you attempt to run Custodian CMS in this environment you may experience problems.  Continue at your own risk.";
 		}
 	} else {
 		$CFG["pass"] = 0;
@@ -492,7 +481,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 	}
 ?>
 			<div class="collapsible <?=($CFG["pass"]==1) ? "gr":"rd";?>">
-				Test for minimum <span class="oj">MySQL v5.5.3+</span>
+				Test for minimum <span class="oj">MySQL/MariaDB v5.5.3+</span>
 			</div>
 			<div class="collContent">
 <?php if($CFG["pass"]==1): ?>
@@ -505,8 +494,8 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <?php
 	if(isset($CFG["DBH"])) {
 		$CFG["pass"] = 1;
-		if($_REQUEST["import"] === "1") {
-			if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
+		if(($_REQUEST["import"] ?? null) === "1") {
+			//if(stristr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
 				try {
 					/* This try call helps handle situations where /?import=1 is called more then once, most likely accidentally by hitting the reload button. */
 					$CFG["DBH"]->query("DESCRIBE `ccms_blacklist`");
@@ -522,10 +511,10 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 					$CFG["DBH"]->query("DROP TABLE IF EXISTS `ccms_blacklist`,`ccms_cache`,`ccms_headers`,`ccms_ins_db`,`ccms_lng_charset`,`ccms_log`,`ccms_password_recovery`,`ccms_user`");
 					$CFG["DBH"]->exec(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/ccms-setup-db.sql"));
 				}
-			} else {
-				exit('<script>alert("No direct script access allowed");</script>');
-				die();
-			}
+			//} else {
+			//	exit('<script>alert("No direct script access allowed");</script>');
+			//	die();
+			//}
 		}
 		try {
 			$CFG["DBH"]->query("DESCRIBE `ccms_blacklist`");
@@ -604,7 +593,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <?php endif ?>
 			</div>
 
-<?php if(isset($CFG["GOOGLE_RECAPTCHA_PUBLICKEY"]) && isset($CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"])) {$CFG["pass"]=1;} else { $CFG["pass"]=0;}?>
+<?php if(!empty($CFG["GOOGLE_RECAPTCHA_PUBLICKEY"]) && !empty($CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"])) {$CFG["pass"]=1;} else { $CFG["pass"]=0;}?>
 			<div class="collapsible <?=($CFG["pass"]==1) ? "gr":"rd";?>">
 				Test for <span class="oj">Google reCAPTCHA Public Key</span> and <span class="oj">Private Key</span> inside <span class="oj">/ccmspre/config.php</span>
 			</div>
@@ -612,15 +601,17 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 <?php if($CFG["pass"]==1): ?>
 				Pass
 <?php else: ?>
-				Google reCAPTCHA is used to help secure the Login and Password Reset forms.  Open the /ccmspre/config.php template, update the $CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] and $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] fields with details dirived from <a href="https://www.google.com/recaptcha/" target="_blank">https://www.google.com/recaptcha/</a>.
+				Google reCAPTCHA is used to help secure Custodian CMS's login and password reset forms.  In the future this feature will be optional but for now it is required.  Open the /ccmspre/config.php template, update the $CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] and $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] fields with details dirived from <a href="https://www.google.com/recaptcha/" target="_blank">https://www.google.com/recaptcha/</a>.
 <?php endif ?>
 			</div>
 
 <?php
 	if(isset($CFG["DBH"])) {
 		$CFG["pass"] = 1;
-		if($_REQUEST["addSuper"] === "1") {
-			if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
+		//if($_REQUEST["addSuper"] === "1") {
+		if(($_REQUEST["addSuper"] ?? null) === "1") {
+
+			//if(strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
 				/* This call helps handle situations where it is called more then once, most likely accidentally by hitting the reload button. */
 				$count = $CFG["DBH"]->query("SELECT count(*) FROM `ccms_user` WHERE `status` = 1 AND `super` = 1;")->fetchColumn();
 				if($count == 0) {
@@ -636,10 +627,10 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 					$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_user` (`id`, `email`, `hash`, `status`, `alias`, `super`, `priv`, `firstname`, `lastname`, `position`, `phone1`, `phone2`, `facebook`, `skype`, `note`, `address1`, `address2`, `prov_state`, `country`, `post_zip`, `nav_toggle`, `2fa_secret`) VALUES (NULL, :email, :hash, '1', :alias, '1', :priv, '', '', '', '', '', '', '', '', '', '', '', '', '', '1', :2fa_secret);");
 					$qry->execute(array(':email' => $_REQUEST["email"], ':hash' => $hash, ':alias' => $_REQUEST["alias"], ':priv' => $priv, ':2fa_secret' => $_REQUEST["2fa_secret"]));
 				}
-			} else {
-				exit('<script>alert("No direct script access allowed");</script>');
-				die();
-			}
+			//} else {
+			//	exit('<script>alert("No direct script access allowed");</script>');
+			//	die();
+			//}
 		}
 		try {
 			$CFG["DBH"]->query("DESCRIBE `ccms_user`;");
@@ -779,7 +770,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 									document.getElementById("ga_qr_img").style.display = "block";
 									document.getElementById("ga_qr_svg").style.display = "none";
 									document.getElementById("adminDiv").style.maxHeight = adminDiv.scrollHeight + "px";
-								},1000);
+								},3000);
 							} else {
 								//console.log("xhr failed");
 							}

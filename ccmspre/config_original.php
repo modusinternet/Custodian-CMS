@@ -3,7 +3,7 @@
 $CFG["DOMAIN"] = "";
 
 // Primary indexes for /ccmstpl/ and /ccmsusr/ sections of the site.
-$CFG["INDEX"] = "index";
+$CFG["INDEX"] = "index.html";
 $CFG["USRINDEX"] = "dashboard/";
 
 // Document root folder globals.
@@ -77,13 +77,15 @@ $CFG["EMAIL_BOUNCES_RETURNED_TO"] = "";
 $CFG["GOOGLE_CUSTOM_SEARCH_ENGINE_CODE"] = "";
 
 // To add Google reCaptcha to your web forms enter your recaptcha keys here.
-// https://www.google.com/recaptcha/
+// https://www.google.com/recaptcha/admin/create
+// https://codeforgeek.com/google-recaptcha-v3-tutorial/
 $CFG["GOOGLE_RECAPTCHA_PUBLICKEY"] = ""; // Site key
 $CFG["GOOGLE_RECAPTCHA_PRIVATEKEY"] = ""; // Secret key
 
 // To add Google Credentials so that you can embed things like maps to your site add your key here.
 // https://console.cloud.google.com
 $CFG["GOOGLE_CREDENTIALS_KEY"] = "";
+
 // List of resource names and versions used throughout the site.  We use this method to maintain
 // our resource versions because of the problems pushing updates to existing resources already found
 // on Amazon Cloudfront servers.

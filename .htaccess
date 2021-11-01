@@ -174,11 +174,14 @@ AddOutputFilterByType DEFLATE application/x-javascript
 	RewriteCond %{QUERY_STRING} (sp_executesql) [NC]
 	RewriteRule ^ - [F,L]
 
+	# Custodian CMS example URL Rewrite.  (This code is not necessary for CCMS to function properly, and could be removed if desired.  It is only here to aid the 'example' templates with the loading of a very handy ServiceWorker.  I had to call this template with a .php extension because some webservers running Nginx don't work properly when parsing incoming requests with only 2 letter extensions like .js.)
+	# ------------------------------
+	RewriteRule ^serviceworker\.php$ /index.php?ccms_tpl=/examples/_js/serviceworker.php [L,NC]
+
 	# Custodian CMS URL Rewrite
 	# ------------------------------
-	RewriteRule ^sw\.js$ /index.php?ccms_tpl=/examples/_js/sw.js [L,NC]
-	RewriteRule ^(([a-z]{2})(-[a-z]{2})?)/user(/.*)$ /ccmsusr/index.php?ccms_lng=$1&ccms_tpl=$4 [QSA,L,NC]
-	RewriteRule ^(([a-z]{2})(-[a-z]{2})?)(/([a-z0-9-_\./]*))?$ /index.php?ccms_lng=$1&ccms_tpl=$4 [QSA,L,NC]
+	RewriteRule ^(([a-z]{2,3})(-[a-z0-9]{2,3})?)/user(/.*)$ /ccmsusr/index.php?ccms_lng=$1&ccms_tpl=$4 [QSA,L,NC]
+	RewriteRule ^(([a-z]{2,3})(-[a-z0-9]{2,3})?)(/([a-z0-9-_\./]*))?$ /index.php?ccms_lng=$1&ccms_tpl=$4 [QSA,L,NC]
 
 	# The following examples will FAIL and result in /ccmstpl/error.php page being called.
 	# ------------------------------
