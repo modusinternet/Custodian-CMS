@@ -9,7 +9,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 	die();
 }
 
-@include "ccmspre/config.php";
+@include $_SERVER["DOCUMENT_ROOT"] . "/ccmspre/config.php";
 ?><!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -438,10 +438,14 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 
 <?php
 	if($CFG["pass"]==1) {
+		// Config file found.
+		// Database setting found.
+
 		$host	= $CFG["DB_HOST"];
 		$dbname	= $CFG["DB_NAME"];
 		$user	= $CFG["DB_USERNAME"];
 		$pass	= $CFG["DB_PASSWORD"];
+
 		try {
 			$CFG["DBH"] = @new PDO("mysql:host=$host;dbname=$dbname", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 			/* Great sites talking about how to handle the utf-8 character sets properly:
