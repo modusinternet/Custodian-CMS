@@ -115,22 +115,16 @@ function CCMS_Set_Headers(){
 function CCMS_Set_LNG() {
 	global $CFG, $CLEAN;
 
-//echo "1<br>\n";
-
 	$CFG["lngCodeFoundFlag"] = false;
 	$CFG["lngCodeActiveFlag"] = false;
 
 	if(isset($_SESSION["LNG"]) && !isset($CLEAN["ccms_lng"])) {
-
-//echo "2<br>\n";
 
 		// This might happen if the visitor has been to the site before and a language was correctly set in the SESSION but the website designer made links that return to the homepage without a language variable/dir.  In this case we need to grab the known language preference of the visitor from the session variable and copy it to the ccms_lng argument because it will be needed later on.  ie: https://abc.org as apposed to https://abc.org/en/
 		$CLEAN["ccms_lng"] = $_SESSION["LNG"];
 	}
 
 	if(isset($CLEAN["ccms_lng"]) && $CLEAN["ccms_lng"] !== "MAXLEN" && $CLEAN["ccms_lng"] !== "INVAL") {
-
-//echo "3<br>\n";
 
 		// Make sure what ever language value that's currenlty inside the ccms_lng arg is also found in the SESSION["LNG"].
 		$_SESSION["LNG"] = $CLEAN["ccms_lng"];
