@@ -35,7 +35,7 @@ const cacheName = '2021-10-28.v1';
 
 /* Point this array item to your own 'offline' template if you plan on removing the 'examples' folder in your own development. */
 var cacheFiles = [
-{CCMS_LIB:examples/xyzzy.php;FUNC:example_lngList_3}
+'/{CCMS_LIB:_default.php;FUNC:ccms_lng}/examples/offline.html'
 ];
 
 /*

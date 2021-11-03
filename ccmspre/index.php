@@ -14,7 +14,6 @@ A list of predefined PHP constants for use with the filter_var() function can be
 **************************************************************/
 
 define('CRYPT', '/^[a-z\-_\/#=&:\pN\?\.\";\'\`\*\s]*\z/i');
-define('HTTP_ACCEPT_LANGUAGE', '/[a-z]{2,3}(-[a-z0-9]{2,3})?/i');
 define('HTTP_COOKIE', '/^[a-z\pN\-_=\.; \/]{2,}\z/i');
 define('HTTP_USER_AGENT', '/^[a-z\pN\-_;:,.()#\/\+ ]{2,}\z/i');
 define('LNG', '/^[a-z]{2,3}(-[a-z0-9]{2,3})?\z/i');
@@ -67,7 +66,6 @@ $ccms_whitelist = array(
 	"ccms_cid"							=> array("type" => "SESSION_ID",							"maxlength" => 64),
 	"ccms_lng"							=> array("type" => "LNG",											"maxlength" => 5),
 	"ccms_token"						=> array("type" => "UTF8_STRING_DIGIT_WHITE",	"maxlength" => 64),
-	"HTTP_ACCEPT_LANGUAGE"	=> array("type" => "HTTP_ACCEPT_LANGUAGE",		"maxlength" => 256),
 	"HTTP_COOKIE"						=> array("type" => "HTTP_COOKIE",							"maxlength" => 512),
 	"HTTP_USER_AGENT"				=> array("type" => "HTTP_USER_AGENT",					"maxlength" => 512),
 	"QUERY_STRING"					=> array("type" => "QUERY_STRING",						"maxlength" => 1024)
@@ -117,15 +115,23 @@ function CCMS_Set_Headers(){
 function CCMS_Set_LNG() {
 	global $CFG, $CLEAN;
 
+//echo "1<br>\n";
+
 	$CFG["lngCodeFoundFlag"] = false;
 	$CFG["lngCodeActiveFlag"] = false;
 
 	if(isset($_SESSION["LNG"]) && !isset($CLEAN["ccms_lng"])) {
+
+//echo "2<br>\n";
+
 		// This might happen if the visitor has been to the site before and a language was correctly set in the SESSION but the website designer made links that return to the homepage without a language variable/dir.  In this case we need to grab the known language preference of the visitor from the session variable and copy it to the ccms_lng argument because it will be needed later on.  ie: https://abc.org as apposed to https://abc.org/en/
 		$CLEAN["ccms_lng"] = $_SESSION["LNG"];
 	}
 
 	if(isset($CLEAN["ccms_lng"]) && $CLEAN["ccms_lng"] !== "MAXLEN" && $CLEAN["ccms_lng"] !== "INVAL") {
+
+//echo "3<br>\n";
+
 		// Make sure what ever language value that's currenlty inside the ccms_lng arg is also found in the SESSION["LNG"].
 		$_SESSION["LNG"] = $CLEAN["ccms_lng"];
 
@@ -156,10 +162,10 @@ function CCMS_Set_LNG() {
 				break;
 			}
 		}
-	} elseif(isset($CLEAN["HTTP_ACCEPT_LANGUAGE"]) && $CLEAN["HTTP_ACCEPT_LANGUAGE"] !== "MAXLEN" && $CLEAN["HTTP_ACCEPT_LANGUAGE"] !== "INVAL") {
+	} elseif(($_SERVER["HTTP_ACCEPT_LANGUAGE"] ?? null) !== "") {
 		// Something was found in the HTTP_ACCEPT_LANGUAGE variable.
 
-		preg_match_all("/[a-z]{2,3}(-[a-z0-9]{2,8})?/i", $CLEAN["HTTP_ACCEPT_LANGUAGE"], $matches);
+		preg_match_all("/[a-z]{2,3}(-[a-z0-9]{2,3})?/i", $_SERVER["HTTP_ACCEPT_LANGUAGE"], $matches);
 
 		foreach($matches[0] as $match) {
 			foreach($CFG["CCMS_LNG_CHARSET"] as $key => $value) {
@@ -190,7 +196,7 @@ function CCMS_Set_LNG() {
 	}
 
 	if(!isset($CLEAN["ccms_lng"])) {
-		// There was nothing in $_SESSION["LNG"], the $CLEAN["ccms_lng"] variable was empty, MAXLEN or INVAL, and $CLEAN["HTTP_ACCEPT_LANGUAGE"] variable was empty, MAXLEN or INVAL.  So we will pull the default language set from the database.
+		// There was nothing in $_SESSION["LNG"], the $CLEAN["ccms_lng"] variable was empty, MAXLEN or INVAL, and $_SERVER["HTTP_ACCEPT_LANGUAGE"] variable was empty or invalid.  So we will pull the default language set from the database.
 		$CFG["lngCodeFoundFlag"] = true;
 		$CLEAN["ccms_lng"] = $CFG["DEFAULT_SITE_CHAR_SET"];
 		$_SESSION["LNG"] = $CFG["DEFAULT_SITE_CHAR_SET"];
@@ -424,9 +430,6 @@ function CCMS_Filter($input, $whitelist) {
 					case "CRYPT":
 						$value = stripslashes(rawurldecode($value));
 						$buf = (preg_match(CRYPT, $value)) ? $value : "INVAL";
-						break;
-					case "HTTP_ACCEPT_LANGUAGE":
-						$buf = (preg_match(HTTP_ACCEPT_LANGUAGE, $value)) ? $value : "INVAL";
 						break;
 					case "HTTP_COOKIE":
 						$buf = (preg_match(HTTP_COOKIE, $value)) ? $value : "INVAL";
