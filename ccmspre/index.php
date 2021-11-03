@@ -481,10 +481,20 @@ function CCMS_DB($a) {
 	global $CFG, $CLEAN;
 
 	if(isset($CLEAN["CCMS_DB_Preload_Content"])) {
-		if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] != "") {
-			echo CCMS_TPL_Parser($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"]);
+
+		if(isset($CLEAN["CCMS_DB_Preload_Content"][$a[2]]) === true && isset($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]]) === true) {
+			// Confirm "grp" ($a[2]) and "name" ($a[3]) were found in the database together and thier content have been stored here in this large array for use.  This only fails when a website developer has been working on an html template, adding entires that will eventually refer to content that needs to be pulled from the database, but has not actuall been added yet. (To the ccms_ins_db table.)
+
+			if(!empty($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"])) {
+				echo CCMS_TPL_Parser($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"]);
+			} else {
+				echo CCMS_TPL_Parser($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["content"]);
+			}
 		} else {
-			echo CCMS_TPL_Parser($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["content"]);
+			echo "MISSING:";
+			$tmp = (isset($CLEAN["CCMS_DB_Preload_Content"][$a[2]]) === false) ? " grp '$a[2]'" : "";
+			$tmp = (isset($CLEAN["CCMS_DB_Preload_Content"][$a[3]]) === false) ? " grp '$a[2]' with name '$a[3]'" : "";
+			echo (empty($tmp)) ? " Not found in 'ccms_ins_db' table." : $tmp . " not found in 'ccms_ins_db' table.";
 		}
 	} else {
 		echo $a[0] . " ERROR: Either CCMS_DB_Preload function was not called or the CCMS_DB_PRELOAD tag was not found on your template prior to calling this CCMS_DB tag. ";
