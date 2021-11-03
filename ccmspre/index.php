@@ -308,7 +308,7 @@ function CCMS_Set_SESSION() {
 				if(!isset($_SESSION["2FA_VALID"])) {
 					// The user is logged in successfully but they have 2FA enabled and haven't verified it yet.
 
-					$CLEAN["ccms_tpl"] = "authenticator";
+					$CLEAN["ccms_tpl"] = "/authenticator.php";
 				}
 			} else {
 				// The user is valid and nothing is outstanding so just update the most current privilages.
@@ -738,6 +738,8 @@ function CCMS_TPL_Parser($a = null) {
 function CCMS_Main() {
 	global $CFG, $CLEAN;
 
+header("ccms_tpl3: " . $CLEAN["ccms_tpl"]);
+
 	// If there is no template requested, show $CFG["INDEX"].
 	// This code is used when accessing the /user/ templates, before login credentials have between
 	// verified and when dealing with URL's that resemble:
@@ -764,7 +766,7 @@ function CCMS_Main() {
 	// /fruit/orange/index
 	// /fruit/orange/vitamin/index
 	if(preg_match("/[\/]\z/", $CLEAN["ccms_tpl"])) {
-		$CLEAN["ccms_tpl"] .= "index.html";
+		$CLEAN["ccms_tpl"] .= "index.php";
 	}
 
 	// Copys the end of the string found inside $CLEAN["ccms_tpl"] after the last /.
