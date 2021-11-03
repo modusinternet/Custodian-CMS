@@ -1,4 +1,4 @@
-<?
+<?php
 header("Content-Type: application/javascript; charset=utf-8");
 header("Service-Worker-Allow: /");
 ?>/* In order to get the listed resources below to load properly once moved to Amazon's CloudFront servers you need to add this to your S3 bucket, under Permissions/CORS configuration:
