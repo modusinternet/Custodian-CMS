@@ -1021,12 +1021,16 @@ function CCMS_Main() {
 		$CLEAN["ccms_tpl"] = "/error.php";
 		header("HTTP/1.0 404 not found");
 
-		ob_start();
-		include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . $CLEAN["ccms_tpl"];
-		$buf = ob_get_contents();
-		ob_end_clean();
-		//echo CCMS_TPL_Parser($buf);
-		CCMS_TPL_Parser($buf);
+		if(is_file($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . $CLEAN["ccms_tpl"])) {
+			ob_start();
+			include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . $CLEAN["ccms_tpl"];
+			$buf = ob_get_contents();
+			ob_end_clean();
+			//echo CCMS_TPL_Parser($buf);
+			CCMS_TPL_Parser($buf);
+		} else {
+			echo '<div style="margin:100px auto;text-align:center"><img src="https://custodiancms.org/cross-origin-resources/404-animated-ascii.gif" style="display:block;margin:0 auto" /><br>Under Construction</div>';
+		}
 	}
 }
 
