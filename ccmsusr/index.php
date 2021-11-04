@@ -10,7 +10,7 @@ $CFG = array();
 $CLEAN = array();
 
 // Necessary to solve a problem on GoDaddy servers when running sites found in sub folders of existing sites.
-if($_SERVER["REAL_DOCUMENT_ROOT"]) {
+if(isset($_SERVER["REAL_DOCUMENT_ROOT"])) {
 	$_SERVER["DOCUMENT_ROOT"] = $_SERVER["REAL_DOCUMENT_ROOT"];
 }
 
@@ -38,7 +38,8 @@ CCMS_User_Filter($_SERVER + $_REQUEST, $whitelist);
 
 CCMS_Set_SESSION();
 
-if($_SESSION["FAIL"] >= 5) {
+//if(isset($_SESSION["FAIL"]) >= 5) {
+if(($_SESSION["FAIL"] ?? null) >= 5) {
 	// If the users session record indicates that they have attempted to login 5 or more times and failed; do not show this page at all.  Simply redirect them base to the homepage for this site immediatly.
 
 	header("Location: /");

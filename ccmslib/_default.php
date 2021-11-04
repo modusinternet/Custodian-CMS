@@ -591,34 +591,25 @@ function _phpinfo() {
 	return phpinfo();
 }
 
+
 function ccms_badIPCheck($ip) {
 	global $CFG;
-	$qry = $CFG["DBH"]->prepare("SELECT * FROM ccms_blacklist;");
+
+	$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_blacklist` WHERE `id` = 1;");
 	$qry->execute();
-	$qry->setFetchMode(PDO::FETCH_ASSOC);
-	while($row = $qry->fetch()) {
-		if($row["id"] == 1) {
-			$badIPAddressData = $row["data"];
-		} elseif($row["id"] == 2) {
-			$badWordData = $row["data"];
+	$row = $qry->fetch(PDO::FETCH_ASSOC);
+
+	if(isset($row["data"])) {
+		if(strstr($row["data"], $ip)) {
+			return true;
+		} else {
+			return false;
 		}
-	}
-	$found = 0;
-	$pos = false;
-	$ip_array = explode("|", $badIPAddressData);
-	foreach($ip_array as $the_ip) {
-		$pos = @strpos(strtoupper($ip), strtoupper($the_ip));
-		if($pos !== false) {
-			$found = 1;
-			break;
-		}
-	}
-	if($found == 1) {
-		return false;
 	} else {
-		return true;
+		return false;
 	}
 }
+
 
 function bad_word_check($sentence) {
 	global $CFG;

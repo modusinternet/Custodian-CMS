@@ -7,7 +7,7 @@ The word 'Custodian' is defined by thefreedictionary.com as 'A person entrusted 
 
 Custodian CMS (CCMS) is a good caretaker to build your site upon because:
 <ol>
-	<li>It combines the best security practices against techniques like hot linking, cross site scripting, remote code execution and MySQL injection in multiple areas of the system.  The .htaccess file is approx. 275 lines of deeply scrutinized code that is constantly being improved.  Other .htaccess files found throughout its structure provide additional layers of protection.</li>
+	<li>It combines the best security practices against techniques like hot linking, cross site scripting, remote code execution and MySQL injection in multiple areas of the system.  The .htaccess file is full of deeply scrutinized code that is constantly being improved.  Other .htaccess files found throughout its structure provide additional layers of protection.</li>
 	<li>It operates under a clearly defined URI structure that is optimal for Search Engines.</li>
 	<li>It provides an easy process and structure for developers to separate HTML from programming code so that its easier for junior developers and maintainers to work with after development is complete.</li>
 	<li>It provides the simplest method in existence to solve the issues of constructing multilingual websites using a single set of templates, on a single domain, containing an unlimited number of languages.</li>
@@ -55,7 +55,7 @@ LAMP
 * Linux
 * Apache
 * MySQL v5.5.3+
-* PHP v5.6+
+* PHP v7.0+
 
 (CCMS will probably run on IIS but ya never know.  If someone would like to test it and let me know I'd appreciate it.)
 

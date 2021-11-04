@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "php": ">=5.6",
-        "modusinternet/Custodian-CMS": ">=0.7.3"
+        "php": ">=7.0",
+        "modusinternet/Custodian-CMS": ">=0.7.4"
     },
 
     "minimum-stability": "dev",

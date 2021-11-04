@@ -255,8 +255,9 @@ class PHPGangsta_GoogleAuthenticator{
 }
 
 
-if($_POST["ccms_auth_token_login"] == "1") {
-	if(!ccms_badIPCheck($_SERVER["REMOTE_ADDR"])) {
+//if($_POST["ccms_auth_token_login"] == "1") {
+if(($_POST["ccms_auth_token_login"] ?? null) === "1") {
+	if(ccms_badIPCheck($_SERVER["REMOTE_ADDR"])) {
 		$ccms_auth_token_error["FAIL"] = "There is a problem with your login, your IP Address is currently being blocked.  Please contact the website administrators directly if you feel this message is in error.";
 	} elseif(empty($CLEAN["ccms_auth_token"])) {
 		$ccms_auth_token_error["FAIL"] = "'Token' field missing content.";
@@ -268,20 +269,24 @@ if($_POST["ccms_auth_token_login"] == "1") {
 		$ccms_auth_token_error["FAIL"] = "The 'Token' field contains invalid characters! Try again.";
 	}
 
-	if($ccms_auth_token_error["FAIL"] == "") {
+	if(($ccms_auth_token_error["FAIL"] ?? null) !== "") {
+		// If $ccms_auth_token_error["FAIL"] is null and not equal to "".
+
 		$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_user` WHERE `id` = :id && `status` = 1 LIMIT 1;");
 		$qry->execute(array(':id' => $_SESSION["USER_ID"]));
 		$row = $qry->fetch(PDO::FETCH_ASSOC);
 
 		$ga = new PHPGangsta_GoogleAuthenticator();
 		$result = $ga->verifyCode($row["2fa_secret"], $CLEAN['ccms_auth_token'], 3);
-		if($result == "3"){
+		if($result == "3") {
+
 			$_SESSION["2FA_VALID"] = true;
 			$_SESSION["FAIL"] = 0;
 			$_SESSION["HTTP_USER_AGENT"] = md5($_SERVER["HTTP_USER_AGENT"]);
 			header("Location: /" . $CLEAN["ccms_lng"] . "/user/" . $CFG["INDEX"]);
 			exit;
 		} else {
+
 			$_SESSION["FAIL"] = $_SESSION["FAIL"] + 1;
 			$ccms_auth_token_error["FAIL"] = "Login failed, try again.";
 		}

@@ -348,7 +348,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			<h1>Instructions</h1>
 			<p>To fully activate your new templates you need to manually complete the following steps.  We do not automate most of this process in order to make sure it never becomes a target for hackers.  The following shows the test order and a brief description of what is needed to pass each test.  If you are familiar with the steps listed below click the <a class="oj" onclick="document.getElementById('tab03Title')?.click();" href="#">Setup Results</a> tab to see your results now.</p>
 			<ol style="margin-left:40px">
-				<li>Custodian CMS requires PHP v5.6+ and MySQL v5.5.3+ to run properly.</li>
+				<li>Custodian CMS requires PHP v7.0+ and MySQL v5.5.3+ to run properly.</li>
 				<li>Make a copy of the <span class="oj">/ccmspre/config_original.php</span> file and save it as <span class="oj">/ccmspre/config.php</span>.  Then update it with all your domain name and database settings.</li>
 				<li>Make a copy of the <span class="oj">/ccmspre/whitelist_public_original.php</span> file and save it as <span class="oj">/ccmspre/whitelist_public.php</span>.</li>
 				<li>Make a copy of the <span class="oj">/ccmspre/whitelist_user_original.php</span> file and save it as <span class="oj">/ccmspre/whitelist_user.php</span>.</li>
@@ -364,9 +364,9 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			<h1>Results</h1>
 			<p>Click any of the colored bars below to learn more about each test.</p>
 
-<?php if(version_compare(phpversion(),'5.6','>=')) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
+<?php if(version_compare(phpversion(),'7.0','>=')) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
 			<div class="collapsible <?=($CFG["pass"]==1) ? "gr":"rd";?>">
-				Test for minimum <span class="oj">PHP v5.6+</span>
+				Test for minimum <span class="oj">PHP v7.0+</span>
 			</div>
 			<div class="collContent">
 <?php if($CFG["pass"]==1): ?>
@@ -455,7 +455,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			$CFG["DBH"]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch(PDOException $e) {
 			$CFG["pass"] = 0;
-			$msg = $e->getCode() . ' ' . $e->getMessage();
+			$msg = $e->getCode() . ' ' . $e->getMessage() . "<br>\nYou probably need to either created the '$dbname' database or add the '$user' user to it still.";
 		}
 	} else {
 		$msg = "Connect to database test not preformed because no database settings detected in the /ccmspre/config.php template.";
