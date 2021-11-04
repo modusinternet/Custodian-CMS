@@ -738,8 +738,6 @@ function CCMS_TPL_Parser($a = null) {
 function CCMS_Main() {
 	global $CFG, $CLEAN;
 
-header("ccms_tpl3: " . $CLEAN["ccms_tpl"]);
-
 	// If there is no template requested, show $CFG["INDEX"].
 	// This code is used when accessing the /user/ templates, before login credentials have between
 	// verified and when dealing with URL's that resemble:
