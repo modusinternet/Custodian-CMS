@@ -40,8 +40,9 @@ form{padding-bottom:10px}
 
 .alertDiv{
 	border-radius:5px;
-	box-shadow:5px 5px 5px var(--cl12);
+	box-shadow:2px 2px 5px 0px rgba(0,0,0,.2);
 	color:var(--cl0);
+	font-weight:600;
 	margin:20px 0;
 	padding:10px
 }
@@ -51,8 +52,9 @@ form{padding-bottom:10px}
 .alertDiv.success{background-color:var(--cl3)}
 
 .logo{
-	/*filter:drop-shadow(5px 5px 5px rgba(10,37,64,.5));*/
-	filter:drop-shadow(1px 1px rgba(0,0,0,.6));
+	/*filter:drop-shadow(5px 5px 5px rgba(10,37,64,.5));
+	filter:drop-shadow(1px 1px rgba(0,0,0,.6));*/
+	filter:drop-shadow(2px 2px 4px rgba(0,0,0,.2));
 	-webkit-transition:all 1.0s ease-in-out;
 	-moz-transition:all 1.0s ease-in-out;
 	-o-transition:all 1.0s ease-in-out;
@@ -63,36 +65,34 @@ form{padding-bottom:10px}
 .logo_a{
 	border:0 none;
 	display:block;
-	text-align:left;
-	text-decoration:none;
-	margin:10px 10px 10px 60px;
+	left:20px;
+	position:fixed;
+	top:11px
 }
 
 .oj{color:var(--cl4)}
 
 .rd{color:var(--cl11)}
 
-/* metisMenu open */
-.sidebar-nav{
-	background:#212529;
-	width:320px
-}
+
+/* metisMenu START */
+.sidebar-nav{background-color:var(--cl4)}
 
 .sidebar-nav ul{
-	background:#343a40;
+	background:var(--cl4);
 	list-style:none;
 	margin:0;
 	padding:0
 }
 
 .sidebar-nav .metismenu{
-	background:#212529;
+	background-color:var(--cl4);
 	display:flex;
 	flex-direction:column
 }
 
 .sidebar-nav .metismenu a{
-	color:#adb5bd;
+	color:var(--cl0);
 	display:block;
 	outline-width:0;
 	padding:13px 15px;
@@ -105,10 +105,6 @@ form{padding-bottom:10px}
 .sidebar-nav .metismenu a:hover,
 .sidebar-nav .metismenu a:focus,
 .sidebar-nav .metismenu a:active{
-	/*
-	background:#0b7285;
-	color:#f8f9fa;
-	*/
 	background:var(--cl3);
 	color:var(--cl0);
 	text-decoration:none
@@ -126,4 +122,42 @@ form{padding-bottom:10px}
 	flex-direction:column;
 	position:relative
 }
-/* metisMenu close */
+/* metisMenu END */
+
+
+/* w3school dropdown START */
+.dropbtn {
+	cursor:pointer;
+	fill:var(--cl4);
+	filter:drop-shadow(2px 2px 4px rgba(0,0,0,.2));
+	width:50px
+}
+
+.dropdown {
+	display:inline-block;
+	float:right;
+	position:relative
+}
+
+.dropdown-content {
+	background-color:var(--cl4);
+	box-shadow:2px 3px 10px 0 rgba(0,0,0,0.2);
+	display:none;
+	overflow:auto;
+	position:absolute;
+	right:0;
+	width:max-content;
+	z-index:1;
+}
+
+.dropdown-content a {
+  color:var(--cl0);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover{background-color:var(--cl3)}
+
+.show {display: block;}
+/* w3school dropdown END */

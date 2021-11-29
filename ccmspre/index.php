@@ -58,17 +58,27 @@ define('UTF8_STRING_DIGIT_PUNC_WHITE', '/^[\pL\pM*+\pN\pP\s]*\z/u');
 // \z End of subject or newline at end. (Better then $ because $ does not include /n characters at the end of a line.)
 // /u Pattern strings are treated as UTF-8
 
+define('WHOLE_NUMBER', '/^[\pN]*\z/');
+// ^		Start of line
+// [		Starts the character class.
+// \pN		Any number.
+// ]		Ends the character class.
+// *		Zero or more
+// \z		End of subject or newline at end. (Better then $ because $ does not include /n characters at the end of a line.)
+// /		End of the Pattern.
+
 $ccms_whitelist = array(
-	"ccms_lngSelect"				=> array("type" => "LNG",											"maxlength" => 5),
-	"ccms_parms"						=> array("type" => "PARMS",										"maxlength" => 128),
-	"ccms_tpl"							=> array("type" => "TPL",											"maxlength" => 256),
-	"ccms_session"					=> array("type" => "SESSION_ID",							"maxlength" => 64),
-	"ccms_cid"							=> array("type" => "SESSION_ID",							"maxlength" => 64),
-	"ccms_lng"							=> array("type" => "LNG",											"maxlength" => 5),
-	"ccms_token"						=> array("type" => "UTF8_STRING_DIGIT_WHITE",	"maxlength" => 64),
-	"HTTP_COOKIE"						=> array("type" => "HTTP_COOKIE",							"maxlength" => 512),
-	"HTTP_USER_AGENT"				=> array("type" => "HTTP_USER_AGENT",					"maxlength" => 512),
-	"QUERY_STRING"					=> array("type" => "QUERY_STRING",						"maxlength" => 1024)
+	"ccms_ajax_flag"	=> array("type" => "WHOLE_NUMBER",				"maxlength" => 1),
+	"ccms_lngSelect"	=> array("type" => "LNG",						"maxlength" => 5),
+	"ccms_parms"		=> array("type" => "PARMS",						"maxlength" => 128),
+	"ccms_tpl"			=> array("type" => "TPL",						"maxlength" => 256),
+	"ccms_session"		=> array("type" => "SESSION_ID",				"maxlength" => 64),
+	"ccms_cid"			=> array("type" => "SESSION_ID",				"maxlength" => 64),
+	"ccms_lng"			=> array("type" => "LNG",						"maxlength" => 5),
+	"ccms_token"		=> array("type" => "UTF8_STRING_DIGIT_WHITE",	"maxlength" => 64),
+	"HTTP_COOKIE"		=> array("type" => "HTTP_COOKIE",				"maxlength" => 512),
+	"HTTP_USER_AGENT"	=> array("type" => "HTTP_USER_AGENT",			"maxlength" => 512),
+	"QUERY_STRING"		=> array("type" => "QUERY_STRING",				"maxlength" => 1024)
 );
 
 
@@ -146,8 +156,8 @@ function CCMS_Set_LNG() {
 					$qry->execute(array(':user_id' => $_SESSION["USER_ID"]));
 					$row = $qry->fetch(PDO::FETCH_ASSOC);
 					$json_a = json_decode($row["priv"], true);
-					if($row["super"] === "1" || $json_a[priv][content_manager][r] === "1") {
-						if($row["super"] === "1" || $json_a[priv][content_manager][lng][$key] === "1" || $json_a[priv][content_manager][lng][$key] === "2") {
+					if($row["super"] == "1" || $json_a["priv"]["content_manager"]["r"] == 1) {
+						if($row["super"] == "1" || $json_a["priv"]["content_manager"]["lng"][$key] == 1 || $json_a["priv"]["content_manager"]["lng"][$key] == 2) {
 							$CFG["CCMS_LNG_DIR"] = $value["dir"];
 							$CFG["lngCodeActiveFlag"] = true;
 						}
@@ -314,6 +324,7 @@ function CCMS_Set_SESSION() {
 				// The user is valid and nothing is outstanding so just update the most current privilages.
 
 				$_SESSION["2FA_VALID"] = null;
+				$_SESSION["ALIAS"] = $row["alias"];
 				$_SESSION["PRIV"] = $row["priv"];
 			}
 		} else {
@@ -465,6 +476,9 @@ function CCMS_Filter($input, $whitelist) {
 						break;
 					case "UTF8_STRING_DIGIT_PUNC_WHITE":
 						$buf = (preg_match(UTF8_STRING_DIGIT_PUNC_WHITE, $value)) ? $value : "INVAL";
+						break;
+					case "WHOLE_NUMBER":
+						$buf = (preg_match(WHOLE_NUMBER, $value)) ? $value : "INVAL";
 						break;
 				}
 			}
@@ -1017,13 +1031,11 @@ function CCMS_Main() {
 		// Store a copy of the original tpl requested for use later on in the error page.
 		$CLEAN["ccms_tpl_org"] = $CLEAN["ccms_tpl"];
 
-		// Reset the tpl variable to the error page.
-		$CLEAN["ccms_tpl"] = "/error.php";
 		header("HTTP/1.0 404 not found");
 
-		if(is_file($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . $CLEAN["ccms_tpl"])) {
+		if(is_file($_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/error.php")) {
 			ob_start();
-			include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . $CLEAN["ccms_tpl"];
+			include $_SERVER["DOCUMENT_ROOT"] . "/" . $CFG["TPLDIR"] . "/error.php";
 			$buf = ob_get_contents();
 			ob_end_clean();
 			//echo CCMS_TPL_Parser($buf);

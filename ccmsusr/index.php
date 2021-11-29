@@ -9,6 +9,9 @@
 $CFG = array();
 $CLEAN = array();
 
+$CFG["VERSION"] = "0.7.5";
+$CFG["RELEASE_DATE"] = "Nov 29, 2021";
+
 // Necessary to solve a problem on GoDaddy servers when running sites found in sub folders of existing sites.
 if(isset($_SERVER["REAL_DOCUMENT_ROOT"])) {
 	$_SERVER["DOCUMENT_ROOT"] = $_SERVER["REAL_DOCUMENT_ROOT"];
@@ -46,7 +49,7 @@ if(($_SESSION["FAIL"] ?? null) >= 5) {
 	exit;
 }
 
-if(!isset($_SESSION["USER_ID"]) || isset($_POST["ccms_login"]) || isset($_POST["ccms_logout"]) || isset($_POST["ccms_pass_reset_part_1"]) || isset($_POST["ccms_pass_reset_part_2"])) {
+if(!isset($_SESSION["USER_ID"]) || isset($_POST["ccms_login"]) || isset($_REQUEST["ccms_logout"]) || isset($_POST["ccms_pass_reset_part_1"]) || isset($_POST["ccms_pass_reset_part_2"])) {
 	$CLEAN["ccms_tpl"] = "/login.php";
 }
 

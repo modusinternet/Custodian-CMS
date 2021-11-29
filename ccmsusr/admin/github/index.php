@@ -107,7 +107,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 							<div class="panel-heading">Error</div>
 							<div class="panel-body">
 								<p>No .git repository setup in this directory or any of it's parent directories yet.  <a class="href-to-setup" href="#setup">Click here</a> to learn more about how to set up and connect this website to your own GitHub repository.</p>
-								<pre style="padding: 15px; margin: 15px 0px 20px;">fatal: not a git repository (or any of the parent directories): .git</pre>
+								<pre style="padding:15px;margin:15px 0px 20px">fatal: not a git repository (or any of the parent directories): .git</pre>
 							</div>
 						</div>
 	<? elseif(isset($msg[git][status][warning])): ?>
@@ -124,10 +124,12 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 									git push
 								</p>
 								<p>
-									Note: Or, if all you want to do is overwrite a single file on your server with what's currently on the GitHub repo you can try the following command.
+									Note: Or, if all you want to do is overwrite a single file on your server with what's currently on the GitHub repo you can try the following command. (NOTE: You may need to navigate into the dir that contains the file you want to overwrite first.)
 								</p>
 								<p class="boxed">
-									git checkout origin/master -- {filename}
+									git checkout origin/master -- {filename}<br>
+									git checkout -- .htaccess<br>
+									git checkout origin/main -- ccmstpl/examples/index.html
 								</p>
 							</div>
 						</div>

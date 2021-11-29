@@ -19,88 +19,25 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 	<style>
 		{CCMS_TPL:/_css/head-css.html}
 
-
-
-
-		/* VARIABLES */
-:root {
-  --coal: #3A3A3A;
-  --apple: #FF4D3A;
-}
-
-/* DEFAULT PROPERTIES */
-/*
-*, *::before, *::after {
-  box-sizing: border-box;
-  font: 500 16pt Lato;
-  color: #7A7A7A;
-  transition: 0.3s all;
-  cursor: default;
-}
-*/
-
-/* CONTAINER PROPERTIES */
-/*
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-}
-
-nav {
-  height: 60px;
-  background: var(--coal);
-}
-*/
-
-#menu-ctn {
-	position: absolute;
-	top: 20px;
-  height: 40px;
-	right: 20px;
-	cursor: pointer;
-}
-
-/*a{cursor:pointer}*/
-
-#menu-cnt {
-  /*
-	transform: translate(16px, -10px) scale(0.7);
-  background: #FFF;
-  padding: 20px;
-  box-shadow: 1px 2px 1px var(--coal);
-  display: none;
-	*/
-
-  display: none;
-	position: fixed;
-top: 80px;
-left: 0px;
-height: 80%;
-overflow: scroll;
-}
-
-/* ELEMENT PROPERTIES */
-.menu-bars {
-  height: 4px;
-  width: 30px;
-  list-style: none;
-  background: var(--cl4);
-  margin: 0 7px;
-  position: relative;
-  top: 18px;
-  transition: 0.4s all ease-in;
+/* metisMenu START */
+.menu-bars{
+	background:var(--cl4);
+	height:4px;
+	list-style:none;
+	width:30px;
+	margin:0 7px;
+	position:relative;
+	top:18px;
+	transition:0.4s all ease-in
 }
 
 .crossed {
   background: var(--cl1);
 }
 
-.dropped {
-  display: block!important;
-
-
-  transition: 0.4s all ease-in;
+.dropped{
+	display:block!important;
+	transition:0.4s all ease-in
 }
 
 .menu-bars::before, .menu-bars::after {
@@ -136,43 +73,77 @@ overflow: scroll;
   animation: rotate-bottom-bar-2 0.4s reverse;
 }
 
+#menu-cnt {
+	box-shadow:2px 3px 10px 0 rgba(0,0,0,0.2);
+  display:none;
+	position:fixed;
+	top:100px;
+	left:0px;
+	height:80%;
+	overflow:auto
+}
+
+#menu-cnt svg{
+	width:30px;
+	position:relative;
+	top:5px
+}
+
+#menu-cnt a>svg>path{fill:var(--cl0)}
+
+#menu-ctn {
+	cursor:pointer;
+	filter:drop-shadow(2px 2px 4px rgba(0,0,0,.2));
+	position:fixed;
+	right:18px;
+	top:25px
+}
+
 /* ANIMATION KEYFRAMES */
-@keyframes rotate-top-bar {
-  40% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(0) rotate(45deg);
-  }
+@keyframes rotate-top-bar{
+	40%{transform:translateY(0)}
+	100%{transform:translateY(0) rotate(45deg)}
 }
 
 @keyframes rotate-bottom-bar {
-  40% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(0) rotate(-45deg);
-  }
+	40%{transform:translateY(0)}
+	100%{transform: translateY(0) rotate(-45deg)}
 }
 
 @keyframes rotate-top-bar-2 {
-  40% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(0) rotate(45deg);
-  }
+	40%{transform:translateY(0)}
+	100%{transform:translateY(0) rotate(45deg)}
 }
 
 @keyframes rotate-bottom-bar-2 {
-  40% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(0) rotate(-45deg);
-  }
+	40%{transform:translateY(0)}
+	100%{transform:translateY(0) rotate(-45deg)}
+}
+/* metisMenu END */
+
+
+
+#user_dropdown{
+	position:fixed;
+	top:20px;
+	right:80px;
 }
 
+#user_dropdown_btn{
+	cursor:pointer;
+	background-color:unset;
+	border:none
+}
+
+#user_dropdown_btn>svg>*{pointer-events:none}
+
+#user_dropdown_list a>svg{
+	position:relative;
+	top:5px;
+	width:30px;
+}
+
+#user_dropdown_list a>svg>path{fill:var(--cl0)}
 
 	</style>
 	<script nonce="{CCMS_LIB:_default.php;FUNC:ccms_csp_nounce}">
@@ -263,6 +234,20 @@ $(() => {
 	$('#menu-cnt, #menu-ctn').on('click', event => event.stopPropagation());
 });
 
+
+
+
+/* When the user clicks on the svg button add the 'show' class to the dropdown box below it. */
+$("#user_dropdown_btn").click(function() {
+	$("#user_dropdown_list").addClass("show");
+});
+
+// Hide dropdown menu on click outside
+$(document).on("click", function(e){
+	if(!$(e.target).closest("#user_dropdown_btn").length){
+		$("#user_dropdown_list").removeClass("show");
+	}
+});
 
 
 

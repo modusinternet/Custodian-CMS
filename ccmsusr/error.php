@@ -1,1 +1,1 @@
-ccmsusr/error
+/ccmsusr/error.php

@@ -15,15 +15,15 @@ Custodian CMS (CCMS) is a good caretaker to build your site upon because:
 	<li>It gets out of the way of developers to build sites the way they want, with the tools/plugins/frameworks they want, using the themes they want.</li>
 </ol>
 
-Though CCMS does not come with setup scripts or an admin system currently (Admin system will be ready in v1.0) fortunately CCMS is so simple neither one is required to make use of this amazing tool.  Use a simple text editor to update the config and a tool like phpMyAdmin to add, remove or update your database inserts.
+Though CCMS does not come with a finished admin system (coming in v1.0) users do already have the ability to maintain some content in an easy, safe and secure way already via the public side templates.  CCMS's programming requirements are also very minimal, containing only 5 proprietary tags, it can be maintained with a simple text editor and a tool like phpMyAdmin to add, remove or update database inserts.
 
 
 About
 --
 
-CCMS is a small, light weight, multilingual, Content Management System distributed for free under the GNU LGPL.
+CCMS is a small, light weight, Content Management System, designed to help you build multilingual websites and is distributed for free under the GNU LGPL.
 
-The primary purpose of CCMS is to maintain a database of multilingual content and make it easy to display the correct one using a single set of templates.  One website, one set of templates, many languages.  The website developer sets the default language for the site, adds support for additional languages, fills the database with individually hand crafted blobs of content and inserts CCMS_DB tags throughout the HTML to automatically replace content in the language requested by visitors.  Here is an example of the database content insertion tag used in CCMS.
+The primary purpose of CCMS is to maintain a database of custom content, written and maintianed by native speakers, and make it easy to display the correct one using a single set of templates.  One website, one set of templates, many languages.  The website developer sets the default language for the site, adds support for additional languages, fills the database with individually hand crafted blobs of content and inserts CCMS_DB tags throughout the HTML to automatically replace content in the language requested by visitors.  Here is an example of the database content insertion tag used in CCMS.
 
 	{CCMS_DB:about_us_page,first_paragraph}
 	{CCMS_DB:use_anywhere,form_button_submit}
@@ -45,8 +45,6 @@ CCMS also provides a framework to help website developers build Search Engine Op
 	{CCMS_LIB:cms/_123.php;FUNC:XyZZy123_}
 	{CCMS_LIB:test/dir/indeX_Asdf-123.php;FUNC:cfgindeX_Asdf123("arg1", "arg2")}
 
-
-Visit the project website at https://custodiancms.org
 
 System requirements
 --
@@ -73,4 +71,4 @@ Or use the original method below to install.
 * Copy and or Rename /ccmspre/config_original.php to /ccmspre/config.php and /ccmspre/user_whiteList_original.php to /ccmspre/user_whiteList.php.
 * Open a browser and call your test environment, if the first template that comes up says 'Custodian CMS Configuration Instructions' follow the instructions and double check your installation.  Most likely you forgot to rename the /ccmspre/config_original.php and /ccmspre/user_whiteList_original.php files described above.
 
-CCMS project website: https://custodiancms.org (Under development)
+Visit the project website at https://custodiancms.org (Under development) or connect with us on Discord at: https://discord.gg/AA9vrxxyAJ
