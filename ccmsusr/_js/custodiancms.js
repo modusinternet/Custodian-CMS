@@ -10,21 +10,41 @@ window.setTimeout(function(){
 },250);
 /* Loading Screen END */
 
-/* Load metisMenu START */
+
+/* metisMenu START */
+$(() => {
+	const menu = $('#menu-ctn'),
+	bars = $('.menu-bars'),
+	content = $('#menu-cnt');
+	let firstClick = true,
+	menuClosed = true;
+	let handleMenu = event => {
+		if(!firstClick) {
+			bars.toggleClass('crossed hamburger');
+		} else {
+			bars.addClass('crossed');
+			firstClick = false;
+		}
+		menuClosed = !menuClosed;
+		content.toggleClass('dropped');
+		event.stopPropagation();
+	};
+	menu.on('click', event => {
+		handleMenu(event);
+	});
+	$('body').not('#menu-cnt, #menu-ctn').on('click', event => {
+		if(!menuClosed) handleMenu(event);
+	});
+	$('#menu-cnt, #menu-ctn').on('click', event => event.stopPropagation());
+});
+
 $("#menu1").metisMenu();
 navActiveSub.forEach(function(nl){$("#"+nl).addClass("mm-active");});
 navActiveSub.forEach(function(nl){$("#"+nl+">a").attr("aria-expanded","true");});
 navActiveSub.forEach(function(nl){$("#"+nl+">a").addClass("active");});
 navActiveSub.forEach(function(nl){$("#"+nl+">ul").addClass("mm-show");});
 navActiveItem.forEach(function(nl){$("#"+nl+">a").addClass("active");});
-/* Load metisMenu END */
-
-
-
-
-
-
-
+/* metisMenu END */
 
 
 
@@ -37,6 +57,7 @@ navActiveItem.forEach(function(nl){$("#"+nl+">a").addClass("active");});
 
 /* ===== metisMenu load ===== */
 /* Loads the correct sidebar on window load, collapses the sidebar on window resize. Sets the min-height of #page-wrapper to window size. */
+///*
 function showHideNav() {
 	topOffset = 50;
 	width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
@@ -57,88 +78,25 @@ function showHideNav() {
 
 $(function(){$(window).bind("load resize",function(){showHideNav();})});
 showHideNav();
+//*/
 /* ===== metisMenu load Close ===== */
+
+
+
+
+
+
+
+
 
 
 /* =========== open: scroll to ID value on page ============== */
 $.fn.scrollView = function () {
-    return this.each(function () {
-        $('html, body').animate({
-            scrollTop: $(this).offset().top
-        }, 1000);
-    });
+	return this.each(function () {
+		$('html, body').animate({
+			scrollTop: $(this).offset().top
+		}, 1000);
+	});
 }
 // use it like:  $('#your-div').scrollView();
 /* =========== close: scroll to ID value on page ============== */
-
-
-/* ========================= Start of Scroll to Top Stuff ========================= */
-//** jQuery Scroll to Top Control script- (c) Dynamic Drive DHTML code library: http://www.dynamicdrive.com.
-//** Available/ usage terms at http://www.dynamicdrive.com (March 30th, 09')
-//** v1.1 (April 7th, 09'):
-//** 1) Adds ability to scroll to an absolute position (from top of page) or specific element on the page instead.
-//** 2) Fixes scroll animation not working in Opera.
-var scrolltotop={
-	//startline: Integer. Number of pixels from top of doc scrollbar is scrolled before showing control
-	//scrollto: Keyword (Integer, or "Scroll_to_Element_ID"). How far to scroll document up when control is clicked on (0=top).
-	setting: {startline:100, scrollto: 0, scrollduration:1000, fadeduration:[500, 100]},
-	controlHTML: '<i class="fa fa-angle-up backtotop"></i>', //HTML for control, which is auto wrapped in DIV w/ ID="topcontrol"
-	controlattrs: {offsetx:5, offsety:5}, //offset of control relative to right/ bottom of window corner
-	anchorkeyword: '#top', //Enter href value of HTML anchors on the page that should also act as "Scroll Up" links
-	state: {isvisible:false, shouldvisible:false},
-	scrollup:function(){
-		if (!this.cssfixedsupport) //if control is positioned using JavaScript
-			this.$control.css({opacity:0}) //hide control immediately after clicking it
-		var dest=isNaN(this.setting.scrollto)? this.setting.scrollto : parseInt(this.setting.scrollto)
-		if (typeof dest=="string" && jQuery('#'+dest).length==1) //check element set by string exists
-			dest=jQuery('#'+dest).offset().top
-		else
-			dest=0
-		this.$body.animate({scrollTop: dest}, this.setting.scrollduration);
-	},
-	keepfixed:function(){
-		var $window=jQuery(window)
-		var controlx=$window.scrollLeft() + $window.width() - this.$control.width() - this.controlattrs.offsetx
-		var controly=$window.scrollTop() + $window.height() - this.$control.height() - this.controlattrs.offsety
-		this.$control.css({left:controlx+'px', top:controly+'px'})
-	},
-	togglecontrol:function(){
-		var scrolltop=jQuery(window).scrollTop()
-		if (!this.cssfixedsupport)
-			this.keepfixed()
-		this.state.shouldvisible=(scrolltop>=this.setting.startline)? true : false
-		if (this.state.shouldvisible && !this.state.isvisible){
-			this.$control.stop().animate({opacity:1}, this.setting.fadeduration[0])
-			this.state.isvisible=true
-		}
-		else if (this.state.shouldvisible==false && this.state.isvisible){
-			this.$control.stop().animate({opacity:0}, this.setting.fadeduration[1])
-			this.state.isvisible=false
-		}
-	},
-	init:function(){
-		jQuery(document).ready(function($){
-			var mainobj=scrolltotop
-			var iebrws=document.all
-			mainobj.cssfixedsupport=!iebrws || iebrws && document.compatMode=="CSS1Compat" && window.XMLHttpRequest //not IE or IE7+ browsers in standards mode
-			mainobj.$body=(window.opera)? (document.compatMode=="CSS1Compat"? $('html') : $('body')) : $('html,body')
-			mainobj.$control=$('<div id="topcontrol">'+mainobj.controlHTML+'</div>')
-				.css({position:mainobj.cssfixedsupport? 'fixed' : 'absolute', bottom:mainobj.controlattrs.offsety, right:mainobj.controlattrs.offsetx, opacity:0, cursor:'pointer'})
-				.attr({title:''})
-				.click(function(){mainobj.scrollup(); return false})
-				.appendTo('body')
-			if (document.all && !window.XMLHttpRequest && mainobj.$control.text()!='') //loose check for IE6 and below, plus whether control contains any text
-				mainobj.$control.css({width:mainobj.$control.width()}) //IE6- seems to require an explicit width on a DIV containing text
-			mainobj.togglecontrol()
-			$('a[href="' + mainobj.anchorkeyword +'"]').click(function(){
-				mainobj.scrollup()
-				return false
-			})
-			$(window).bind('scroll resize', function(e){
-				mainobj.togglecontrol()
-			})
-		})
-	}
-}
-scrolltotop.init();
-/* ========================= End of Scroll to Top Stuff ========================= */

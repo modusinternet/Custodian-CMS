@@ -80,7 +80,7 @@ if(isset($_SESSION['EXPIRED']) == "1") {
 				$_SESSION["FAIL"] = 0;
 				$_SESSION["HTTP_USER_AGENT"] = md5($_SERVER["HTTP_USER_AGENT"]);
 
-				header("Location: /" . $CLEAN["ccms_lng"] . "/user/" . $CFG["INDEX"]);
+				header("Location: /" . $CLEAN["ccms_lng"] . "/user/dashboard/");
 				exit;
 			} else {
 				// Password failed so we increment the fail field by 1, once it reaches 5 the login page wont even be available to the user anymore till their session expires.
@@ -503,10 +503,9 @@ if(
 		.logo_a{
 			border:0 none;
 			display:block;
+			margin:unset;
 			text-align:left;
-			text-decoration:none;
-			/*margin:10px 10px 10px 60px;*/
-			margin:unset
+			text-decoration:none
 		}
 
 		/* 500px or wider. */

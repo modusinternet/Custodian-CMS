@@ -9,8 +9,8 @@
 $CFG = array();
 $CLEAN = array();
 
-$CFG["VERSION"] = "0.7.5";
-$CFG["RELEASE_DATE"] = "Nov 29, 2021";
+$CFG["VERSION"] = "0.7.6";
+$CFG["RELEASE_DATE"] = "Jan 25, 2022";
 
 // Necessary to solve a problem on GoDaddy servers when running sites found in sub folders of existing sites.
 if(isset($_SERVER["REAL_DOCUMENT_ROOT"])) {
@@ -50,7 +50,7 @@ if(($_SESSION["FAIL"] ?? null) >= 5) {
 }
 
 if(!isset($_SESSION["USER_ID"]) || isset($_POST["ccms_login"]) || isset($_REQUEST["ccms_logout"]) || isset($_POST["ccms_pass_reset_part_1"]) || isset($_POST["ccms_pass_reset_part_2"])) {
-	if($CLEAN["ccms_ajax_flag"] == 1) {
+	if($CLEAN["ajax_flag"] == 1) {
 		// if this call contains an Ajax flag set to 1 we don't actually want to send them to the login page, we'll just send a session expired message instead.
 			header("Content-Type: application/javascript; charset=UTF-8");
 			header("Expires: on, 01 Jan 1970 00:00:00 GMT");
@@ -59,12 +59,37 @@ if(!isset($_SESSION["USER_ID"]) || isset($_POST["ccms_login"]) || isset($_REQUES
 			header("Cache-Control: post-check=0, pre-check=0", false);
 			header("Pragma: no-cache");
 
-			echo "Session Expired, please login and try again.";
+			echo '[{"errorMsg":"Session Error"}]';
 			exit;
 	} else {
 			// Show login template because they are NOT logged in.
 			$CLEAN["ccms_tpl"] = "/login.php";
 	}
+}
+
+// If there is no template requested, show $CFG["INDEX"].
+// This code is used when accessing the /user/ templates, before login credentials have between
+// verified and when dealing with URL's that resemble:
+// $CLEAN["INDEX"] === BLANK
+// /
+// Make into:
+// /index.html
+// /index.html
+if(!isset($CLEAN["ccms_tpl"]) || $CLEAN["ccms_tpl"] === "" || $CLEAN["ccms_tpl"] === "/") {
+	$CLEAN["ccms_tpl"] = "/dashboard/";
+}
+
+// If the template being requested is inside a dir and no specific template name is
+// part of that request, add index to the end.
+// /fruit/
+// /fruit/orange/
+// /fruit/orange/vitamin/
+// Make into:
+// /fruit/index
+// /fruit/orange/index
+// /fruit/orange/vitamin/index
+if(preg_match("/[\/]\z/", $CLEAN["ccms_tpl"])) {
+	$CLEAN["ccms_tpl"] .= "index.php";
 }
 
 CCMS_Main();

@@ -337,7 +337,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 
 		<!-- Welcome  -->
 		<div id="tab01Content" class="tabContent">
-			<h1>Welcome to Custodian CMS (CCMS) Setup</h1>
+			<h1>Welcome to the Custodian CMS (CCMS) Setup Template</h1>
 			<p><span class="oj">@Version <?=$CFG["VERSION"];?> (Release Date: <?=$CFG["RELEASE_DATE"];?>)</span>.<br>
 				This page is designed to test your server environment, check your configuration file, import example database content and establish your first administrator.  Once everything is properly configured and the setup process is complete you need to <span class="oj">rename or remove</span> the <span class="oj">/ccms-setup.php</span> file from the server to continue</span>.</p>
 			<p>For more information visit <a class="oj" style="word-wrap:break-word" href="https://custodiancms.org" target="_blank">https://custodiancms.org</a></p>

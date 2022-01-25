@@ -125,7 +125,7 @@ function ccms_user_admin_slider() {
 		$json_a = json_decode($_SESSION["PRIV"], true);
 	}
 
-	if(($json_a["priv"]["content_manager"]["r"] ?? null) === 1): ?>
+	if(($json_a["priv"]["content_manager"]["r"] ?? null) == 1): ?>
 <style>
 	#CCMSTab-slide{
 		font:600 20px/32px "Open Sans",sans-serif;
@@ -176,7 +176,7 @@ function ccms_user_admin_slider() {
 		$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset` ORDER BY lngDesc ASC;");
 		if($qry->execute()) {
 			while($row = $qry->fetch()) {
-				if($json_a["priv"]["content_manager"]["lng"][$row["lng"]] == 1 || $json_a["priv"]["content_manager"]["lng"][$row["lng"]] == 2) {
+				if($json_a["priv"]["content_manager"]["r"] == 1 || $json_a["priv"]["content_manager"]["lng"][$row["lng"]] == 2) {
 					if($row["ptrLng"]) {
 						echo "<li id=\"ccms_lng-" . $row["lng"] . "\"><a href=\"/" . $row["ptrLng"] . "/" . $tpl . "\" title=\"Points to lng code: " . $row["ptrLng"] . "\">" . $row["lngDesc"] . "</a></li>";
 					} else {
@@ -275,11 +275,18 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 					textOrig[2] = el.getAttribute("data-ccms-grp");
 					textOrig[3] = el.getAttribute("data-ccms-name");
 					$.ajax({
-						url: "/<?= $CLEAN["ccms_lng"]; ?>/user/_js/ccms-user-admin-slider-01-ajax.php?ccms_ajax_flag=1",
+						url: "/<?= $CLEAN["ccms_lng"]; ?>/user/_js/ccms-user-admin-slider-01-ajax.php?ajax_flag=1",
 						cache: false,
 						type: "post",
 						data: "ccms_ins_db_id=" + textOrig[0]
 					}).done(function(msg) {
+						if(msg === '[{"errorMsg":"Session Error"}]') {
+							alert("Session error, can not be edited right now.");
+							$(editbtn).removeClass("hidden");
+							$(savebtn).addClass("hidden");
+							$(cancelbtn).addClass("hidden");
+							return;
+						}
 						textOrig[1] = $.trim($(el).html());
 						$(el).html("");
 						editor=$("<textarea class=\"CCMS-editor-textarea\" rows=\"5\">"+msg+"</textarea><div style=\"position:relative;color:#000;font:16px/1.2 normal;text-align:left;text-transform:none;\"><span><strong>Warning</strong>: Only &lt;a&gt;, &lt;blockquote&gt;, &lt;br&gt;, &lt;i&gt;, &lt;img&gt;, &lt;p&gt;, &lt;pre&gt;, &lt;span&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt; and CCMS tags like <span style=\"word-break:break-all;\">&#123;CCMS_LIB:_default.php;FUNC:ccms_lng}</span> or &#123;CCMS_DB:index,para1} are permitted here.  All else is automatically removed at the server.<br>Shift+[Enter] for Break</span><span style=\"position:absolute;bottom:0;right:0;\">( ID:"+textOrig[0]+", GRP:"+textOrig[2]+", NAME:"+textOrig[3]+")</span></div>").appendTo($(el));
@@ -321,12 +328,12 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 						});
 						$("#CCMS-loadingSpinner").fadeIn();
 						$.ajax({
-							url: "/<?= $CLEAN["ccms_lng"]; ?>/user/_js/ccms-user-admin-slider-02-ajax.php?ccms_ajax_flag=1",
+							url: "/<?= $CLEAN["ccms_lng"]; ?>/user/_js/ccms-user-admin-slider-02-ajax.php?ajax_flag=1",
 							cache: false,
 							type: "post",
 							data: "ccms_ins_db_id=" + textOrig[0] + "&ccms_ins_db_text=" + encodeURIComponent(textNew)
 						}).done(function(msg) {
-							if(msg == "1") {
+							if(msg === "1") {
 								$(editbtn).removeClass("hidden");
 								$(savebtn).addClass("hidden");
 								$(cancelbtn).addClass("hidden");
@@ -342,6 +349,8 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 										} catch (e) {}
 									}
 								}
+							} else if(msg === '[{"errorMsg":"Session Error"}]') {
+								alert("Session error, changes not saved.");
 							} else {
 								alert(msg);
 								//console.log(msg);
