@@ -125,36 +125,11 @@ function ccms_user_admin_slider() {
 		$json_a = json_decode($_SESSION["PRIV"], true);
 	}
 
-	if(($json_a["priv"]["content_manager"]["r"] ?? null) == 1): ?>
+	if(($json_a["content_manager"]["rw"] ?? null) == 1): ?>
 <style>
-	#CCMSTab-slide{
-		font:600 20px/32px "Open Sans",sans-serif;
-		position:fixed;
-		right:-35px;
-		top:120px;
-		z-index:99999999;
-		-webkit-transition-duration:.3s;
-		-moz-transition-duration:.3s;
-		-o-transition-duration:.3s;
-		transition-duration:.3s}
-
-	#CCMSTab-slide-tab{
-		background:#86B135;
-		border-radius:5px 0 0 5px;
-		box-shadow:10px 5px 10px #888;
-		color:#fff;
-		cursor:pointer;
-		display:block;
-		padding:8px 0 0 8px;
-		position:relative;
-		top:-62px;
-		left:-35px;
-		-moz-border-radius:5px 0 0 5px;
-		-webkit-border-radius:5px 0 0 5px
-	}
-
-	#CCMSTab-slide-tab svg{width:30px}#CCMSTab-slide-tab svg>path{fill:var(--cl0)}#CCMSTab-slide-outer{position:absolute;top:-70px;left:3px;width:300px;background:#86B135;border-radius:5px 0 0 5px;box-shadow:10px 5px 10px #888;-webkit-border-radius:5px 0 0 5px;-moz-border-radius:5px 0 0 5px;}#CCMSTab-slide-inner{color:#fff;margin:15px;}#CCMSTab-slide-inner svg{float:right;margin-bottom:10px;width:30px}#CCMSTab-slide-inner svg>path{fill:var(--cl0)}#CCMSTab-slide-tab-checkbox:checked + #CCMSTab-slide{right:265px}#CCMSTab-slide-tab-checkbox{display:none}.CCMSTab-slide-header{font-size:18px;font-weight:700;text-align:center;color:inherit;border-bottom:1px solid #fff;padding-bottom:10px;margin-bottom:10px}#CCMSEdit-edit-mode-switch{position:relative;top:-10px}#CCMSEdit-edit-mode-switch-label{position:relative;top:6px;display:inline-block;width:60px;height:34px}#CCMSEdit-edit-mode-switch-label input{display:none}.slider{position:absolute;cursor:pointer;top:4px;left:0;right:0;bottom:-3px;background-color:#ccc;-webkit-transition:.4s;transition:.4s}.slider:before{position:absolute;content:"";height:26px;width:26px;left:4px;bottom:4px;background-color:#fff;-webkit-transition:.4s;transition:.4s}#CCMSEdit-edit-mode-switch-label input{display:none}#CCMSEdit-edit-mode-switch-label input:checked + .slider{background-color:#A2D345}#CCMSEdit-edit-mode-switch-label input:focus + .slider{box-shadow:0 0 1px #A2D345}#CCMSEdit-edit-mode-switch-label input:checked + .slider:before{-webkit-transform:translateX(26px);-ms-transform:translateX(26px);transform:translateX(26px)}.slider.round{border-radius:34px}.slider.round:before{border-radius:50%}#CCMSlng-list{border:solid 1px var(--cl0);list-style:none;margin:0 0 15px 0;padding:0 10px;max-height:200px;overflow:auto;width:100%}#CCMSlng-list li{margin:5px 0;}#CCMSlng-list li > a:link,#CCMSlng-list li > a:visited{color:#fff;text-decoration:none}#CCMSlng-list li > a:hover,#CCMSlng-list li > a:active{color:#fff;text-decoration:none;border-bottom:1px solid #fff}@media (max-height:340px){#CCMSlng-list{max-height:90px;overflow-y:scroll;overflow-x:hidden}}.CCMS-wrap{position:relative}.CCMSEdit-edit-link-border{border:1px dashed #86B135;padding:30px 10px 0 5px;display:block;background-color:#E5F2CD}.CCMS-editor-but{position:absolute;top:-10px;right:20px;z-index:9999999;padding:4px 8px;font-size:16px;line-height:1.5;border-radius:3px;color:#fff;background-color:#86B135;border:1px solid transparent;cursor:pointer;vertical-align:middle;text-align:center;box-shadow:5px 5px 10px #888}.CCMS-editor-savebut{right:110px}.CCMS-editor-textarea{width:99%;overflow-y:auto;font-family:inherit;font-style:inherit;font-variant:inherit;font-weight:inherit;font-stretch:inherit;font-size:inherit;line-height:inherit;resize:both}.hidden{display:none}#CCMS-loadingSpinner{display:none;position:absolute;background:#fff}#CCMS-loadingSpinner-load{position:absolute}#CCMSEdit-edit-mode-lng{width:100%;height:34px;padding:6px 12px;margin-bottom:10px;font-size:14px;line-height:1.42857143;color:#555;background-color:#fff;background-image:none;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition:border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;-o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s}
+	#CCMSTab-slide{font:600 20px/32px "Open Sans",sans-serif;position:fixed;right:-35px;top:120px;z-index:999;-webkit-transition-duration:.3s;-moz-transition-duration:.3s;-o-transition-duration:.3s;transition-duration:.3s}#CCMSTab-slide-tab{background:#86B135;border-radius:5px 0 0 5px;box-shadow:10px 5px 10px #888;color:#fff;cursor:pointer;display:block;padding:8px 0 0 8px;position:relative;top:-62px;left:-35px;-moz-border-radius:5px 0 0 5px;-webkit-border-radius:5px 0 0 5px}#CCMSTab-slide-tab svg{width:30px}#CCMSTab-slide-tab svg>path{fill:var(--cl0)}#CCMSTab-slide-outer{position:absolute;top:-70px;left:3px;width:300px;background:#86B135;border-radius:5px 0 0 5px;box-shadow:10px 5px 10px #888;-webkit-border-radius:5px 0 0 5px;-moz-border-radius:5px 0 0 5px;}#CCMSTab-slide-inner{color:#fff;margin:15px;}#CCMSTab-slide-inner svg{float:right;margin-bottom:10px;width:30px}#CCMSTab-slide-inner svg>path{fill:var(--cl0)}#CCMSTab-slide-tab-checkbox:checked + #CCMSTab-slide{right:265px}#CCMSTab-slide-tab-checkbox{display:none}.CCMSTab-slide-header{font-size:24px;text-align:center;color:inherit;border-bottom:1px solid #fff;padding-bottom:10px;margin-bottom:10px}#CCMSEdit-edit-mode-switch{position:relative;top:-10px}#CCMSEdit-edit-mode-switch-label{position:relative;top:6px;display:inline-block;width:60px;height:34px}#CCMSEdit-edit-mode-switch-label input{display:none}.slider{position:absolute;cursor:pointer;top:4px;left:0;right:0;bottom:-3px;background-color:#ccc;-webkit-transition:.4s;transition:.4s}.slider:before{position:absolute;content:"";height:26px;width:26px;left:4px;bottom:4px;background-color:#fff;-webkit-transition:.4s;transition:.4s}#CCMSEdit-edit-mode-switch-label input{display:none}#CCMSEdit-edit-mode-switch-label input:checked + .slider{background-color:#A2D345}#CCMSEdit-edit-mode-switch-label input:focus + .slider{box-shadow:0 0 1px #A2D345}#CCMSEdit-edit-mode-switch-label input:checked + .slider:before{-webkit-transform:translateX(26px);-ms-transform:translateX(26px);transform:translateX(26px)}.slider.round{border-radius:34px}.slider.round:before{border-radius:50%}#CCMSlng-list{border:solid 1px var(--cl0);list-style:none;margin:0 0 15px 0;padding:0 10px;max-height:200px;overflow:auto;width:100%}#CCMSlng-list li{margin:5px 0;}#CCMSlng-list li > a:link,#CCMSlng-list li > a:visited{color:#fff;text-decoration:none}#CCMSlng-list li > a:hover,#CCMSlng-list li > a:active{color:#fff;text-decoration:none;border-bottom:1px solid #fff}@media (max-height:340px){#CCMSlng-list{max-height:90px;overflow-y:scroll;overflow-x:hidden}}.CCMS-wrap{position:relative}.CCMSEdit-edit-link-border{border:1px dashed #86B135;padding:30px 10px 0 5px;display:block;background-color:#E5F2CD}.CCMS-editor-but{position:absolute;top:-10px;right:20px;z-index:999;padding:4px 8px;font-size:16px;line-height:1.5;border-radius:3px;color:#fff;background-color:#86B135;border:1px solid transparent;cursor:pointer;vertical-align:middle;text-align:center;box-shadow:5px 5px 10px #888}.CCMS-editor-savebut{right:110px}.CCMS-editor-textarea{width:99%;overflow-y:auto;font-family:inherit;font-style:inherit;font-variant:inherit;font-weight:inherit;font-stretch:inherit;font-size:inherit;line-height:inherit;resize:both}.hidden{display:none}#CCMS-loadingSpinner{display:none;position:absolute;background:#fff}#CCMS-loadingSpinner-load{position:absolute}#CCMSEdit-edit-mode-lng{width:100%;height:34px;padding:6px 12px;margin-bottom:10px;font-size:14px;line-height:1.42857143;color:#555;background-color:#fff;background-image:none;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition:border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;-o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s}.ccms_msg{border-radius:4px;box-shadow:rgba(0,0,0,0.2)0px 4px 10px 0px,rgba(0,0,0,0.19)0px 4px 20px 0px;color:rgb(255,255,255);display:block;left:0;padding:20px;position:fixed;margin:0 auto;right:0;top:-1000px;transition:all 1s;width:90%;z-index:1000}.ccms_msg.active{top:100px}.ccms_msg.active.error{background-color:rgb(255,0,0)}.ccms_msg.active.success{background-color:rgb(134,177,53)}@media only screen and (min-width:435px){.ccms_msg{max-width:400px}.ccms_msg.active.error{max-width:80%}.ccms_msg.active.success{max-width:400px}}@media only screen and (min-width:600px){.ccms_msg{max-width:400px}.ccms_msg.active.error{max-width:70%}.ccms_msg.active.success{max-width:400px}}@media only screen and (min-width:950px){.ccms_msg{max-width:400px}.ccms_msg.active.error{max-width:60%}.ccms_msg.active.success{max-width:400px}}@media only screen and (min-width:1400px){.ccms_msg{max-width:400px}.ccms_msg.active.error{max-width:50%}.ccms_msg.active.success{max-width:400px}}
 </style>
+<div id="ccms_msg" role="alert" class="ccms_msg"></div>
 <input type="checkbox" id="CCMSTab-slide-tab-checkbox">
 <div id="CCMSTab-slide">
 	<label id="CCMSTab-slide-tab" for="CCMSTab-slide-tab-checkbox" title="User Admin Slider">
@@ -176,15 +151,18 @@ function ccms_user_admin_slider() {
 		$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset` ORDER BY lngDesc ASC;");
 		if($qry->execute()) {
 			while($row = $qry->fetch()) {
-				if($json_a["priv"]["content_manager"]["r"] == 1 || $json_a["priv"]["content_manager"]["lng"][$row["lng"]] == 2) {
+				if($json_a["content_manager"]["rw"] === 1 && $json_a["content_manager"]["sub"][$row["lng"]] !== 0) {
+					// So long as you do have 'content_manager' read privileges (1), and the language your trying to access is not flagged on your account as 'No Access' (0) then it should show up in the list.
 					if($row["ptrLng"]) {
-						echo "<li id=\"ccms_lng-" . $row["lng"] . "\"><a href=\"/" . $row["ptrLng"] . "/" . $tpl . "\" title=\"Points to lng code: " . $row["ptrLng"] . "\">" . $row["lngDesc"] . "</a></li>";
+						echo '<li id="ccms_lng-' . $row["lng"] . '"><a href="/' . $row["ptrLng"] . '/' . $tpl . '" title="Points to lng code: ' . $row["ptrLng"] . '">' . $row["lngDesc"] . '</a></li>';
 					} else {
-						echo "<li id=\"ccms_lng-" . $row["lng"] . "\"";
+						echo '<li id="ccms_lng-' . $row["lng"] . '"';
 
-if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline dashed"';}
+						if($row["lng"] === $CLEAN["ccms_lng"]){
+							echo ' style="text-decoration:underline dashed"';
+						}
 
-						echo "><a href=\"/" . $row["lng"] . "/" . $tpl . "\" title=\"lng code: " . $row["lng"] . "\">" . $row["lngDesc"] . "</a></li>";
+						echo '><a href="/' . $row["lng"] . '/' . $tpl . '" title="lng code: ' . $row["lng"] . '">' . $row["lngDesc"] . '</a></li>';
 					}
 				}
 			}
@@ -212,21 +190,7 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 	function ccms_tab_switch() {
 		if($("#CCMSTab-slide-tab-checkbox").is(":checked")) {
 			// Tab Open
-			if(-1 == compVer(jQuery.fn.jquery, "2.2.4")) {
-				// jQuery version is not high enough
-				$('#CCMSEdit-edit-mode-switch-check').prop('checked', false);
-				$('#CCMSEdit-edit-mode-switch-check').prop('disabled', true);
-				localStorage.setItem("CCMSEdit-edit-mode-switch-check", false);
-
-				$('#CCCMSTab-slide-tab-checkbox').prop('checked', false);
-				$('#CCMSTab-slide-tab-checkbox').prop('disabled', true);
-				localStorage.setItem("CCMSTab-slide-tab-checkbox", false);
-
-				alert("The User Admin Slider requires jQuery v2.2.4 or higher to run properly.");
-				return false;
-			} else {
-				localStorage.setItem("CCMSTab-slide-tab-checkbox", true);
-			}
+			localStorage.setItem("CCMSTab-slide-tab-checkbox", true);
 		} else {
 			// Tab Closed
 			localStorage.setItem("CCMSTab-slide-tab-checkbox", false);
@@ -259,13 +223,25 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 				var textOrig = [], textNew = null, editor = null;
 				// We add a new class to the node containing the data-ccms attribute.  This generates the box.
 				el.className += " CCMSEdit-edit-link-border";
-				$(el).wrap("<div class=\"CCMS-wrap\"/>");
-				var editbtn = $("<button class=\"CCMS-editor-but CCMS-editor-editbut\">Edit</button>");
-				var savebtn = $("<button class=\"CCMS-editor-but CCMS-editor-savebut hidden\">Save</button>");
-				var cancelbtn = $("<button class=\"CCMS-editor-but hidden\">Cancel</button>");
+				$(el).wrap('<div class="CCMS-wrap">');
+
+				//Find out if it's read and writable in privileges
+				var rwPriv = el.getAttribute("data-ccms-rw");
+				if(rwPriv == "2") {
+					// read and writable
+					rwPriv = '<button class="CCMS-editor-but CCMS-editor-editbut">Edit</button>';
+				} else {
+					// read only
+					rwPriv = '<button class="CCMS-editor-but CCMS-editor-editbut" disabled style="text-decoration:line-through" title="Read Only">Edit</button>';
+				}
+
+				var editbtn = $(rwPriv);
+				var savebtn = $('<button class="CCMS-editor-but CCMS-editor-savebut hidden">Save</button>');
+				var cancelbtn = $('<button class="CCMS-editor-but hidden">Cancel</button>');
 				$(editbtn).prependTo($(el).parent());
 				$(savebtn).prependTo($(el).parent());
 				$(cancelbtn).prependTo($(el).parent());
+
 
 				$(editbtn).click(function() {
 					$(editbtn).addClass("hidden");
@@ -280,25 +256,37 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 						type: "post",
 						data: "ccms_ins_db_id=" + textOrig[0]
 					}).done(function(msg) {
-						if(msg === '[{"errorMsg":"Session Error"}]') {
-							alert("Session error, can not be edited right now.");
+						const ccms_msg_div = document.getElementById('ccms_msg');
+						var obj = JSON.parse(msg);
+						if(obj.success) {
+							textOrig[1] = $.trim($(el).html());
+							$(el).html("");
+							editor=$('<textarea class="CCMS-editor-textarea" rows="5">'+obj.success+'</textarea><div style="position:relative;color:#000;font:16px/1.2 normal;text-align:left;text-transform:none;"><span><strong>Warning</strong>: Only &lt;a&gt;, &lt;blockquote&gt;, &lt;br&gt;, &lt;i&gt;, &lt;img&gt;, &lt;p&gt;, &lt;pre&gt;, &lt;span&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt; and CCMS tags like <span style="word-break:break-all;">&#123;CCMS_LIB:_default.php;FUNC:ccms_lng}</span> or &#123;CCMS_DB:index,para1} are permitted here.  All else is automatically removed at the server.<br>Shift+[Enter] for Break</span><span style="position:absolute;bottom:0;right:0;">( ID:'+textOrig[0]+', GRP:'+textOrig[2]+', NAME:'+textOrig[3]+')</span></div>').appendTo($(el));
+							$(el).find('textarea').keyup(function (e) {
+								if(e.keyCode == 13 && e.shiftKey) {
+									var content = this.value;
+									var caret = getCaret(this);
+									this.value = content.substring(0, caret - 1) + "<br>\n" + content.substring(caret, content.length);
+									$(el).find('textarea').setCursorPosition(caret + 6);
+									e.preventDefault();
+								}
+							});
+						} else {
 							$(editbtn).removeClass("hidden");
 							$(savebtn).addClass("hidden");
 							$(cancelbtn).addClass("hidden");
-							return;
-						}
-						textOrig[1] = $.trim($(el).html());
-						$(el).html("");
-						editor=$("<textarea class=\"CCMS-editor-textarea\" rows=\"5\">"+msg+"</textarea><div style=\"position:relative;color:#000;font:16px/1.2 normal;text-align:left;text-transform:none;\"><span><strong>Warning</strong>: Only &lt;a&gt;, &lt;blockquote&gt;, &lt;br&gt;, &lt;i&gt;, &lt;img&gt;, &lt;p&gt;, &lt;pre&gt;, &lt;span&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt; and CCMS tags like <span style=\"word-break:break-all;\">&#123;CCMS_LIB:_default.php;FUNC:ccms_lng}</span> or &#123;CCMS_DB:index,para1} are permitted here.  All else is automatically removed at the server.<br>Shift+[Enter] for Break</span><span style=\"position:absolute;bottom:0;right:0;\">( ID:"+textOrig[0]+", GRP:"+textOrig[2]+", NAME:"+textOrig[3]+")</span></div>").appendTo($(el));
-						$(el).find('textarea').keyup(function (e) {
-							if(e.keyCode == 13 && e.shiftKey) {
-								var content = this.value;
-								var caret = getCaret(this);
-								this.value = content.substring(0, caret - 1) + "<br>\n" + content.substring(caret, content.length);
-								$(el).find('textarea').setCursorPosition(caret + 6);
-								e.preventDefault();
+							const ccms_msg_div = document.getElementById('ccms_msg');
+							ccms_msg_div.textContent = obj.error;
+							ccms_msg_div.classList.add("active", "error");
+							setTimeout(function() {
+								ccms_msg_div.classList.remove("active", "error");
+							},15000);
+							window.onclick = function(event) {
+								if(event.target != ccms_msg_div) {
+									ccms_msg_div.classList.remove("active", "error");
+								}
 							}
-						});
+						}
 					}).fail(function (jqXHR, textStatus, errorThrown){
 						// Called on failure.
 						// log the error to the console
@@ -309,6 +297,7 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 						$("#CCMS-loadingSpinner").fadeOut();
 					});
 				});
+
 
 				$(savebtn).click(function() {
 					if(textOrig[1] != $(el).find('textarea').val()) {
@@ -328,12 +317,14 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 						});
 						$("#CCMS-loadingSpinner").fadeIn();
 						$.ajax({
-							url: "/<?= $CLEAN["ccms_lng"]; ?>/user/_js/ccms-user-admin-slider-02-ajax.php?ajax_flag=1",
+							url: "/<?= $CLEAN["ccms_lng"];?>/user/_js/ccms-user-admin-slider-02-ajax.php?ajax_flag=1",
 							cache: false,
 							type: "post",
 							data: "ccms_ins_db_id=" + textOrig[0] + "&ccms_ins_db_text=" + encodeURIComponent(textNew)
 						}).done(function(msg) {
-							if(msg === "1") {
+							const ccms_msg_div = document.getElementById('ccms_msg');
+							var obj = JSON.parse(msg);
+							if(obj.success) {
 								$(editbtn).removeClass("hidden");
 								$(savebtn).addClass("hidden");
 								$(cancelbtn).addClass("hidden");
@@ -349,11 +340,27 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 										} catch (e) {}
 									}
 								}
-							} else if(msg === '[{"errorMsg":"Session Error"}]') {
-								alert("Session error, changes not saved.");
+								ccms_msg_div.classList.add("active", "success");
+								ccms_msg_div.textContent = obj.success;
+								setTimeout(function() {
+									ccms_msg_div.classList.remove("active", "success");
+								},5000);
+								window.onclick = function(event) {
+									if(event.target != ccms_msg_div) {
+										ccms_msg_div.classList.remove("active", "success");
+									}
+								}
 							} else {
-								alert(msg);
-								//console.log(msg);
+								ccms_msg_div.textContent = obj.error;
+								ccms_msg_div.classList.add("active", "error");
+								setTimeout(function() {
+									ccms_msg_div.classList.remove("active", "error");
+								},15000);
+								window.onclick = function(event) {
+									if(event.target != ccms_msg_div) {
+										ccms_msg_div.classList.remove("active", "error");
+									}
+								}
 							}
 						}).fail(function (jqXHR, textStatus, errorThrown){
 							// Called on failure.
@@ -384,6 +391,7 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 					}
 				});
 
+
 				$(cancelbtn).click(function(){
 					$(editbtn).removeClass("hidden");
 					$(savebtn).addClass("hidden");
@@ -402,25 +410,40 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 					$(el).html(textOrig[1]);
 				});
 
+
 			})
 		} else {
 			// Edit Switch Off
-			var a = document.querySelectorAll('[data-ccms]');
-			for(var i in a) {
-				if(a.hasOwnProperty(i)) {
-					if($(a).find('textarea').length) {
-						alert("Edit Mode can not be disabled while edit windows are still open.  Please saved or cancel open edits before using this switch.");
+			const list = document.querySelectorAll('[data-ccms]');
+			const ccms_msg_div = document.getElementById('ccms_msg');
+			const ccms_edit_mode_switch = document.getElementById('CCMSEdit-edit-mode-switch-check');//var
+
+			for(const value in list) {
+				if(list.hasOwnProperty(value)) {
+					if($(list).find('textarea').length) {
+						ccms_msg_div.textContent = "Edit Mode can not be disabled while edit windows are still open.  Please save or cancel open edits before turning this feature off.";
+						ccms_msg_div.classList.add("active", "error");
 						$('#CCMSEdit-edit-mode-switch-check').prop('checked', true);
 						localStorage.setItem("CCMSEdit-edit-mode-switch-check", true);
-						return false;
+						window.addEventListener('click', function abc(event) {
+							if(event.target != ccms_msg_div && event.target != ccms_edit_mode_switch) {
+								ccms_msg_div.classList.remove("active", "error");
+								window.removeEventListener('click', abc);
+							}
+						});
+						setTimeout(function() {
+							ccms_msg_div.classList.remove("active", "error");
+						},15000);
+						break;
 					} else {
+						console.log("not found");
 						$(".CCMS-wrap button").remove();
-						$(a[i]).unwrap();
-						a[i].className = a[i].className.replace(/\bCCMSEdit-edit-link-border\b/, "");
-						localStorage.setItem("CCMSEdit-edit-mode-switch-check", false);
+						$(list[value]).unwrap();
+						list[value].className = list[value].className.replace(/\bCCMSEdit-edit-link-border\b/, "");
 					}
 				}
 			}
+			localStorage.setItem("CCMSEdit-edit-mode-switch-check", false);
 		}
 	}
 
@@ -444,16 +467,16 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 		// Return 1  if a > b
 		// Return -1 if a < b
 		// Return 0  if a == b
-		if (a_components === b_components) {return 0;}
+		if(a_components === b_components) {return 0;}
 		var partsNumberA = a_components.split(".");
 		var partsNumberB = b_components.split(".");
-		for (var i = 0; i < partsNumberA.length; i++) {
+		for(var i = 0; i < partsNumberA.length; i++) {
 			var valueA = parseInt(partsNumberA[i]);
 			var valueB = parseInt(partsNumberB[i]);
 			// A bigger than B
-			if (valueA > valueB || isNaN(valueB)) {return 1;}
+			if(valueA > valueB || isNaN(valueB)) {return 1;}
 			// B bigger than A
-			if (valueA < valueB) {return -1;}
+			if(valueA < valueB) {return -1;}
 		}
 	}
 
@@ -465,16 +488,6 @@ if($row["lng"] === $CLEAN["ccms_lng"]){echo ' style="text-decoration:underline d
 			$('#CCMSEdit-edit-mode-switch-check').prop('checked', true);
 			ccms_edit_mode_switch();
 		}
-	}
-
-	function ccms_lcu(lng) { // ccms_lcu = language cookie update
-		document.cookie = "ccms_lng={CCMS_LIB:_default.php;FUNC:ccms_lng}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-		/* insert a new cookie and get it in the cache, just incase we're dealing with the home page.  */
-		var d = new Date();
-		d.setTime(d.getTime() + (365*24*60*60*1000));
-		var expires = "expires=" + d.toUTCString();
-		document.cookie = "ccms_lng=" + lng + "; " + expires + "; path=/";
-		return;
 	}
 
 	function ccms_load_jquery() {
@@ -492,10 +505,24 @@ console.log("jQuery not found, trying to load now.")
 			document.getElementsByTagName('head')[0].appendChild(jq);
 		} else if(-1 == compVer(jQuery.fn.jquery, "2.2.4")) {
 			// jQuery is loaded but the version is too low, kill the process
+
+console.log("jQuery is already loaded but not a high enough version.")
+
 			localStorage.setItem("CCMSTab-slide-tab-checkbox", false);
 			localStorage.setItem("CCMSEdit-edit-mode-switch-check", false);
 			document.getElementById("CCMSTab-slide").innerHTML = "";
-			alert("The User Admin Slider requires jQuery v2.2.4 or higher to run properly.");
+
+			const ccms_msg_div = document.getElementById('ccms_msg');
+			ccms_msg_div.textContent = "jQuery is already loaded but not a high enough version. The User Admin Slider requires jQuery v2.2.4 or higher to run properly.";
+			ccms_msg_div.classList.add("active", "error");
+			setTimeout(function() {
+				ccms_msg_div.classList.remove("active", "error");
+			},15000);
+			window.onclick = function(event) {
+				if(event.target != ccms_msg_div) {
+					ccms_msg_div.classList.remove("active", "error");
+				}
+			}
 			return false;
 		}
 		document.getElementById("ccms_lng-<?= $CLEAN["ccms_lng"]; ?>").scrollIntoView();
@@ -506,9 +533,7 @@ console.log("jQuery not found, trying to load now.")
 	}
 
 	function ccms_admin_slider_token() {
-		// Needed because of page caching.  If you login as a user and need to edit templates using the
-		// User Admin Slider you will have trouble finding your controls if you don't refresh your page because
-		// the browser is set to cache the pages in visitors browsers to help imporve it's speed.
+		// Needed because of page caching.  If you login as a user and need to edit templates using the User Admin Slider you will have trouble finding your controls if you don't refresh your page because the browser is set to cache the pages in visitors browsers to help imporve it's speed.
 		var parser = document.createElement('a'),
 			searchObject = {},
 			queries,
@@ -523,29 +548,15 @@ console.log("jQuery not found, trying to load now.")
 				split = queries[i].split('=');
 				searchObject[split[0]] = split[1];
 			}
-			/*
-				parser.protocol
-				parser.host
-				parser.hostname
-				parser.port
-				parser.pathname
-				parser.search
-				parser.searchObject
-				parser.hash
-			*/
-			//console.log('protocol: '+parser.protocol+'\nhost: '+parser.host+'\nhostname: '+parser.hostname+'\nport: '+parser.port+'\npathname: '+parser.pathname+'\nsearch: '+parser.search+'\searchObject: '+parser.searchObject+'\nhash: '+parser.hash+'\n\n');
 			if(parser.hostname == "<?php global $CFG; echo $CFG["DOMAIN"]; ?>") {
-				// First we test to make sure the href belongs to our site and is not a link to another site.
-				// if so then we clean out any previous instances of the ccms_token variable to prevent accumulation.
+				// First we test to make sure the href belongs to our site and is not a link to another site.  If so then we clean out any previous instances of the ccms_token variable to prevent accumulation.
 				parser.search = parser.search.replace(/([&\?]ccms_token=[a-z0-9]*$|ccms_token=[a-z0-9]*&|[?&]ccms_token=[a-z0-9]*(?=#))/ig, '');
-				// Now we rebuild the link to include a fresh ccms_token to help makesure we don't pull a cached version from
-				// the browser when we get there.
+				// Now we rebuild the link to include a fresh ccms_token to help makesure we don't pull a cached version from the browser when we get there.
 				this.href = parser.protocol+'//'+parser.hostname+(parser.port ? ':'+parser.port : '')+parser.pathname+(parser.search ? parser.search+'&'+ccms_token : '?'+ccms_token)+parser.hash
 			}
 		});
 	}
 
-	//$("#CCMSTab-slide-tab-checkbox").click(ccms_tab_switch);
 	document.getElementById("CCMSEdit-edit-mode-switch-check").addEventListener("click", ccms_edit_mode_switch);
 
 	if(window.addEventListener)

@@ -65,14 +65,6 @@
 			{CCMS_TPL:/examples/_js/footer-js.html}
 
 			/*
-			var l=document.createElement("link");
-			l.rel="stylesheet";
-			l.href = "/ccmstpl/examples/_css/style.css?v=1";
-			var h=document.getElementsByTagName("head")[0];
-			h.parentNode.insertBefore(l,h);
-			*/
-
-			/*
 			Argument details for example_build_css_link() and example_build_js_link() function calls:
 			arg1 = (1 = append AWS link), (empty = do not append AWS link)
 			arg2 = (1 = append language code to link), (empty = do not append language code to link)	In other words, send it through the parser first like a normal template. ie: https://yourdomain.com/en/somefile.css, adding the 'en' will push this template through the parser first before outputting it to the browser.
@@ -85,10 +77,10 @@
 			arg2 = a variable found in the config file that represents a partial pathway to the style sheet. (Not including details about AWS, language code, or language direction)
 			*/
 
-			{CCMS_LIB:examples/xyzzy.php;FUNC:example_build_css_link("","","CSS-01","","1")}
+			{CCMS_LIB:examples/xyzzy.php;FUNC:example_build_css_link("","","CSS-01","","")}
 
 			function loadJSResources(){
-				loadFirst("{CCMS_LIB:examples/xyzzy.php;FUNC:example_build_js_link("","","JS-01","","1")}",function(){
+				loadFirst("{CCMS_LIB:examples/xyzzy.php;FUNC:example_build_js_link("","","JS-01","","")}",function(){
 
 				}{CCMS_LIB:examples/xyzzy.php;FUNC:example_build_js_sri("","JS-01")});
 			}

@@ -2,9 +2,8 @@
 // Domain name
 $CFG["DOMAIN"] = "";
 
-// Primary indexes for /ccmstpl/ and /ccmsusr/ sections of the site.
+// Primary indexe for /ccmstpl/.
 $CFG["INDEX"] = "index.html";
-$CFG["USRINDEX"] = "dashboard/";
 
 // Document root folder globals.
 $CFG["DBH"] = NULL;

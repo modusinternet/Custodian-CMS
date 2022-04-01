@@ -53,7 +53,7 @@ LAMP
 * Linux
 * Apache
 * MySQL v5.5.3+
-* PHP v7.0+
+* PHP v7.3+
 
 (CCMS will probably run on IIS but ya never know.  If someone would like to test it and let me know I'd appreciate it.)
 

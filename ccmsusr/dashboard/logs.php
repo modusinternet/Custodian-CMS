@@ -24,4 +24,5 @@ foreach($result as $row){
 		'log' => $row['log']
 	);
 }
+
 echo json_encode($output);

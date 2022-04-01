@@ -41,17 +41,49 @@ if(isset($_SESSION['EXPIRED']) == "1") {
 	} elseif($CLEAN["ccms_login_password"] == "INVAL") {
 		$ccms_login_message["FAIL"] = "Something is wrong with your password, it came up as INVALID when testing is with with an open (.+) expression.";
 
+	} elseif(empty($CLEAN["g-recaptcha-action"])) {
+		$ccms_login_message["FAIL"] = "'g-recaptcha-action' field missing content. Try again.";
+	} elseif($CLEAN["g-recaptcha-action"] == "MAXLEN") {
+		$ccms_login_message["FAIL"] = "'g-recaptcha-action' field exceeded its maximum number of 2048 character. Try again.";
+	} elseif($CLEAN["g-recaptcha-action"] == "INVAL") {
+		$ccms_login_message["FAIL"] = "'g-recaptcha-action' field contains invalid characters! Try again.";
+
 	} elseif(empty($CLEAN["g-recaptcha-response"])) {
 		$ccms_login_message["FAIL"] = "'g-recaptcha-response' field missing content. Try again.";
 	} elseif($CLEAN["g-recaptcha-response"] == "MAXLEN") {
 		$ccms_login_message["FAIL"] = "'g-recaptcha-response' field exceeded its maximum number of 2048 character. Try again.";
 	} elseif($CLEAN["g-recaptcha-response"] == "INVAL") {
 		$ccms_login_message["FAIL"] = "'g-recaptcha-response' field contains invalid characters! Try again.";
-	} elseif(!empty($CLEAN["g-recaptcha-response"]) && $CLEAN["g-recaptcha-response"] != "MAXLEN" && $CLEAN["g-recaptcha-response"] != "INVAL") {
-		$resp = file_get_contents( "https://www.google.com/recaptcha/api/siteverify?secret={$CFG['GOOGLE_RECAPTCHA_PRIVATEKEY']}&response={$CLEAN['g-recaptcha-response']}&remoteip={$_SERVER['REMOTE_ADDR']}" );
-		$resp = json_decode($resp);
-		if($resp->success == false) {
-			$ccms_login_message["FAIL"] = 'Google reCAPTCHA failed or expired. Try again.';
+
+	} elseif(!isset($ccms_login_message["FAIL"])) {
+		$resp = '';
+		// query use fsockopen
+		$fp = @fsockopen('ssl://www.google.com', 443, $errno, $errstr, 10);
+		if($fp !== false) {
+			$out = "GET /recaptcha/api/siteverify?secret={$CFG['GOOGLE_RECAPTCHA_PRIVATEKEY']}&response={$CLEAN['g-recaptcha-response']}&remoteip={$_SERVER['REMOTE_ADDR']} HTTP/1.1\r\n";
+			$out .= "Host: www.google.com\r\n";
+			$out .= "Connection: Close\r\n\r\n";
+			@fwrite($fp, $out);
+			while(!feof($fp)) {
+				//$resp .= fgets($fp, 4096);
+				$resp .= fread($fp, 4096);
+			}
+			@fclose($fp);
+
+			$position = strpos($resp, "\r\n\r\n");
+			$resp = substr($resp, $position);
+			$position = strpos($resp, "{");
+			$resp = substr($resp, $position);
+			$resp = trim($resp, "\r\n0");
+			$resp = json_decode($resp, true);
+
+			if($resp["success"] == false || $resp["action"] !== $CLEAN["g-recaptcha-action"] || $resp["score"] <= 0.4) {
+				$ccms_login_message["FAIL"] = 'Google reCAPTCHA failed or expired. Try again.';
+				//$ccms_login_message["FAIL"] = 'Google reCAPTCHA failed or expired. Try again. (success=['.$resp["success"].'], score=['.$resp["score"].'], action=['.$resp["action"].'], error-codes=['.$resp["error-codes"].'])';
+			}
+
+		} else {
+			$ccms_login_message["FAIL"] = 'Unable to connect to Google reCAPTCHA.)';
 		}
 	}
 
@@ -343,7 +375,9 @@ $email_message .= "\r\n\r\n--" . $boundary . "--";
 	} elseif($CLEAN["ccms_pass_reset_part_2_pass_2"] == "INVAL") {
 		$ccms_pass_reset_message["FAIL"] = "Something is wrong with ccms_pass_reset_part_2_pass_2, it came up as INVALID when testing is with with an open (.+) expression.";
 	} elseif($CLEAN["ccms_pass_reset_part_2_pass_1"] != $CLEAN["ccms_pass_reset_part_2_pass_2"]) {
-		$ccms_pass_reset_message["FAIL"] = "ccms_pass_reset_part_2_pass_1 and ccms_pass_reset_part_2_pass_2 do not match.";
+		$ccms_pass_reset_message["FAIL"] = "Password fields do not match.";
+
+	/*
 	} elseif(empty($CLEAN["g-recaptcha-response"])) {
 		$ccms_pass_reset_message["FAIL"] = "'g-recaptcha-response' field missing content.";
 	} elseif($CLEAN["g-recaptcha-response"] == "MAXLEN") {
@@ -357,10 +391,63 @@ $email_message .= "\r\n\r\n--" . $boundary . "--";
 			$ccms_pass_reset_message["FAIL"] = 'Google reCAPTCHA failed or expired.  Try again.';
 		}
 	}
+	*/
+	} elseif(empty($CLEAN["g-recaptcha-action"])) {
+		$ccms_pass_reset_message["FAIL"] = "'g-recaptcha-action' field missing content. Try again.";
+	} elseif($CLEAN["g-recaptcha-action"] == "MAXLEN") {
 
-//header("aa_ccms_pass_reset_message: " . $ccms_pass_reset_message["FAIL"]);
+		$ccms_pass_reset_message["FAIL"] = "'g-recaptcha-action' field exceeded its maximum number of 2048 character. Try again.";
 
-	if($ccms_pass_reset_message["FAIL"] === "") {
+	} elseif($CLEAN["g-recaptcha-action"] == "INVAL") {
+		$ccms_pass_reset_message["FAIL"] = "'g-recaptcha-action' field contains invalid characters! Try again.";
+
+	} elseif(empty($CLEAN["g-recaptcha-response"])) {
+		$ccms_pass_reset_message["FAIL"] = "'g-recaptcha-response' field missing content. Try again.";
+
+	} elseif($CLEAN["g-recaptcha-response"] == "MAXLEN") {
+		$ccms_pass_reset_message["FAIL"] = "'g-recaptcha-response' field exceeded its maximum number of 2048 character. Try again.";
+
+	} elseif($CLEAN["g-recaptcha-response"] == "INVAL") {
+		$ccms_pass_reset_message["FAIL"] = "'g-recaptcha-response' field contains invalid characters! Try again.";
+
+	} elseif(!isset($ccms_pass_reset_message["FAIL"])) {
+		$resp = '';
+		// query use fsockopen
+		$fp = @fsockopen('ssl://www.google.com', 443, $errno, $errstr, 10);
+		if($fp !== false) {
+			$out = "GET /recaptcha/api/siteverify?secret={$CFG['GOOGLE_RECAPTCHA_PRIVATEKEY']}&response={$CLEAN['g-recaptcha-response']}&remoteip={$_SERVER['REMOTE_ADDR']} HTTP/1.1\r\n";
+			$out .= "Host: www.google.com\r\n";
+			$out .= "Connection: Close\r\n\r\n";
+			@fwrite($fp, $out);
+			while(!feof($fp)) {
+				//$resp .= fgets($fp, 4096);
+				$resp .= fread($fp, 4096);
+			}
+			@fclose($fp);
+
+			$position = strpos($resp, "\r\n\r\n");
+			$resp = substr($resp, $position);
+			$position = strpos($resp, "{");
+			$resp = substr($resp, $position);
+			$resp = trim($resp, "\r\n0");
+			$resp = json_decode($resp, true);
+
+			if($resp["success"] == false || $resp["action"] !== $CLEAN["g-recaptcha-action"] || $resp["score"] <= 0.4) {
+				$ccms_pass_reset_message["FAIL"] = 'Google reCAPTCHA failed or expired. Try again.';
+				//$ccms_pass_reset_message["FAIL"] = 'Google reCAPTCHA failed or expired. Try again. (success=['.$resp["success"].'], score=['.$resp["score"].'], action=['.$resp["action"].'], error-codes=['.$resp["error-codes"].'])';
+			}
+
+		} else {
+			$ccms_pass_reset_message["FAIL"] = 'Unable to connect to Google reCAPTCHA.)';
+		}
+	}
+
+
+
+
+
+	//if($ccms_pass_reset_message["FAIL"] === "") {
+	if(!isset($ccms_pass_reset_message["FAIL"])){
 		// This is an password reset submittion, so first we need to make sure the ccms_pass_reset_form_code record is still available.
 
 		$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_password_recovery` WHERE `code` = :code AND `ip` = :ip AND `user_agent` = :user_agent LIMIT 1;");
@@ -437,44 +524,7 @@ if(
 	<style nonce="{CCMS_LIB:_default.php;FUNC:ccms_csp_nounce}">
 		{CCMS_TPL:/_css/head-css.html}
 
-		button{
-			border:unset;
-			border-radius:5px;
-			border-width:1px;
-			font:unset;
-			padding:3px 10px
-		}
-
 		.aGrid{display:grid}
-
-		.aGrid>button{
-			background:var(--cl3);
-			border:0;
-			color:var(--cl0);
-			padding:0.5em;
-			width:100%
-		}
-
-		.aGrid>button:hover{background:var(--cl3-tran)}
-
-		.aGrid>input{
-			background:var(--cl0);
-			border:1px solid var(--cl10);
-			border-radius:4px;
-			padding:0.7em;
-			margin-bottom:0.5rem
-		}
-
-		.aGrid>input:focus{outline:3px solid gold}
-
-		.aGrid>label{white-space:nowrap}
-
-		.aGrid>label.error{
-			color:var(--cl11);
-			margin-bottom:1rem;
-			text-align:unset;
-			white-space:unset
-		}
 
 		.formDiv{
 			background-color:var(--cl0);
@@ -551,17 +601,18 @@ if(
 					<form action="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/" id="ccms_login_form" class="aGrid" method="post" novalidate="novalidate">
 						<input type="hidden" name="ccms_login" value="1">
 						<label for="ccms_login_email">Email Address <span class="rd">*</span></label>
-						<input class="placeholder" id="ccms_login_email" name="ccms_login_email" placeholder="Email" type="email">
+						<input id="ccms_login_email" name="ccms_login_email" placeholder="Email" type="email">
 						<label id="ccms_login_email_error" class="error" for="ccms_login_email" style="display:none"></label>
 						<label for="ccms_login_password">Password <span class="rd">*</span></label>
-						<input class="placeholder" id="ccms_login_password" name="ccms_login_password" placeholder="Password" style="margin-bottom:1rem" type="password" autocomplete="off" readonly>
+						<input id="ccms_login_password" name="ccms_login_password" placeholder="Password" style="margin-bottom:1rem" type="password" autocomplete="off" readonly>
 						<label id="ccms_login_password_error" class="error" for="ccms_login_password" style="display:none"></label>
-						<button type="submit">Submit</button>
+						<!-- button type="submit">Submit</button -->
+						<button class="g-recaptcha" data-sitekey="reCAPTCHA_site_key" data-callback='onSubmit' data-action='submit'>Submit</button>
 					</form>
 				</div>
 			</div>
 			<div style="margin:20px 0;text-align:center">
-				<a class="oj" href="#" id="loginHelpLink">Login Help</a>
+				<a class="ccms_a" href="#" id="loginHelpLink">Login Help</a>
 			</div>
 			<div id="ccms_pass_reset_div" style="display:none">
 	<?php if(!empty($ccms_pass_reset_message["FAIL"])): ?>
@@ -604,21 +655,23 @@ if(
 					<p style="margin-bottom:10px">
 						Use the form below to reset your password. Remember, this form will only work one time.  Once you press submit it will not work again unless you request a new Password Reset link.
 					</p>
-					<form action="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/" id="ccms_pass_reset_part_2" class="aGrid" method="post" novalidate="novalidate">
+					<form action="/{CCMS_LIB:_default.php;FUNC:ccms_lng}/user/" id="ccms_pass_reset_part_2" class="aGrid ccms_login_forms" method="post" novalidate="novalidate">
 						<input type="hidden" name="ccms_pass_reset_part_2" value="2">
 						<input type="hidden" name="ccms_pass_reset_form_code" value="<?php echo $CLEAN["ccms_pass_reset_form_code"]; ?>">
 						<label for="ccms_pass_reset_part_2_pass_1">Password <span class="rd">*</span></label>
 						<input class="placeholder" id="ccms_pass_reset_part_2_pass_1" name="ccms_pass_reset_part_2_pass_1" placeholder="Password" style="margin-bottom:1rem" type="password" autocomplete="off" readonly>
 						<label id="ccms_pass_reset_part_2_pass_1_error" class="error" for="ccms_pass_reset_part_2_pass_1" style="display:none"></label>
-						<label for="ccms_pass_reset_part_2_pass_2">Re-Type Password <span class="rd">*</span></label>
+						<label for="ccms_pass_reset_part_2_pass_2">Re-Type<span class="rd">*</span></label>
 						<input class="placeholder" id="ccms_pass_reset_part_2_pass_2" name="ccms_pass_reset_part_2_pass_2" placeholder="Re-Type Password" style="margin-bottom:1rem" type="password" autocomplete="off" readonly>
 						<label id="ccms_pass_reset_part_2_pass_2_error" class="error" for="ccms_pass_reset_part_2_pass_2" style="display:none"></label>
-						<button type="submit"<?php if(!empty($ccms_pass_reset_message["SUCCESS"])) { echo " disabled";} ?>>Submit</button>
+						<!-- button type="submit"< ? php if(!empty($ccms_pass_reset_message["SUCCESS"])) { echo " disabled";} ?>>Submit</button -->
+						<button class="g-recaptcha" data-sitekey="reCAPTCHA_site_key" data-callback='onSubmit' data-action='submit'>Submit</button>
 					</form>
 				</div>
 			</div>
 <?php endif ?>
 		</main>
+		{CCMS_TPL:/footer.html}
 		<script nonce="{CCMS_LIB:_default.php;FUNC:ccms_csp_nounce}">
 			{CCMS_TPL:/_js/footer-1.php}
 
@@ -634,16 +687,15 @@ if(
 			},250);
 			/* Loading Screen END */
 
-			var l = document.createElement("link");
-			l.rel = "stylesheet";
+			var l=document.createElement("link");l.rel="stylesheet";
 			l.href = "/ccmsusr/_css/custodiancms.css";
-			var h = document.getElementsByTagName("head")[0];
-			h.parentNode.insertBefore(l,h);
+			var h=document.getElementsByTagName("head")[0];h.parentNode.insertBefore(l,h);
 
 			function loadJSResources() {
 				loadFirst("/ccmsusr/_js/jquery-3.6.0.min.js", function() {
 					/*loadFirst("/ccmsusr/_js/custodiancms.js", function() {*/
-						loadFirst("https://www.google.com/recaptcha/api.js?hl={CCMS_LIB:_default.php;FUNC:ccms_lng}&render={CCMS_LIB:_default.php;FUNC:ccms_googleRecapPubKey}", function() {
+						/*loadFirst("https://www.google.com/recaptcha/api.js?hl={CCMS_LIB:_default.php;FUNC:ccms_lng}&render={CCMS_LIB:_default.php;FUNC:ccms_googleRecapPubKey}", function() {*/
+						loadFirst("https://www.google.com/recaptcha/api.js?render={CCMS_LIB:_default.php;FUNC:ccms_googleRecapPubKey}&hl={CCMS_LIB:_default.php;FUNC:ccms_lng}", function() {
 							loadFirst("/ccmsusr/_js/jquery-validate-1.19.3.min.js", function() {
 
 								$('#loginHelpLink').click(function(event){
@@ -668,11 +720,36 @@ if(
 									this.removeAttribute('readonly');
 								});
 
-								grecaptcha.ready(function() {
-									grecaptcha.execute('{CCMS_LIB:_default.php;FUNC:ccms_googleRecapPubKey}',{action:'ccms_login_form'}).then(function(token) {
-										$('#ccms_login_form').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
-										$('#ccms_pass_reset_part_1').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
-										$('#ccms_pass_reset_part_2').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+								$('#ccms_login_form').submit(function(event) {
+									event.preventDefault();
+									grecaptcha.ready(function() {
+										grecaptcha.execute('{CCMS_LIB:_default.php;FUNC:ccms_googleRecapPubKey}', {action: 'ccms_login_form'}).then(function(token) {
+											$('#ccms_login_form').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+											$('#ccms_login_form').prepend('<input type="hidden" name="g-recaptcha-action" value="ccms_login_form">');
+											$('#ccms_login_form').unbind('submit').submit();
+										});
+									});
+								});
+
+								$('#ccms_pass_reset_part_1').submit(function(event) {
+									event.preventDefault();
+									grecaptcha.ready(function() {
+										grecaptcha.execute('{CCMS_LIB:_default.php;FUNC:ccms_googleRecapPubKey}', {action: 'ccms_pass_reset_part_1'}).then(function(token) {
+											$('#ccms_pass_reset_part_1').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+											$('#ccms_pass_reset_part_1').prepend('<input type="hidden" name="g-recaptcha-action" value="ccms_pass_reset_part_1">');
+											$('#ccms_pass_reset_part_1').unbind('submit').submit();
+										});
+									});
+								});
+
+								$('#ccms_pass_reset_part_2').submit(function(event) {
+									event.preventDefault();
+									grecaptcha.ready(function() {
+										grecaptcha.execute('{CCMS_LIB:_default.php;FUNC:ccms_googleRecapPubKey}', {action: 'ccms_pass_reset_part_2'}).then(function(token) {
+											$('#ccms_pass_reset_part_2').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+											$('#ccms_pass_reset_part_2').prepend('<input type="hidden" name="g-recaptcha-action" value="ccms_pass_reset_part_2">');
+											$('#ccms_pass_reset_part_2').unbind('submit').submit();
+										});
 									});
 								});
 

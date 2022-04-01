@@ -348,7 +348,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			<h1>Instructions</h1>
 			<p>To fully activate your new templates you need to manually complete the following steps.  We do not automate most of this process in order to make sure it never becomes a target for hackers.  The following shows the test order and a brief description of what is needed to pass each test.  If you are familiar with the steps listed below click the <a class="oj" onclick="document.getElementById('tab03Title')?.click();" href="#">Setup Results</a> tab to see your results now.</p>
 			<ol style="margin-left:40px">
-				<li>Custodian CMS requires PHP v7.0+ and MySQL v5.5.3+ to run properly.</li>
+				<li>Custodian CMS requires PHP v7.3+ and MySQL v5.5.3+ to run properly.</li>
 				<li>Make a copy of the <span class="oj">/ccmspre/config_original.php</span> file and save it as <span class="oj">/ccmspre/config.php</span>.  Then update it with all your domain name and database settings.</li>
 				<li>Make a copy of the <span class="oj">/ccmspre/whitelist_public_original.php</span> file and save it as <span class="oj">/ccmspre/whitelist_public.php</span>.</li>
 				<li>Make a copy of the <span class="oj">/ccmspre/whitelist_user_original.php</span> file and save it as <span class="oj">/ccmspre/whitelist_user.php</span>.</li>
@@ -364,9 +364,9 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 			<h1>Results</h1>
 			<p>Click any of the colored bars below to learn more about each test.</p>
 
-<?php if(version_compare(phpversion(),'7.0','>=')) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
+<?php if(version_compare(phpversion(),'7.3','>=')) {$CFG["pass"]=1;} else {$CFG["pass"]=0;}?>
 			<div class="collapsible <?=($CFG["pass"]==1) ? "gr":"rd";?>">
-				Test for minimum <span class="oj">PHP v7.0+</span>
+				Test for minimum <span class="oj">PHP v7.3+</span>
 			</div>
 			<div class="collContent">
 <?php if($CFG["pass"]==1): ?>
@@ -630,7 +630,7 @@ if(!(($_SERVER["SCRIPT_NAME"] == "/index.php") || ($_SERVER["SCRIPT_NAME"] == "/
 					*/
 					$options = ['cost' => 10];
 					$hash = password_hash($_REQUEST["password"], PASSWORD_BCRYPT, $options);
-					$priv = '{"priv":{"admin":{"r":1,"user_privileges":{"rw":2},"language_support":{"rw":2},"blacklist_settings":{"rw":2}},"content_manager":{"r":1,"lng":{"ar":2,"bn":2,"de":2,"de-at":2,"de-ch":2,"de-de":2,"de-li":2,"de-lu":2,"en":2,"en-au":2,"en-bz":2,"en-ca":2,"en-gb":2,"en-ie":2,"en-jm":2,"en-nz":2,"en-ph":2,"en-tt":2,"en-us":2,"en-za":2,"en-zw":2,"es":2,"es-ar":2,"es-bo":2,"es-cl":2,"es-co":2,"es-cr":2,"es-do":2,"es-ec":2,"es-es":2,"es-gt":2,"es-hn":2,"es-mx":2,"es-ni":2,"es-pa":2,"es-pe":2,"es-pr":2,"es-py":2,"es-sv":2,"es-uy":2,"es-ve":2,"fr":2,"fr-be":2,"fr-ca":2,"fr-ch":2,"fr-fr":2,"fr-lu":2,"fr-mc":2,"he":2,"hi":2,"ja":2,"ko":2,"ko-kp":2,"ko-kr":2,"ms":2,"nb-no":2,"pt":2,"ru":2,"vi":2,"zh":2,"zh-cn":2,"zh-tw":2}},"content_groups":{"rw":2},"github":{"rw":2}}}';
+					$priv = '{"dashboard":2,"admin":{"rw":1,"sub":{"blacklist_settings":2,"github":2,"language_support":2,"other_controls":2,"user_privileges":2}},"content_groups":1,"content_manager":{"rw":1,"sub":{"ar":2,"bn":2,"de":2,"de-at":2,"de-ch":2,"de-de":2,"de-li":2,"de-lu":2,"en":2,"en-au":2,"en-bz":2,"en-ca":2,"en-gb":2,"en-ie":2,"en-jm":2,"en-nz":2,"en-ph":2,"en-tt":2,"en-us":2,"en-za":2,"en-zw":2,"es":2,"es-ar":2,"es-bo":2,"es-cl":2,"es-co":2,"es-cr":2,"es-do":2,"es-ec":2,"es-es":2,"es-gt":2,"es-hn":2,"es-mx":2,"es-ni":2,"es-pa":2,"es-pe":2,"es-pr":2,"es-py":2,"es-sv":2,"es-uy":2,"es-ve":2,"fr":2,"fr-be":2,"fr-ca":2,"fr-ch":2,"fr-fr":2,"fr-lu":2,"fr-mc":2,"he":2,"hi":2,"ja":2,"ko":2,"ko-kp":2,"ko-kr":2,"ms":2,"nb-no":2,"pt":2,"ru":2,"vi":2,"zh":2,"zh-cn":2,"zh-tw":2}}}';
 					$qry = $CFG["DBH"]->prepare("INSERT INTO `ccms_user` (`id`, `email`, `hash`, `status`, `alias`, `super`, `priv`, `firstname`, `lastname`, `position`, `phone1`, `phone2`, `facebook`, `skype`, `note`, `address1`, `address2`, `prov_state`, `country`, `post_zip`, `nav_toggle`, `2fa_secret`) VALUES (NULL, :email, :hash, '1', :alias, '1', :priv, '', '', '', '', '', '', '', '', '', '', '', '', '', '1', :2fa_secret);");
 					$qry->execute(array(':email' => $_REQUEST["email"], ':hash' => $hash, ':alias' => $_REQUEST["alias"], ':priv' => $priv, ':2fa_secret' => $_REQUEST["2fa_secret"]));
 				}

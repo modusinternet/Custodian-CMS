@@ -6,50 +6,40 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-if (!strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
+if(!strstr($_SERVER["HTTP_REFERER"], $CFG["DOMAIN"])) {
 	exit("Invalid submission, your POST does not appeared to have been submitted from the " . $CFG["DOMAIN"] . " website.");
 }
 
-/*
-if (!ccms_badIPCheck($_SERVER["REMOTE_ADDR"])) {
-    exit("There is a problem with your message, it can not be posted using this form from your current IP Address.  Please contact the website administrators directly by either phone or email if you feel this message is in error for more information.");
-}
-*/
-
-
-
-if(isset($_SESSION['EXPIRED']) == "1") {
-	// Session expired
-
-	$error = "Session Expried";
-} else{
-	$json_a = json_decode($_SESSION["PRIV"], true);
-
-	//echo $_SESSION["PRIV"];
-	//die;
-}
+$msg = array();
+$json_a = json_decode($_SESSION["PRIV"], true);
 
 if(ccms_badIPCheck($_SERVER["REMOTE_ADDR"])) {
-	$error = "There is a problem with your login, your IP Address is currently being blocked.  Please contact the website administrators directly if you feel this message is in error.";
-} elseif(!($json_a["priv"]["content_manager"]["r"] == 1 && $json_a["priv"]["content_manager"]["lng"][$CLEAN["ccms_lng"]] == 2)) {
-	$error = "You are not permitted to make edits to content in this language, at this time.  You can double check your privileges in the user/admin area.\n";
-} elseif ($CLEAN["ccms_ins_db_id"] == "") {
-	$error = "Database record missing.";
-} elseif ($CLEAN["ccms_ins_db_id"] == "MINLEN") {
-	$error = "Database record must be between 1-2147483647.";
-} elseif ($CLEAN["ccms_ins_db_id"] == "MAXLEN") {
-	$error = "Database record must be between 1-2147483647.";
-} elseif ($CLEAN["ccms_ins_db_id"] == "INVAL") {
-	$error = "Database record contains invalid characters.  ( > < & # )  You have used characters in this field which are either not supported by this field or we do not permitted on this system.";
+	$msg["error"] = "There is a problem with your login, your IP Address is currently being blocked.  Please contact the website administrators directly if you feel this message is in error.";
+
+} elseif($json_a["content_manager"]["rw"] != 1 || $json_a["content_manager"]["sub"][$CLEAN["ccms_lng"]] != 2) {
+	$msg["error"] = "You are not permitted to make edits to content in this language, at this time.  Double check your privileges in the user/admin area.\n";
+
+} elseif($CLEAN["ccms_ins_db_id"] == "") {
+	$msg["error"] = "Database record missing.";
+
+} elseif($CLEAN["ccms_ins_db_id"] == "MINLEN") {
+	$msg["error"] = "Database record must be between 1-2147483647.";
+
+} elseif($CLEAN["ccms_ins_db_id"] == "MAXLEN") {
+	$msg["error"] = "Database record must be between 1-2147483647.";
+
+} elseif($CLEAN["ccms_ins_db_id"] == "INVAL") {
+	$msg["error"] = "Database record contains invalid characters.  ( > < & # )  You have used characters in this field which are either not supported by this field or we do not permitted on this system.";
 }
 
 if($CLEAN["ccms_ins_db_text"] == "MAXLEN") {
-	$error = "Text fields can not be larger then 16000 characters in order to accomadate UTF-8 characters.";
-} elseif ($CLEAN["ccms_ins_db_text"] == "INVAL") {
-	$error = "The text field contains invalid characters.  ( > < & # )  You have used characters in this field which are either not supported by this field or we do not permitted on this system.";
+	$msg["error"] = "Text fields can not be larger then 16000 characters in order to accomadate UTF-8 characters.";
+
+} elseif($CLEAN["ccms_ins_db_text"] == "INVAL") {
+	$msg["error"] = "The text field contains invalid characters.  ( > < & # )  You have used characters in this field which are either not supported by this field or we do not permitted on this system.";
 }
 
-if(!$error) {
+if(!isset($msg["error"])) {
 	$search = array("&lt;","&gt;");
 	$replace = array("<",">");
 	$CLEAN["ccms_ins_db_text"] = str_replace($search, $replace, $CLEAN["ccms_ins_db_text"]);
@@ -114,7 +104,7 @@ if(!$error) {
 	$CLEAN["ccms_ins_db_text"] = str_replace($search, $replace, $CLEAN["ccms_ins_db_text"]);
 	$qry = $CFG["DBH"]->prepare("UPDATE `ccms_ins_db` SET `" . $CLEAN["ccms_lng"] . "` = :ccms_ins_db_text WHERE `ccms_ins_db`.`id` = :ccms_ins_db_id;");
 	$qry->execute(array(':ccms_ins_db_text' => $CLEAN["ccms_ins_db_text"], ':ccms_ins_db_id' => $CLEAN["ccms_ins_db_id"]));
-	echo "1";
-} else {
-	echo $error;
+
+	$msg["success"] = "Updates Saved";
 }
+echo json_encode($msg);

@@ -61,7 +61,7 @@ define('UTF8_STRING_DIGIT_PUNC_WHITE', '/^[\pL\pM*+\pN\pP\s]*\z/u');
 define('WHOLE_NUMBER', '/^[\pN]*\z/');
 // ^		Start of line
 // [		Starts the character class.
-// \pN		Any number.
+// \pN	Any number.
 // ]		Ends the character class.
 // *		Zero or more
 // \z		End of subject or newline at end. (Better then $ because $ does not include /n characters at the end of a line.)
@@ -135,7 +135,7 @@ function CCMS_Set_LNG() {
 
 	if(isset($CLEAN["ccms_lng"]) && $CLEAN["ccms_lng"] !== "MAXLEN" && $CLEAN["ccms_lng"] !== "INVAL") {
 
-		// Make sure what ever language value that's currenlty inside the ccms_lng arg is also found in the SESSION["LNG"].
+		// Make sure whatever language value currenlty inside the ccms_lng arg is also found in the SESSION["LNG"].
 		$_SESSION["LNG"] = $CLEAN["ccms_lng"];
 
 		// A language variable was found in the $_SESSION["LNG"], URI or POST arguments.
@@ -144,22 +144,43 @@ function CCMS_Set_LNG() {
 			if(strcasecmp($key, $CLEAN["ccms_lng"]) == 0) {
 				// The $CLEAN["ccms_lng"] language code was found in the database.
 				$CFG["lngCodeFoundFlag"] = true;
-				//$_SESSION["LNG"] = $key;
 				if($value["status"] == "1") {
 					// The language code provided is active in the database.
 					$CFG["CCMS_LNG_DIR"] = $value["dir"];
 					$CFG["lngCodeActiveFlag"] = true;
 				} elseif(isset($_SESSION["USER_ID"])) {
 					// If this is a verified user trying to make changes to content in a language which is currently not set live, get the users privilages and verify their rights to make updates in the language.
+					/*
 					$qry = $CFG["DBH"]->prepare("SELECT super, priv FROM `ccms_user` WHERE id = :user_id LIMIT 1;");
 					$qry->execute(array(':user_id' => $_SESSION["USER_ID"]));
 					$row = $qry->fetch(PDO::FETCH_ASSOC);
 					$json_a = json_decode($row["priv"], true);
+					$_SESSION["SUPER"] = $row["super"];
+
 					if($row["super"] == "1" || $json_a["priv"]["content_manager"]["r"] == 1) {
 						if($row["super"] == "1" || $json_a["priv"]["content_manager"]["lng"][$key] == 1 || $json_a["priv"]["content_manager"]["lng"][$key] == 2) {
 							$CFG["CCMS_LNG_DIR"] = $value["dir"];
 							$CFG["lngCodeActiveFlag"] = true;
 						}
+					}
+					*/
+
+					$privArray = json_decode($_SESSION["PRIV"], true);
+					if($_SESSION["SUPER"] == "1") {
+						// Super users can do anything.
+						$CFG["CCMS_LNG_DIR"] = $value["dir"];
+						$CFG["lngCodeActiveFlag"] = true;
+					} elseif($privArray["content_manager"]["sub"][$key] != 0) {
+						// So long as you have a valid USER_ID and you are permitted to at least read and or write content in the language reguested it's cool to display.
+						$CFG["CCMS_LNG_DIR"] = $value["dir"];
+						$CFG["lngCodeActiveFlag"] = true;
+					} else {
+						// Because they have no access to the language they want to work in and they are not super users, we change all their language output to the default language instead.
+						$CFG["lngCodeFoundFlag"] = true;
+						$CLEAN["ccms_lng"] = $CFG["DEFAULT_SITE_CHAR_SET"];
+						$_SESSION["LNG"] = $CFG["DEFAULT_SITE_CHAR_SET"];
+						$CFG["CCMS_LNG_DIR"] = $CFG["DEFAULT_SITE_CHAR_SET_DIR"];
+						$CFG["lngCodeActiveFlag"] = true;
 					}
 				}
 				break;
@@ -279,7 +300,7 @@ function CCMS_Set_SESSION() {
 					header("Cache-Control: post-check=0, pre-check=0", false);
 					header("Pragma: no-cache");
 					//echo "/* Session Error */";
-					echo '[{"errorMsg":"Session Error"}]';
+					echo '{"error":"Session Error"}';
 				} else {
 					header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
 				}
@@ -330,7 +351,7 @@ function CCMS_Set_SESSION() {
 				header("Cache-Control: post-check=0, pre-check=0", false);
 				header("Pragma: no-cache");
 				//echo "/* Session Error */";
-				echo '[{"errorMsg":"Session Error"}]';
+				echo '{"error":"Session Error"}';
 			} else {
 				header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
 			}
@@ -361,6 +382,7 @@ function CCMS_Set_SESSION() {
 				$_SESSION["2FA_VALID"] = null;
 				$_SESSION["ALIAS"] = $row["alias"];
 				$_SESSION["PRIV"] = $row["priv"];
+				$_SESSION["SUPER"] = $row["super"];
 			}
 		} else {
 			// Looks like they were properly logged in at one point but their account has either been removed or 'status' is set to '0' now.
@@ -384,7 +406,7 @@ function CCMS_Set_SESSION() {
 				header("Cache-Control: post-check=0, pre-check=0", false);
 				header("Pragma: no-cache");
 				//echo "/* Session Error */";
-				echo '[{"errorMsg":"Session Error"}]';
+				echo '{"error":"Session Error"}';
 			} else {
 				header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
 			}
@@ -555,12 +577,29 @@ function CCMS_DB_Dir($a) {
 	if(isset($CLEAN["CCMS_DB_Preload_Content"])) {
 		if(($a[5] ?? null) === "1") {
 			// Make editable on the public side.
+
+			if(isset($_SESSION["USER_ID"])) {
+				$json_a = json_decode($_SESSION["PRIV"], true);
+			}
+
 			//if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] ?? null) {
 			if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] !== "") {
 				echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["dir"] . "\" data-ccms=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["id"] . "\" data-ccms-grp=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["grp"] . "\" data-ccms-name=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["name"];
 			} else {
 				echo $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CFG["DEFAULT_SITE_CHAR_SET"]]["dir"] . "\" data-ccms=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["id"] . "\" data-ccms-grp=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["grp"] . "\" data-ccms-name=\"" . $CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["name"];
 			}
+
+
+
+
+
+
+echo '" data-ccms-rw="' . $json_a["content_manager"]["sub"][$CLEAN["ccms_lng"]];
+
+
+
+
+
 		} else {
 			// Not editable on the public side.
 			if($CLEAN["CCMS_DB_Preload_Content"][$a[2]][$a[3]][$CLEAN["ccms_lng"]]["content"] != "") {

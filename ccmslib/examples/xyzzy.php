@@ -160,19 +160,3 @@ function example_lngList_2() {
 		}
 	}
 }
-
-
-function example_lngList_3() {
-	global $CFG, $CLEAN;
-	$tpl = htmlspecialchars(preg_replace('/^\/([\pL\pN-]*)\/?(.*)\z/i', '${2}', $_SERVER['REQUEST_URI']));
-	$qry = $CFG["DBH"]->prepare("SELECT * FROM `ccms_lng_charset` WHERE `status` = 1 ORDER BY lng ASC;");
-	if($qry->execute()) {
-		while($row = $qry->fetch()) {
-			if($row["ptrLng"]) {
-				echo "'/" . $row["ptrLng"] . "/examples/offline.html',\n";
-			} else {
-				echo "'/" . $row["lng"] . "/examples/offline.html',\n";
-			}
-		}
-	}
-}

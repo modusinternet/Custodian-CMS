@@ -9,8 +9,8 @@
 $CFG = array();
 $CLEAN = array();
 
-$CFG["VERSION"] = "0.7.6";
-$CFG["RELEASE_DATE"] = "Jan 25, 2022";
+$CFG["VERSION"] = "0.7.7";
+$CFG["RELEASE_DATE"] = "Mar 31, 2022";
 
 // Necessary to solve a problem on GoDaddy servers when running sites found in sub folders of existing sites.
 if(isset($_SERVER["REAL_DOCUMENT_ROOT"])) {
@@ -39,6 +39,33 @@ CCMS_Filter($_SERVER + $_REQUEST, $ccms_whitelist);
 
 CCMS_User_Filter($_SERVER + $_REQUEST, $whitelist);
 
+
+// Security check, is the user on the blacklist?
+if(ccms_badIPCheck($_SERVER["REMOTE_ADDR"])) {
+	// log out
+	$_SESSION = array();
+	$_SESSION['EXPIRED'] = "1";
+	//header("Location: /" . $CFG["DEFAULT_SITE_CHAR_SET"] . "/user/");
+
+	if($CLEAN["ajax_flag"] == 1) {
+		// If this call contains an Ajax flag set to '1' we don't actually want to send them to the login page, we'll just send a session expired message instead.
+
+		header("Content-Type: application/javascript; charset=UTF-8");
+		// NOTE: If the template is later called using a serviceWorker be aware that will not respect the settings of the 'cache-control' header as noted in here: https://web.dev/service-workers-cache-storage/#api-nuts-and-bolts
+
+		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
+		//echo "/* Session Error */";
+		echo '{"error":"Session Error"}';
+		exit;
+	} else {
+		// Show login template because they are NOT logged in.
+		$CLEAN["ccms_tpl"] = "/login.php";
+	}
+}
+
+
 CCMS_Set_SESSION();
 
 //if(isset($_SESSION["FAIL"]) >= 5) {
@@ -59,7 +86,7 @@ if(!isset($_SESSION["USER_ID"]) || isset($_POST["ccms_login"]) || isset($_REQUES
 			header("Cache-Control: post-check=0, pre-check=0", false);
 			header("Pragma: no-cache");
 
-			echo '[{"errorMsg":"Session Error"}]';
+			echo '{"error":"Session Error"}';
 			exit;
 	} else {
 			// Show login template because they are NOT logged in.
