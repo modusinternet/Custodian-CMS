@@ -209,11 +209,18 @@ AddOutputFilterByType DEFLATE application/x-javascript
 	# Default expiration: 1 day after request	ExpiresDefault "access plus 1 month"
 
 	# CSS and JS expiration: 2 weeks after request
-	ExpiresByType text/css "access plus 2 weeks"
-	ExpiresByType text/javascript "access plus 2 weeks"
-	ExpiresByType text/x-javascript "access plus 2 weeks"
-	ExpiresByType application/javascript "access plus 2 weeks"
-	ExpiresByType application/x-javascript "access plus 2 weeks"
+	#ExpiresByType text/css "access plus 2 weeks"
+	#ExpiresByType text/javascript "access plus 2 weeks"
+	#ExpiresByType text/x-javascript "access plus 2 weeks"
+	#ExpiresByType application/javascript "access plus 2 weeks"
+	#ExpiresByType application/x-javascript "access plus 2 weeks"
+
+	# CSS and JS expiration: 6 months after request
+	ExpiresByType text/css "access plus 6 months"
+	ExpiresByType text/javascript "access plus 6 months"
+	ExpiresByType text/x-javascript "access plus 6 months"
+	ExpiresByType application/javascript "access plus 6 months"
+	ExpiresByType application/x-javascript "access plus 6 months"
 
 	# Image files expiration: 1 month after request
 	ExpiresByType image/bmp "access plus 1 month"
@@ -245,7 +252,6 @@ AddOutputFilterByType DEFLATE application/x-javascript
 	ExpiresByType audio/x-wav "access plus 1 month"
 
 	# Movie files expiration: 1 month after request
-	ExpiresByType application/x-shockwave-flash "access plus 1 month"
 	ExpiresByType x-world/x-vrml "access plus 1 month"
 	ExpiresByType video/x-msvideo "access plus 1 month"
 	ExpiresByType video/mpeg "access plus 1 month"
