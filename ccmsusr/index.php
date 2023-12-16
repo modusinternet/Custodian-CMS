@@ -9,8 +9,8 @@
 $CFG = array();
 $CLEAN = array();
 
-$CFG["VERSION"] = "0.7.8";
-$CFG["RELEASE_DATE"] = "Apr 12, 2022";
+$CFG["VERSION"] = "0.7.9";
+$CFG["RELEASE_DATE"] = "Dec 15, 2023";
 
 // Necessary to solve a problem on GoDaddy servers when running sites found in sub folders of existing sites.
 if(isset($_SERVER["REAL_DOCUMENT_ROOT"])) {
@@ -67,6 +67,11 @@ if(ccms_badIPCheck($_SERVER["REMOTE_ADDR"])) {
 
 
 CCMS_Set_SESSION();
+
+
+//print_r($_SESSION);
+//echo $_SESSION["PRIV"];
+
 
 //if(isset($_SESSION["FAIL"]) >= 5) {
 if(($_SESSION["FAIL"] ?? null) >= 5) {

@@ -390,17 +390,23 @@ $ccms_user = $qry->fetch(PDO::FETCH_ASSOC);
 			document.getElementById("2fa_radio_1").checked = true;
 <? endif ?>
 
-			var l=document.createElement("link");l.rel="stylesheet";
-			l.href = "/ccmsusr/_css/custodiancms.css";
-			var h=document.getElementsByTagName("head")[0];h.parentNode.insertBefore(l,h);
+			/*
+			Argument details for ccms_build_js_link() and example_build_js_link() function calls:
+			arg1 = (1 = append AWS link), (empty = do not append AWS link)
+			arg2 = (1 = append language code to link), (empty = do not append language code to link)	In other words, send it through the parser first like a normal template. ie: https://yourdomain.com/en/somefile.css, adding the 'en' will push this template through the parser first before outputting it to the browser.
+			arg3 = a variable found in the config file that represents a partial pathway to the style sheet, not including and details about AWS, language code, or language direction)
+			arg4 = (1 = append language direction to link), (empty = do not append language direction to link)
+			arg5 = Version number, this is very helpful when trying to update files like css and js that don't get called by serviceWorker after they are stored. (empty = do not append '?v=some_number' to the URL.)
 
-			var l=document.createElement("link");l.rel="stylesheet";
-			l.href = "/ccmsusr/_css/metisMenu-3.0.6.min.css";
-			var h=document.getElementsByTagName("head")[0];h.parentNode.insertBefore(l,h);
+			Argument details for example_build_js_sri() function calls:
+			arg1 = 1 = build sri code based on version stored on AWS.  empty = build sri code based on version stored on our own server.
+			arg2 = a variable found in the config file that represents a partial pathway to the style sheet. (Not including details about AWS, language code, or language direction)
+			*/
+			{CCMS_LIB:_default.php;FUNC:ccms_build_css_link("","","CSS-02","","")}
+			{CCMS_LIB:_default.php;FUNC:ccms_build_css_link("","","metisCSS","","")}
 
 			function loadJSResources() {
-				/*loadFirst("/ccmsusr/_js/jquery-2.2.0.min.js", function() {*/
-				loadFirst("/ccmsusr/_js/jquery-3.6.0.min.js", function() {
+				loadFirst("{CCMS_LIB:_default.php;FUNC:ccms_build_js_link("","","JQUERY","","")}", function() {
 					loadFirst("/ccmsusr/_js/metisMenu-3.0.7.min.js", function() {
 						loadFirst("/ccmsusr/_js/custodiancms.js", function() {
 

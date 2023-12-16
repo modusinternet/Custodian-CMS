@@ -58,8 +58,8 @@
 											</a>
 										</li>
 										<li>
-											<a class="line-height-1-4" id="admin_blacklist_settings" href="/en/user/admin/blacklist_settings/">
-												<i class="fa fa-shield fa-fw"></i> Blacklist Settings
+											<a class="line-height-1-4" id="admin_blacklists" href="/en/user/admin/blacklists/">
+												<i class="fa fa-shield fa-fw"></i> Blacklists
 											</a>
 										</li>
 									</ul>

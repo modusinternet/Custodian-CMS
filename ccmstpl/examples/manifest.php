@@ -29,6 +29,10 @@ header("Expires: " . gmdate("D, d M Y H:i:s T", time() + ($CFG["CACHE_EXPIRE"] *
 		},{
 			"src": "/ccmstpl/examples/_img/ico/android-chrome-144x144.png",
 			"sizes": "144x144",
+			"type": "image/png"
+		},{
+			"src": "/ccmstpl/examples/_img/ico/android-chrome-144x144.png",
+			"sizes": "144x144",
 			"type": "image/png",
 			"purpose": "any"
 		},{

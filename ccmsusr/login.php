@@ -687,12 +687,16 @@ if(
 			},250);
 			/* Loading Screen END */
 
+			/*
 			var l=document.createElement("link");l.rel="stylesheet";
 			l.href = "/ccmsusr/_css/custodiancms.css";
 			var h=document.getElementsByTagName("head")[0];h.parentNode.insertBefore(l,h);
+			*/
+			{CCMS_LIB:_default.php;FUNC:ccms_build_css_link("","","CSS-02","","")}
 
 			function loadJSResources() {
-				loadFirst("/ccmsusr/_js/jquery-3.6.0.min.js", function() {
+				/*loadFirst("/ccmsusr/_js/jquery-3.6.0.min.js", function() {*/
+				loadFirst("{CCMS_LIB:_default.php;FUNC:ccms_build_js_link("","","JQUERY","","")}", function() {
 					/*loadFirst("/ccmsusr/_js/custodiancms.js", function() {*/
 						/*loadFirst("https://www.google.com/recaptcha/api.js?hl={CCMS_LIB:_default.php;FUNC:ccms_lng}&render={CCMS_LIB:_default.php;FUNC:ccms_googleRecapPubKey}", function() {*/
 						loadFirst("https://www.google.com/recaptcha/api.js?render={CCMS_LIB:_default.php;FUNC:ccms_googleRecapPubKey}&hl={CCMS_LIB:_default.php;FUNC:ccms_lng}", function() {

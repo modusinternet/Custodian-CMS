@@ -16,7 +16,7 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 		<title><?= $_SERVER["SERVER_NAME"];?> | User | Dashboard</title>
 		{CCMS_TPL:head-meta.html}
 	</head>
-	<style>
+	<style nonce="{CCMS_LIB:_default.php;FUNC:ccms_csp_nounce}">
 		{CCMS_TPL:/_css/head-css.html}
 
 		button:hover{background-color:transparent}
@@ -145,11 +145,14 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 
 
 
-
+<div>
+	Stuff I still need to add somewhere.
+</div>
 			<ul>
 				<li>HTML Minify</li>
 				<li>Templates in Database Cache</li>
 				<li>Clear Cache</li>
+				<li>LOG_EVENTS</li>
 				<li>Backup/Restore</li>
 				<li>Password Recovery attempts currently in the ccms_password_recovery table</li>
 			</ul>
@@ -165,36 +168,32 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 		<script nonce="{CCMS_LIB:_default.php;FUNC:ccms_csp_nounce}">
 			{CCMS_TPL:/_js/footer-1.php}
 
+			/*
+			Argument details for ccms_build_js_link() and example_build_js_link() function calls:
+			arg1 = (1 = append AWS link), (empty = do not append AWS link)
+			arg2 = (1 = append language code to link), (empty = do not append language code to link)	In other words, send it through the parser first like a normal template. ie: https://yourdomain.com/en/somefile.css, adding the 'en' will push this template through the parser first before outputting it to the browser.
+			arg3 = a variable found in the config file that represents a partial pathway to the style sheet, not including and details about AWS, language code, or language direction)
+			arg4 = (1 = append language direction to link), (empty = do not append language direction to link)
+			arg5 = Version number, this is very helpful when trying to update files like css and js that don't get called by serviceWorker after they are stored. (empty = do not append '?v=some_number' to the URL.)
+
+			Argument details for example_build_js_sri() function calls:
+			arg1 = 1 = build sri code based on version stored on AWS.  empty = build sri code based on version stored on our own server.
+			arg2 = a variable found in the config file that represents a partial pathway to the style sheet. (Not including details about AWS, language code, or language direction)
+			*/
+
+			/*
 			var l=document.createElement("link");l.rel="stylesheet";
 			l.href = "/ccmsusr/_css/custodiancms.css";
 			var h=document.getElementsByTagName("head")[0];h.parentNode.insertBefore(l,h);
-
-			var l=document.createElement("link");l.rel="stylesheet";
-			l.href = "/ccmsusr/_css/metisMenu-3.0.6.min.css";
-			var h=document.getElementsByTagName("head")[0];h.parentNode.insertBefore(l,h);
+			*/
+			{CCMS_LIB:_default.php;FUNC:ccms_build_css_link("","","CSS-02","","")}
+			{CCMS_LIB:_default.php;FUNC:ccms_build_css_link("","","metisCSS","","")}
 
 			function loadJSResources() {
-				loadFirst("/ccmsusr/_js/jquery-3.6.0.min.js", function() {
+				loadFirst("{CCMS_LIB:_default.php;FUNC:ccms_build_js_link("","","JQUERY","","")}", function() {
 					loadFirst("/ccmsusr/_js/metisMenu-3.0.7.min.js", function() {
 						loadFirst("/ccmsusr/_js/custodiancms.js", function() {
 							loadFirst("/ccmsusr/_js/jquery-validate-1.19.3.min.js", function() {
-
-
-								/* user_dropdown START */
-								/* When the user clicks on the svg button add the 'show' class to the dropdown box below it. */
-								$("#user_dropdown_btn").click(function() {
-									$("#user_dropdown_list").addClass("show");
-								});
-
-								/* Hide dropdown menu on click outside */
-								$(document).on("click", function(e){
-									if(!$(e.target).closest("#user_dropdown_btn").length){
-										$("#user_dropdown_list").removeClass("show");
-									}
-								});
-								/* user_dropdown END */
-
-
 								/* Fetch Cache BEGIN */
 								// (URL to call, Max expire time after saved in localhost) 3600 = seconds is equivalent to 1 hour
 								cachedFetch('https://custodiancms.org/cross-origin-resources/news.php', 3600)
@@ -313,11 +312,13 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 										divTableRow.innerHTML = '<div class="tableCell">'+ data[i].id
 										+ '</div><div class="tableCell">' + convdataTime
 										+ '</div><div class="tableCell">' + data[i].ip
-										+ '<br><span class="blacklistIpAddress" data-ip="' + data[i].ip
-										+ '">(Blacklist)</span></div><div class="tableCell" style="line-break:anywhere;min-width:200px">' + data[i].url
-										+ '</div><div class="tableCell" style="min-width:390px;width:100%">' + data[i].log
-										+ '</div><div class="tableCell" style="text-align:center"><button class="svg_icon svg_delete_button" data-id="' + data[i].id
-										+ '" title="Delete"></button></div>';
+										+ '<?php
+/* Confirm write privilages. */
+$json_a = json_decode($_SESSION["PRIV"], true);
+if(($json_a["dashboard"] ?? null) == 2): ?><br><span class="blacklistIpAddress" data-ip="' + data[i].ip + '">(Blacklist)</span><?php endif; ?></div><div class="tableCell" style="line-break:anywhere;min-width:200px">' + data[i].url + '</div><div class="tableCell" style="min-width:390px;width:100%">' + data[i].log + '</div><div class="tableCell" style="text-align:center"><?php
+/* Confirm write privilages. */
+$json_a = json_decode($_SESSION["PRIV"], true);
+if(($json_a["dashboard"] ?? null) == 2): ?><button class="svg_icon svg_delete_button" data-id="' + data[i].id + '" title="Delete"></button><?php endif; ?></div>';
 
 										divTable.appendChild(divTableRow);
 									}

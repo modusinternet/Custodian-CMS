@@ -430,6 +430,11 @@ if(($_POST["ccms_auth_token_login"] ?? null) === "1") {
 				loadFirst("/ccmsusr/_js/jquery-3.6.0.min.js", function() {
 					loadFirst("/ccmsusr/_js/custodiancms.js", function() {
 						loadFirst("/ccmsusr/_js/jquery-validate-1.19.3.min.js", function() {
+
+							var input = document.getElementById('ccms_auth_token');
+							input.focus();
+							input.select();
+
 							$("#ccms_auth_form").validate({
 								rules:{
 									ccms_auth_token:{

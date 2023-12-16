@@ -43,8 +43,7 @@
 			{CCMS_TPL:/examples/_css/header.html}
 		</style>
 		<script nonce="{CCMS_LIB:_default.php;FUNC:ccms_csp_nounce}">
-			let activeArray_01 = ["lng-{CCMS_LIB:_default.php;FUNC:ccms_lng}"];
-			/* let activeArray_02 = ["fl-homepage"]; */
+			let activeArray = ["lng-{CCMS_LIB:_default.php;FUNC:ccms_lng}"];
 		</script>
 	</head>
 	<body>
@@ -81,7 +80,7 @@
 
 			function loadJSResources(){
 				loadFirst("{CCMS_LIB:examples/xyzzy.php;FUNC:example_build_js_link("","","JS-01","","")}",function(){
-
+					
 				}{CCMS_LIB:examples/xyzzy.php;FUNC:example_build_js_sri("","JS-01")});
 			}
 		</script>

@@ -1,6 +1,8 @@
 if('serviceWorker' in navigator) {
 	window.addEventListener('load', function() {
-		navigator.serviceWorker.register('/serviceworker.php',{scope:'/'}).then(function(registration) {
+		navigator.serviceWorker.register('/serviceworker.php',{
+			scope:'/'
+		}).then(function(registration) {
 			console.log('SW registered.');
 		}, function(err) {
 			console.log('SW registration failed: ', err);
@@ -15,3 +17,15 @@ if(window.addEventListener){
 }else if(window.attachEvent){
 	window.attachEvent("onload",loadJSResources);
 }else{window.onload=loadJSResources;}
+
+/* Loading Screen START */
+window.setTimeout(function(){
+	document.getElementById("loading_svg").style.opacity="0";
+	window.setTimeout(function(){
+		document.getElementById("loading_svg").style.display="none";
+	},500);
+},500);
+window.setTimeout(function(){
+	document.getElementsByTagName("body")[0].style.opacity="1";
+},100);
+/* Loading Screen END */

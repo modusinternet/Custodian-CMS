@@ -2,7 +2,7 @@
 header("Content-Type: text/html; charset=UTF-8");
 header("Expires: on, 01 Jan 1970 00:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
@@ -10,102 +10,73 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 	echo "This script can NOT be called directly.";
 	die();
 }
+
+/* Confirm privilages to access this page. */
+$json_a = json_decode($_SESSION["PRIV"], true);
+if(($json_a["admin"]["sub"]["language_support"] ?? null) < 1) {
+	echo "Access denied.";
+	die();
+}
+
 ?><!DOCTYPE html>
-<html id="no-fouc" lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}" style="opacity: 0;">
+<html lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}">
 	<head>
-		<meta charset="utf-8">
-		<title>Language Support</title>
-		<meta name="description" content="" />
-		{CCMS_TPL:header-head.html}
-		<script>
-			var navActiveArray = ["admin","admin_nav","admin_language_support"];
-		</script>
+		<title><?= $_SERVER["SERVER_NAME"];?> | User | Admin | Language Support</title>
+		{CCMS_TPL:head-meta.html}
 	</head>
+	<style>
+		{CCMS_TPL:/_css/head-css.html}
+	</style>
+	<script nonce="{CCMS_LIB:_default.php;FUNC:ccms_csp_nounce}">
+		let navActiveItem = ["nav-admin","nav-admin-language_support"];
+		let navActiveSub = [];
+		let navActiveW3schoolsItem = [];
+	</script>
 	<body>
-		<div id="wrapper">
-			{CCMS_TPL:header-body.php}
+		<main style="padding:20px 20px 20px 0">
+			<h1 style="border-bottom:1px dashed var(--cl3)">Admin | Language Support</h1>
+			<p>This section is still under development, but if you come across any unresolved issues please let us know at: <a class="ccms_a" href="mailto:info@custodiancms.org?subject=unresolved+issue+report">info@custodiancms.org</a></p>
 
 
-			<div id="page-wrapper">
-				<div class="row">
-					<div class="col-md-12">
-						<h1 class="page-header">Language Support</h1>
-						<div class="panel panel-danger">
-							<div class="panel-heading">
-								Notice
-							</div>
-							<div class="panel-body">
-								<p>This section of the Custodian CMS admin is currently under development.</p>
-							</div>
-						</div>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec ligula id nisl fringilla finibus. Vestibulum rhoncus, felis at fringilla ullamcorper, ante mi tincidunt nunc, ac ultrices odio odio vitae lorem. Morbi quis elit id urna efficitur aliquam ut et sapien. Fusce porttitor vel ligula faucibus tempor. Pellentesque tincidunt imperdiet enim, id lobortis ipsum tempus id. In facilisis elementum dictum. Donec suscipit ornare tortor, sed volutpat mauris volutpat at. Pellentesque porttitor ut augue at ultrices. Proin egestas semper lorem quis suscipit. Vivamus eget magna tincidunt, semper sem eu, molestie quam. Praesent nisl velit, ultricies ac malesuada id, dapibus in dui. Mauris luctus velit non mi condimentum rhoncus. Nullam sit amet aliquet turpis, id malesuada nulla. Ut sit amet nisl nec ante commodo eleifend.
 
+			{CCMS_TPL:/footer.html}
+		</main>
 
-					</div>
-				</div>
-			</div>
-		</div>
+		{CCMS_TPL:/body-head.php}
+		<script nonce="{CCMS_LIB:_default.php;FUNC:ccms_csp_nounce}">
+			{CCMS_TPL:/_js/footer-1.php}
 
-		<script>
-			function loadFirst(e,t){var a=document.createElement("script");a.async = true;a.readyState?a.onreadystatechange=function(){("loaded"==a.readyState||"complete"==a.readyState)&&(a.onreadystatechange=null,t())}:a.onload=function(){t()},a.src=e,document.body.appendChild(a)}
+			/*
+			Argument details for ccms_build_js_link() and example_build_js_link() function calls:
+			arg1 = (1 = append AWS link), (empty = do not append AWS link)
+			arg2 = (1 = append language code to link), (empty = do not append language code to link)	In other words, send it through the parser first like a normal template. ie: https://yourdomain.com/en/somefile.css, adding the 'en' will push this template through the parser first before outputting it to the browser.
+			arg3 = a variable found in the config file that represents a partial pathway to the style sheet, not including and details about AWS, language code, or language direction)
+			arg4 = (1 = append language direction to link), (empty = do not append language direction to link)
+			arg5 = Version number, this is very helpful when trying to update files like css and js that don't get called by serviceWorker after they are stored. (empty = do not append '?v=some_number' to the URL.)
 
-			var cb = function() {
-				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = "/ccmsusr/_css/bootstrap-3.3.7.min.css";
-				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
-
-				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = "/ccmsusr/_css/metisMenu-2.4.0.min.css";
-				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
-
-				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = "/ccmsusr/_css/custodiancms.css";
-				/*l.href = "/ccmsusr/_css/custodiancms.min.css";*/
-				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
-
-				var l = document.createElement('link'); l.rel = 'stylesheet';
-				l.href = "/ccmsusr/_css/font-awesome-4.7.0.min.css";
-				var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
-			};
-			
-			var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
-			if (raf) raf(cb);
-			else window.addEventListener('load', cb);
+			Argument details for example_build_js_sri() function calls:
+			arg1 = 1 = build sri code based on version stored on AWS.  empty = build sri code based on version stored on our own server.
+			arg2 = a variable found in the config file that represents a partial pathway to the style sheet. (Not including details about AWS, language code, or language direction)
+			*/
+			{CCMS_LIB:_default.php;FUNC:ccms_build_css_link("","","CSS-02","","")}
+			{CCMS_LIB:_default.php;FUNC:ccms_build_css_link("","","metisCSS","","")}
 
 			function loadJSResources() {
-				loadFirst("/ccmsusr/_js/jquery-2.2.0.min.js", function() { /* JQuery is loaded */
-					loadFirst("/ccmsusr/_js/bootstrap-3.3.7.min.js", function() { /* Bootstrap is loaded */
-						loadFirst("/ccmsusr/_js/metisMenu-2.4.0.min.js", function() { /* MetisMenu JavaScript */
-							/*loadFirst("/ccmsusr/_js/custodiancms.js", function() { /* CustodianCMS JavaScript */
-							loadFirst("/ccmsusr/_js/custodiancms.min.js", function() { /* CustodianCMS JavaScript */
+				loadFirst("{CCMS_LIB:_default.php;FUNC:ccms_build_js_link("","","JQUERY","","")}", function() {
+					loadFirst("/ccmsusr/_js/metisMenu-3.0.7.min.js", function() {
+						loadFirst("/ccmsusr/_js/custodiancms.js", function() {
+							loadFirst("/ccmsusr/_js/jquery-validate-1.19.3.min.js", function() {
+								loadFirst("/ccmsusr/_js/additional-methods-1.17.0.min.js", function() {
 
-								navActiveArray.forEach(function(s) {$("#"+s).addClass("active");});
 
-								// Load MetisMenu
-								$('#side-menu').metisMenu();
 
-								// Fade in web page.
-								$("#no-fouc").delay(200).animate({"opacity": "1"}, 500);
 
-								$("#menu-toggle").click(function(e) {
-									e.preventDefault();
-									$("#wrapper").toggleClass("toggled");
-									$("#wrapper.toggled").find("#sidebar-wrapper").find(".collapse").collapse("hide");
-									$("#sidebar-wrapper").toggle();
 								});
-
-
 							});
 						});
 					});
 				});
 			}
-
-			if (window.addEventListener)
-				window.addEventListener("load", loadJSResources, false);
-			else if (window.attachEvent)
-				window.attachEvent("onload", loadJSResources);
-			else window.onload = loadJSResources;
 		</script>
 	</body>
 </html>

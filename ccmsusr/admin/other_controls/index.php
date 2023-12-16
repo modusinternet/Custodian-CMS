@@ -13,7 +13,7 @@ if($_SERVER["SCRIPT_NAME"] != "/ccmsusr/index.php") {
 
 /* Confirm privilages to access this page. */
 $json_a = json_decode($_SESSION["PRIV"], true);
-if(($json_a["content_groups"] ?? null) < 1) {
+if(($json_a["admin"]["sub"]["other_controls"] ?? null) < 1) {
 	echo "Access denied.";
 	die();
 }
@@ -21,20 +21,20 @@ if(($json_a["content_groups"] ?? null) < 1) {
 ?><!DOCTYPE html>
 <html lang="{CCMS_LIB:_default.php;FUNC:ccms_lng}">
 	<head>
-		<title><?= $_SERVER["SERVER_NAME"];?> | User | Content Groups</title>
+		<title><?= $_SERVER["SERVER_NAME"];?> | User | Admin | Other Controls</title>
 		{CCMS_TPL:head-meta.html}
 	</head>
 	<style>
 		{CCMS_TPL:/_css/head-css.html}
 	</style>
 	<script nonce="{CCMS_LIB:_default.php;FUNC:ccms_csp_nounce}">
-		let navActiveItem = ["nav-content_groups"];
+		let navActiveItem = ["nav-admin","nav-admin-other_controls"];
 		let navActiveSub = [];
 		let navActiveW3schoolsItem = [];
 	</script>
 	<body>
 		<main style="padding:20px 20px 20px 0">
-			<h1 style="border-bottom:1px dashed var(--cl3)">Content Groups</h1>
+			<h1 style="border-bottom:1px dashed var(--cl3)">Admin | Other Controls</h1>
 			<p>This section is still under development, but if you come across any unresolved issues please let us know at: <a class="ccms_a" href="mailto:info@custodiancms.org?subject=unresolved+issue+report">info@custodiancms.org</a></p>
 
 
