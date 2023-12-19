@@ -203,7 +203,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 				<ol style="margin:0 30px">
 					<li>Create a new repository at GitHub. (<a href="https://github.com" target="_blank">https://github.com</a>)</li>
 					<li>Add your web servers public ssh-key (id_rsa.pub) to your GitHub account under "Settings/SSH and GPG keys". (Follow instructions here to generate a new ssh-key if needed: <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/" target="_blank">https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/</a>)</li>
-					<li>Add a webhook on GitHub under "Settings/Webhooks": https://<?=$CFG["DOMAIN"];?>/ccmsusr/github/webhook.php</li>
+					<li>Add a webhook on GitHub under "Settings/Webhooks": https://<?=$CFG["DOMAIN"];?>/ccmsusr/admin/github/webhook.php</li>
 					<li>Create a new website folder on your server. (You must have access to shell, ssh and git services.)</li>
 				</ol>
 				<h2>Copy Custondian CMS Templates to Webserver</h2>
