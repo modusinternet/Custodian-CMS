@@ -167,7 +167,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 				</p>
 				<p>Note: Or, if all you want to do is overwrite a single file on your server with what's currently on the GitHub repo you can try the following command. (NOTE: You may need to navigate into the dir that contains the file you want to overwrite first.)</p>
 				<p class="boxed">
-					git checkout origin/master -- {filename}<br>
+					git checkout origin/main -- {filename}<br>
 					git checkout -- .htaccess<br>
 					git checkout origin/main -- ccmstpl/examples/index.html
 				</p>
@@ -207,7 +207,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 					<li>Create a new website folder on your server. (You must have access to shell, ssh and git services.)</li>
 				</ol>
 				<h2>Copy Custondian CMS Templates to Webserver</h2>
-				<p style="margin: 15px 0px;">You can download the latest master version of the Custodian CMS templates from <a href="https://github.com/modusinternet/Custodian-CMS/archive/master.zip" target="_blank">GitHub</a> directly or use the <a href="https://github.com/modusinternet/Custodian-CMS-Download" target="_blank">Custodian CMS Download</a>.  If you prefer SSH, log into your server and type the following on the command-line.</p>
+				<p style="margin: 15px 0px;">You can download the latest version of the Custodian CMS templates from <a href="https://github.com/modusinternet/Custodian-CMS/archive/master.zip" target="_blank">GitHub</a> directly or use the <a href="https://github.com/modusinternet/Custodian-CMS-Download" target="_blank">Custodian CMS Download</a>.  If you prefer SSH, log into your server and type the following on the command-line.</p>
 				<ol style="margin:0 30px">
 					<li>git clone --depth=1 https://github.com/modusinternet/Custodian-CMS.git /tmp/Custodian-CMS</li>
 					<li>rm -rf /tmp/Custodian-CMS/.git</li>
@@ -227,7 +227,7 @@ if(!is_callable('shell_exec') && true === stripos(ini_get('disable_functions'), 
 					<li>git config --global user.name "YOUR_NAME"</li>
 					<li>git commit -m "first commit"</li>
 					<li>git remote add origin git@github.com:YOUR_ACCOUNT_ON_GITHUB/YOUR_REPO_ON_GITHUB.git</li>
-					<li>git push -u origin master</li>
+					<li>git push -u origin main</li>
 				</ol>
 				<h2>Install Local Software</h2>
 				<ol style="margin:0 30px">
